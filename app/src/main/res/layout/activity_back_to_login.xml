@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/login_bg_color"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    tools:context="com.cattechnologies.tpg.Activities.EmployeeLoginActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#2aa9e0"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/footer_back_ground_color"
+        android:gravity="center"
+        android:padding="@dimen/dim_20"
+        android:text="@string/need_login_help"
+        android:textColor="@color/footer_text_color"
+        android:textSize="@dimen/font_size"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dim_30"
+            android:paddingRight="@dimen/dim_30">
+
+
+            <TextView
+                android:id="@+id/text_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/dim_20"
+                android:text="@string/back_to_username"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dim_16"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/main_get_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/dim_5"
+                android:layout_marginLeft="@dimen/dim_5"
+                android:layout_marginRight="@dimen/dim_5"
+                android:layout_marginTop="@dimen/dim_8"
+                android:background="@color/back_and_login_button_color"
+                android:padding="@dimen/dim_20"
+                android:text="back to login"
+                android:textColor="@color/back_and_login_button_color_text"
+                android:textSize="@dimen/font_size"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

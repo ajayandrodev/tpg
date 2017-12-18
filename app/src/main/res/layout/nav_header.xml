@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dim_170"
+    android:background="#13335a"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+
+    <TextView
+        android:id="@+id/main_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/dim_25"
+        android:gravity="center"
+        android:text="MAIN MENU"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="@dimen/font_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_3"
+        android:layout_marginTop="@dimen/dim_20"
+        android:paddingBottom="@dimen/dim_10"
+        android:paddingLeft="@dimen/dim_16"
+        android:text="aaa tax office"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="@dimen/font_size_two"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/efin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_3"
+            android:paddingBottom="@dimen/dim_10"
+            android:paddingLeft="@dimen/dim_16"
+            android:text="efin: "
+            android:textAllCaps="true"
+            android:textSize="@dimen/font_size_two"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/efin_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="efindata"
+            android:textAllCaps="true"
+            android:textSize="@dimen/font_size_two"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_3"
+            android:paddingBottom="@dimen/dim_10"
+            android:paddingLeft="@dimen/dim_16"
+            android:text="type: "
+            android:textAllCaps="true"
+            android:textSize="@dimen/font_size_two"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/type_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="typedata"
+            android:textAllCaps="true"
+            android:textSize="@dimen/font_size_two"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:paddingTop="@dimen/dim_3" />
+
+</LinearLayout>

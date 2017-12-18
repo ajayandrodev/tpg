@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cattechnologies.tpg.Activities.Dashboard">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:background="@color/footer_back_ground_color"
+        android:gravity="center"
+        android:padding="@dimen/dim_20"
+        android:text="Checks To print"
+        android:textAllCaps="true"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/footer_ero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/darker_gray"
+        android:padding="@dimen/dim_20">
+
+        <TextView
+            android:id="@+id/forgot_email_ero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Forgot email?" />
+
+        <TextView
+            android:id="@+id/view_ero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="|" />
+
+        <TextView
+            android:id="@+id/forgot_pass_ero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Forgot password?" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/footer_ero"
+        android:layout_below="@id/title"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/selected_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:gravity="center"
+                android:padding="@dimen/dim_20"
+                android:text="Select Report Type"
+                android:textAllCaps="false"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/selected_type_sb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/selected_type"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:padding="@dimen/dim_20"
+                android:text="service bureau"
+                android:textAllCaps="true"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/expand_sb"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_200"
+                android:layout_below="@id/selected_type_sb"
+                android:gravity="center|top"
+                android:orientation="vertical"
+                android:padding="@dimen/dim_5">
+
+
+                <ExpandableListView
+                    android:id="@+id/simpleExpandableListView_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dim_5"
+                    android:layout_marginTop="@dimen/dim_5"
+                    android:background="@android:color/transparent"
+                    android:groupIndicator="@null" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ero_list_data_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/expand_sb"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/view_two_account"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dim_10">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        tools:listitem="@layout/ero_list_item_remove" />
+
+                    <com.futuremind.recyclerviewfastscroll.FastScroller
+                        android:id="@+id/fast_scroller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:orientation="vertical" />
+
+                    <EditText
+                        android:id="@+id/etTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/recycler_view"
+                        android:hint="Enter efin here" />
+
+                    <!--   <EditText
+                           android:id="@+id/etDescription"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:hint="Description" />
+   -->
+                    <ImageButton
+                        android:id="@+id/btnAddItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/etTitle"
+                        android:background="@drawable/add_item"
+                        android:text="Add Item" />
+
+                    <Button
+                        android:id="@+id/view_report"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/btnAddItem"
+                        android:layout_marginLeft="@dimen/dim_5"
+                        android:layout_marginRight="@dimen/dim_5"
+                        android:layout_marginTop="@dimen/dim_30"
+                        android:background="@color/back_and_login_button_color"
+                        android:padding="@dimen/dim_20"
+                        android:text="view report"
+                        android:textColor="@color/back_and_login_button_color_text"
+                        android:textSize="@dimen/font_size"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

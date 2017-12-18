@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/dim_3">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/report_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:padding="@dimen/dim_1"
+            android:text="06-03-2017 - "
+            android:textColor="@color/dashboard_color"
+
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/report_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:padding="@dimen/dim_1"
+            android:text="$2,30421.50"
+            android:textColor="@color/back_and_login_button_color"
+
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</RelativeLayout>

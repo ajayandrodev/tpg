@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <!--    footer-->
+    <color name="footer_text_color">#999999</color>
+    <color name="footer_back_ground_color">#666666</color>
+    <!--    login-->
+    <color name="login_bg_color">#555656</color>
+    <color name="login_text_color">#FFFFFF</color>
+    <color name="forgot_back_ground">#f4f4f4</color>
+    <color name="forgot_text_color">#157efb</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="dashboard_color">#cccccc</color>
+    <color name="report_first">#ebefef</color>
+    <color name="report_second">#e0e8e8</color>
+    <color name="back_button_click_color">#F78100</color>
+    <color name="footer_back_ground_clicked">#999999</color>
+    <color name="footer_back_ground_clicked_text">#666666</color>
+    <color name="back_and_login_button_color">#F89820</color>
+    <color name="back_and_login_button_color_text">#FFFFFF</color>
+    <color name="profile_text">#545353</color>
+    <color name="profile_text_data">#5a5a5a</color>
+    <color name="forgot_hint">#4d4845</color>
+    <color name="view_text">#f89820</color>
+
+
+</resources>

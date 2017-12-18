@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/dim_5">
+
+
+    <LinearLayout
+        android:id="@+id/ll_enroll_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_10"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_8"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/enroll_first_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="Owner First Name:"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/profile_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/enroll_first_name_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:text="John"
+            android:textColor="@color/profile_text_data" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_enroll_one"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_1"
+        android:layout_below="@id/ll_enroll_one"
+        android:layout_margin="@dimen/dim_4"
+        android:background="@android:color/darker_gray" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_enroll_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_enroll_one"
+        android:layout_marginTop="@dimen/dim_4"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_8"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/enroll_last_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="Owner Last Name:"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/profile_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/enroll_last_name_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:text="Doe"
+            android:textColor="@color/profile_text_data" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_enroll_two"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_1"
+        android:layout_below="@id/ll_enroll_two"
+        android:layout_margin="@dimen/dim_4"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:id="@+id/ll_enroll_three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_enroll_two"
+        android:layout_marginTop="@dimen/dim_4"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_8"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/enroll_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="Owner Last Name:"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/profile_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/enroll_address_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:text="Doe"
+            android:textColor="@color/profile_text_data" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_enroll_four"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_1"
+        android:layout_below="@id/ll_enroll_three"
+        android:layout_margin="@dimen/dim_4"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:id="@+id/ll_enroll_four"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_enroll_four"
+        android:layout_marginTop="@dimen/dim_4"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_8"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/enroll_office_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/view_one_first_name"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="Owner Last Name:"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/profile_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/enroll_office_phone_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:text="Doe"
+            android:textColor="@color/profile_text_data" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_enroll_five"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_1"
+        android:layout_below="@id/ll_enroll_four"
+        android:layout_margin="@dimen/dim_4"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:id="@+id/ll_enroll_five"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_enroll_five"
+        android:layout_marginTop="@dimen/dim_4"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_8"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/enroll_mobile_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/view_one_first_name"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="Owner Last Name:"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/profile_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/enroll_mobile_phone_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:text="Doe"
+            android:textColor="@color/profile_text_data" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_enroll_six"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_1"
+        android:layout_below="@id/ll_enroll_five"
+        android:layout_margin="@dimen/dim_4"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:id="@+id/ll_enroll_six"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_enroll_six"
+        android:layout_marginTop="@dimen/dim_4"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_8"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/enroll_home_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/view_one_first_name"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="Owner Last Name:"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/profile_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/enroll_home_phone_data"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:text="Doe"
+            android:textColor="@color/profile_text_data" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_enroll_eight"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_1"
+        android:layout_below="@id/ll_enroll_six"
+        android:layout_margin="@dimen/dim_4"
+        android:background="@android:color/darker_gray" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_enroll_seven"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_enroll_eight"
+        android:layout_marginTop="@dimen/dim_4"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_8"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/enroll_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="Owner Last Name:"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/profile_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/enroll_email_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:text="Doe"
+            android:textColor="@color/profile_text_data" />
+    </LinearLayout>
+</RelativeLayout>

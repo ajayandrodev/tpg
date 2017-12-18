@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cattechnologies.tpg">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
+    <application
+        android:name="com.cattechnologies.tpg.ApplicationInfo"
+        android:allowBackup="true"
+        android:icon="@mipmap/tpg_icon_lan"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/tpg_icon_lan"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.cattechnologies.tpg.Activities.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.cattechnologies.tpg.Activities.MainActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.cattechnologies.tpg.Activities.ViewPagerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.cattechnologies.tpg.Activities.LoginScreen"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.cattechnologies.tpg.Activities.Dashboard"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.cattechnologies.tpg.Activities.ForgotUserDetailsData"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.cattechnologies.tpg.Activities.ForgotUsernameDetails"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.cattechnologies.tpg.Activities.ForgotPasswordDetails"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.cattechnologies.tpg.Activities.ForgotEmailDetails"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.cattechnologies.tpg.Activities.BackToLoginScreen"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.cattechnologies.tpg.Activities.EmployeeLoginActivity"
+            android:label="@string/app_name" />
+
+
+    </application>
+
+
+</manifest>

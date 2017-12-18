@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/dim_5">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/enroll_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/dim_10"
+                android:gravity="center|left"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="Owner First Name:"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textColor="@color/profile_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/enroll_first_name_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/enroll_first_name"
+                android:layout_alignParentRight="true"
+                android:gravity="center|right"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="John"
+                android:textColor="@color/profile_text_data" />
+
+            <View
+                android:id="@+id/view_one_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_1"
+                android:layout_below="@id/enroll_first_name_data"
+                android:layout_margin="@dimen/dim_4"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/enroll_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/view_one_first_name"
+                android:layout_marginTop="@dimen/dim_4"
+                android:gravity="center|left"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="Owner Last Name:"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textColor="@color/profile_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/enroll_last_name_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/enroll_last_name"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dim_4"
+                android:gravity="center|right"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="Doe"
+                android:textColor="@color/profile_text_data" />
+
+            <View
+                android:id="@+id/view_one_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_1"
+                android:layout_below="@id/enroll_last_name_data"
+                android:layout_margin="@dimen/dim_4"
+                android:background="@android:color/darker_gray" />
+
+
+            <TextView
+                android:id="@+id/enroll_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/view_one_last_name"
+                android:layout_marginTop="@dimen/dim_4"
+                android:gravity="center|left"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="Address:"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textColor="@color/profile_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/enroll_address_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/enroll_address"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dim_4"
+                android:gravity="center|right"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="@string/enroll_address"
+                android:textColor="@color/profile_text_data" />
+
+            <View
+                android:id="@+id/view_one"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_1"
+                android:layout_below="@id/enroll_address_data"
+                android:layout_margin="@dimen/dim_4"
+                android:background="@android:color/darker_gray" />
+
+
+            <TextView
+                android:id="@+id/enroll_office_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/view_one"
+                android:layout_marginTop="@dimen/dim_4"
+                android:gravity="center|left"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="Office Phone:"
+                android:textColor="@color/profile_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/enroll_office_phone_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/enroll_office_phone"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dim_4"
+                android:gravity="center|right"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="(800) 000-00000"
+                android:textColor="@color/profile_text_data" />
+
+            <View
+                android:id="@+id/view_three_office"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_1"
+                android:layout_below="@id/enroll_office_phone_data"
+                android:layout_margin="@dimen/dim_4"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/enroll_mobile_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/view_three_office"
+                android:layout_marginTop="@dimen/dim_4"
+                android:gravity="center|left"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="Mobile Phone:"
+                android:textColor="@color/profile_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/enroll_mobile_phone_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/enroll_mobile_phone"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dim_4"
+                android:gravity="center|right"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="(800) 000-00000"
+                android:textColor="@color/profile_text_data" />
+
+            <View
+                android:id="@+id/view_three_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_1"
+                android:layout_below="@id/enroll_mobile_phone_data"
+                android:layout_margin="@dimen/dim_4"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/enroll_home_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/view_three_mobile"
+                android:layout_marginTop="@dimen/dim_4"
+                android:gravity="center|left"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="Home Phone:"
+                android:textColor="@color/profile_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/enroll_home_phone_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/enroll_home_phone"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dim_4"
+                android:gravity="center|right"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="(800) 000-00000"
+                android:textColor="@color/profile_text_data" />
+
+            <View
+                android:id="@+id/view_three_home"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_1"
+                android:layout_below="@id/enroll_home_phone_data"
+                android:layout_margin="@dimen/dim_4"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/enroll_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/view_three_home"
+                android:layout_marginTop="@dimen/dim_10"
+                android:gravity="center|left"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="Email:"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textColor="@color/profile_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/enroll_email_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/enroll_email"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/view_three_home"
+                android:layout_marginTop="@dimen/dim_20"
+                android:gravity="center|right"
+                android:paddingBottom="@dimen/dim_15"
+                android:paddingLeft="@dimen/dim_10"
+                android:paddingRight="@dimen/dim_10"
+                android:paddingTop="@dimen/dim_15"
+                android:text="RYAN.MELIUS@SBTPG.COM"
+                android:textColor="@color/profile_text_data" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

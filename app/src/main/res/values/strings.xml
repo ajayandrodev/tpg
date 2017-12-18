@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">TPG</string>
+    <string name="dashboard_data">APPLIED \n FEDERAL RT</string>
+    <string name="dashboard_data_two">PREP FEES PAID (YTD)</string>
+
+    <string name="dashboard_check_to_print">CHECKS TO \n PRINT</string>
+    <string name="dashboard_fee_paid">FEES PAID</string>
+    <string name="dashboard_account_dis">ACCOUNT \n DISBURSEMENTS</string>
+    <string name="dashboard_ero_deposits">ERO DEPOSITS</string>
+
+
+    <!--menu lists-->
+
+    <string name="action_settings">Settings</string>
+
+    <string name="home_item">DASHBOARD</string>
+    <string name="productos_item">REPORTS</string>
+    <string name="compras_item">MY  PROFILE</string>
+    <string name="ordenes_item">SIGNOUT</string>
+    <string name="get_started">TRACK YOUR TAX PREP  FEES &amp; TAX PAYER \n FUNDING FROM ANYWHERE</string>
+    <string name="login_item">TAX PRO LOGIN</string>
+    <string name="need_login_help">NEED LOGIN HELP?</string>
+    <string name="dashboard_data_one_use">FUNDED \n FEDERAL RT</string>
+    <string name="dashboard_data_one_ss">FUNDED \n STATE RT</string>
+    <string name="forgot_user_email">FORGOT EMAIL ADDRESS?</string>
+    <string name="forgot_user_password">FORGOT PASSWORD?</string>
+    <string name="forgot_user_name">FORGOT USERNAME?</string>
+    <string name="back_to_username">Your Username has been \n sent to your email address.</string>
+    <string name="forgot_back_password_data">A temporary PIN to login has been \n sent to your email address.</string>
+    <string name="service_buro">service bureau</string>
+    <string name="office_emp">office employee</string>
+    <string name="ero_info">ERO/Business partner</string>
+    <string name="dashboard_data_two_data">UNFUNDED PREP FEES</string>
+    <string name="reports_title">FEES PAID</string>
+    <string name="reports_details_title">FEES PAID - DETAIL</string>
+    <string name="my_profile_text_info"><font color='white'><b>Need to update your info?</b></font> Logo our website and/or \n contact your software provider to edit information.</string>
+    <string name="enroll_address">123 South Main Street \n Suite 200 \n Bellflower, CA 90706</string>
+    <string name="dashboard_view">Get a daily overview of your \n business with TPG</string>
+    <string name="feereports_view">Track funded fees and \n recent fee deposits</string>
+    <string name="client_view">Discover which taxpayers have \n received funding</string>
+    <string name="checks_view">See if you have checks to print</string>
+    <string name="text_dialog">Select the Shipping Wait Date from our website if you would like to receive your initial supply order after a specific date. If your initial supply order has already been shipped, this will not apply.</string>
+    <string name="close_dialog_button">OK</string>
+    <string name="forgot_user_email_new">FORGOT EMAIL ADDRESS</string>
+    <string name="forgot_user_password_new">FORGOT PASSWORD</string>
+    <string name="forgot_user_name_new">FORGOT USERNAME</string>
+    <string name="back_to_username_employee">Employee access currently available through our mobile site.</string>
+    <string name="back_to_username_employee_d">To logon to our website.</string>
+
+</resources>

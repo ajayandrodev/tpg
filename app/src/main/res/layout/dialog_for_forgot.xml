@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--
+        android:background="#2aa9e0"
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#00000000"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/forgot_user_name_ss"
+            android:layout_width="@dimen/dim_340"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dim_40"
+            android:layout_marginLeft="@dimen/dim_40"
+            android:layout_marginRight="@dimen/dim_40"
+            android:layout_marginStart="@dimen/dim_40"
+            android:layout_marginTop="@dimen/dim_1"
+            android:background="@drawable/forgot_password"
+            android:text="@string/ero_info"
+            android:textColor="@color/forgot_text_color"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/forgot_user_password_ss"
+            android:layout_width="@dimen/dim_340"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dim_40"
+            android:layout_marginLeft="@dimen/dim_40"
+            android:layout_marginRight="@dimen/dim_40"
+            android:layout_marginStart="@dimen/dim_40"
+            android:background="@drawable/forgot_password"
+            android:text="@string/office_emp"
+            android:textColor="@color/forgot_text_color"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/forgot_user_email_ss"
+            android:layout_width="@dimen/dim_340"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dim_5"
+            android:layout_marginEnd="@dimen/dim_40"
+            android:layout_marginLeft="@dimen/dim_40"
+            android:layout_marginRight="@dimen/dim_40"
+            android:layout_marginStart="@dimen/dim_40"
+            android:background="@drawable/forgot_password"
+            android:text="@string/service_buro"
+            android:textColor="@color/forgot_text_color"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/cancel_forgot_ss"
+            android:layout_width="@dimen/dim_340"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dim_40"
+            android:layout_marginLeft="@dimen/dim_40"
+            android:layout_marginRight="@dimen/dim_40"
+            android:layout_marginStart="@dimen/dim_40"
+            android:background="@drawable/forgot_password"
+            android:text="Cancel"
+            android:textColor="@color/forgot_text_color"
+            android:textStyle="bold" />
+    </LinearLayout>
+</RelativeLayout>

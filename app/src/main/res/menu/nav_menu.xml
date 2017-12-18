@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:checked="true"
+            android:icon="@drawable/dashboard"
+            android:title="@string/home_item" />
+     <!--   <item
+            android:id="@+id/nav_productos"
+            android:icon="@drawable/reports"
+            android:title="@string/productos_item" />-->
+        <item
+            android:id="@+id/nav_carrito"
+            android:icon="@drawable/profile"
+            android:title="@string/compras_item"
+            />
+        <item
+            android:id="@+id/nav_ordenes"
+            android:icon="@drawable/logout"
+            android:title="@string/ordenes_item" />
+
+    </group>
+
+
+</menu>

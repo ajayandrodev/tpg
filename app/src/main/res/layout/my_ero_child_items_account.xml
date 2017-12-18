@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ero_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/dim_5">
+
+    <LinearLayout
+        android:id="@+id/ll_account_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_5"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_5"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/account_name_of_bank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:padding="@dimen/dim_10"
+            android:text="All Offices"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/profile_text"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_25"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:padding="@dimen/dim_2"
+            android:src="@mipmap/forward_arrow" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_one_account"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_1"
+        android:layout_below="@id/ll_account_one"
+        android:layout_marginLeft="@dimen/dim_20"
+        android:layout_marginRight="@dimen/dim_20"
+        android:background="@android:color/darker_gray"
+        android:paddingLeft="@dimen/dim_8"
+        android:paddingRight="@dimen/dim_8" />
+
+    <LinearLayout
+        android:id="@+id/ll_acount_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_one_account"
+        android:layout_marginTop="@dimen/dim_4"
+        android:padding="@dimen/dim_5"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/account_name_bank_second"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:padding="@dimen/dim_10"
+            android:text="Particular Offices"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@color/profile_text"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_25"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:padding="@dimen/dim_2"
+            android:src="@mipmap/forward_arrow" />
+
+    </LinearLayout>
+
+   <!-- <View
+        android:id="@+id/view_two_account"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_1"
+        android:layout_below="@id/ll_acount_two"
+        android:layout_marginLeft="@dimen/dim_20"
+        android:layout_marginRight="@dimen/dim_20"
+        android:background="@android:color/darker_gray"
+        android:paddingLeft="@dimen/dim_8"
+        android:paddingRight="@dimen/dim_8" />
+-->
+<!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/view_two_account"
+        android:orientation="vertical"
+        android:padding="@dimen/dim_10">
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title" />
+
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description" />
+
+        <Button
+            android:id="@+id/btnAddItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Item" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#dbfffe"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+-->
+</RelativeLayout>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cattechnologies.tpg.Activities.Dashboard">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:background="@color/footer_back_ground_color"
+        android:gravity="center"
+        android:padding="@dimen/dim_20"
+        android:text="@string/reports_title"
+        android:textAllCaps="true"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+
+    <EditText
+        android:id="@+id/search_paid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_margin="@dimen/dim_10"
+        android:background="@drawable/rounded_text_edit"
+        android:gravity="center"
+        android:hint="SEARCH"
+        android:padding="@dimen/dim_15"
+        android:textSize="14sp" />
+
+
+    <LinearLayout
+        android:id="@+id/expand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_paid"
+        android:layout_marginLeft="@dimen/dim_4"
+        android:layout_marginRight="@dimen/dim_4">
+
+        <ExpandableListView
+            android:id="@+id/simpleExpandableListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="3dp"
+            android:groupIndicator="@null" />
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/expand">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/ll_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="?android:dividerHorizontal"
+                android:dividerHeight="@dimen/dim_3"
+                android:orientation="vertical"
+                android:showDividers="beginning">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dim_330"
+                    android:scrollbars="vertical" />
+            </LinearLayout>
+
+           <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/ll_list"
+            android:gravity="bottom"
+            android:padding="@dimen/dim_5">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dim_1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dim_3"
+                    android:padding="@dimen/dim_1"
+                    android:text="Prev " />
+
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:padding="@dimen/dim_1"
+                    android:text="1"
+                    android:textColorHighlight="@android:color/black" />
+
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:padding="@dimen/dim_1"
+                    android:text="2" />
+
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:padding="@dimen/dim_1"
+                    android:text="3" />
+
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:padding="@dimen/dim_1"
+                    android:text="4" />
+
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:padding="@dimen/dim_1"
+                    android:text="5" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dim_3"
+                    android:padding="@dimen/dim_1"
+                    android:text="  Next " />
+            </LinearLayout>
+        </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

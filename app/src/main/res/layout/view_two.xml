@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/onboarding_bg_new"
+    tools:context="com.cattechnologies.tpg.Activities.ViewPagerActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dim_60"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/image_data"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_70"
+                android:layout_marginBottom="@dimen/dim_15"
+                android:layout_marginLeft="@dimen/dim_20"
+                android:layout_marginRight="@dimen/dim_20"
+                android:layout_marginTop="@dimen/dim_15"
+                android:padding="@dimen/dim_4"
+                android:src="@drawable/tpg_logo_img" />
+
+            <ImageView
+                android:id="@+id/image_one"
+                android:layout_width="@dimen/dim_200"
+                android:layout_height="@dimen/dim_200"
+                android:layout_below="@id/image_data"
+                android:layout_centerInParent="true"
+                android:background="@drawable/fee_report_icon"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_one"
+                android:gravity="center"
+                android:padding="@dimen/dim_10"
+                android:text="Fee Reports"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dim_25"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_dis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_title"
+                android:layout_marginLeft="@dimen/dim_10"
+                android:layout_marginRight="@dimen/dim_10"
+                android:gravity="center"
+                android:padding="@dimen/dim_5"
+                android:text="@string/feereports_view"
+
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dim_20"
+
+                />
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
