@@ -63,25 +63,12 @@ public class Dashboard extends AppCompatActivity {
         headerUserName = (TextView) header.findViewById(R.id.username);
         headerEfinNum = (TextView) header.findViewById(R.id.efin_data);
         headerType = (TextView) header.findViewById(R.id.type_data);
-      /*  if(preferencesManager.getBoolean(getApplicationContext())==true){
-
-            headerUserName.setText(profileData.getEmployeeID());
-            headerEfinNum.setText(profileData.getEMAIL_ADDRESS());
-            headerType.setText(preferencesManager.getAccountType(getApplicationContext()));
-
-        }else {*/
-
         headerUserName.setText(profileData.getLOGIN_NAME());
         headerEfinNum.setText(profileData.getEFIN());
         headerType.setText(preferencesManager.getAccountType(getApplicationContext()));
         System.out.println("Dashboard.onCreate==" + profileData.getEFIN());
         String data = profileData.getEFIN();
         preferencesManager.saveUserId(getApplicationContext(), data);
-
-
-        System.out.println("Dashboard.onCreate===" + preferencesManager.getUserId(getApplicationContext()));
-        //  System.out.println("Dashboard.onCreate===" + preferencesManager.getAccountType(getApplicationContext()));
-
 
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -161,7 +148,6 @@ public class Dashboard extends AppCompatActivity {
 
             preferencesManager.clearSharedPreference(getApplicationContext());
             finish();
-            //  fragment = SignoutFragment.newInstance(title);
 
 
         }

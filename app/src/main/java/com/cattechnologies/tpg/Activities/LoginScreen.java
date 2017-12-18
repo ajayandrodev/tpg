@@ -4,15 +4,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -25,8 +22,6 @@ import android.widget.Toast;
 
 import com.cattechnologies.tpg.Model.DashboardInfo;
 import com.cattechnologies.tpg.Model.DashboardInfoData;
-import com.cattechnologies.tpg.Model.EventBusModel;
-import com.cattechnologies.tpg.Model.ForgotUserEmailData;
 import com.cattechnologies.tpg.Model.LoginInfo;
 import com.cattechnologies.tpg.Model.ProfileData;
 import com.cattechnologies.tpg.Model.RecentTransactions;
@@ -37,28 +32,18 @@ import com.cattechnologies.tpg.Utils.NetworkUtil;
 import com.cattechnologies.tpg.Utils.PreferencesManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.RequestParams;
 
-
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-
-import static com.cattechnologies.tpg.Utils.Validation.validateEmail;
-import static com.cattechnologies.tpg.Utils.Validation.validateFields;
 
 
 /**
@@ -77,16 +62,11 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     Button forgot_user_name, forgot_user_password, forgot_user_email, forgot_user_cancel;
     EditText loginUser, loginPass;
     Dialog d;
-    AsyncHttpClient asyncHttpClient;
-    RequestParams requestParams;
 
     CheckBox checkBox;
     private CompositeSubscription mSubscriptions;
     LoginInfo loginInfo;
     ProgressBar progressBar;
-    private boolean isEmployee;
-    float prefFd, prefFdDue, recentAmount;
-    BigDecimal bd, bd1;
     SimpleDateFormat format, format1;
     String forgotEmailData;
     Intent i;
@@ -95,8 +75,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     /*   this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
+
         setContentView(R.layout.activity_login_new);
         initViews();
         setToolbar();
@@ -128,7 +107,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         loginBt.setOnClickListener(this);
         footer.setOnClickListener(this);
         checkBox.setOnCheckedChangeListener(this);
-        //    loginUser.setText(forgotEmailData);
 
 
     }
@@ -138,16 +116,11 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             mEmailTitle.setVisibility(View.VISIBLE);
             mLoginUsername.setText("EMAIL");
             mLoginUserPass.setText("PASSWORD");
-            //  loginUser.setText(forgotEmailData);
-            //  forgotEmailData = loginUser.getText().toString();
-            System.out.println("LoginScreen.onClick===" + forgotEmailData);
             loginBt.setText("LOGIN");
         } else {
             mEmailTitle.setVisibility(View.GONE);
             mLoginUsername.setText("EFIN");
             mLoginUserPass.setText("PASSWORD");
-            //  forgotEmailData = loginUser.getText().toString();
-            System.out.println("LoginScreen.onClick===" + forgotEmailData);
             loginBt.setText("LOGIN");
         }
     }
@@ -212,7 +185,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.forgot_user_name:
                 forgotPasswordData = getResources().getString(R.string.forgot_user_name);
-                // selectedForgotPassword(forgotPasswordData);
                 i = new Intent(this, ForgotUsernameDetails.class);
                 i.putExtra(ForgotUsernameDetails.ARG_SELECTION_USER, forgotPasswordData);
                 startActivity(i);
@@ -221,7 +193,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.forgot_user_password:
                 forgotPasswordData = getResources().getString(R.string.forgot_user_password);
-                //selectedForgotPassword(forgotPasswordData);
                 i = new Intent(this, ForgotPasswordDetails.class);
                 i.putExtra(ForgotUsernameDetails.ARG_SELECTION_USER, forgotPasswordData);
                 startActivity(i);
@@ -230,7 +201,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.forgot_user_email:
                 forgotPasswordData = getResources().getString(R.string.forgot_user_email);
-                // selectedForgotPassword(forgotPasswordData);
                 i = new Intent(this, ForgotEmailDetails.class);
                 i.putExtra(ForgotUsernameDetails.ARG_SELECTION_USER, forgotPasswordData);
                 startActivity(i);
@@ -245,10 +215,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    private void setError() {
-        loginUser.setError(null);
-        loginPass.setError(null);
-    }
 
     private void loadLoginResponse(String userId, String type, String userPassword) {
 
@@ -300,64 +266,28 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleResponse(DashboardInfo response) {
         progressBar.setVisibility(View.GONE);
-        //  EventBus.getDefault().post(new EventBusModel("success"));
-        System.out.println("LoginScreen.handleResponse===" + response.getProfile_data());
-        System.out.println("LoginScreen.handleResponse====" + response.getDashboard_data());
-
 
         if (response.getStatus().equalsIgnoreCase("success") && response != null) {
             showToast(response.getMessage());
             DashboardInfoData dashboardInfo = new DashboardInfoData();
             if (response.getDashboard_data() == null) {
                 showToast(response.getMessage());
-               /* Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pro.sbtpg.com/"));
-                startActivity(myIntent);*/
                 Intent i = new Intent(this, EmployeeLoginActivity.class);
                 i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
                 startActivity(i);
             } else {
-
-
                 dashboardInfo.setAppliedRts(response.getDashboard_data().getAppliedRts());
                 dashboardInfo.setFundedRTs(response.getDashboard_data().getFundedRTs());
                 dashboardInfo.setStateFundedRTs(response.getDashboard_data().getStateFundedRTs());
-
                 dashboardInfo.setCheckRTs(response.getDashboard_data().getCheckRTs());
                 dashboardInfo.setDirectDepositRTs(response.getDashboard_data().getDirectDepositRTs());
                 dashboardInfo.setPrePaidCards(response.getDashboard_data().getPrePaidCards());
                 dashboardInfo.setDirect2Cash(response.getDashboard_data().getDirect2Cash());
-
-              /*  prefFd = Float.parseFloat(response.getDashboard_data().getPrepFeesPaid());
-                bd = new BigDecimal(Double.toString(prefFd));
-                bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
-                bd.doubleValue();
-                dashboardInfo.setPrepFeesPaid("" + bd.doubleValue());*/
                 dashboardInfo.setPrepFeesPaid(response.getDashboard_data().getPrepFeesPaid());
-
-             /*   prefFdDue = Float.parseFloat(response.getDashboard_data().getPastDueAccountsAmount());
-                bd1 = new BigDecimal(Double.toString(prefFdDue));
-                bd1 = bd1.setScale(2, BigDecimal.ROUND_HALF_UP);
-                bd1.doubleValue();
-                dashboardInfo.setPastDueAccountsAmount("" + bd1.doubleValue());*/
-
                 dashboardInfo.setPastDueAccountsAmount(response.getDashboard_data().getPastDueAccountsAmount());
-
                 ProfileData profileData = new ProfileData();
-         /*   if (preferencesManager.getBoolean(getApplicationContext()) == true) {
-                profileData.setEmployeeID(response.getProfile_data().getEmployeeID());
-                profileData.setFirstName(response.getProfile_data().getFirstName());
-                profileData.setUserName(response.getProfile_data().getUserName());
-                profileData.setEMAIL_ADDRESS(response.getProfile_data().getEMAIL_ADDRESS());
-                profileData.setLastName(response.getProfile_data().getLastName());
-
-            } else {
-*/
-
-
                 profileData.setEFIN(response.getProfile_data().getEFIN());
                 profileData.setLOGIN_NAME(response.getProfile_data().getLOGIN_NAME());
-
-
                 List<RecentTransactions> recentTransactionsList = new ArrayList<>();
                 for (int i = 0; i < response.getRecent_transactions().size(); i++) {
                     RecentTransactions recentTransactions = new RecentTransactions();
@@ -367,18 +297,10 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     try {
                         chagnedDate = format1.format(format.parse(response.getRecent_transactions().get(i).getLastUpadte()));
                         recentTransactions.setLastUpadte(chagnedDate);
-                      /*  recentAmount = Float.parseFloat(response.getRecent_transactions().get(i).getAmount());
-                        bd = new BigDecimal(Double.toString(recentAmount));
-                        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
-                        bd.doubleValue();
-                        recentTransactions.setAmount("" + bd.doubleValue());*/
-
                         recentTransactions.setAmount(response.getRecent_transactions().get(i).getAmount());
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-
-
                     recentTransactionsList.add(recentTransactions);
                 }
 
@@ -387,8 +309,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 intent.putExtra("ProfileData", profileData);
                 intent.putParcelableArrayListExtra("RecentTransactions", (ArrayList<? extends Parcelable>) recentTransactionsList);
                 startActivity(intent);
-
-
             }
 
         } else {
@@ -406,11 +326,9 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         if (forgotEmailData != null) {
             if (loginUser.getText().toString().isEmpty()) {
                 loginUser.setText(forgotEmailData);
-
             } else {
                 loginUser.setText("");
                 mEmailTitle.setVisibility(View.GONE);
-
             }
             loginPass.setText("");
             if (checkBox.isChecked()) {
@@ -444,38 +362,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     }
 
 
-    private void selectedForgotPassword(String forgotPasswordData) {
-        System.out.println("ForgotPassword.selectItem=====" + forgotPasswordData);
-        if (getResources().getString(R.string.forgot_user_name).equalsIgnoreCase(forgotPasswordData)) {
-            System.out.println("LoginScreen.selectedForgotPassword====name===" + forgotPasswordData);
-            Intent i = new Intent(this, ForgotUserDetailsData.class);
-            i.putExtra(ForgotUserDetailsData.ARG_SELECTION_USER, forgotPasswordData);
-            startActivity(i);
-        } else if (getResources().getString(R.string.forgot_user_password).equalsIgnoreCase(forgotPasswordData)) {
-            System.out.println("LoginScreen.selectedForgotPassword====pwss===" + forgotPasswordData);
-
-            Intent i = new Intent(this, ForgotUserDetailsData.class);
-            i.putExtra(ForgotUserDetailsData.ARG_SELECTION_USER, forgotPasswordData);
-            startActivity(i);
-        } else if (getResources().getString(R.string.forgot_user_email).equalsIgnoreCase(forgotPasswordData)) {
-            System.out.println("LoginScreen.selectedForgotPassword====email===" + forgotPasswordData);
-            Intent i = new Intent(this, ForgotUserDetailsData.class);
-            i.putExtra(ForgotUserDetailsData.ARG_SELECTION_USER, forgotPasswordData);
-            startActivity(i);
-           /* Bundle args = new Bundle();
-            args.putString(ForgotPasswordUserDetails.ARG_SELECTION_USER, forgotPasswordData);
-
-            Fragment fragment = ForgotPasswordUserDetails.newInstance(forgotPasswordData);
-            fragment.setArguments(args);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.main_content, fragment)
-                    .commit();*/
-
-        }
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

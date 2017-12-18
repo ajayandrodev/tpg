@@ -3,7 +3,6 @@ package com.cattechnologies.tpg.Fragments;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,33 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cattechnologies.tpg.Model.DashboardInfoData;
 import com.cattechnologies.tpg.Model.RecentTransactions;
-import com.cattechnologies.tpg.Utils.NetworkUtil;
-import com.cattechnologies.tpg.Activities.MyLoopjTask;
 import com.cattechnologies.tpg.Adapters.DashboardListAdapter;
-import com.cattechnologies.tpg.Model.DashboardInfo;
 import com.cattechnologies.tpg.Model.DashboardResentTransactionsData;
-import com.cattechnologies.tpg.Model.Response;
 import com.cattechnologies.tpg.R;
-import com.cattechnologies.tpg.Utils.Constants;
 import com.cattechnologies.tpg.Utils.PreferencesManager;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.RequestParams;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.adapter.rxjava.HttpException;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 

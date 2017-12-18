@@ -94,9 +94,6 @@ public class EmployeeLoginActivity extends AppCompatActivity implements View.OnC
         switch (v.getId()) {
             case R.id.main_get_login:
                 mBackLogin.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
-               /* Intent i = new Intent(this, BackToLoginScreen.class);
-                i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
-                startActivity(i);*/
                 Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pro.sbtpg.com/"));
                 startActivity(myIntent);
                 break;

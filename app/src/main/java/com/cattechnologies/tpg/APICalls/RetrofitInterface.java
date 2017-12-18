@@ -27,19 +27,6 @@ import rx.Observable;
 
 public interface RetrofitInterface {
 
-
-
-
-
-
-
-/*
-    @FormUrlEncoded
-    @POST("sign-in.php")
-    Observable<DashboardInfo> sign(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
-                                   @Field("app_pswd") String app_pswd);*/
-
-
     @FormUrlEncoded
     @POST("sign-in")
     Observable<DashboardInfo> sign(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
@@ -76,22 +63,4 @@ public interface RetrofitInterface {
     Observable<ForgotUserPasswordInfoEmp> forgotPasswordEmp(@Field("user_email") String forgotUpass, @Field("acc_type") String acc_type);
 
 
-
-  /*  @POST("users")
-    Observable<Response> register(@Body User user);
-
-    @POST("authenticate")
-    Observable<Response> login();
-
-    @GET("users/{email}")
-    Observable<User> getProfile(@Path("email") String email);
-
-    @PUT("users/{email}")
-    Observable<Response> changePassword(@Path("email") String email, @Body User user);
-
-    @POST("users/{email}/password")
-    Observable<Response> resetPasswordInit(@Path("email") String email);
-
-    @POST("users/{email}/password")
-    Observable<Response> resetPasswordFinish(@Path("email") String email, @Body User user);*/
 }

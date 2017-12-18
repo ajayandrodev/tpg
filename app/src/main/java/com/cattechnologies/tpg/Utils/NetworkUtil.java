@@ -26,25 +26,7 @@ public class NetworkUtil {
         return retrofit;
     }
 
-    /* public static RetrofitInterface getRetrofit(){
 
-         RxJavaCallAdapterFactory rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
-          return new Retrofit.Builder()
-                  .baseUrl(Constants.BASE_URL)
-                  .addCallAdapterFactory(rxAdapter)
-                  .addConverterFactory(GsonConverterFactory.create())
-                  .build().create(RetrofitInterface.class);
-
-                    Request original = chain.request();
-            Request.Builder builder = original.newBuilder()
-                    .header("admin_username", "Tpg@pp@dmiN")
-                    .header("admin_password", ")[}#f3ka~g%6tpg9&j[{($/]})%$")
-                    .header("api_key", "$[}#f3ka~g%9tpg3&j[{($/]})(9tp?/!bj30xy-wi=3^9-$^R9G|J#E6AB;OP[}#")
-                    .method(original.method(), original.body());
-            System.out.println("NetworkUtil.getRetrofit"+original.body());
-
-      }
-  */
     public static RetrofitInterface getRetrofit() {
 
     /*  *//**//*  String credentials = email + ":" + password;
@@ -78,27 +60,4 @@ public class NetworkUtil {
     }
 
 
-
-  /*  public static RetrofitInterface getRetrofit() {
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(chain -> {
-
-            Request original = chain.request();
-            Request.Builder builder = original.newBuilder()
-                    .method(original.method(), original.body());
-            return chain.proceed(builder.build());
-
-        });
-
-        RxJavaCallAdapterFactory rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
-
-        return new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .client(httpClient.build())
-                .addCallAdapterFactory(rxAdapter)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build().create(RetrofitInterface.class);
-    }*/
 }

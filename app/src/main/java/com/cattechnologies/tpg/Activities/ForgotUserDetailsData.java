@@ -117,7 +117,6 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
     }
 
     private void selectedData(String drawerTitle) {
-        System.out.println("ForgotUserDetailsData.selectedData===" + drawerTitle);
         if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_name))) {
             mTextEfin.setText("EFIN");
             loginUsername.setHint("Enter EFIN");
@@ -183,11 +182,6 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
                     }
                     forgotUserNameResponse(forgotUname, forgotUpass, preferencesManager.getAccountType(getApplicationContext()));
 
-
-                 /*   Intent i = new Intent(this, BackToLoginScreen.class);
-                    i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
-                    startActivity(i);
-*/
                 } else if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_password))) {
 
                     if (llForgotPassword.getText().equals(getResources().getString(R.string.office_emp))) {

@@ -28,13 +28,11 @@ import java.util.TimerTask;
 
 public class ViewPagerActivity extends FragmentActivity {
 
-    Button getStarted;
     private static ViewPager mPager;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private static Integer[] IMAGES = {R.drawable.onboarding_bg_new, R.drawable.onboarding_bg_new,
             R.drawable.onboarding_bg_new, R.drawable.onboarding_bg_new};
-    private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
     Display display;
 
     @Override

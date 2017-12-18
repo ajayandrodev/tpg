@@ -135,9 +135,6 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
                     preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
                     forgotPasswordEmp(forgotUpass, loginInfo.getAcc_type());
 
-                  /*  Intent i = new Intent(this, BackToLoginScreen.class);
-                    i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
-                    startActivity(i);*/
 
                 } else if (llForgotPassword.getText().equals(getResources().getString(R.string.service_buro))) {
                     String forgotUname = loginUsername.getText().toString();

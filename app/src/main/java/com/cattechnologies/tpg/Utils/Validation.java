@@ -5,14 +5,11 @@ import android.util.Patterns;
 
 public class Validation {
 
-    public static boolean validateFields(String name){
+    public static boolean validateFields(String name) {
 
         if (TextUtils.isEmpty(name)) {
-
             return false;
-
         } else {
-
             return true;
         }
     }
@@ -20,12 +17,9 @@ public class Validation {
     public static boolean validateEmail(String string) {
 
         if (TextUtils.isEmpty(string) || !Patterns.EMAIL_ADDRESS.matcher(string).matches()) {
-
             return false;
-
         } else {
-
-            return  true;
+            return true;
         }
     }
 }

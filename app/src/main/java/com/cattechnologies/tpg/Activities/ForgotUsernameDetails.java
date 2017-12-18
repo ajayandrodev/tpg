@@ -55,8 +55,6 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
     TextView mTitle, mTextEfin, mTextPass;
     Button mLogin;
     LinearLayout llForgotCheckBox;
-    Button forgot_user_name, forgot_user_password, forgot_user_email, forgot_user_cancel;
-    Dialog d;
     EditText loginUsername, loginUserPassword;
     private String drawerTitle;
     public static final String ARG_SELECTION_USER = "secleted_user_forgot";
