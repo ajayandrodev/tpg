@@ -155,7 +155,6 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
     }
 
     private void handleResponse(ForgotUserEmailAddressSb response) {
-        System.out.println("ForgotEmailDetails.handleResponse==sb==" + response.getMessage());
         showToast(response.getMessage());
         progressBar.setVisibility(View.GONE);
 

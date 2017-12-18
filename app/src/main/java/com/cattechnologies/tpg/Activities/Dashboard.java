@@ -152,8 +152,6 @@ public class Dashboard extends AppCompatActivity {
             fragment = DashboardFragment.newInstance(title, dashboardInfoData, recentTransactions);
 
         } else if (getResources().getString(R.string.compras_item).equalsIgnoreCase(title)) {
-            // loadLoginResponse(loginUser.getText().toString(), loginInfo.getAcc_type(), loginPass.getText().toString());
-            System.out.println("Dashboard.selectItem===" + preferencesManager.getUserId(getApplicationContext()));
 
             fragment = ProfileFragment.newInstance(title, preferencesManager.getUserId(getApplicationContext())
                     , preferencesManager.getAccountType(getApplicationContext()));
