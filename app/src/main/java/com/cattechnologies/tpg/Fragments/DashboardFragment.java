@@ -32,7 +32,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     Button checkToPrint, feesPaid, accountDis, eroDepo;
     String title;
     Bundle args;
-    MyLoopjTask myLoopjTask;
     FragmentManager fragmentManager;
     List<DashboardResentTransactionsData> reportsList = new ArrayList<>();
     RecyclerView recyclerView;

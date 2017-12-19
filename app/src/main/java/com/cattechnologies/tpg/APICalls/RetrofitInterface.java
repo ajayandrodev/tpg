@@ -9,6 +9,7 @@ import com.cattechnologies.tpg.Model.ForgotUserNameInfo;
 import com.cattechnologies.tpg.Model.ForgotUserPasswordInfo;
 import com.cattechnologies.tpg.Model.ForgotUserPasswordInfoEmp;
 import com.cattechnologies.tpg.Model.LoginInfo;
+import com.cattechnologies.tpg.Model.ProfileGroupData;
 import com.cattechnologies.tpg.Model.ProfileGroupInfo;
 import com.cattechnologies.tpg.Model.Response;
 
@@ -33,7 +34,7 @@ public interface RetrofitInterface {
                                    @Field("app_pswd") String app_pswd);
 
     @FormUrlEncoded
-    @POST("get-profile-data")
+    @POST("get-profile-info")
     Observable<ProfileGroupInfo> profile(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type);
 
     @FormUrlEncoded
@@ -62,5 +63,7 @@ public interface RetrofitInterface {
     @POST("get-forgot-password")
     Observable<ForgotUserPasswordInfoEmp> forgotPasswordEmp(@Field("user_email") String forgotUpass, @Field("acc_type") String acc_type);
 
-
+    @FormUrlEncoded
+    @POST("get-profile-info")
+    Observable<ProfileGroupData> profileNew(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type);
 }
