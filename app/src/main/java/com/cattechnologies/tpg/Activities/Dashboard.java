@@ -14,7 +14,6 @@ import android.support.design.widget.NavigationView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.cattechnologies.tpg.Fragments.ProfileFragment;
 import com.cattechnologies.tpg.Fragments.DashboardFragment;
 import com.cattechnologies.tpg.Fragments.ProfileFragmentNew;
 import com.cattechnologies.tpg.Model.DashboardInfoData;
@@ -141,8 +140,6 @@ public class Dashboard extends AppCompatActivity {
 
         } else if (getResources().getString(R.string.compras_item).equalsIgnoreCase(title)) {
 
-           /* fragment = ProfileFragment.newInstance(title, preferencesManager.getUserId(getApplicationContext())
-                    , preferencesManager.getAccountType(getApplicationContext()));*/
            fragment= ProfileFragmentNew.newInstance(title,preferencesManager.getUserId(getApplicationContext()),
                    preferencesManager.getAccountType(getApplicationContext()));
 
