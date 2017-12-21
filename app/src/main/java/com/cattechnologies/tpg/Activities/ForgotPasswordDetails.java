@@ -154,16 +154,20 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
                     preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
 
                     forgotPassword(forgotUname, forgotUpass, loginInfo.getAcc_type());
-                } else {
-                    if (TextUtils.isEmpty(loginUsername.getText().toString())) {
-                        Toast.makeText(this, "User EFIN cannot be empty", Toast.LENGTH_SHORT).show();
-                    } else if (TextUtils.isEmpty(loginUserPassword.getText().toString())) {
-                        Toast.makeText(this, "Email ID cannot be empty", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(loginUsername.getText().toString())&&
+                        !(llForgotPassword.getText().equals(getResources().getString(R.string.office_emp)))) {
+                    Toast.makeText(this, "Please enter your EFIN.", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(loginUserPassword.getText().toString())) {
+                    Toast.makeText(this, "Please enter your email address.", Toast.LENGTH_SHORT).show();
 
-                    } else if (TextUtils.isEmpty(llForgotPassword.getText().toString())) {
-                        Toast.makeText(this, "Please select your login type", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(llForgotPassword.getText().toString())) {
+                    Toast.makeText(this, "Please select your login type", Toast.LENGTH_SHORT).show();
 
-                    }
+                } else if (TextUtils.isEmpty(loginUserPassword.getText().toString()) &&
+                        llForgotPassword.getText().equals(getResources().getString(R.string.office_emp))) {
+                    Toast.makeText(this, "Please enter your email address.", Toast.LENGTH_SHORT).show();
+
+
                 }
 
                 break;
@@ -292,6 +296,7 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
 
     private void handleError(Throwable error) {
         showToast(error.getMessage());
+        System.out.println("ForgotPasswordDetails.handleError=="+error.getMessage());
         progressBar.setVisibility(View.GONE);
 
         if (error instanceof HttpException) {

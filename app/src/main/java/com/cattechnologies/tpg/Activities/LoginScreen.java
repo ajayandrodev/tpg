@@ -144,10 +144,10 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
 
                 if (loginUser.getText().toString().isEmpty()) {
-                    showToast("EFIN  is not empty");
+                    showToast("Please enter your User ID.");
 
                 } else if (loginPass.getText().toString().isEmpty()) {
-                    showToast("User Password is not Empty");
+                    showToast("Please enter your password.");
 
                 } else if (!(loginUser.getText().toString().isEmpty()) && !(loginPass.getText().toString().isEmpty())) {
                     String type = null;
@@ -360,7 +360,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     private void showToast(String login) {
         Toast.makeText(this, "" + login, Toast.LENGTH_SHORT).show();
     }
-
 
 
     @Override

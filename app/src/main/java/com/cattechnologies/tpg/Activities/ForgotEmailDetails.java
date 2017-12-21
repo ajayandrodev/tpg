@@ -117,6 +117,8 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
                 String forgotUname = loginUsername.getText().toString();
                 String forgotUpass = loginUserPassword.getText().toString();
                 String type = null;
+
+
                 if (checkBox.isChecked()) {
                     type = "sb";
                     loginInfo.setAcc_type(type);
@@ -126,11 +128,42 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
                     loginInfo.setAcc_type(type);
                     preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
                 }
-                if (loginInfo.getAcc_type().equalsIgnoreCase("sb")) {
-                    forgotEmailAddressSb(forgotUname, loginInfo.getAcc_type());
 
-                } else {
-                    forgotEmailAddress(forgotUname, forgotUpass, loginInfo.getAcc_type());
+
+                if (loginInfo.getAcc_type().equalsIgnoreCase("sb")) {
+                    if (loginUsername.getText().toString().isEmpty() &&
+                            loginUserPassword.getText().toString().isEmpty()) {
+                        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+                    } else if (loginUsername.getText().toString().isEmpty()) {
+                        Toast.makeText(this, "Please enter your EFIN.", Toast.LENGTH_SHORT).show();
+
+                    } else if (loginUserPassword.getText().toString().isEmpty()) {
+                        Toast.makeText(this, "Please enter your  last 4 digits of your SSN.", Toast.LENGTH_SHORT).show();
+
+                    } else if (!(loginUsername.getText().toString().isEmpty()) &&
+
+                            !(loginUserPassword.getText().toString().isEmpty())) {
+                        forgotEmailAddressSb(forgotUname, loginInfo.getAcc_type());
+
+                    }
+
+
+                } else if (loginInfo.getAcc_type().equalsIgnoreCase("ero")) {
+                    if (loginUsername.getText().toString().isEmpty() &&
+                            loginUserPassword.getText().toString().isEmpty()) {
+                        Toast.makeText(this, "Please enter your EFIN and last 4 digits of your SSN.", Toast.LENGTH_SHORT).show();
+                    } else if (loginUsername.getText().toString().isEmpty()) {
+                        Toast.makeText(this, "Please enter your EFIN.", Toast.LENGTH_SHORT).show();
+
+                    } else if (loginUserPassword.getText().toString().isEmpty()) {
+                        Toast.makeText(this, "Please enter your  last 4 digits of your SSN.", Toast.LENGTH_SHORT).show();
+
+                    } else if (!(loginUsername.getText().toString().isEmpty()) &&
+
+                            !(loginUserPassword.getText().toString().isEmpty())) {
+                        forgotEmailAddress(forgotUname, forgotUpass, loginInfo.getAcc_type());
+
+                    }
 
                 }
 
