@@ -11,6 +11,7 @@ import com.cattechnologies.tpg.Model.ForgotUserPasswordInfoEmp;
 import com.cattechnologies.tpg.Model.LoginInfo;
 import com.cattechnologies.tpg.Model.ProfileGroupData;
 import com.cattechnologies.tpg.Model.ProfileGroupInfo;
+import com.cattechnologies.tpg.Model.ReportsFeePaid;
 import com.cattechnologies.tpg.Model.Response;
 
 import retrofit2.Call;
@@ -66,4 +67,8 @@ public interface RetrofitInterface {
     @FormUrlEncoded
     @POST("get-profile-info")
     Observable<ProfileGroupData> profileNew(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type);
+
+    @FormUrlEncoded
+    @POST("fee-paid")
+    Observable<ReportsFeePaid> getFeePaidReport(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type);
 }

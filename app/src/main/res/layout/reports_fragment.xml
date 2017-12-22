@@ -52,6 +52,13 @@
             android:groupIndicator="@null" />
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="visible" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,68 +86,82 @@
                     android:scrollbars="vertical" />
             </LinearLayout>
 
-           <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/ll_list"
-            android:gravity="bottom"
-            android:padding="@dimen/dim_5">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/dim_1">
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/ll_list"
+                android:gravity="bottom"
+                android:padding="@dimen/dim_5">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dim_3"
-                    android:padding="@dimen/dim_1"
-                    android:text="Prev " />
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:padding="@dimen/dim_1"
-                    android:text="1"
-                    android:textColorHighlight="@android:color/black" />
+                    <LinearLayout
+                        android:id="@+id/button_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dim_1" />
+                </HorizontalScrollView>
+                <!--
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:padding="@dimen/dim_1">
 
-                <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:padding="@dimen/dim_1"
-                    android:text="2" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/dim_3"
+                                        android:padding="@dimen/dim_1"
+                                        android:text="Prev " />
 
-                <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:padding="@dimen/dim_1"
-                    android:text="3" />
+                                    <Button
+                                        android:layout_width="35dp"
+                                        android:layout_height="35dp"
+                                        android:padding="@dimen/dim_1"
+                                        android:text="1"
+                                        android:textColorHighlight="@android:color/black" />
 
-                <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:padding="@dimen/dim_1"
-                    android:text="4" />
+                                    <Button
+                                        android:layout_width="35dp"
+                                        android:layout_height="35dp"
+                                        android:padding="@dimen/dim_1"
+                                        android:text="2" />
 
-                <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:padding="@dimen/dim_1"
-                    android:text="5" />
+                                    <Button
+                                        android:layout_width="35dp"
+                                        android:layout_height="35dp"
+                                        android:padding="@dimen/dim_1"
+                                        android:text="3" />
+
+                                    <Button
+                                        android:layout_width="35dp"
+                                        android:layout_height="35dp"
+                                        android:padding="@dimen/dim_1"
+                                        android:text="4" />
+
+                                    <Button
+                                        android:layout_width="35dp"
+                                        android:layout_height="35dp"
+                                        android:padding="@dimen/dim_1"
+                                        android:text="5" />
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dim_3"
-                    android:padding="@dimen/dim_1"
-                    android:text="  Next " />
-            </LinearLayout>
-        </RelativeLayout>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="@dimen/dim_3"
+                                        android:padding="@dimen/dim_1"
+                                        android:text="  Next " />
+                                </LinearLayout>
+                -->
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.cattechnologies.tpg.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,23 +9,43 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cattechnologies.tpg.Activities.Dashboard;
+import com.cattechnologies.tpg.Activities.LoginScreen;
 import com.cattechnologies.tpg.Adapters.ReportsExpandableListFeesPaidAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidListAdapter;
 import com.cattechnologies.tpg.Model.FeesPaidChildInfo;
 import com.cattechnologies.tpg.Model.FeesPaidGroupInfo;
+import com.cattechnologies.tpg.Model.ForgotUserEmailData;
 import com.cattechnologies.tpg.Model.Reports;
+import com.cattechnologies.tpg.Model.ReportsFeePaid;
+import com.cattechnologies.tpg.Model.Response;
 import com.cattechnologies.tpg.R;
+import com.cattechnologies.tpg.Utils.AppInternetStatus;
+import com.cattechnologies.tpg.Utils.NetworkUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import retrofit2.adapter.rxjava.HttpException;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 
 /**
@@ -47,6 +68,8 @@ public class ReportsFeesPaidFragment extends Fragment {
     String title, dashboardTitle;
     ReportsExpandableListFeesPaidAdapter listAdapter;
     ExpandableListView simpleExpandableListView;
+    CompositeSubscription mSubscriptions;
+    ProgressBar progressBar;
 
     public ReportsFeesPaidFragment() {
     }
@@ -95,6 +118,8 @@ public class ReportsFeesPaidFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
+        mSubscriptions = new CompositeSubscription();
+        progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
 
         loadData();
         simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
@@ -112,6 +137,7 @@ public class ReportsFeesPaidFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
         recyclerView.setAdapter(mAdapter);
 
+        feePaidReportsData();
 
         //expand all the Groups
         // expandAll();
@@ -146,6 +172,63 @@ public class ReportsFeesPaidFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    private void feePaidReportsData() {
+        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidReport("", "")
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(this::handleResponse, this::handleError));
+
+
+        } else {
+            showToast("Internet Connection Is Not Available");
+
+
+        }
+
+
+    }
+
+    private void handleError(Throwable error) {
+        showToast(error.getMessage());
+        progressBar.setVisibility(View.GONE);
+
+        if (error instanceof HttpException) {
+
+            Gson gson = new GsonBuilder().create();
+
+            try {
+                String errorBody = ((HttpException) error).response().errorBody().string();
+                Response response = gson.fromJson(errorBody, Response.class);
+                showToast(response.getMessage());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showToast("Network Error !");
+        }
+
+    }
+
+    private void handleResponse(ReportsFeePaid response) {
+        System.out.println("ForgotEmailDetails.handleResponse==" + response.getMessage());
+        showToast(response.getMessage());
+        progressBar.setVisibility(View.GONE);
+
+        if (response.getStatus().equalsIgnoreCase("success")) {
+            showToast(response.getMessage());
+            //  ReportsFeePaid reportsFeePaid = response.getEfin();
+
+
+        }
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+
     }
 
     private void expandAll() {
@@ -235,6 +318,29 @@ public class ReportsFeesPaidFragment extends Fragment {
         reportsList.add(reports);
         reports = new Reports("hightower", "$150", "XXX-XX-0123", "RT | ", "08-04-2017");
         reportsList.add(reports);
+        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
+
+        Button tv[] = new Button[10];
+        for (int i = 1; i < 10; i++) {
+            tv[i] = new Button(getActivity());
+
+            tv[i].setText(""+i);
+
+            tv[i].setGravity(Gravity.CENTER);
+
+            tv[i].setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    //add your code here
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    Toast.makeText(getActivity(), "its done", Toast.LENGTH_SHORT).show();
+                }
+            });
+            layout.addView(tv[i]);
+
+        }
 
 
     }
