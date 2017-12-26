@@ -137,7 +137,8 @@ public class ReportsFeesPaidFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
         recyclerView.setAdapter(mAdapter);
 
-        feePaidReportsData();
+        usingAsynchTa();
+        //feePaidReportsData();
 
         //expand all the Groups
         // expandAll();
@@ -172,6 +173,11 @@ public class ReportsFeesPaidFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    private void usingAsynchTa() {
+
+
     }
 
     private void feePaidReportsData() {
