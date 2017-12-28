@@ -59,10 +59,12 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
     public static final String ARG_SECTION_TITLE = "section_number";
 
 
-    public static Fragment newInstance(String sectionTitle) {
+    public static Fragment newInstance(String sectionTitle,String userId, String type) {
         ServiceBruoNewFragment fragment = new ServiceBruoNewFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
+        args.putString("app_uid", userId);
+        args.putString("acc_type", type);
         fragment.setArguments(args);
         return fragment;
     }

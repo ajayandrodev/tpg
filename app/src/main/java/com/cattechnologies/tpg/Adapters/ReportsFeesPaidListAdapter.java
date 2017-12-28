@@ -10,9 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.Activities.Dashboard;
+import com.cattechnologies.tpg.Activities.ItemClickListener;
 import com.cattechnologies.tpg.Fragments.ReportsFeesPaidDetailsFragment;
+import com.cattechnologies.tpg.Fragments.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.Model.Reports;
+import com.cattechnologies.tpg.Model.ReportsFeePaidNew;
 import com.cattechnologies.tpg.R;
+import com.cattechnologies.tpg.Utils.PreferencesManager;
 
 import java.util.List;
 
@@ -21,20 +25,25 @@ import java.util.List;
  */
 
 public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFeesPaidListAdapter.ReportsViewHolder> {
-    List<Reports> reportsList;
+    List<ReportsFeePaidNew> reportsList;
     Context mContext;
     String title;
+    PreferencesManager preferencesManager;
+    String name;
+    private ItemClickListener clickListener;
 
-    public ReportsFeesPaidListAdapter(Context mContext, List<Reports> reportsList, String title) {
+    public ReportsFeesPaidListAdapter(Context mContext, List<ReportsFeePaidNew> reportsList, String title, String name) {
         this.reportsList = reportsList;
         this.mContext = mContext;
         this.title = title;
+        this.name = name;
     }
 
     @Override
     public ReportsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_list_row, parent, false);
         ReportsViewHolder reportsViewHolder = new ReportsViewHolder(itemView);
+        preferencesManager = new PreferencesManager();
         return reportsViewHolder;
     }
 
@@ -44,12 +53,13 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
             holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
         else
             holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-        Reports reports = reportsList.get(position);
-        holder.userData.setText(reports.getUserData());
-        holder.costData.setText(reports.getCostData());
-        holder.accountData.setText(reports.getAccountData());
-        holder.detailsData.setText(reports.getDetailsData());
-        holder.dateData.setText(reports.getDateData());
+        final ReportsFeePaidNew reports = reportsList.get(position);
+        holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
+        holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
+        holder.accountDataSSN.setText(reports.getPrimarySsn());
+        holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
+        holder.dateData.setText(reports.getRecordcreatedate());
+
     }
 
     @Override
@@ -59,23 +69,35 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
         // return 0;
     }
 
-    public class ReportsViewHolder extends RecyclerView.ViewHolder {
-        TextView userData, costData, accountData, detailsData, dateData;
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.clickListener = itemClickListener;
+    }
+
+    public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
+
+    }
+
+    public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
 
         public ReportsViewHolder(View itemView) {
             super(itemView);
             userData = (TextView) itemView.findViewById(R.id.report_user);
             costData = (TextView) itemView.findViewById(R.id.report_rate);
-            accountData = (TextView) itemView.findViewById(R.id.report_account);
-            detailsData = (TextView) itemView.findViewById(R.id.report_details);
+            accountDataSSN = (TextView) itemView.findViewById(R.id.report_account);
+            detailsDataDisbush = (TextView) itemView.findViewById(R.id.report_details);
             dateData = (TextView) itemView.findViewById(R.id.report_date);
+            itemView.setTag(itemView);
+            itemView.setOnClickListener(this);
+/*
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
 
                     Dashboard activity = (Dashboard) v.getContext();
-                    Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title);
+                    Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
+                            name);
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
                     fragmentManager
                             .beginTransaction()
@@ -86,9 +108,16 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
 
                 }
             });
+*/
 
 
         }
 
+        @Override
+        public void onClick(View view) {
+            if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
+        }
     }
+
+
 }

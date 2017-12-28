@@ -16,10 +16,29 @@ public class PreferencesManager {
     public static final String PREFS_EMP_KEY = "EMP_PREF_KEY";
     public static final String PREFS_EMP_BOOL = "EMP_PREF";
     public static final String PREFS_EMP_KEY_BOOL = "EMP_PREF_KEY";
+    public static final String PREFS_REPORT_DETAIL_USER = "REPORT_DETAILS_USER";
+    public static final String PREFS_REPORT_DETAIL_USER_KEY = "REPORT_DETAILS_USER_KEY";
 
 
     public PreferencesManager() {
         super();
+    }
+
+    public void saveReportDetailUserName(Context context, String text) {
+        SharedPreferences settings;
+        SharedPreferences.Editor editor;
+        settings = context.getSharedPreferences(PREFS_REPORT_DETAIL_USER, Context.MODE_PRIVATE); //1
+        editor = settings.edit(); //2
+        editor.putString(PREFS_REPORT_DETAIL_USER_KEY, text); //3
+        editor.commit(); //4
+    }
+
+    public String getReportDetailUsername(Context context) {
+        SharedPreferences settings;
+        String text;
+        settings = context.getSharedPreferences(PREFS_REPORT_DETAIL_USER, Context.MODE_PRIVATE);
+        text = settings.getString(PREFS_REPORT_DETAIL_USER_KEY, null);
+        return text;
     }
 
     public void saveAccountType(Context context, String text) {

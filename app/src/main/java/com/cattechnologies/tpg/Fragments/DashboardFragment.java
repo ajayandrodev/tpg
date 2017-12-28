@@ -186,18 +186,21 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     checkToPrint.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_fee_paid);
-                    fragment = ServiceBruoNewFragment.newInstance(title);
+                    fragment = ServiceBruoNewFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                            preferencesManager.getAccountType(getActivity()));
                 } else {
                     feesPaid.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_fee_paid);
-                    fragment = ReportsFeesPaidFragment.newInstance(title);
+                    fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                            preferencesManager.getAccountType(getActivity()));
                 }
                 break;
             case R.id.bt_check_print:
                 if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     checkToPrint.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_check_to_print);
-                    fragment = ServiceBruoNewFragment.newInstance(title);
+                    fragment = ServiceBruoNewFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                            preferencesManager.getAccountType(getActivity()));
                 } else {
                     checkToPrint.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_check_to_print);
@@ -208,7 +211,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     checkToPrint.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_account_dis);
-                    fragment = ServiceBruoNewFragment.newInstance(title);
+                    fragment = ServiceBruoNewFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                            preferencesManager.getAccountType(getActivity()));
                 } else {
                     accountDis.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_account_dis);
@@ -219,7 +223,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     checkToPrint.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_ero_deposits);
-                    fragment = ServiceBruoNewFragment.newInstance(title);
+                    fragment = ServiceBruoNewFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                            preferencesManager.getAccountType(getActivity()));
                 } else {
                     eroDepo.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_ero_deposits);

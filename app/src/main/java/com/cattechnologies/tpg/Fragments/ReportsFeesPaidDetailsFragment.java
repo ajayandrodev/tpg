@@ -11,7 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.Activities.Dashboard;
+import com.cattechnologies.tpg.Model.ReportsFeePaidNew;
 import com.cattechnologies.tpg.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by ajay kumar on 28-Oct-17.
@@ -27,12 +32,27 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
             textReportSix, textReportSixData;
     RelativeLayout llOne, llTwo, llThree, llFour, llFive, llSix;
     LinearLayout llInfoData, llInfoDetailsData;
+    String userName, userSSN, userDis, userDate, userPrep, userEle, userDoc, userTotal, userOther;
+    ReportsFeePaidNew reportsFeePaidNew;
 
 
-    public static ReportsFeesPaidDetailsFragment newInstance(String sectionTitle) {
+    public static ReportsFeesPaidDetailsFragment newInstance(String sectionTitle, String username,
+                                                             String ssn, String disbursType, String date,
+                                                             String prepFee, String electFee, String docFee,
+                                                             String totalfee, String otherfee) {
         ReportsFeesPaidDetailsFragment fragment = new ReportsFeesPaidDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
+        args.putString("report_username", username);
+        args.putString("report_ssn", ssn);
+        args.putString("report_disb", disbursType);
+        args.putString("report_date", date);
+        args.putString("report_prepfee", prepFee);
+        args.putString("report_elecfee", electFee);
+        args.putString("report_docfee", docFee);
+        args.putString("report_totalfee", totalfee);
+        args.putString("report_otherfee", otherfee);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,7 +63,7 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((Dashboard)getActivity()).setTitle("REPORTS");
+        ((Dashboard) getActivity()).setTitle("REPORTS");
 
       /*  setHasOptionsMenu(true);
         dashboard = (Dashboard) getActivity();
@@ -83,11 +103,23 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
+        userName = getArguments().getString("report_username");
+        userSSN = getArguments().getString("report_ssn");
+        userDis = getArguments().getString("report_disb");
+        userDate = getArguments().getString("report_date");
+        userPrep = getArguments().getString("report_prepfee");
+        userEle = getArguments().getString("report_elecfee");
+        userDoc = getArguments().getString("report_docfee");
+        userTotal = getArguments().getString("report_totalfee");
+        userOther = getArguments().getString("report_otherfee");
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
         textReportFirstName = (TextView) getActivity().findViewById(R.id.text_report_one_firstname);
+        textReportFirstName.setText(userName);
         textReportSsn = (TextView) getActivity().findViewById(R.id.text_report_one_ssn);
+        textReportSsn.setText(userSSN);
         textReportType = (TextView) getActivity().findViewById(R.id.text_report_one_type);
 
+        textReportType.setText(userDis);
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
 
         textReportOne = (TextView) getActivity().findViewById(R.id.text_report_one);//ll_six
@@ -125,20 +157,22 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
         textReportTitleDetail.setText("FEES PAID");
 
         textReportOne.setText("Disbursement Date:");
-        textReportOneData.setText("06-03-2017");
+
+        textReportOneData.setText(userDate);
 
         textReportTwo.setText("Prep Fee:");
-        textReportTwoData.setText("$100");
+        textReportTwoData.setText("$" + userPrep);
 
         textReportThree.setText("Electronic Filling Fee:");
-        textReportThreeData.setText("$2");
+        textReportThreeData.setText("$" + userEle);
 
         textReportFour.setText("Doc Prep Fee:");
-        textReportFourData.setText("$25");
+        textReportFourData.setText("$" + userDoc);
 
         textReportFive.setText("Other Fee:");
-        textReportFiveData.setText("");
+        textReportFiveData.setText("$" + userOther);
 
         textReportSix.setText("Total Fee Amount:");
+        textReportSixData.setText("$" + userTotal);
     }
 }
