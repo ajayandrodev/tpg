@@ -18,6 +18,7 @@ import com.cattechnologies.tpg.Model.ReportsFeePaidNew;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.Utils.PreferencesManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,6 +78,11 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
 
     }
 
+    public void setFilter(List<ReportsFeePaidNew> newList){
+        reportsList = new ArrayList<>();
+        reportsList.addAll(newList);
+        notifyDataSetChanged();
+    }
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
 

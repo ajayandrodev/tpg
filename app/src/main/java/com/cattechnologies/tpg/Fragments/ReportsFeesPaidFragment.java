@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
+import android.support.v7.widget.SearchView;
 
 /**
  * Created by ajay kumar on 28-Oct-17.
@@ -98,12 +100,16 @@ public class ReportsFeesPaidFragment extends Fragment {
             otherFee,
             totalFee;
     ReportsFeePaidNew reports;
+    Button prev, next;
     Date dateData = null;
     String inputPattern = "yyyyddMM";
     String outputPattern = "MM-dd-yyyy";
 
     SimpleDateFormat format, format1;
 
+    private static int current_page = 1;
+    int count = 0;
+    SearchView searchView;
 
     public ReportsFeesPaidFragment() {
     }
@@ -140,7 +146,6 @@ public class ReportsFeesPaidFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
-        usingAsynchTa(userId, userType);
 
 
         //  loadData();
@@ -158,6 +163,11 @@ public class ReportsFeesPaidFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
+        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
+        prev = (Button) getActivity().findViewById(R.id.prev);
+        next = (Button) getActivity().findViewById(R.id.next);
+        searchView = (SearchView) getActivity().findViewById(R.id.search_paid);
+        searchView.setQueryHint("Search Customer");
         userId = getArguments().getString("app_uid");
         userType = getArguments().getString("acc_type");
         mSubscriptions = new CompositeSubscription();
@@ -169,10 +179,62 @@ public class ReportsFeesPaidFragment extends Fragment {
         listAdapter = new ReportsExpandableListFeesPaidAdapter(getActivity(), deptList);
         simpleExpandableListView.setAdapter(listAdapter);
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
+
         reportsList = new ArrayList<>();
 
-        usingAsynchTa(userId, userType);
+        usingAsynchTa(userId, userType, "1");
+        System.out.println("ReportsFeesPaidFragment.onActivityCreated" +
+                preferencesManager.getReportDetailUsername(getContext()));
+        int data;
+        if (preferencesManager.getReportDetailUsername(getContext()) == null) {
+            data = 5;
+        } else {
+            data = preferencesManager.getReportDetailUsername(getContext()).length();
+            System.out.println("ReportsFeesPaidFragment.onActivityCreated" + data);
+        }
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                count = data;
+                count++;
+                System.out.println("ReportsFeesPaidFragment.onClick" + count);
 
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                count = data;
+                count--;
+                System.out.println("ReportsFeesPaidFragment.onClick" + count);
+
+            }
+        });
+        for (int i = 0; i <= data; i++) {
+            Button btn = new Button(getActivity());
+            btn.setId(i);
+            btn.setText("" + (i + 1));
+            // btn.setLayoutParams(lprams);
+            final int index = i;
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                    if (index == 0) {
+                        usingAsynchTa(userId, userType, "1");
+                    } else if (index == 1) {
+                        usingAsynchTa(userId, userType, "2");
+
+                    } else if (index == 2) {
+                        usingAsynchTa(userId, userType, "3");
+
+                    }
+
+                }
+            });
+
+            layout.addView(btn);
+        }
 
         // feePaidReportsData(userId, userType);
 
@@ -211,7 +273,7 @@ public class ReportsFeesPaidFragment extends Fragment {
         });
     }
 
-    private void usingAsynchTa(String userId, String userType) {
+    private void usingAsynchTa(String userId, String userType, String index) {
 
         asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.addHeader("admin_username", "Tpg@pp@dmiN");
@@ -232,6 +294,7 @@ public class ReportsFeesPaidFragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     //  dashboardInfo = new ReportsFeePaid();
                     noOfPages = jsonObject.getString("Total No of Pages");
+                    preferencesManager.saveReportDetailUserName(getContext(), noOfPages);
 
                     JSONArray jsonArray = null;
                     JSONObject jsonObject1 = null;
@@ -243,7 +306,7 @@ public class ReportsFeesPaidFragment extends Fragment {
 
                         }
                         try {
-                            JSONArray array = jsonObject1.getJSONArray("1");
+                            JSONArray array = jsonObject1.getJSONArray(index);
                             for (int k = 0; k < array.length(); k++) {
                                 JSONObject jsonObject2 = array.getJSONObject(k);
                                 nameFirst = jsonObject2.getString("PrimaryFirstName");
@@ -290,6 +353,7 @@ public class ReportsFeesPaidFragment extends Fragment {
                                 reports.setDocumentStorageFeesCollected(docPrepFee);
                                 reports.setToTalSiteFeeCollected(totalFee);
                                 reportsList.add(reports);
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -306,6 +370,32 @@ public class ReportsFeesPaidFragment extends Fragment {
                     recyclerView.addItemDecoration(divider);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
                     recyclerView.setAdapter(mAdapter);
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            newText = newText.toLowerCase();
+                            ArrayList<ReportsFeePaidNew> newList = new ArrayList<>();
+                            for (ReportsFeePaidNew channel : reportsList) {
+                                String channelName = channel.getPrimaryFirstName().toLowerCase();
+                                String lastName = channel.getPrimaryLastName().toLowerCase();
+                                String ssn = channel.getPrimarySsn();
+                                if (channelName.contains(newText) || ssn.contains(newText) || lastName.contains(newText)) {
+                                    newList.add(channel);
+                                
+                                }else {
+                                   // Toast.makeText(getContext(), "We couldnot find any thing related to your search, Please try with different keywords", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                            mAdapter.setFilter(newList);
+                            return true;
+                        }
+                    });
                     mAdapter.setClickListener((view, position) -> {
                         final ReportsFeePaidNew reports = reportsList.get(position);
                         Dashboard activity = (Dashboard) view.getContext();
@@ -324,29 +414,10 @@ public class ReportsFeesPaidFragment extends Fragment {
                         activity.getSupportActionBar().setTitle("REPORTS");
                     });
 
-                    LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
 
                     //  int dd = Integer.parseInt("noOfPages");
 
-                    for (int i = 0; i < 10; i++) {
-                        Button btn = new Button(getActivity());
-                        btn.setId(i + 1);
-                        btn.setText("" + (i + 1));
-                        // btn.setLayoutParams(lprams);
-                        int index = i + 1;
-                        JSONObject finalJsonObject = jsonObject1;
-                        btn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                System.out.println("ReportsFeesPaidFragment.onClick===" + finalJsonObject);
-                                selectedPage(index, finalJsonObject);
-                                Toast.makeText(getActivity(), "" + index, Toast.LENGTH_SHORT).show();
 
-                            }
-                        });
-
-                        layout.addView(btn);
-                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
