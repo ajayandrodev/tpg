@@ -113,7 +113,10 @@ public class ReportsFeesPaidFragment extends Fragment {
 
     private static int current_page = 1;
     SearchView searchView;
-    int count = 0;
+    int i = 0;
+    int totalC = 1;
+    int j = 0;
+    int data;
 
     public ReportsFeesPaidFragment() {
     }
@@ -187,9 +190,6 @@ public class ReportsFeesPaidFragment extends Fragment {
         reportsList = new ArrayList<>();
 
         usingAsynchTa(userId, userType, "1");
-        System.out.println("ReportsFeesPaidFragment.onActivityCreated" +
-                preferencesManager.getReportDetailUsername(getContext()));
-        int data;
 
         if (preferencesManager.getReportDetailUsername(getContext()) == null) {
             data = 5;
@@ -197,38 +197,61 @@ public class ReportsFeesPaidFragment extends Fragment {
             data = preferencesManager.getReportDetailUsername(getContext()).length();
             System.out.println("ReportsFeesPaidFragment.onActivityCreated" + data);
         }
+
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("ReportsFeesPaidFragment.onClick==" + data);
-                for (int i = data; i <= data; i++) {
-                    count++;
+                if (preferencesManager.getReportDetailUsername(getContext()) == null) {
+                    data = 5;
+                } else {
+                    data = preferencesManager.getReportDetailUsername(getContext()).length();
+                    System.out.println("ReportsFeesPaidFragment.onActivityCreated" + data);
                 }
-                System.out.println("ReportsFeesPaidFragment.onClick====" + count);
+                i = data++;
+                usingAsynchTa(userId, userType, String.valueOf(i));
+
+                System.out.println("ReportsFeesPaidFragment.onClick====" + i);
 
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (int i = data; i <= data; i++) {
-                    count--;
+                if (preferencesManager.getReportDetailUsername(getContext()) == null) {
+                    data = 5;
+                } else {
+                    data = preferencesManager.getReportDetailUsername(getContext()).length();
+                    System.out.println("ReportsFeesPaidFragment.onActivityCreated" + data);
                 }
-                System.out.println("ReportsFeesPaidFragment.onClick====n==" + count);
+                if (i >= 0) {
+                    j = i--;
+                    data = j;
+                }
+                usingAsynchTa(userId, userType, String.valueOf(data));
+
+                System.out.println("ReportsFeesPaidFragment.onClick====n==" + data);
 
             }
         });
         for (int i = 0; i <= data; i++) {
-            Button btn = new Button(getActivity());
+            final Button btn = new Button(getActivity());
+            int width = (int) getResources().getDimension(R.dimen.dim_35);
+            int hieght = (int) getResources().getDimension(R.dimen.dim_35);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
+            //  lp.setMargins(5, 5, 5, 5);
             btn.setId(i);
             btn.setText("" + (i + 1));
-            // btn.setLayoutParams(lprams);
-            final int index = i;
+            btn.setLayoutParams(lp);
+            layout.addView(btn);
+
+            final int index = i + 1;
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                    if (index == 0) {
+                    usingAsynchTa(userId, userType, String.valueOf(index));
+
+                /*    if (index == 0) {
                         usingAsynchTa(userId, userType, "1");
                     } else if (index == 1) {
                         usingAsynchTa(userId, userType, "2");
@@ -237,21 +260,13 @@ public class ReportsFeesPaidFragment extends Fragment {
                         usingAsynchTa(userId, userType, "3");
 
                     }
-
+*/
                 }
             });
 
-            layout.addView(btn);
         }
 
-        // feePaidReportsData(userId, userType);
 
-        //expand all the Groups
-        // expandAll();
-
-        // setOnChildClickListener listener for child row click
-
-        // setOnGroupClickListener listener for group heading click
         simpleExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -269,10 +284,8 @@ public class ReportsFeesPaidFragment extends Fragment {
         });
     }
 
-    private void sortingData(String s) {
-    }
-
     private void usingAsynchTa(String userId, String userType, String index) {
+        System.out.println("ReportsFeesPaidFragment.usingAsynchTa==" + index);
 
         asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.addHeader("admin_username", "Tpg@pp@dmiN");
@@ -336,15 +349,69 @@ public class ReportsFeesPaidFragment extends Fragment {
                                 } else {
                                     reports.setPrimaryLastName("");
                                 }
-                                reports.setToTalSiteFeeCollected(amount);
-                                reports.setPrimarySsn(ssn);
-                                reports.setDisbursementType(disbustype);
-                                reports.setRecordcreatedate(changeDate);
-                                reports.setPreparationFeesCollected(prepFee);
-                                reports.setSiteEfFeesCollected(electFee);
-                                reports.setOtherfees(otherFee);
-                                reports.setDocumentStorageFeesCollected(docPrepFee);
-                                reports.setToTalSiteFeeCollected(totalFee);
+                                if (amount != null) {
+                                    reports.setToTalSiteFeeCollected(amount);
+
+                                } else {
+                                    reports.setToTalSiteFeeCollected("");
+
+                                }
+                                if (ssn != null) {
+                                    reports.setPrimarySsn(ssn);
+
+                                } else {
+                                    reports.setPrimarySsn("");
+
+                                }
+                                if (disbustype != null) {
+                                    reports.setDisbursementType(disbustype);
+
+                                } else {
+                                    reports.setDisbursementType("");
+
+                                }
+                                if (changeDate != null) {
+                                    reports.setRecordcreatedate(changeDate);
+
+                                } else {
+                                    reports.setRecordcreatedate("");
+
+                                }
+                                if (prepFee != null) {
+                                    reports.setPreparationFeesCollected(prepFee);
+
+                                } else {
+                                    reports.setPreparationFeesCollected("");
+
+                                }
+                                if (electFee != null) {
+                                    reports.setSiteEfFeesCollected(electFee);
+
+                                } else {
+                                    reports.setSiteEfFeesCollected("");
+
+                                }
+                                if (otherFee != null) {
+                                    reports.setOtherfees(otherFee);
+
+                                } else {
+                                    reports.setOtherfees("");
+
+                                }
+                                if (docPrepFee != null) {
+                                    reports.setDocumentStorageFeesCollected(docPrepFee);
+
+                                } else {
+                                    reports.setDocumentStorageFeesCollected("");
+
+                                }
+                                if (totalFee != null) {
+                                    reports.setToTalSiteFeeCollected(totalFee);
+
+                                } else {
+                                    reports.setToTalSiteFeeCollected("");
+
+                                }
                                 reportsList.add(reports);
 
                             }
@@ -355,125 +422,6 @@ public class ReportsFeesPaidFragment extends Fragment {
 
 
                     }
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsList, title);
-                    DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                    divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
-                    recyclerView.addItemDecoration(divider);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
-                    recyclerView.setAdapter(mAdapter);
-                    mAdapter.notifyDataSetChanged();
-                    simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                        @Override
-                        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                            //get the group header
-                            FeesPaidGroupInfo headerInfo = deptList.get(groupPosition);
-                            //get the child info
-                            FeesPaidChildInfo detailInfo = headerInfo.getProductList().get(childPosition);
-                            //display it or do something with it
-                            System.out.println("ReportsFeesPaidFragment.onChildClick===" + detailInfo.getName());
-                            if (detailInfo.getName().equalsIgnoreCase("SSN")) {
-                                progressBar.setVisibility(View.VISIBLE);
-
-                                List<ReportsFeePaidNew> newList = reportsList;
-                                mAdapter.notifyDataSetChanged();
-
-                                Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
-                                    @Override
-                                    public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
-                                        return lhs.getPrimarySsn().compareTo(rhs.getPrimarySsn());
-
-                                    }
-                                });
-                                Collections.reverse(reportsList);
-                                progressBar.setVisibility(View.GONE);
-
-
-                            } else if (detailInfo.getName().equalsIgnoreCase("LAST NAME")) {
-                                progressBar.setVisibility(View.VISIBLE);
-
-                                List<ReportsFeePaidNew> newList = reportsList;
-                                mAdapter.notifyDataSetChanged();
-
-                                Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
-                                    @Override
-                                    public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
-                                        return lhs.getPrimaryLastName().compareTo(rhs.getPrimaryLastName());
-                                    }
-                                });
-                                Collections.reverse(reportsList);
-                                progressBar.setVisibility(View.GONE);
-
-
-                            } else if (detailInfo.getName().equalsIgnoreCase("PRODUCT TYPE")) {
-                                progressBar.setVisibility(View.VISIBLE);
-
-                                List<ReportsFeePaidNew> newList = reportsList;
-                                mAdapter.notifyDataSetChanged();
-
-                                Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
-                                    @Override
-                                    public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
-                                        return lhs.getDisbursementType().compareTo(rhs.getDisbursementType());
-                                    }
-                                });
-                                Collections.reverse(reportsList);
-                                progressBar.setVisibility(View.GONE);
-
-                            }
-
-
-                            return false;
-                        }
-                    });
-                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                        @Override
-                        public boolean onQueryTextSubmit(String query) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onQueryTextChange(String newText) {
-                            newText = newText.toLowerCase();
-                            ArrayList<ReportsFeePaidNew> newList = new ArrayList<>();
-                            for (ReportsFeePaidNew channel : reportsList) {
-                                String channelName = channel.getPrimaryFirstName().toLowerCase();
-                                String lastName = channel.getPrimaryLastName().toLowerCase();
-                                String ssn = channel.getPrimarySsn();
-                                if (channelName.contains(newText) || ssn.contains(newText) || lastName.contains(newText)) {
-
-                                    newList.add(channel);
-                                    mAdapter.notifyDataSetChanged();
-
-
-                                } else {
-                                    // Toast.makeText(getContext(), "We couldnot find any thing related to your search, Please try with different keywords", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-                            mAdapter.setFilter(newList);
-                            return true;
-                        }
-                    });
-                    mAdapter.setClickListener((view, position) -> {
-                        final ReportsFeePaidNew reports = reportsList.get(position);
-                        Dashboard activity = (Dashboard) view.getContext();
-                        Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
-                                reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                                , reports.getPrimarySsn(), reports.getDisbursementType(),
-                                reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
-                                reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                                , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
-                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                        fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.main_content, fragment)
-                                .addToBackStack(null)
-                                .commit();
-                        activity.getSupportActionBar().setTitle("REPORTS");
-                    });
-
 
                     //  int dd = Integer.parseInt("noOfPages");
 
@@ -481,6 +429,121 @@ public class ReportsFeesPaidFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsList, title);
+                DividerItemDecoration divider =
+                        new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
+                recyclerView.addItemDecoration(divider);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+                recyclerView.setAdapter(mAdapter);
+              //  mAdapter.update(reportsList);
+                mAdapter.notifyItemRangeChanged(0, reportsList.size());               // mAdapter.updateEmployeeListItems(reportsList);
+                simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View v, int childGroupPosition, int childPosition, long id) {
+                        //get the group header
+                        FeesPaidGroupInfo headerInfo = deptList.get(childGroupPosition);
+                        //get the child info
+                        FeesPaidChildInfo detailInfo = headerInfo.getProductList().get(childPosition);
+                        //display it or do something with it
+                        System.out.println("ReportsFeesPaidFragment.onChildClick===" + detailInfo.getName());
+                        progressBar.setVisibility(View.VISIBLE);
+
+                        List<ReportsFeePaidNew> newList = reportsList;
+                        mAdapter.notifyDataSetChanged();
+
+                        if (childGroupPosition == 0 && childPosition == 0) {
+                            System.out.println("ReportsFeesPaidFragment.onChildClick" + detailInfo.getName());
+                            Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
+                                @Override
+                                public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
+                                    return lhs.getPrimarySsn().compareTo(rhs.getPrimarySsn());
+
+                                }
+                            });
+                            Collections.reverse(reportsList);
+                            parent.collapseGroup(0);
+                            progressBar.setVisibility(View.GONE);
+                        }
+                        if (childGroupPosition == 0 && childPosition == 1) {
+                            System.out.println("ReportsFeesPaidFragment.onChildClick" + detailInfo.getName());
+                            Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
+                                @Override
+                                public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
+                                    return lhs.getPrimaryLastName().compareTo(rhs.getPrimaryLastName());
+                                }
+                            });
+                            Collections.reverse(reportsList);
+                            parent.collapseGroup(0);
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+                        if (childGroupPosition == 0 && childPosition == 2) {
+                            System.out.println("ReportsFeesPaidFragment.onChildClick" + detailInfo.getName());
+                            Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
+                                @Override
+                                public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
+                                    return lhs.getDisbursementType().compareTo(rhs.getDisbursementType());
+                                }
+                            });
+                            Collections.reverse(reportsList);
+                            parent.collapseGroup(0);
+                            progressBar.setVisibility(View.GONE);
+
+
+                        }
+                        return false;
+                    }
+                });
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        newText = newText.toLowerCase();
+                        ArrayList<ReportsFeePaidNew> newList = new ArrayList<>();
+                        for (ReportsFeePaidNew channel : reportsList) {
+                            String channelName = channel.getPrimaryFirstName().toLowerCase();
+                            String lastName = channel.getPrimaryLastName().toLowerCase();
+                            String ssn = channel.getPrimarySsn();
+                            if (channelName.contains(newText) || ssn.contains(newText) || lastName.contains(newText)) {
+
+                                newList.add(channel);
+                                mAdapter.notifyDataSetChanged();
+
+
+                            } else {
+                                // Toast.makeText(getContext(), "We couldnot find any thing related to your search, Please try with different keywords", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                        mAdapter.setFilter(newList);
+                        return true;
+                    }
+                });
+                mAdapter.setClickListener((view, position) -> {
+                    final ReportsFeePaidNew reports = reportsList.get(position);
+                    Dashboard activity = (Dashboard) view.getContext();
+                    Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
+                            reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
+                            , reports.getPrimarySsn(), reports.getDisbursementType(),
+                            reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
+                            reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
+                            , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.main_content, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                    activity.getSupportActionBar().setTitle("REPORTS");
+                });
 
 
             }
@@ -495,120 +558,6 @@ public class ReportsFeesPaidFragment extends Fragment {
         });
     }
 
-    private void selectedPage(int i, JSONObject jsonObject1) {
-        System.out.println("ReportsFeesPaidFragment.selectedPage===first==" + jsonObject1);
-        System.out.println("ReportsFeesPaidFragment.selectedPage===vi==" + i);
-        System.out.println("ReportsFeesPaidFragment.selectedPage===second==" + jsonObject1);
-        JSONArray array = null;
-        if (i == 1)
-            try {
-                array = jsonObject1.getJSONArray(String.valueOf(i));
-                for (int k = 0; k < array.length(); k++) {
-                    JSONObject jsonObject2 = null;
-                    try {
-                        jsonObject2 = array.getJSONObject(k);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        nameFirst = jsonObject2.getString("PrimaryFirstName");
-                        System.out.println("ReportsFeesPaidFragment.selectedPage===" + nameFirst);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        nameLast = jsonObject2.getString("PrimaryLastName");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        amount = jsonObject2.getString("ToTalSiteFeeCollected");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        ssn = jsonObject2.getString("PrimarySsn");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        disbustype = jsonObject2.getString("DisbursementType");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        date = jsonObject2.getString("recordcreatedate");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    try {
-                   /* inputFormat = new SimpleDateFormat(inputPattern);
-                    outputFormat = new SimpleDateFormat(outputPattern);
-                    dateData = inputFormat.parse(date);
-                    changeDate = outputFormat.format(dateData);*/
-
-                        format = new SimpleDateFormat("yyyyddMM");
-                        format1 = new SimpleDateFormat("MM-dd-yyyy");
-                        try {
-                            changeDate = format1.format(format.parse(date));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        prepFee = jsonObject2.getString("PreparationFeesCollected");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        electFee = jsonObject2.getString("SiteEfFeesCollected");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        docPrepFee = jsonObject2.getString("DocumentStorageFeesCollected");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        totalFee = jsonObject2.getString("ToTalSiteFeeCollected");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    reports = new ReportsFeePaidNew();
-                    if (nameFirst != null) {
-                        reports.setPrimaryFirstName(nameFirst);
-
-                    } else {
-                        reports.setPrimaryFirstName("");
-
-                    }
-                    if (nameLast != null) {
-                        reports.setPrimaryLastName(nameLast);
-
-                    } else {
-                        reports.setPrimaryLastName("");
-                    }
-                    reports.setToTalSiteFeeCollected(amount);
-                    reports.setPrimarySsn(ssn);
-                    reports.setDisbursementType(disbustype);
-                    reports.setRecordcreatedate(changeDate);
-                    reports.setPreparationFeesCollected(prepFee);
-                    reports.setSiteEfFeesCollected(electFee);
-                    reports.setDocumentStorageFeesCollected(docPrepFee);
-                    reports.setToTalSiteFeeCollected(totalFee);
-                    reportsList.add(reports);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-    }
 
 
     private void feePaidReportsData(String userId, String userType) {

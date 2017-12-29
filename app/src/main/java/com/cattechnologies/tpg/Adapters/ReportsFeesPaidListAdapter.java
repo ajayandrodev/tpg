@@ -3,6 +3,7 @@ package com.cattechnologies.tpg.Adapters;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.Activities.Dashboard;
+import com.cattechnologies.tpg.Activities.EmployeeDiffCallback;
 import com.cattechnologies.tpg.Activities.ItemClickListener;
 import com.cattechnologies.tpg.Fragments.ReportsFeesPaidDetailsFragment;
 import com.cattechnologies.tpg.Fragments.ReportsFeesPaidFragment;
@@ -26,23 +28,25 @@ import java.util.List;
  */
 
 public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFeesPaidListAdapter.ReportsViewHolder> {
-    List<ReportsFeePaidNew> reportsList;
-    Context mContext;
+    List<ReportsFeePaidNew> reportsList ;
     String title;
     PreferencesManager preferencesManager;
     private ItemClickListener clickListener;
+    String index;
+    Context mContext;
 
     public ReportsFeesPaidListAdapter(Context mContext, List<ReportsFeePaidNew> reportsList, String title) {
         this.reportsList = reportsList;
         this.mContext = mContext;
         this.title = title;
+        this.index = index;
+
     }
 
     @Override
     public ReportsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_list_row, parent, false);
         ReportsViewHolder reportsViewHolder = new ReportsViewHolder(itemView);
-        preferencesManager = new PreferencesManager();
         return reportsViewHolder;
     }
 
@@ -52,6 +56,7 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
             holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
         else
             holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
+
         final ReportsFeePaidNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
@@ -59,6 +64,25 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
         holder.dateData.setText(reports.getRecordcreatedate());
 
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    public void updateEmployeeListItems(List<ReportsFeePaidNew> employees) {
+        final EmployeeDiffCallback diffCallback = new EmployeeDiffCallback(this.reportsList, employees);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+
+        this.reportsList.clear();
+        this.reportsList.addAll(employees);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override
@@ -76,11 +100,20 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
 
     }
 
-    public void setFilter(List<ReportsFeePaidNew> newList){
+    public void setFilter(List<ReportsFeePaidNew> newList) {
         reportsList = new ArrayList<>();
         reportsList.addAll(newList);
         notifyDataSetChanged();
     }
+
+    public void update(List<ReportsFeePaidNew> reportsList) {
+        reportsList.clear();
+        for (ReportsFeePaidNew model : reportsList) {
+            reportsList.add(model);
+        }
+        notifyDataSetChanged();
+    }
+
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
 
@@ -93,7 +126,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
 
 
         }
