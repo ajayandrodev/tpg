@@ -25,8 +25,10 @@ import android.widget.Toast;
 import com.cattechnologies.tpg.Activities.Dashboard;
 import com.cattechnologies.tpg.Adapters.ReportsExpandableListFeesPaidAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidListAdapter;
+import com.cattechnologies.tpg.Model.ChildInfo;
 import com.cattechnologies.tpg.Model.FeesPaidChildInfo;
 import com.cattechnologies.tpg.Model.FeesPaidGroupInfo;
+import com.cattechnologies.tpg.Model.GroupInfo;
 import com.cattechnologies.tpg.Model.ReportsFeePaid;
 import com.cattechnologies.tpg.Model.ReportsFeePaidNew;
 import com.cattechnologies.tpg.Model.Response;
@@ -49,6 +51,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -108,8 +112,8 @@ public class ReportsFeesPaidFragment extends Fragment {
     SimpleDateFormat format, format1;
 
     private static int current_page = 1;
-    int count = 0;
     SearchView searchView;
+    int count = 0;
 
     public ReportsFeesPaidFragment() {
     }
@@ -186,6 +190,7 @@ public class ReportsFeesPaidFragment extends Fragment {
         System.out.println("ReportsFeesPaidFragment.onActivityCreated" +
                 preferencesManager.getReportDetailUsername(getContext()));
         int data;
+
         if (preferencesManager.getReportDetailUsername(getContext()) == null) {
             data = 5;
         } else {
@@ -195,18 +200,21 @@ public class ReportsFeesPaidFragment extends Fragment {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                count = data;
-                count++;
-                System.out.println("ReportsFeesPaidFragment.onClick" + count);
+                System.out.println("ReportsFeesPaidFragment.onClick==" + data);
+                for (int i = data; i <= data; i++) {
+                    count++;
+                }
+                System.out.println("ReportsFeesPaidFragment.onClick====" + count);
 
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                count = data;
-                count--;
-                System.out.println("ReportsFeesPaidFragment.onClick" + count);
+                for (int i = data; i <= data; i++) {
+                    count--;
+                }
+                System.out.println("ReportsFeesPaidFragment.onClick====n==" + count);
 
             }
         });
@@ -242,20 +250,7 @@ public class ReportsFeesPaidFragment extends Fragment {
         // expandAll();
 
         // setOnChildClickListener listener for child row click
-        simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-            /*    //get the group header
-                GroupInfo headerInfo = deptList.get(groupPosition);
-                //get the child info
-                ChildInfo detailInfo = headerInfo.getProductList().get(childPosition);
-              *//*  //display it or do something with it
-                Toast.makeText(getActivity(), " Clicked on :: " + headerInfo.getName()
-                        + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();*//*
-        */
-                return false;
-            }
-        });
+
         // setOnGroupClickListener listener for group heading click
         simpleExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -268,10 +263,13 @@ public class ReportsFeesPaidFragment extends Fragment {
 *//*
 
 */
+
                 return false;
             }
         });
     }
+
+    
 
     private void usingAsynchTa(String userId, String userType, String index) {
 
@@ -288,22 +286,18 @@ public class ReportsFeesPaidFragment extends Fragment {
                 super.onSuccess(statusCode, headers, response);
                 jsonResponse = response.toString();
                 progressBar.setVisibility(View.GONE);
-
                 Log.i("dd", "onSuccess: " + jsonResponse);
                 try {
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     //  dashboardInfo = new ReportsFeePaid();
                     noOfPages = jsonObject.getString("Total No of Pages");
                     preferencesManager.saveReportDetailUserName(getContext(), noOfPages);
-
                     JSONArray jsonArray = null;
                     JSONObject jsonObject1 = null;
                     for (int i = 0; i < noOfPages.length(); i++) {
                         jsonArray = jsonObject.getJSONArray("FeeReport_data");
                         for (int j = 0; j < jsonArray.length(); j++) {
                             jsonObject1 = jsonArray.getJSONObject(j);
-
-
                         }
                         try {
                             JSONArray array = jsonObject1.getJSONArray(index);
@@ -316,8 +310,6 @@ public class ReportsFeesPaidFragment extends Fragment {
                                 disbustype = jsonObject2.getString("DisbursementType");
                                 date = jsonObject2.getString("recordcreatedate");
                                 otherFee = jsonObject2.getString("otherfees");
-
-
                                 format = new SimpleDateFormat("yyyyddMM");
                                 format1 = new SimpleDateFormat("MM-dd-yyyy");
                                 try {
@@ -364,12 +356,76 @@ public class ReportsFeesPaidFragment extends Fragment {
                     }
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsList, title, nameLast);
+                    mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsList, title);
                     DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
                     recyclerView.addItemDecoration(divider);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
                     recyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                    simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                        @Override
+                        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                            //get the group header
+                            FeesPaidGroupInfo headerInfo = deptList.get(groupPosition);
+                            //get the child info
+                            FeesPaidChildInfo detailInfo = headerInfo.getProductList().get(childPosition);
+                            //display it or do something with it
+                            System.out.println("ReportsFeesPaidFragment.onChildClick===" + detailInfo.getName());
+                            if (detailInfo.getName().equalsIgnoreCase("SSN")) {
+                                progressBar.setVisibility(View.VISIBLE);
+
+                                List<ReportsFeePaidNew> newList = reportsList;
+                                mAdapter.notifyDataSetChanged();
+
+                                Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
+                                    @Override
+                                    public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
+                                        return lhs.getPrimarySsn().compareTo(rhs.getPrimarySsn());
+
+                                    }
+                                });
+                                Collections.reverse(reportsList);
+                                progressBar.setVisibility(View.GONE);
+
+
+                            } else if (detailInfo.getName().equalsIgnoreCase("LAST NAME")) {
+                                progressBar.setVisibility(View.VISIBLE);
+
+                                List<ReportsFeePaidNew> newList = reportsList;
+                                mAdapter.notifyDataSetChanged();
+
+                                Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
+                                    @Override
+                                    public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
+                                        return lhs.getPrimaryLastName().compareTo(rhs.getPrimaryLastName());
+                                    }
+                                });
+                                Collections.reverse(reportsList);
+                                progressBar.setVisibility(View.GONE);
+
+
+                            } else if (detailInfo.getName().equalsIgnoreCase("PRODUCT TYPE")) {
+                                progressBar.setVisibility(View.VISIBLE);
+
+                                List<ReportsFeePaidNew> newList = reportsList;
+                                mAdapter.notifyDataSetChanged();
+
+                                Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
+                                    @Override
+                                    public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
+                                        return lhs.getDisbursementType().compareTo(rhs.getDisbursementType());
+                                    }
+                                });
+                                Collections.reverse(reportsList);
+                                progressBar.setVisibility(View.GONE);
+
+                            }
+
+
+                            return false;
+                        }
+                    });
                     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                         @Override
                         public boolean onQueryTextSubmit(String query) {
@@ -385,10 +441,13 @@ public class ReportsFeesPaidFragment extends Fragment {
                                 String lastName = channel.getPrimaryLastName().toLowerCase();
                                 String ssn = channel.getPrimarySsn();
                                 if (channelName.contains(newText) || ssn.contains(newText) || lastName.contains(newText)) {
+
                                     newList.add(channel);
-                                
-                                }else {
-                                   // Toast.makeText(getContext(), "We couldnot find any thing related to your search, Please try with different keywords", Toast.LENGTH_SHORT).show();
+                                    mAdapter.notifyDataSetChanged();
+
+
+                                } else {
+                                    // Toast.makeText(getContext(), "We couldnot find any thing related to your search, Please try with different keywords", Toast.LENGTH_SHORT).show();
                                 }
 
                             }
@@ -424,6 +483,7 @@ public class ReportsFeesPaidFragment extends Fragment {
 
 
             }
+
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {

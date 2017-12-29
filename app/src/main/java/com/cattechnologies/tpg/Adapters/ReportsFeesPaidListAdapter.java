@@ -30,14 +30,12 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
     Context mContext;
     String title;
     PreferencesManager preferencesManager;
-    String name;
     private ItemClickListener clickListener;
 
-    public ReportsFeesPaidListAdapter(Context mContext, List<ReportsFeePaidNew> reportsList, String title, String name) {
+    public ReportsFeesPaidListAdapter(Context mContext, List<ReportsFeePaidNew> reportsList, String title) {
         this.reportsList = reportsList;
         this.mContext = mContext;
         this.title = title;
-        this.name = name;
     }
 
     @Override
@@ -74,9 +72,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
         this.clickListener = itemClickListener;
     }
 
-    public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }
 
     public void setFilter(List<ReportsFeePaidNew> newList){
         reportsList = new ArrayList<>();
@@ -94,28 +89,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
             detailsDataDisbush = (TextView) itemView.findViewById(R.id.report_details);
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
-            itemView.setOnClickListener(this);
-/*
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    Dashboard activity = (Dashboard) v.getContext();
-                    Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
-                            name);
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.main_content, fragment)
-                            .addToBackStack(null)
-                            .commit();
-                    activity.getSupportActionBar().setTitle("REPORTS");
-
-                }
-            });
-*/
-
 
         }
 
