@@ -269,7 +269,8 @@ public class ReportsFeesPaidFragment extends Fragment {
         });
     }
 
-    
+    private void sortingData(String s) {
+    }
 
     private void usingAsynchTa(String userId, String userType, String index) {
 

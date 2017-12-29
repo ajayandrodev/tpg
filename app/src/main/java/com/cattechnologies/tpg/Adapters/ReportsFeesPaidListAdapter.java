@@ -72,6 +72,9 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
         this.clickListener = itemClickListener;
     }
 
+    public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
+
+    }
 
     public void setFilter(List<ReportsFeePaidNew> newList){
         reportsList = new ArrayList<>();
@@ -89,6 +92,9 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
             detailsDataDisbush = (TextView) itemView.findViewById(R.id.report_details);
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
+            itemView.setOnClickListener(this);
+
+
 
         }
 
