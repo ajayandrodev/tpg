@@ -28,9 +28,8 @@ import java.util.List;
  */
 
 public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFeesPaidListAdapter.ReportsViewHolder> {
-    List<ReportsFeePaidNew> reportsList ;
+    List<ReportsFeePaidNew> reportsList;
     String title;
-    PreferencesManager preferencesManager;
     private ItemClickListener clickListener;
     String index;
     Context mContext;
@@ -39,7 +38,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
         this.reportsList = reportsList;
         this.mContext = mContext;
         this.title = title;
-        this.index = index;
 
     }
 
@@ -57,7 +55,7 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
         else
             holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
 
-        final ReportsFeePaidNew reports = reportsList.get(position);
+        ReportsFeePaidNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
@@ -109,7 +107,7 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
     public void update(List<ReportsFeePaidNew> reportsList) {
         reportsList.clear();
         for (ReportsFeePaidNew model : reportsList) {
-            reportsList.add(model);
+            reportsList.addAll(reportsList);
         }
         notifyDataSetChanged();
     }

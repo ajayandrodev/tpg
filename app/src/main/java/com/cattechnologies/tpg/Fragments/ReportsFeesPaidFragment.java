@@ -25,39 +25,24 @@ import android.widget.Toast;
 import com.cattechnologies.tpg.Activities.Dashboard;
 import com.cattechnologies.tpg.Adapters.ReportsExpandableListFeesPaidAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidListAdapter;
-import com.cattechnologies.tpg.Model.ChildInfo;
 import com.cattechnologies.tpg.Model.FeesPaidChildInfo;
 import com.cattechnologies.tpg.Model.FeesPaidGroupInfo;
-import com.cattechnologies.tpg.Model.GroupInfo;
 import com.cattechnologies.tpg.Model.ReportsFeePaid;
 import com.cattechnologies.tpg.Model.ReportsFeePaidNew;
 import com.cattechnologies.tpg.Model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.Utils.AppInternetStatus;
-import com.cattechnologies.tpg.Utils.Constants;
 import com.cattechnologies.tpg.Utils.NetworkUtil;
 import com.cattechnologies.tpg.Utils.PreferencesManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import cz.msebera.android.httpclient.Header;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -72,12 +57,7 @@ import android.support.v7.widget.SearchView;
 public class ReportsFeesPaidFragment extends Fragment {
 
 
-    AsyncHttpClient asyncHttpClient;
-    RequestParams requestParams;
-    ReportsFeePaid dashboardInfo;
 
-    String BASE_URL = Constants.BASE_URL_D;
-    String jsonResponse;
 
     public static final String ARG_SECTION_TITLE = "section_number";
 
@@ -95,21 +75,12 @@ public class ReportsFeesPaidFragment extends Fragment {
     CompositeSubscription mSubscriptions;
     ProgressBar progressBar;
     String userId, userType;
-    String noOfPages;
     PreferencesManager preferencesManager;
-    String changeDate = null;
-    String nameFirst, nameLast, amount, ssn, disbustype, date, prepFee,
-            electFee,
-            docPrepFee,
-            otherFee,
-            totalFee;
+
     ReportsFeePaidNew reports;
     Button prev, next;
-    Date dateData = null;
-    String inputPattern = "yyyyddMM";
-    String outputPattern = "MM-dd-yyyy";
 
-    SimpleDateFormat format, format1;
+
 
     private static int current_page = 1;
     SearchView searchView;
@@ -170,26 +141,37 @@ public class ReportsFeesPaidFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
-        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
+
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
         searchView = (SearchView) getActivity().findViewById(R.id.search_paid);
+
         searchView.setQueryHint("Search Customer");
         userId = getArguments().getString("app_uid");
         userType = getArguments().getString("acc_type");
+        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
+
         mSubscriptions = new CompositeSubscription();
         progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
         preferencesManager = new PreferencesManager();
-        reports = new ReportsFeePaidNew();
+        //reports = new ReportsFeePaidNew();
         loadData();
         simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
         listAdapter = new ReportsExpandableListFeesPaidAdapter(getActivity(), deptList);
         simpleExpandableListView.setAdapter(listAdapter);
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        DividerItemDecoration divider =
+                new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
+        recyclerView.addItemDecoration(divider);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+        reports = new ReportsFeePaidNew();
+        reports.setPage("1");
 
         reportsList = new ArrayList<>();
-
-        usingAsynchTa(userId, userType, "1");
+        feePaidReportsData(userId, userType, reports.getPage());
 
         if (preferencesManager.getReportDetailUsername(getContext()) == null) {
             data = 5;
@@ -198,7 +180,7 @@ public class ReportsFeesPaidFragment extends Fragment {
             System.out.println("ReportsFeesPaidFragment.onActivityCreated" + data);
         }
 
-        prev.setOnClickListener(new View.OnClickListener() {
+     /*   prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (preferencesManager.getReportDetailUsername(getContext()) == null) {
@@ -232,7 +214,7 @@ public class ReportsFeesPaidFragment extends Fragment {
                 System.out.println("ReportsFeesPaidFragment.onClick====n==" + data);
 
             }
-        });
+        });*/
         for (int i = 0; i <= data; i++) {
             final Button btn = new Button(getActivity());
             int width = (int) getResources().getDimension(R.dimen.dim_35);
@@ -248,19 +230,28 @@ public class ReportsFeesPaidFragment extends Fragment {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    reports = new ReportsFeePaidNew();
+                    reports.setPage(String.valueOf(index));
                     System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                    usingAsynchTa(userId, userType, String.valueOf(index));
+                    feePaidReportsData(userId, userType, reports.getPage());
 
-                /*    if (index == 0) {
-                        usingAsynchTa(userId, userType, "1");
-                    } else if (index == 1) {
-                        usingAsynchTa(userId, userType, "2");
+                }
+            });
+            prev.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("ReportsFeesPaidFragment.onClick===" + index);
 
-                    } else if (index == 2) {
-                        usingAsynchTa(userId, userType, "3");
+                    feePaidReportsData(userId, userType, reports.getPage());
 
-                    }
-*/
+                }
+            });
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("ReportsFeesPaidFragment.onClick===" + index);
+                    feePaidReportsData(userId, userType, reports.getPage());
+
                 }
             });
 
@@ -284,286 +275,13 @@ public class ReportsFeesPaidFragment extends Fragment {
         });
     }
 
-    private void usingAsynchTa(String userId, String userType, String index) {
-        System.out.println("ReportsFeesPaidFragment.usingAsynchTa==" + index);
-
-        asyncHttpClient = new AsyncHttpClient();
-        asyncHttpClient.addHeader("admin_username", "Tpg@pp@dmiN");
-        asyncHttpClient.addHeader("admin_password", ")[}#f3ka~g%6tpg9&j[{($/]})%$");
-        asyncHttpClient.addHeader("api_key", "$[}#f3ka~g%9tpg3&j[{($/]})(9tp?/!bj30xy-wi=3^9-$^R9G|J#E6AB;OP[}#");
-        requestParams = new RequestParams();
-        requestParams.put("app_uid", userId);
-        requestParams.put("acc_type", userType);
-        asyncHttpClient.post(BASE_URL, requestParams, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                jsonResponse = response.toString();
-                progressBar.setVisibility(View.GONE);
-                Log.i("dd", "onSuccess: " + jsonResponse);
-                try {
-                    JSONObject jsonObject = new JSONObject(jsonResponse);
-                    //  dashboardInfo = new ReportsFeePaid();
-                    noOfPages = jsonObject.getString("Total No of Pages");
-                    preferencesManager.saveReportDetailUserName(getContext(), noOfPages);
-                    JSONArray jsonArray = null;
-                    JSONObject jsonObject1 = null;
-                    for (int i = 0; i < noOfPages.length(); i++) {
-                        jsonArray = jsonObject.getJSONArray("FeeReport_data");
-                        for (int j = 0; j < jsonArray.length(); j++) {
-                            jsonObject1 = jsonArray.getJSONObject(j);
-                        }
-                        try {
-                            JSONArray array = jsonObject1.getJSONArray(index);
-                            for (int k = 0; k < array.length(); k++) {
-                                JSONObject jsonObject2 = array.getJSONObject(k);
-                                nameFirst = jsonObject2.getString("PrimaryFirstName");
-                                nameLast = jsonObject2.getString("PrimaryLastName");
-                                amount = jsonObject2.getString("ToTalSiteFeeCollected");
-                                ssn = jsonObject2.getString("PrimarySsn");
-                                disbustype = jsonObject2.getString("DisbursementType");
-                                date = jsonObject2.getString("recordcreatedate");
-                                otherFee = jsonObject2.getString("otherfees");
-                                format = new SimpleDateFormat("yyyyddMM");
-                                format1 = new SimpleDateFormat("MM-dd-yyyy");
-                                try {
-                                    changeDate = format1.format(format.parse(date));
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                prepFee = jsonObject2.getString("PreparationFeesCollected");
-                                electFee = jsonObject2.getString("SiteEfFeesCollected");
-                                docPrepFee = jsonObject2.getString("DocumentStorageFeesCollected");
-                                totalFee = jsonObject2.getString("ToTalSiteFeeCollected");
-                                reports = new ReportsFeePaidNew();
-                                if (nameFirst != null) {
-                                    reports.setPrimaryFirstName(nameFirst);
-
-                                } else {
-                                    reports.setPrimaryFirstName("");
-
-                                }
-                                if (nameLast != null) {
-                                    reports.setPrimaryLastName(nameLast);
-
-                                } else {
-                                    reports.setPrimaryLastName("");
-                                }
-                                if (amount != null) {
-                                    reports.setToTalSiteFeeCollected(amount);
-
-                                } else {
-                                    reports.setToTalSiteFeeCollected("");
-
-                                }
-                                if (ssn != null) {
-                                    reports.setPrimarySsn(ssn);
-
-                                } else {
-                                    reports.setPrimarySsn("");
-
-                                }
-                                if (disbustype != null) {
-                                    reports.setDisbursementType(disbustype);
-
-                                } else {
-                                    reports.setDisbursementType("");
-
-                                }
-                                if (changeDate != null) {
-                                    reports.setRecordcreatedate(changeDate);
-
-                                } else {
-                                    reports.setRecordcreatedate("");
-
-                                }
-                                if (prepFee != null) {
-                                    reports.setPreparationFeesCollected(prepFee);
-
-                                } else {
-                                    reports.setPreparationFeesCollected("");
-
-                                }
-                                if (electFee != null) {
-                                    reports.setSiteEfFeesCollected(electFee);
-
-                                } else {
-                                    reports.setSiteEfFeesCollected("");
-
-                                }
-                                if (otherFee != null) {
-                                    reports.setOtherfees(otherFee);
-
-                                } else {
-                                    reports.setOtherfees("");
-
-                                }
-                                if (docPrepFee != null) {
-                                    reports.setDocumentStorageFeesCollected(docPrepFee);
-
-                                } else {
-                                    reports.setDocumentStorageFeesCollected("");
-
-                                }
-                                if (totalFee != null) {
-                                    reports.setToTalSiteFeeCollected(totalFee);
-
-                                } else {
-                                    reports.setToTalSiteFeeCollected("");
-
-                                }
-                                reportsList.add(reports);
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        // selectedPage(1, jsonObject1);
-
-
-                    }
-
-                    //  int dd = Integer.parseInt("noOfPages");
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsList, title);
-                DividerItemDecoration divider =
-                        new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
-                recyclerView.addItemDecoration(divider);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
-                recyclerView.setAdapter(mAdapter);
-              //  mAdapter.update(reportsList);
-                mAdapter.notifyItemRangeChanged(0, reportsList.size());               // mAdapter.updateEmployeeListItems(reportsList);
-                simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                    @Override
-                    public boolean onChildClick(ExpandableListView parent, View v, int childGroupPosition, int childPosition, long id) {
-                        //get the group header
-                        FeesPaidGroupInfo headerInfo = deptList.get(childGroupPosition);
-                        //get the child info
-                        FeesPaidChildInfo detailInfo = headerInfo.getProductList().get(childPosition);
-                        //display it or do something with it
-                        System.out.println("ReportsFeesPaidFragment.onChildClick===" + detailInfo.getName());
-                        progressBar.setVisibility(View.VISIBLE);
-
-                        List<ReportsFeePaidNew> newList = reportsList;
-                        mAdapter.notifyDataSetChanged();
-
-                        if (childGroupPosition == 0 && childPosition == 0) {
-                            System.out.println("ReportsFeesPaidFragment.onChildClick" + detailInfo.getName());
-                            Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
-                                @Override
-                                public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
-                                    return lhs.getPrimarySsn().compareTo(rhs.getPrimarySsn());
-
-                                }
-                            });
-                            Collections.reverse(reportsList);
-                            parent.collapseGroup(0);
-                            progressBar.setVisibility(View.GONE);
-                        }
-                        if (childGroupPosition == 0 && childPosition == 1) {
-                            System.out.println("ReportsFeesPaidFragment.onChildClick" + detailInfo.getName());
-                            Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
-                                @Override
-                                public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
-                                    return lhs.getPrimaryLastName().compareTo(rhs.getPrimaryLastName());
-                                }
-                            });
-                            Collections.reverse(reportsList);
-                            parent.collapseGroup(0);
-                            progressBar.setVisibility(View.GONE);
-
-                        }
-                        if (childGroupPosition == 0 && childPosition == 2) {
-                            System.out.println("ReportsFeesPaidFragment.onChildClick" + detailInfo.getName());
-                            Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
-                                @Override
-                                public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
-                                    return lhs.getDisbursementType().compareTo(rhs.getDisbursementType());
-                                }
-                            });
-                            Collections.reverse(reportsList);
-                            parent.collapseGroup(0);
-                            progressBar.setVisibility(View.GONE);
-
-
-                        }
-                        return false;
-                    }
-                });
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        newText = newText.toLowerCase();
-                        ArrayList<ReportsFeePaidNew> newList = new ArrayList<>();
-                        for (ReportsFeePaidNew channel : reportsList) {
-                            String channelName = channel.getPrimaryFirstName().toLowerCase();
-                            String lastName = channel.getPrimaryLastName().toLowerCase();
-                            String ssn = channel.getPrimarySsn();
-                            if (channelName.contains(newText) || ssn.contains(newText) || lastName.contains(newText)) {
-
-                                newList.add(channel);
-                                mAdapter.notifyDataSetChanged();
-
-
-                            } else {
-                                // Toast.makeText(getContext(), "We couldnot find any thing related to your search, Please try with different keywords", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                        mAdapter.setFilter(newList);
-                        return true;
-                    }
-                });
-                mAdapter.setClickListener((view, position) -> {
-                    final ReportsFeePaidNew reports = reportsList.get(position);
-                    Dashboard activity = (Dashboard) view.getContext();
-                    Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
-                            reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                            , reports.getPrimarySsn(), reports.getDisbursementType(),
-                            reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
-                            reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                            , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.main_content, fragment)
-                            .addToBackStack(null)
-                            .commit();
-                    activity.getSupportActionBar().setTitle("REPORTS");
-                });
-
-
-            }
-
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                progressBar.setVisibility(View.GONE);
-                Log.e("ddd", "onFailure: " + errorResponse);
-            }
-        });
-    }
 
 
 
-    private void feePaidReportsData(String userId, String userType) {
+    private void feePaidReportsData(String userId, String userType, String page) {
         System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
-            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidData(userId, userType)
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidData(userId, userType, page)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
@@ -602,12 +320,140 @@ public class ReportsFeesPaidFragment extends Fragment {
     }
 
     private void handleResponse(ReportsFeePaid response) {
+        System.out.println("ReportsFeesPaidFragment.handleResponse==" + response.getFeeReport_data());
 
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
+           // showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
+            List<ReportsFeePaidNew> reportsFeePaidNewList = new ArrayList<>();
+            for (int i = 0; i < response.getFeeReport_data().size(); i++) {
+                ReportsFeePaidNew reportsFeePaidNew = new ReportsFeePaidNew();
+                reportsFeePaidNew.setPrimaryFirstName(response.getFeeReport_data().get(i).getPrimaryFirstName());
+                reportsFeePaidNew.setPrimaryLastName(response.getFeeReport_data().get(i).getPrimaryLastName());
+                reportsFeePaidNew.setToTalSiteFeeCollected(response.getFeeReport_data().get(i).getToTalSiteFeeCollected());
+                reportsFeePaidNew.setPrimarySsn(response.getFeeReport_data().get(i).getPrimarySsn());
+                reportsFeePaidNew.setDisbursementType(response.getFeeReport_data().get(i).getDisbursementType());
+                reportsFeePaidNew.setRecordcreatedate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setPreparationFeesCollected(response.getFeeReport_data().get(i).getPreparationFeesCollected());
+                reportsFeePaidNew.setSiteEfFeesCollected(response.getFeeReport_data().get(i).getSiteEfFeesCollected());
+                reportsFeePaidNew.setOtherfees(response.getFeeReport_data().get(i).getOtherfees());
+                reportsFeePaidNew.setDocumentStorageFeesCollected(response.getFeeReport_data().get(i).
+                        getDocumentStorageFeesCollected());
+                reportsFeePaidNew.setToTalSiteFeeCollected(response.getFeeReport_data().get(i).getToTalSiteFeeCollected());
+                reportsFeePaidNewList.add(reportsFeePaidNew);
+                System.out.println("ReportsFeesPaidFragment.handleResponse==="+reportsFeePaidNewList);
+
+
+            }
+            mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsFeePaidNewList, title);
+            recyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+            simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v, int childGroupPosition, int childPosition, long id) {
+                    //get the group header
+                    FeesPaidGroupInfo headerInfo = deptList.get(childGroupPosition);
+                    //get the child info
+                    FeesPaidChildInfo detailInfo = headerInfo.getProductList().get(childPosition);
+                    //display it or do something with it
+                    System.out.println("ReportsFeesPaidFragment.onChildClick===" + detailInfo.getName());
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    List<ReportsFeePaidNew> newList = reportsFeePaidNewList;
+                    mAdapter.notifyDataSetChanged();
+
+                    if (childGroupPosition == 0 && childPosition == 0) {
+                        System.out.println("ReportsFeesPaidFragment.onChildClick" + detailInfo.getName());
+                        Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
+                            @Override
+                            public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
+                                return lhs.getPrimarySsn().compareTo(rhs.getPrimarySsn());
+
+                            }
+                        });
+                        Collections.reverse(reportsFeePaidNewList);
+                        parent.collapseGroup(0);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                    if (childGroupPosition == 0 && childPosition == 1) {
+                        System.out.println("ReportsFeesPaidFragment.onChildClick" + detailInfo.getName());
+                        Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
+                            @Override
+                            public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
+                                return lhs.getPrimaryLastName().compareTo(rhs.getPrimaryLastName());
+                            }
+                        });
+                        Collections.reverse(reportsFeePaidNewList);
+                        parent.collapseGroup(0);
+                        progressBar.setVisibility(View.GONE);
+
+                    }
+                    if (childGroupPosition == 0 && childPosition == 2) {
+                        System.out.println("ReportsFeesPaidFragment.onChildClick" + detailInfo.getName());
+                        Collections.sort(newList, new Comparator<ReportsFeePaidNew>() {
+                            @Override
+                            public int compare(ReportsFeePaidNew lhs, ReportsFeePaidNew rhs) {
+                                return lhs.getDisbursementType().compareTo(rhs.getDisbursementType());
+                            }
+                        });
+                        Collections.reverse(reportsFeePaidNewList);
+                        parent.collapseGroup(0);
+                        progressBar.setVisibility(View.GONE);
+
+
+                    }
+                    return false;
+                }
+            });
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    newText = newText.toLowerCase();
+                    ArrayList<ReportsFeePaidNew> newList = new ArrayList<>();
+                    for (ReportsFeePaidNew channel : reportsFeePaidNewList) {
+                        String channelName = channel.getPrimaryFirstName().toLowerCase();
+                        String lastName = channel.getPrimaryLastName().toLowerCase();
+                        String ssn = channel.getPrimarySsn();
+                        if (channelName.contains(newText) || ssn.contains(newText) || lastName.contains(newText)) {
+
+                            newList.add(channel);
+                            mAdapter.notifyDataSetChanged();
+
+
+                        } else {
+                            // Toast.makeText(getContext(), "We couldnot find any thing related to your search, Please try with different keywords", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                    mAdapter.setFilter(newList);
+                    return true;
+                }
+            });
+            mAdapter.setClickListener((view, position) -> {
+                final ReportsFeePaidNew reports = reportsFeePaidNewList.get(position);
+                Dashboard activity = (Dashboard) view.getContext();
+                Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
+                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
+                        reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                activity.getSupportActionBar().setTitle("REPORTS");
+            });
+
 
 
         }

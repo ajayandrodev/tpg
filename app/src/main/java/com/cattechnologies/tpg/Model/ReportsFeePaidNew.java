@@ -11,16 +11,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class ReportsFeePaidNew implements Parcelable {
 
-    @SerializedName("1")
-    private String value;
+    @SerializedName("page")
+    private String page;
 
-    public String getValue() {
-        return value;
-    }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
 
     @SerializedName("Id")
     private String Id;
@@ -106,7 +100,13 @@ public class ReportsFeePaidNew implements Parcelable {
         this.recordcreatedate = recordcreatedate;
 
     }
+    public String getPage() {
+        return page;
+    }
 
+    public void setPage(String page) {
+        this.page = page;
+    }
 
     public String getId() {
         return Id;
@@ -276,7 +276,7 @@ public class ReportsFeePaidNew implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.value);
+        dest.writeString(this.page);
         dest.writeString(this.Id);
         dest.writeString(this.recordcreatedate);
         dest.writeString(this.IrsAcknowledgementDate);
@@ -301,7 +301,7 @@ public class ReportsFeePaidNew implements Parcelable {
     }
 
     protected ReportsFeePaidNew(Parcel in) {
-        this.value = in.readString();
+        this.page = in.readString();
         this.Id = in.readString();
         this.recordcreatedate = in.readString();
         this.IrsAcknowledgementDate = in.readString();

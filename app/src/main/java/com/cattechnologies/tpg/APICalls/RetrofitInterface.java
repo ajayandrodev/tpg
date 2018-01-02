@@ -73,6 +73,7 @@ public interface RetrofitInterface {
     Observable<ReportsFeePaid> getFeePaidReport(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type);
 
     @FormUrlEncoded
-    @POST("count")
-    Observable<ReportsFeePaid> getFeePaidData(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type);
+    @POST("fee-paid-offset")
+    Observable<ReportsFeePaid> getFeePaidData(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
+     @Field("page") String page);
 }

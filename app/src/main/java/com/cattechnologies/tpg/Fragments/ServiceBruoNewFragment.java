@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.cattechnologies.tpg.Model.MySbWithEroInfo;
 import com.cattechnologies.tpg.Model.RecyclerData;
 import com.cattechnologies.tpg.Model.RemoveClickListner;
 import com.cattechnologies.tpg.R;
+import com.cattechnologies.tpg.Utils.PreferencesManager;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
 import java.util.ArrayList;
@@ -57,9 +59,13 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
     int position = 0;
     FastScroller fastScroller;
     public static final String ARG_SECTION_TITLE = "section_number";
+    Button viewReport;
+    Fragment fragment = null;
+    PreferencesManager preferencesManager;
 
+    FragmentManager fragmentManager;
 
-    public static Fragment newInstance(String sectionTitle,String userId, String type) {
+    public static Fragment newInstance(String sectionTitle, String userId, String type) {
         ServiceBruoNewFragment fragment = new ServiceBruoNewFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
@@ -81,6 +87,7 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.service_buro_new, container, false);
+        preferencesManager = new PreferencesManager();
 
         return view;
     }
@@ -101,11 +108,28 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
         simpleExpandableListViewThree.setAdapter(accountListAdapter);
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         fastScroller = (FastScroller) getActivity().findViewById(R.id.fast_scroller);
+        viewReport = (Button) getActivity().findViewById(R.id.view_report);
+
         fastScroller.setRecyclerView(mRecyclerView);
         etTitle = (EditText) getActivity().findViewById(R.id.etTitle);
         //  etDescription = (EditText) findViewById(R.id.etDescription);
         btnAddItem = (ImageButton) getActivity().findViewById(R.id.btnAddItem);
 
+        viewReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                title = getResources().getString(R.string.dashboard_fee_paid);
+                fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                        preferencesManager.getAccountType(getActivity()));
+                if (fragment != null) {
+                    fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.main_content, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            }
+        });
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
