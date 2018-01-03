@@ -6,7 +6,7 @@ package com.cattechnologies.tpg.Model;
 
 public class EroInfo {
 
-    private String accountNameOnBankAccount;
+  /*  private String accountNameOnBankAccount;
     private String accountNameBankAccount;
 
     public String getAccountNameOnBankAccount() {
@@ -23,5 +23,25 @@ public class EroInfo {
 
     public void setAccountNameBankAccount(String accountNameBankAccount) {
         this.accountNameBankAccount = accountNameBankAccount;
+    }*/
+
+    private String sequence = "";
+    private String name = "";
+
+    public String getSequence() {
+        return sequence;
     }
+
+    public void setSequence(String sequence) {
+        this.sequence = sequence;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

@@ -9,12 +9,15 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -43,6 +46,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -55,8 +60,6 @@ import android.support.v7.widget.SearchView;
  */
 
 public class ReportsFeesPaidFragment extends Fragment {
-
-
 
 
     public static final String ARG_SECTION_TITLE = "section_number";
@@ -79,7 +82,7 @@ public class ReportsFeesPaidFragment extends Fragment {
 
     ReportsFeePaidNew reports;
     Button prev, next;
-
+    EditText searchData;
 
 
     private static int current_page = 1;
@@ -144,6 +147,7 @@ public class ReportsFeesPaidFragment extends Fragment {
 
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
+//        searchData = (EditText) getActivity().findViewById(R.id.search_paid);
         searchView = (SearchView) getActivity().findViewById(R.id.search_paid);
 
         searchView.setQueryHint("Search Customer");
@@ -171,8 +175,58 @@ public class ReportsFeesPaidFragment extends Fragment {
         reports.setPage("1");
 
         reportsList = new ArrayList<>();
-        feePaidReportsData(userId, userType, reports.getPage());
 
+        feePaidReportsData(userId, userType, reports.getPage());
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                newText = newText.toLowerCase();
+                searchReportItem(userId, userType, reports.getPage(), newText);
+
+                  /*  ArrayList<ReportsFeePaidNew> newList = new ArrayList<>();
+                    for (ReportsFeePaidNew channel : reportsFeePaidNewList) {
+                        String channelName = channel.getPrimaryFirstName().toLowerCase();
+                        String lastName = channel.getPrimaryLastName().toLowerCase();
+                        String ssn = channel.getPrimarySsn();
+                        if (channelName.contains(newText) || ssn.contains(newText) || lastName.contains(newText)) {
+
+                            newList.add(channel);
+                            mAdapter.notifyDataSetChanged();
+
+
+                        } else {
+                            // Toast.makeText(getContext(), "We couldnot find any thing related to your search, Please try with different keywords", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                    mAdapter.setFilter(newList);*/
+                return true;
+            }
+        });
+      /*  searchData.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //mAdapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String searhText = searchData.getText().toString().toLowerCase(Locale.getDefault());
+                // adapter.filter(text);
+                searchReportItem(userId, userType, reports.getPage(), searhText);
+
+            }
+        });*/
         if (preferencesManager.getReportDetailUsername(getContext()) == null) {
             data = 5;
         } else {
@@ -180,41 +234,6 @@ public class ReportsFeesPaidFragment extends Fragment {
             System.out.println("ReportsFeesPaidFragment.onActivityCreated" + data);
         }
 
-     /*   prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (preferencesManager.getReportDetailUsername(getContext()) == null) {
-                    data = 5;
-                } else {
-                    data = preferencesManager.getReportDetailUsername(getContext()).length();
-                    System.out.println("ReportsFeesPaidFragment.onActivityCreated" + data);
-                }
-                i = data++;
-                usingAsynchTa(userId, userType, String.valueOf(i));
-
-                System.out.println("ReportsFeesPaidFragment.onClick====" + i);
-
-            }
-        });
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (preferencesManager.getReportDetailUsername(getContext()) == null) {
-                    data = 5;
-                } else {
-                    data = preferencesManager.getReportDetailUsername(getContext()).length();
-                    System.out.println("ReportsFeesPaidFragment.onActivityCreated" + data);
-                }
-                if (i >= 0) {
-                    j = i--;
-                    data = j;
-                }
-                usingAsynchTa(userId, userType, String.valueOf(data));
-
-                System.out.println("ReportsFeesPaidFragment.onClick====n==" + data);
-
-            }
-        });*/
         for (int i = 0; i <= data; i++) {
             final Button btn = new Button(getActivity());
             int width = (int) getResources().getDimension(R.dimen.dim_35);
@@ -234,6 +253,19 @@ public class ReportsFeesPaidFragment extends Fragment {
                     reports.setPage(String.valueOf(index));
                     System.out.println("ReportsFeesPaidFragment.onClick" + index);
                     feePaidReportsData(userId, userType, reports.getPage());
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            newText = newText.toLowerCase();
+                            searchReportItem(userId, userType, reports.getPage(), newText);
+                            return true;
+                        }
+                    });
 
                 }
             });
@@ -243,6 +275,20 @@ public class ReportsFeesPaidFragment extends Fragment {
                     System.out.println("ReportsFeesPaidFragment.onClick===" + index);
 
                     feePaidReportsData(userId, userType, reports.getPage());
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            newText = newText.toLowerCase();
+                            searchReportItem(userId, userType, reports.getPage(), newText);
+
+                            return true;
+                        }
+                    });
 
                 }
             });
@@ -251,6 +297,20 @@ public class ReportsFeesPaidFragment extends Fragment {
                 public void onClick(View view) {
                     System.out.println("ReportsFeesPaidFragment.onClick===" + index);
                     feePaidReportsData(userId, userType, reports.getPage());
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            newText = newText.toLowerCase();
+                            searchReportItem(userId, userType, reports.getPage(), newText);
+
+                            return true;
+                        }
+                    });
 
                 }
             });
@@ -275,7 +335,81 @@ public class ReportsFeesPaidFragment extends Fragment {
         });
     }
 
+    private void searchReportItem(String userId, String userType, String page, String searchText) {
+        System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType);
+        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidDataSearch(userId, userType, page, searchText)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(this::handleResponseSearch, this::handleErrorSearch));
 
+
+        } else {
+            showToast("Internet Connection Is Not Available");
+
+
+        }
+
+
+    }
+
+    private void handleErrorSearch(Throwable error) {
+        System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
+        showToast(error.getMessage());
+        progressBar.setVisibility(View.GONE);
+
+        if (error instanceof HttpException) {
+
+            Gson gson = new GsonBuilder().create();
+
+            try {
+                String errorBody = ((HttpException) error).response().errorBody().string();
+                Response response = gson.fromJson(errorBody, Response.class);
+                showToast(response.getMessage());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showToast("Network Error !");
+        }
+    }
+
+    private void handleResponseSearch(ReportsFeePaid response) {
+
+        if (response.getStatus().equalsIgnoreCase("success")) {
+            progressBar.setVisibility(View.GONE);
+            //showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
+            System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
+
+          //  preferencesManager.saveReportDetailUserName(getContext(), totalPages);
+            List<ReportsFeePaidNew> reportsFeePaidNewList = new ArrayList<>();
+            for (int i = 0; i < response.getFeeReport_data().size(); i++) {
+                ReportsFeePaidNew reportsFeePaidNew = new ReportsFeePaidNew();
+                reportsFeePaidNew.setPrimaryFirstName(response.getFeeReport_data().get(i).getPrimaryFirstName());
+                reportsFeePaidNew.setPrimaryLastName(response.getFeeReport_data().get(i).getPrimaryLastName());
+                reportsFeePaidNew.setToTalSiteFeeCollected(response.getFeeReport_data().get(i).getToTalSiteFeeCollected());
+                reportsFeePaidNew.setPrimarySsn(response.getFeeReport_data().get(i).getPrimarySsn());
+                reportsFeePaidNew.setDisbursementType(response.getFeeReport_data().get(i).getDisbursementType());
+                reportsFeePaidNew.setRecordcreatedate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setPreparationFeesCollected(response.getFeeReport_data().get(i).getPreparationFeesCollected());
+                reportsFeePaidNew.setSiteEfFeesCollected(response.getFeeReport_data().get(i).getSiteEfFeesCollected());
+                reportsFeePaidNew.setOtherfees(response.getFeeReport_data().get(i).getOtherfees());
+                reportsFeePaidNew.setDocumentStorageFeesCollected(response.getFeeReport_data().get(i).
+                        getDocumentStorageFeesCollected());
+                reportsFeePaidNew.setToTalSiteFeeCollected(response.getFeeReport_data().get(i).getToTalSiteFeeCollected());
+                reportsFeePaidNewList.add(reportsFeePaidNew);
+                System.out.println("ReportsFeesPaidFragment.handleResponse===" + reportsFeePaidNewList);
+
+
+            }
+            mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsFeePaidNewList, title);
+            recyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+
+        }
+    }
 
 
     private void feePaidReportsData(String userId, String userType, String page) {
@@ -320,13 +454,13 @@ public class ReportsFeesPaidFragment extends Fragment {
     }
 
     private void handleResponse(ReportsFeePaid response) {
-        System.out.println("ReportsFeesPaidFragment.handleResponse==" + response.getFeeReport_data());
 
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
-           // showToast(response.getMessage());
+            //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
+            preferencesManager.saveReportDetailUserName(getContext(), totalPages);
             List<ReportsFeePaidNew> reportsFeePaidNewList = new ArrayList<>();
             for (int i = 0; i < response.getFeeReport_data().size(); i++) {
                 ReportsFeePaidNew reportsFeePaidNew = new ReportsFeePaidNew();
@@ -343,13 +477,15 @@ public class ReportsFeesPaidFragment extends Fragment {
                         getDocumentStorageFeesCollected());
                 reportsFeePaidNew.setToTalSiteFeeCollected(response.getFeeReport_data().get(i).getToTalSiteFeeCollected());
                 reportsFeePaidNewList.add(reportsFeePaidNew);
-                System.out.println("ReportsFeesPaidFragment.handleResponse==="+reportsFeePaidNewList);
+                System.out.println("ReportsFeesPaidFragment.handleResponse===" + reportsFeePaidNewList);
 
 
             }
             mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
+
+
             simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v, int childGroupPosition, int childPosition, long id) {
@@ -407,35 +543,8 @@ public class ReportsFeesPaidFragment extends Fragment {
                     return false;
                 }
             });
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    newText = newText.toLowerCase();
-                    ArrayList<ReportsFeePaidNew> newList = new ArrayList<>();
-                    for (ReportsFeePaidNew channel : reportsFeePaidNewList) {
-                        String channelName = channel.getPrimaryFirstName().toLowerCase();
-                        String lastName = channel.getPrimaryLastName().toLowerCase();
-                        String ssn = channel.getPrimarySsn();
-                        if (channelName.contains(newText) || ssn.contains(newText) || lastName.contains(newText)) {
-
-                            newList.add(channel);
-                            mAdapter.notifyDataSetChanged();
 
 
-                        } else {
-                            // Toast.makeText(getContext(), "We couldnot find any thing related to your search, Please try with different keywords", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                    mAdapter.setFilter(newList);
-                    return true;
-                }
-            });
             mAdapter.setClickListener((view, position) -> {
                 final ReportsFeePaidNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
@@ -453,7 +562,6 @@ public class ReportsFeesPaidFragment extends Fragment {
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-
 
 
         }

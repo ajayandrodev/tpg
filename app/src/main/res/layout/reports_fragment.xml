@@ -22,8 +22,7 @@
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 
-
-    <android.support.v7.widget.SearchView
+  <!--  <EditText
         android:id="@+id/search_paid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,9 +30,25 @@
         android:layout_margin="@dimen/dim_5"
         android:background="@drawable/rounded_text_edit"
         android:gravity="center"
+        android:hint="Search"
         android:maxLength="20"
-        android:padding="@dimen/dim_2"
-        android:textSize="14sp" />
+        android:padding="@dimen/dim_15"
+        android:imeOptions="actionDone"
+        android:textSize="14sp" />-->
+
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/search_paid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_margin="@dimen/dim_5"
+            android:background="@drawable/rounded_text_edit"
+            android:gravity="center"
+            android:maxLength="20"
+            android:padding="@dimen/dim_2"
+            android:textSize="14sp" />
+
 
 
     <LinearLayout

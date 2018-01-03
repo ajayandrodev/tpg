@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.Activities.Dashboard;
@@ -111,6 +112,7 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
         }
         notifyDataSetChanged();
     }
+
 
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;

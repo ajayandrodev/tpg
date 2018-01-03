@@ -9,7 +9,15 @@ import java.util.ArrayList;
 public class MySbWithEroInfo {
 
     private String name;
-    private ArrayList<EroInfo> list = new ArrayList<EroInfo>();
+    private ArrayList<EroInfo> productList = new ArrayList<EroInfo>();
+
+    public ArrayList<EroInfo> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(ArrayList<EroInfo> productList) {
+        this.productList = productList;
+    }
 
     public String getName() {
         return name;
@@ -17,13 +25,5 @@ public class MySbWithEroInfo {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ArrayList<EroInfo> getProductList() {
-        return list;
-    }
-
-    public void setProductList(ArrayList<EroInfo> productList) {
-        this.list = productList;
     }
 }

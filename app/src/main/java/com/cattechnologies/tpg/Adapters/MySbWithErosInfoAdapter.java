@@ -115,9 +115,9 @@ public class MySbWithErosInfoAdapter extends BaseExpandableListAdapter {
        /* TextView sequence = (TextView) view.findViewById(R.id.sequence);
         sequence.setText(detailInfo.getSequence().trim() + ". ");*/
         TextView childItem1 = (TextView) view.findViewById(R.id.account_name_of_bank);
-        childItem1.setText(detailInfo.getAccountNameOnBankAccount().trim());
+        childItem1.setText("All Offices");
         TextView childItem3 = (TextView) view.findViewById(R.id.account_name_bank_second);
-        childItem3.setText(detailInfo.getAccountNameBankAccount().trim());
+        childItem3.setText("Particular Offices");
 
 
         return view;

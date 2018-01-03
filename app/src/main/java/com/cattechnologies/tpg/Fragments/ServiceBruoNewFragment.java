@@ -24,15 +24,21 @@ import com.cattechnologies.tpg.Activities.Dashboard;
 import com.cattechnologies.tpg.Adapters.MySbWithErosInfoAdapter;
 import com.cattechnologies.tpg.Adapters.SbiEroListDataAdapter;
 import com.cattechnologies.tpg.Model.EroInfo;
+import com.cattechnologies.tpg.Model.FeesPaidChildInfo;
+import com.cattechnologies.tpg.Model.FeesPaidGroupInfo;
 import com.cattechnologies.tpg.Model.MySbWithEroInfo;
 import com.cattechnologies.tpg.Model.RecyclerData;
 import com.cattechnologies.tpg.Model.RemoveClickListner;
+import com.cattechnologies.tpg.Model.ReportsFeePaidNew;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.Utils.PreferencesManager;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by admin on 11/23/2017.
@@ -41,14 +47,14 @@ import java.util.LinkedHashMap;
 public class ServiceBruoNewFragment extends Fragment implements RemoveClickListner {
 
 
-    private ArrayList<MySbWithEroInfo> deptListAccount = new ArrayList<MySbWithEroInfo>();
-    private LinkedHashMap<String, MySbWithEroInfo> subjectsAccount = new LinkedHashMap<String, MySbWithEroInfo>();
-    private ExpandableListView simpleExpandableListViewThree;
-    private MySbWithErosInfoAdapter accountListAdapter;
+    ArrayList<MySbWithEroInfo> deptListAccount = new ArrayList<MySbWithEroInfo>();
+    LinkedHashMap<String, MySbWithEroInfo> subjectsAccount = new LinkedHashMap<String, MySbWithEroInfo>();
+    ExpandableListView simpleExpandableListViewThree;
+    MySbWithErosInfoAdapter accountListAdapter;
     TextView sbEro, titulo;
-    private RecyclerView mRecyclerView;
-    private SbiEroListDataAdapter mRecyclerAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView mRecyclerView;
+    SbiEroListDataAdapter mRecyclerAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
     ImageButton btnAddItem;
     ArrayList<RecyclerData> myList = new ArrayList<>();
     EditText etTitle, etDescription;
@@ -169,11 +175,13 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
         simpleExpandableListViewThree.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view,
-                                        int groupPosition, int childPosition, long id) {
+                                        int childGroupPosition, int childPosition, long id) {
 
                 relativeLayout.setVisibility(View.VISIBLE);
+                //get the group header
 
                 Toast.makeText(getContext(), "child", Toast.LENGTH_SHORT).show();
+
                 return false;
             }
         });
@@ -186,7 +194,7 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
 
     }
 
-    private int addProductAccount(String department, String ssn) {
+    private int addProductAccount(String department, String product) {
         int groupPosition = 0;
 
         //check the hash map if the group already exists
@@ -208,8 +216,9 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
 
         //create a new child and add that to the group
         EroInfo detailInfo = new EroInfo();
-        detailInfo.setAccountNameOnBankAccount("All Offices");
-        detailInfo.setAccountNameBankAccount("Particular Offices");
+        detailInfo.setName(product);
+       /* detailInfo.setName("All Offices");
+        detailInfo.setName("Particular Offices");*/
         productList.add(detailInfo);
         headerInfo.setProductList(productList);
 
