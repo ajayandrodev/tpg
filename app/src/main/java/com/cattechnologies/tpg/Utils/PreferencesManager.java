@@ -18,6 +18,9 @@ public class PreferencesManager {
     public static final String PREFS_EMP_KEY_BOOL = "EMP_PREF_KEY";
     public static final String PREFS_REPORT_DETAIL_USER = "REPORT_DETAILS_USER";
     public static final String PREFS_REPORT_DETAIL_USER_KEY = "REPORT_DETAILS_USER_KEY";
+    private String particularPerson;
+    private String PREFS_REPORT_DETAIL_USER_PORT="PARTICULAR";
+    private String PREFS_REPORT_DETAIL_USER__PORT_KEY="PARTICULAR_KEY";
 
 
     public PreferencesManager() {
@@ -111,6 +114,24 @@ public class PreferencesManager {
         return text;
     }
 
+
+
+    public void setParticularPerson(Context context, String text) {
+        SharedPreferences settings;
+        SharedPreferences.Editor editor;
+        settings = context.getSharedPreferences(PREFS_REPORT_DETAIL_USER_PORT, Context.MODE_PRIVATE); //1
+        editor = settings.edit(); //2
+        editor.putString(PREFS_REPORT_DETAIL_USER__PORT_KEY, text); //3
+        editor.commit(); //4
+    }
+
+    public String getParticularPerson(Context context) {
+        SharedPreferences settings;
+        String text;
+        settings = context.getSharedPreferences(PREFS_REPORT_DETAIL_USER_PORT, Context.MODE_PRIVATE);
+        text = settings.getString(PREFS_REPORT_DETAIL_USER_KEY, null);
+        return text;
+    }
 
 }
 

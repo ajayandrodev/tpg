@@ -83,7 +83,7 @@ public class ReportsAccountDisbursementFragment extends Fragment {
         titulo = (TextView) getActivity().findViewById(R.id.title);
 
         loadData();
-        simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
+     //   simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
 
         listAdapter = new ReportsExpandableListAccountDisbursementAdapter(getActivity(), deptList);
         simpleExpandableListView.setAdapter(listAdapter);

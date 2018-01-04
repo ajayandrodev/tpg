@@ -1,5 +1,6 @@
 package com.cattechnologies.tpg.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cattechnologies.tpg.Activities.Dashboard;
+import com.cattechnologies.tpg.Adapters.MyExpandableadapter;
+import com.cattechnologies.tpg.Adapters.MyExpandableadapterSb;
 import com.cattechnologies.tpg.Adapters.ReportsExpandableListFeesPaidAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidListAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidSearchListAdapter;
@@ -52,6 +56,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -67,7 +72,7 @@ import android.support.v7.widget.SearchView;
  * Created by ajay kumar on 28-Oct-17.
  */
 
-public class ReportsFeesPaidFragment extends Fragment {
+public class ReportsFeesPaidFragment extends Fragment implements  ExpandableListView.OnChildClickListener {
 
 
     public static final String ARG_SECTION_TITLE = "section_number";
@@ -91,13 +96,21 @@ public class ReportsFeesPaidFragment extends Fragment {
     ReportsFeePaidSearch reportsFeePaidSearch;
     Button prev, next;
     EditText searchData;
-
+    LinearLayout layout;
     int current_page = 1;
     SearchView searchView;
     int i = 0;
     int totalC = 1;
     // int j = 1;
     int data;
+    String newText;
+
+    MyExpandableadapterSb adapter;
+    ExpandableListView myexpandable;
+    List<String> parent;
+    List<String> child;
+    HashMap<String, List<String>> bind_and_display;
+
 
     public ReportsFeesPaidFragment() {
     }
@@ -112,6 +125,15 @@ public class ReportsFeesPaidFragment extends Fragment {
         return fragment;
     }
 
+    public static Fragment newInstance(String sectionTitle, String userId, String type, String page, String effin, String date) {
+        ReportsFeesPaidFragment fragment = new ReportsFeesPaidFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_SECTION_TITLE, sectionTitle);
+        args.putString("app_uid", userId);
+        args.putString("acc_type", type);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -151,25 +173,31 @@ public class ReportsFeesPaidFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
-
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
         searchData = (EditText) getActivity().findViewById(R.id.search_paid);
+        progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
+        layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
+       // simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
+        userId = getArguments().getString("app_uid");
+        userType = getArguments().getString("acc_type");
+        mSubscriptions = new CompositeSubscription();
+        preferencesManager = new PreferencesManager();
+
         //searchView = (SearchView) getActivity().findViewById(R.id.search_paid);
 
 //        searchView.setQueryHint("Search Customer");
-        userId = getArguments().getString("app_uid");
-        userType = getArguments().getString("acc_type");
-        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
 
-        mSubscriptions = new CompositeSubscription();
-        progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
-        preferencesManager = new PreferencesManager();
+
         //reports = new ReportsFeePaidNew();
         loadData();
-        simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
-        listAdapter = new ReportsExpandableListFeesPaidAdapter(getActivity(), deptList);
-        simpleExpandableListView.setAdapter(listAdapter);
+        adapter = new MyExpandableadapterSb(getContext(), parent, bind_and_display);
+        // passing our current application context , parent data, and child data to the custom adapter class
+
+        myexpandable.setAdapter(adapter);
+        //setting the Expandable listview with our custom adapter, which populates the data inside the Expandable Listview.
+
+        myexpandable.setOnChildClickListener(this);
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -178,10 +206,16 @@ public class ReportsFeesPaidFragment extends Fragment {
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+
+        listAdapter = new ReportsExpandableListFeesPaidAdapter(getActivity(), deptList);
+        simpleExpandableListView.setAdapter(listAdapter);
+
         reports = new ReportsFeePaid();
         reportsFeePaidSort = new ReportsFeePaidSort();
         reportsFeePaidSearch = new ReportsFeePaidSearch();
         reports.setPage("1");
+        reportsFeePaidSearch.setPage("1");
+        reportsFeePaidSort.setPage("1");
         if (searchData.getText().toString().isEmpty()) {
             feePaidReportsData(userId, userType, reports.getPage());
 
@@ -223,79 +257,23 @@ public class ReportsFeesPaidFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String newText = editable.toString().toLowerCase();
+
+                newText = editable.toString().toLowerCase();
                 if (newText.isEmpty()) {
                     feePaidReportsData(userId, userType, reports.getPage());
+                    recyclerView.setVisibility(View.VISIBLE);
+                    prev.setVisibility(View.VISIBLE);
+                    next.setVisibility(View.VISIBLE);
+                } else if (!TextUtils.isEmpty(newText)) {
 
-                } else {
-                    searchReportItem(userId, userType, reports.getPage(), newText);
-
+                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    prev.setVisibility(View.VISIBLE);
+                    next.setVisibility(View.VISIBLE);
                 }
 
             }
         });
-        if (preferencesManager.getReportDetailUsername(getContext()) == null) {
-            data = 5;
-        } else {
-            data = preferencesManager.getReportDetailUsername(getContext()).length();
-            System.out.println("ReportsFeesPaidFragment.onActivityCreated" + data);
-        }
-
-        for (current_page = 0; current_page <= data; current_page++) {
-            final Button btn = new Button(getActivity());
-            int width = (int) getResources().getDimension(R.dimen.dim_35);
-            int hieght = (int) getResources().getDimension(R.dimen.dim_35);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
-            //  lp.setMargins(5, 5, 5, 5);
-            btn.setId(current_page);
-            btn.setText("" + (current_page + 1));
-            btn.setLayoutParams(lp);
-            layout.addView(btn);
-
-            final int index = current_page + 1;
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    reports = new ReportsFeePaid();
-                    reports.setPage(String.valueOf(index));
-                    System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                    feePaidReportsData(userId, userType, reports.getPage());
-
-
-                }
-            });
-            prev.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println("ReportsFeesPaidFragment.onClick===" + index);
-                    if (current_page < index) {
-                        current_page++;
-                        reports.setPage(String.valueOf(current_page));
-                    }
-                    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-
-                    feePaidReportsData(userId, userType, reports.getPage());
-
-
-                }
-            });
-            next.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println("ReportsFeesPaidFragment.onClick===" + index);
-                    if (current_page >= index) {
-                        current_page--;
-                        reports.setPage(String.valueOf(current_page));
-                    }
-                    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-
-                    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                    feePaidReportsData(userId, userType, reports.getPage());
-
-                }
-            });
-
-        }
 
 
         simpleExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -519,25 +497,100 @@ public class ReportsFeesPaidFragment extends Fragment {
             recyclerView.setAdapter(mAdapterSearch);
             mAdapterSearch.notifyDataSetChanged();
 
+            if (layout != null) {
+                layout.removeAllViews();
+            }
+            for (current_page = 0; current_page <= totalPages.length(); current_page++) {
+                final Button btn = new Button(getActivity());
+                int width = (int) getResources().getDimension(R.dimen.dim_35);
+                int hieght = (int) getResources().getDimension(R.dimen.dim_35);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
+                //  lp.setMargins(5, 5, 5, 5);
+                btn.setId(current_page);
+                btn.setText("" + (current_page + 1));
 
-            mAdapterSearch.setClickListener((view, position) -> {
-                final ReportsFeePaidSearchNew reports = reportsFeePaidNewList.get(position);
-                Dashboard activity = (Dashboard) view.getContext();
-                Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
-                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbursementType(),
-                        reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
-                        reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
-                FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.main_content, fragment)
-                        .addToBackStack(null)
-                        .commit();
-                activity.getSupportActionBar().setTitle("REPORTS");
-            });
+                btn.setLayoutParams(lp);
+                layout.addView(btn);
 
+                final int index = current_page + 1;
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //   reports = new ReportsFeePaid();
+                        reportsFeePaidSearch.setPage(String.valueOf(index));
+                        System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        prev.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+
+                    }
+                });
+                prev.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        System.out.println("ReportsFeesPaidFragment.onClick===" + index);
+                        if (current_page < index) {
+                            current_page++;
+                            reportsFeePaidSearch.setPage(String.valueOf(index));
+                        }
+                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+
+                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        prev.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+
+                    }
+                });
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        System.out.println("ReportsFeesPaidFragment.onClick===" + index);
+                        if (current_page >= index) {
+                            current_page--;
+                            reportsFeePaidSearch.setPage(String.valueOf(index));
+                        }
+                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+
+                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        prev.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+                    }
+                });
+
+
+                mAdapterSearch.setClickListener((view, position) -> {
+                    final ReportsFeePaidSearchNew reports = reportsFeePaidNewList.get(position);
+                    Dashboard activity = (Dashboard) view.getContext();
+                    Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
+                            reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
+                            , reports.getPrimarySsn(), reports.getDisbursementType(),
+                            reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
+                            reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
+                            , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.main_content, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                    activity.getSupportActionBar().setTitle("REPORTS");
+                });
+
+            }
+        } else if (response.getStatus().equalsIgnoreCase("fail")) {
+            showToast(response.getMessage());
+            recyclerView.setVisibility(View.GONE);
+            prev.setVisibility(View.GONE);
+            next.setVisibility(View.GONE);
+            layout.removeAllViews();
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+            next.setVisibility(View.VISIBLE);
         }
     }
 
@@ -590,7 +643,6 @@ public class ReportsFeesPaidFragment extends Fragment {
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
-            preferencesManager.saveReportDetailUserName(getContext(), totalPages);
             List<ReportsFeePaidNew> reportsFeePaidNewList = new ArrayList<>();
             for (int i = 0; i < response.getFeeReport_data().size(); i++) {
                 ReportsFeePaidNew reportsFeePaidNew = new ReportsFeePaidNew();
@@ -614,7 +666,70 @@ public class ReportsFeesPaidFragment extends Fragment {
             mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
+            if (layout != null) {
+                layout.removeAllViews();
+            }
+            for (current_page = 0; current_page <= totalPages.length(); current_page++) {
+                final Button btn = new Button(getActivity());
+                int width = (int) getResources().getDimension(R.dimen.dim_35);
+                int hieght = (int) getResources().getDimension(R.dimen.dim_35);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
+                //  lp.setMargins(5, 5, 5, 5);
+                btn.setId(current_page);
+                btn.setText("" + (current_page + 1));
+                btn.setLayoutParams(lp);
+                layout.addView(btn);
 
+                final int index = current_page + 1;
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //   reports = new ReportsFeePaid();
+                        reports.setPage(String.valueOf(index));
+                        System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                        feePaidReportsData(userId, userType, reports.getPage());
+                        recyclerView.setVisibility(View.VISIBLE);
+                        prev.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+
+                    }
+                });
+                prev.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        System.out.println("ReportsFeesPaidFragment.onClick===" + index);
+                        if (current_page < index) {
+                            current_page++;
+                            reports.setPage(String.valueOf(current_page));
+                        }
+                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+
+                        feePaidReportsData(userId, userType, reports.getPage());
+                        recyclerView.setVisibility(View.VISIBLE);
+                        prev.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+
+                    }
+                });
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        System.out.println("ReportsFeesPaidFragment.onClick===" + index);
+                        if (current_page >= index) {
+                            current_page--;
+                            reports.setPage(String.valueOf(current_page));
+                        }
+                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+
+                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                        feePaidReportsData(userId, userType, reports.getPage());
+                        recyclerView.setVisibility(View.VISIBLE);
+                        prev.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+                    }
+                });
+
+            }
 
             mAdapter.setClickListener((view, position) -> {
                 final ReportsFeePaidNew reports = reportsFeePaidNewList.get(position);
@@ -693,6 +808,40 @@ public class ReportsFeesPaidFragment extends Fragment {
         return groupPosition;
 
     }
+
+
+    @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        int gposition = groupPosition;
+        int cposition = childPosition;
+
+        Displayitemclicked(gposition, cposition);
+        //passing the integer value of grouposition and childposition to the above method when an item is clicked
+        return false;    }
+
+    private void Displayitemclicked(int gposition, int cposition) {
+
+            if (gposition == 0) {
+                switch (cposition) {
+                    case 0:
+                        Toast.makeText(getContext(), "All Offices", Toast.LENGTH_SHORT).show();
+
+
+                        break;
+                    case 1:
+                        Toast.makeText(getContext(), "Particular Offices", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }/* else if (gposition == 1) {
+            switch (cposition) {
+                case 0:
+                    Toast.makeText(getContext(), "Parrot", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(getContext(), "Dove", Toast.LENGTH_SHORT).show();
+                    break;
+            }*/
+        }
 
 
 }

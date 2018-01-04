@@ -30,8 +30,12 @@ import com.cattechnologies.tpg.Model.FeesPaidGroupInfo;
 import com.cattechnologies.tpg.Model.MySbWithEroInfo;
 import com.cattechnologies.tpg.Model.RecyclerData;
 import com.cattechnologies.tpg.Model.RemoveClickListner;
+import com.cattechnologies.tpg.Model.ReportParticulrFreePaid;
+import com.cattechnologies.tpg.Model.ReportParticulrFreePaidNew;
 import com.cattechnologies.tpg.Model.ReportsFeePaidNew;
 import com.cattechnologies.tpg.R;
+import com.cattechnologies.tpg.Utils.AppInternetStatus;
+import com.cattechnologies.tpg.Utils.NetworkUtil;
 import com.cattechnologies.tpg.Utils.PreferencesManager;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
@@ -42,6 +46,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by admin on 11/23/2017.
@@ -77,8 +85,10 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
     Button viewReport;
     Fragment fragment = null;
     PreferencesManager preferencesManager;
-
+    String userId, userType;
     FragmentManager fragmentManager;
+    CompositeSubscription mSubscriptions;
+
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
         ServiceBruoNewFragment fragment = new ServiceBruoNewFragment();
@@ -102,7 +112,6 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.service_buro_new, container, false);
-        preferencesManager = new PreferencesManager();
 
         return view;
     }
@@ -113,10 +122,13 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
         srTitle = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
         titulo.setText(srTitle);
+        userId = getArguments().getString("app_uid");
+        userType = getArguments().getString("acc_type");
         myexpandable = (ExpandableListView) getActivity().findViewById(R.id.theexpandables);
         bind_and_display = new HashMap<String, List<String>>();
         parent = new ArrayList<String>();
         child = new ArrayList<String>();
+        preferencesManager = new PreferencesManager();
 
         parent = Arrays.asList(getResources().getStringArray(R.array.Parent_head));
         //Adding string array element to the parent list
@@ -134,9 +146,10 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
         //anim.add("Tiger");
         // bind_and_display(Parent.get(0),anim);
         //so what happened now is "lion, tiger" is placed under heading "Animals"
+        mSubscriptions = new CompositeSubscription();
 
 
-     //   bind_and_display.put(parent.get(1), Arrays.asList(getResources().getStringArray(R.array.child_birds)));
+        //   bind_and_display.put(parent.get(1), Arrays.asList(getResources().getStringArray(R.array.child_birds)));
 
         adapter = new MyExpandableadapter(getContext(), parent, bind_and_display);
         // passing our current application context , parent data, and child data to the custom adapter class
@@ -166,43 +179,52 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
             @Override
             public void onClick(View view) {
                 title = getResources().getString(R.string.dashboard_fee_paid);
-                fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                        preferencesManager.getAccountType(getActivity()));
+
+                feePaidReportsParticularData(userId, userType, "1",
+                        preferencesManager.getParticularPerson(getContext()),
+                        "2018");
+
+              /*  fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                        preferencesManager.getAccountType(getActivity()), "1",
+                        preferencesManager.getParticularPerson(getContext()),
+                        "2018");
                 if (fragment != null) {
                     fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.main_content, fragment)
                             .addToBackStack(null)
-                            .commit();
+                            .commit();*/
                 }
-            }
+
         });
+
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                title = etTitle.getText().toString();
+            public void onClick(View v){
+            title = etTitle.getText().toString();
+            preferencesManager.setParticularPerson(getContext(), title);
 
-                //  final ArrayList<RecyclerData> myList = new ArrayList<RecyclerData>();
+            //  final ArrayList<RecyclerData> myList = new ArrayList<RecyclerData>();
 
              /*   RecyclerData mLog = new RecyclerData();
                 mLog.setTitle(title);
                 myList.add(mLog);*/
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                mRecyclerView.setLayoutManager(layoutManager);
-                mRecyclerView.setHasFixedSize(true);
-                mRecyclerAdapter = new SbiEroListDataAdapter(myList);
-                mRecyclerAdapter.newAddedData(0, title);
-                mRecyclerView.setAdapter(mRecyclerAdapter);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            mRecyclerView.setLayoutManager(layoutManager);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerAdapter = new SbiEroListDataAdapter(myList);
+            mRecyclerAdapter.newAddedData(0, title);
+            mRecyclerView.setAdapter(mRecyclerAdapter);
 
              /*   mRecyclerAdapter.notifyItemInserted(myList.size()-1);
                 mRecyclerAdapter.notifyDataSetChanged();*/
 
-                // mRecyclerAdapter.addItem(mLog);
+            // mRecyclerAdapter.addItem(mLog);
 
-                etTitle.setText("");
-                // etDescription.setText("");
-            }
+            etTitle.setText("");
+            // etDescription.setText("");
+        }
         });
       /*  simpleExpandableListViewThree.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -226,47 +248,76 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
                 return false;
             }
         });*/
-    }
+}
+
+    private void feePaidReportsParticularData(String userId, String userType, String page, String particularPerson,
+                                              String date) {
+
+        System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType);
+        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidParticularData
+                    (userId, userType, page, particularPerson, date)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(this::handleResponse, this::handleError));
 
 
-    private void loadData() {
+        } else {
+            showToast("Internet Connection Is Not Available");
 
-        addProductAccount("ERO", "SSN");
 
-    }
-
-    private int addProductAccount(String department, String product) {
-        int groupPosition = 0;
-
-        //check the hash map if the group already exists
-        MySbWithEroInfo headerInfo = subjectsAccount.get(department);
-        //add the group if doesn't exists
-        if (headerInfo == null) {
-            headerInfo = new MySbWithEroInfo();
-            headerInfo.setName(department);
-            subjectsAccount.put(department, headerInfo);
-            deptListAccount.add(headerInfo);
         }
-
-        //get the children for the group
-        ArrayList<EroInfo> productList = headerInfo.getProductList();
-        //size of the children list
-        int listSize = productList.size();
-        //add to the counter
-        listSize++;
-
-        //create a new child and add that to the group
-        EroInfo detailInfo = new EroInfo();
-        detailInfo.setName(product);
-       /* detailInfo.setName("All Offices");
-        detailInfo.setName("Particular Offices");*/
-        productList.add(detailInfo);
-        headerInfo.setProductList(productList);
-
-        //find the group position inside the list
-        groupPosition = deptListAccount.indexOf(headerInfo);
-        return groupPosition;
     }
+
+    private void showToast(String msg) {
+        Toast.makeText(getContext(), "" + msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private void handleError(Throwable throwable) {
+
+    }
+
+    private void handleResponse(ReportParticulrFreePaid response) {
+        System.out.println("ServiceBruoNewFragment.handleResponse==="+response.getFeeReport_data());
+        if (response.getStatus().equalsIgnoreCase("success")) {
+            // progressBar.setVisibility(View.GONE);
+            //showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
+            System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
+            preferencesManager.saveReportDetailUserName(getContext(), totalPages);
+            List<ReportParticulrFreePaidNew> reportsFeePaidNewList = new ArrayList<>();
+            for (int i = 0; i < response.getFeeReport_data().size(); i++) {
+                ReportParticulrFreePaidNew reportsFeePaidNew = new ReportParticulrFreePaidNew();
+                reportsFeePaidNew.setPrimaryFirstName(response.getFeeReport_data().get(i).getPrimaryFirstName());
+                reportsFeePaidNew.setPrimaryLastName(response.getFeeReport_data().get(i).getPrimaryLastName());
+                reportsFeePaidNew.setToTalSiteFeeCollected(response.getFeeReport_data().get(i).getToTalSiteFeeCollected());
+                reportsFeePaidNew.setPrimarySsn(response.getFeeReport_data().get(i).getPrimarySsn());
+                reportsFeePaidNew.setDisbursementType(response.getFeeReport_data().get(i).getDisbursementType());
+                reportsFeePaidNew.setRecordcreatedate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setPreparationFeesCollected(response.getFeeReport_data().get(i).getPreparationFeesCollected());
+                reportsFeePaidNew.setSiteEfFeesCollected(response.getFeeReport_data().get(i).getSiteEfFeesCollected());
+                reportsFeePaidNew.setOtherfees(response.getFeeReport_data().get(i).getOtherfees());
+                reportsFeePaidNew.setDocumentStorageFeesCollected(response.getFeeReport_data().get(i).
+                        getDocumentStorageFeesCollected());
+                reportsFeePaidNew.setToTalSiteFeeCollected(response.getFeeReport_data().get(i).getToTalSiteFeeCollected());
+                reportsFeePaidNewList.add(reportsFeePaidNew);
+                System.out.println("ReportsFeesPaidFragment.handleResponse===" + reportsFeePaidNewList);
+            }
+            fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                    preferencesManager.getAccountType(getActivity()), "1",
+                    preferencesManager.getParticularPerson(getContext()),
+                    "2018");
+            if (fragment != null) {
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+
+
+        }}
+
 
     @Override
     public void OnRemoveClick(int index) {
@@ -300,7 +351,7 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
                                 .addToBackStack(null)
                                 .commit();
 
-            }
+                    }
                     break;
                 case 1:
                     Toast.makeText(getContext(), "Particular Offices", Toast.LENGTH_SHORT).show();
@@ -316,10 +367,10 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
                     Toast.makeText(getContext(), "Dove", Toast.LENGTH_SHORT).show();
                     break;
             }*/
-        }
-
-
     }
+
+
+}
 
 
 
