@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cattechnologies.tpg.Activities.Dashboard;
+import com.cattechnologies.tpg.Adapters.MyExpandableadapter;
 import com.cattechnologies.tpg.Adapters.MySbWithErosInfoAdapter;
 import com.cattechnologies.tpg.Adapters.SbiEroListDataAdapter;
 import com.cattechnologies.tpg.Model.EroInfo;
@@ -35,8 +36,10 @@ import com.cattechnologies.tpg.Utils.PreferencesManager;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -44,7 +47,13 @@ import java.util.List;
  * Created by admin on 11/23/2017.
  */
 
-public class ServiceBruoNewFragment extends Fragment implements RemoveClickListner {
+public class ServiceBruoNewFragment extends Fragment implements RemoveClickListner, ExpandableListView.OnChildClickListener {
+
+    MyExpandableadapter adapter;
+    ExpandableListView myexpandable;
+    List<String> parent;
+    List<String> child;
+    HashMap<String, List<String>> bind_and_display;
 
 
     ArrayList<MySbWithEroInfo> deptListAccount = new ArrayList<MySbWithEroInfo>();
@@ -104,14 +113,46 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
         srTitle = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
         titulo.setText(srTitle);
+        myexpandable = (ExpandableListView) getActivity().findViewById(R.id.theexpandables);
+        bind_and_display = new HashMap<String, List<String>>();
+        parent = new ArrayList<String>();
+        child = new ArrayList<String>();
 
-        loadData();
+        parent = Arrays.asList(getResources().getStringArray(R.array.Parent_head));
+        //Adding string array element to the parent list
+        // you can also add item one by one like the following
+        //parent.add("Animals")
+        //parent.add("Birds")
+
+
+        bind_and_display.put(parent.get(0), Arrays.asList(getResources().getStringArray(R.array.Child_animals)));
+
+        // Here we bind child list data under the particular heading
+        // you can also bind data like this
+        //List<String> anim= new ArrayList<String>();
+        // anim.add("Lion");
+        //anim.add("Tiger");
+        // bind_and_display(Parent.get(0),anim);
+        //so what happened now is "lion, tiger" is placed under heading "Animals"
+
+
+     //   bind_and_display.put(parent.get(1), Arrays.asList(getResources().getStringArray(R.array.child_birds)));
+
+        adapter = new MyExpandableadapter(getContext(), parent, bind_and_display);
+        // passing our current application context , parent data, and child data to the custom adapter class
+
+        myexpandable.setAdapter(adapter);
+        //setting the Expandable listview with our custom adapter, which populates the data inside the Expandable Listview.
+
+        myexpandable.setOnChildClickListener(this);
+        //your class should implemet ExpandableListView.OnChildClickListener
+        //  loadData();
 
         relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.ero_list_data_layout);
-        simpleExpandableListViewThree = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView_one);
+        // simpleExpandableListViewThree = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView_one);
         sbEro = (TextView) getActivity().findViewById(R.id.selected_type_sb);
-        accountListAdapter = new MySbWithErosInfoAdapter(getContext(), deptListAccount);
-        simpleExpandableListViewThree.setAdapter(accountListAdapter);
+        /*accountListAdapter = new MySbWithErosInfoAdapter(getContext(), deptListAccount);
+        simpleExpandableListViewThree.setAdapter(accountListAdapter);*/
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         fastScroller = (FastScroller) getActivity().findViewById(R.id.fast_scroller);
         viewReport = (Button) getActivity().findViewById(R.id.view_report);
@@ -163,7 +204,7 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
                 // etDescription.setText("");
             }
         });
-        simpleExpandableListViewThree.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+      /*  simpleExpandableListViewThree.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
@@ -184,7 +225,7 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
 
                 return false;
             }
-        });
+        });*/
     }
 
 
@@ -232,4 +273,53 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
         myList.remove(index);
         mRecyclerAdapter.notifyData(myList);
     }
-}
+
+    @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        int gposition = groupPosition;
+        int cposition = childPosition;
+
+        Displayitemclicked(gposition, cposition);
+        //passing the integer value of grouposition and childposition to the above method when an item is clicked
+        return false;
+    }
+
+    private void Displayitemclicked(int gposition, int cposition) {
+        //Display a message with which item is clicked.
+        if (gposition == 0) {
+            switch (cposition) {
+                case 0:
+                    Toast.makeText(getContext(), "All Offices", Toast.LENGTH_SHORT).show();
+                    title = getResources().getString(R.string.dashboard_fee_paid);
+                    fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                            preferencesManager.getAccountType(getActivity()));
+                    if (fragment != null) {
+                        fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.main_content, fragment)
+                                .addToBackStack(null)
+                                .commit();
+
+            }
+                    break;
+                case 1:
+                    Toast.makeText(getContext(), "Particular Offices", Toast.LENGTH_SHORT).show();
+                    relativeLayout.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }/* else if (gposition == 1) {
+            switch (cposition) {
+                case 0:
+                    Toast.makeText(getContext(), "Parrot", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(getContext(), "Dove", Toast.LENGTH_SHORT).show();
+                    break;
+            }*/
+        }
+
+
+    }
+
+
+

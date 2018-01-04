@@ -12,6 +12,8 @@ import com.cattechnologies.tpg.Model.LoginInfo;
 import com.cattechnologies.tpg.Model.ProfileGroupData;
 import com.cattechnologies.tpg.Model.ProfileGroupInfo;
 import com.cattechnologies.tpg.Model.ReportsFeePaid;
+import com.cattechnologies.tpg.Model.ReportsFeePaidSearch;
+import com.cattechnologies.tpg.Model.ReportsFeePaidSort;
 import com.cattechnologies.tpg.Model.Response;
 
 import retrofit2.Call;
@@ -80,6 +82,11 @@ public interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("search2")
-    Observable<ReportsFeePaid> getFeePaidDataSearch(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
-                                                    @Field("page") String page, @Field("search") String search);
+    Observable<ReportsFeePaidSearch> getFeePaidDataSearch(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
+                                                          @Field("page") String page, @Field("search") String search);
+
+    @FormUrlEncoded
+    @POST("sortFeepaid")
+    Observable<ReportsFeePaidSort> getFeePaidDataSort(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
+                                                      @Field("page") String page, @Field("sort") String search);
 }

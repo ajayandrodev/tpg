@@ -21,6 +21,9 @@ public class ReportsFeePaid implements Parcelable{
     @SerializedName("message")
     private String message;
 
+    @SerializedName("page")
+    private String page;
+
     @SerializedName("Total No of Pages")
     private String TotalNoofPages;
 
@@ -62,6 +65,13 @@ public class ReportsFeePaid implements Parcelable{
     public ReportsFeePaid() {
     }
 
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
 
     @Override
     public int describeContents() {
@@ -72,6 +82,7 @@ public class ReportsFeePaid implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.status);
         dest.writeString(this.message);
+        dest.writeString(this.page);
         dest.writeString(this.TotalNoofPages);
         dest.writeTypedList(this.FeeReport_data);
     }
@@ -79,6 +90,7 @@ public class ReportsFeePaid implements Parcelable{
     protected ReportsFeePaid(Parcel in) {
         this.status = in.readString();
         this.message = in.readString();
+        this.page = in.readString();
         this.TotalNoofPages = in.readString();
         this.FeeReport_data = in.createTypedArrayList(ReportsFeePaidNew.CREATOR);
     }

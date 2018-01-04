@@ -6,10 +6,10 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by admin on 12/26/2017.
+ * Created by admin on 1/4/2018.
  */
 
-public class ReportsFeePaidNew implements Parcelable {
+public class ReportsFeePaidSortNew implements Parcelable {
 
     @SerializedName("Id")
     private String Id;
@@ -72,20 +72,6 @@ public class ReportsFeePaidNew implements Parcelable {
 
     @SerializedName("Row")
     private String Row;
-
-
-
-    public ReportsFeePaidNew() {
-    }
-
-
-    public String getOtherfees() {
-        return otherfees;
-    }
-
-    public void setOtherfees(String otherfees) {
-        this.otherfees = otherfees;
-    }
 
     public String getId() {
         return Id;
@@ -207,6 +193,14 @@ public class ReportsFeePaidNew implements Parcelable {
         DocumentStorageFeesCollected = documentStorageFeesCollected;
     }
 
+    public String getOtherfees() {
+        return otherfees;
+    }
+
+    public void setOtherfees(String otherfees) {
+        this.otherfees = otherfees;
+    }
+
     public String getToTalSiteFeeCollected() {
         return ToTalSiteFeeCollected;
     }
@@ -247,6 +241,45 @@ public class ReportsFeePaidNew implements Parcelable {
         Row = row;
     }
 
+    public ReportsFeePaidSortNew() {
+
+    }
+
+    protected ReportsFeePaidSortNew(Parcel in) {
+        Id = in.readString();
+        recordcreatedate = in.readString();
+        IrsAcknowledgementDate = in.readString();
+        IrsFundingDate = in.readString();
+        StateFundingDate = in.readString();
+        masterefin = in.readString();
+        Efin = in.readString();
+        PrimaryFirstName = in.readString();
+        PrimaryLastName = in.readString();
+        PrimarySsn = in.readString();
+        TransmitterEfFeesCollected = in.readString();
+        ServiceBureauFeeCollected = in.readString();
+        SiteEfFeesCollected = in.readString();
+        PreparationFeesCollected = in.readString();
+        DocumentStorageFeesCollected = in.readString();
+        otherfees = in.readString();
+        ToTalSiteFeeCollected = in.readString();
+        TransmitterName = in.readString();
+        DisbursementType = in.readString();
+        SBFeesDue = in.readString();
+        Row = in.readString();
+    }
+
+    public static final Creator<ReportsFeePaidSortNew> CREATOR = new Creator<ReportsFeePaidSortNew>() {
+        @Override
+        public ReportsFeePaidSortNew createFromParcel(Parcel in) {
+            return new ReportsFeePaidSortNew(in);
+        }
+
+        @Override
+        public ReportsFeePaidSortNew[] newArray(int size) {
+            return new ReportsFeePaidSortNew[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -254,63 +287,27 @@ public class ReportsFeePaidNew implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.Id);
-        dest.writeString(this.recordcreatedate);
-        dest.writeString(this.IrsAcknowledgementDate);
-        dest.writeString(this.IrsFundingDate);
-        dest.writeString(this.StateFundingDate);
-        dest.writeString(this.masterefin);
-        dest.writeString(this.Efin);
-        dest.writeString(this.PrimaryFirstName);
-        dest.writeString(this.PrimaryLastName);
-        dest.writeString(this.PrimarySsn);
-        dest.writeString(this.TransmitterEfFeesCollected);
-        dest.writeString(this.ServiceBureauFeeCollected);
-        dest.writeString(this.SiteEfFeesCollected);
-        dest.writeString(this.PreparationFeesCollected);
-        dest.writeString(this.DocumentStorageFeesCollected);
-        dest.writeString(this.otherfees);
-        dest.writeString(this.ToTalSiteFeeCollected);
-        dest.writeString(this.TransmitterName);
-        dest.writeString(this.DisbursementType);
-        dest.writeString(this.SBFeesDue);
-        dest.writeString(this.Row);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(Id);
+        parcel.writeString(recordcreatedate);
+        parcel.writeString(IrsAcknowledgementDate);
+        parcel.writeString(IrsFundingDate);
+        parcel.writeString(StateFundingDate);
+        parcel.writeString(masterefin);
+        parcel.writeString(Efin);
+        parcel.writeString(PrimaryFirstName);
+        parcel.writeString(PrimaryLastName);
+        parcel.writeString(PrimarySsn);
+        parcel.writeString(TransmitterEfFeesCollected);
+        parcel.writeString(ServiceBureauFeeCollected);
+        parcel.writeString(SiteEfFeesCollected);
+        parcel.writeString(PreparationFeesCollected);
+        parcel.writeString(DocumentStorageFeesCollected);
+        parcel.writeString(otherfees);
+        parcel.writeString(ToTalSiteFeeCollected);
+        parcel.writeString(TransmitterName);
+        parcel.writeString(DisbursementType);
+        parcel.writeString(SBFeesDue);
+        parcel.writeString(Row);
     }
-
-    protected ReportsFeePaidNew(Parcel in) {
-        this.Id = in.readString();
-        this.recordcreatedate = in.readString();
-        this.IrsAcknowledgementDate = in.readString();
-        this.IrsFundingDate = in.readString();
-        this.StateFundingDate = in.readString();
-        this.masterefin = in.readString();
-        this.Efin = in.readString();
-        this.PrimaryFirstName = in.readString();
-        this.PrimaryLastName = in.readString();
-        this.PrimarySsn = in.readString();
-        this.TransmitterEfFeesCollected = in.readString();
-        this.ServiceBureauFeeCollected = in.readString();
-        this.SiteEfFeesCollected = in.readString();
-        this.PreparationFeesCollected = in.readString();
-        this.DocumentStorageFeesCollected = in.readString();
-        this.otherfees = in.readString();
-        this.ToTalSiteFeeCollected = in.readString();
-        this.TransmitterName = in.readString();
-        this.DisbursementType = in.readString();
-        this.SBFeesDue = in.readString();
-        this.Row = in.readString();
-    }
-
-    public static final Creator<ReportsFeePaidNew> CREATOR = new Creator<ReportsFeePaidNew>() {
-        @Override
-        public ReportsFeePaidNew createFromParcel(Parcel source) {
-            return new ReportsFeePaidNew(source);
-        }
-
-        @Override
-        public ReportsFeePaidNew[] newArray(int size) {
-            return new ReportsFeePaidNew[size];
-        }
-    };
 }
