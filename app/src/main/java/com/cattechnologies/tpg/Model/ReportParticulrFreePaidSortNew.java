@@ -6,10 +6,10 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by admin on 1/4/2018.
+ * Created by admin on 1/6/2018.
  */
 
-public class ReportParticulrFreePaidNew implements Parcelable {
+public class ReportParticulrFreePaidSortNew implements Parcelable {
 
     @SerializedName("Id")
     private String Id;
@@ -241,11 +241,10 @@ public class ReportParticulrFreePaidNew implements Parcelable {
         Row = row;
     }
 
-    public ReportParticulrFreePaidNew() {
+    public ReportParticulrFreePaidSortNew(){
+
     }
-
-
-    protected ReportParticulrFreePaidNew(Parcel in) {
+    public ReportParticulrFreePaidSortNew(Parcel in) {
         Id = in.readString();
         recordcreatedate = in.readString();
         IrsAcknowledgementDate = in.readString();
@@ -299,15 +298,15 @@ public class ReportParticulrFreePaidNew implements Parcelable {
         return 0;
     }
 
-    public static final Creator<ReportParticulrFreePaidNew> CREATOR = new Creator<ReportParticulrFreePaidNew>() {
+    public static final Creator<ReportParticulrFreePaidSortNew> CREATOR = new Creator<ReportParticulrFreePaidSortNew>() {
         @Override
-        public ReportParticulrFreePaidNew createFromParcel(Parcel in) {
-            return new ReportParticulrFreePaidNew(in);
+        public ReportParticulrFreePaidSortNew createFromParcel(Parcel in) {
+            return new ReportParticulrFreePaidSortNew(in);
         }
 
         @Override
-        public ReportParticulrFreePaidNew[] newArray(int size) {
-            return new ReportParticulrFreePaidNew[size];
+        public ReportParticulrFreePaidSortNew[] newArray(int size) {
+            return new ReportParticulrFreePaidSortNew[size];
         }
     };
 }

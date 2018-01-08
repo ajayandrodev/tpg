@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
@@ -69,7 +70,7 @@ public class MyExpandableadapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         String parent_text = (String) getGroup(groupPosition);
 
         LayoutInflater infalInflater = (LayoutInflater) this.mcontext
@@ -77,9 +78,15 @@ public class MyExpandableadapter extends BaseExpandableListAdapter {
         convertView = infalInflater.inflate(R.layout.parent_view, null);
 
 
-        TextView textparent = (TextView) convertView.findViewById(R.id.parenttext);
+        TextView textparent = (TextView) convertView.findViewById(R.id.parent_sb);
         textparent.setText(parent_text);
+        ImageView img = (ImageView) convertView.findViewById(R.id.imag_arrow);
 
+        if (isLastChild) {
+            img.setImageResource(R.drawable.up_arrow_icon);
+        } else {
+            img.setImageResource(R.drawable.down_arrow_icon);
+        }
         return convertView;
     }
 
@@ -91,7 +98,7 @@ public class MyExpandableadapter extends BaseExpandableListAdapter {
         LayoutInflater infalInflater = (LayoutInflater) this.mcontext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = infalInflater.inflate(R.layout.child_view, null);
-        TextView textchild = (TextView) convertView.findViewById(R.id.childtext);
+        TextView textchild = (TextView) convertView.findViewById(R.id.child_sb);
         textchild.setText(child_text);
         return convertView;
     }

@@ -1,20 +1,19 @@
 package com.cattechnologies.tpg.Fragments;
 
+import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,14 +22,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cattechnologies.tpg.Activities.Dashboard;
-import com.cattechnologies.tpg.Adapters.MyExpandableadapter;
 import com.cattechnologies.tpg.Adapters.MyExpandableadapterSb;
 import com.cattechnologies.tpg.Adapters.ReportPerticulaSortListAdapter;
 import com.cattechnologies.tpg.Adapters.ReportPerticularListAdapter;
@@ -38,18 +35,14 @@ import com.cattechnologies.tpg.Adapters.ReportsExpandableListFeesPaidAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidListAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidSearchListAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidSortListAdapter;
-import com.cattechnologies.tpg.Model.FeesPaidChildInfo;
-import com.cattechnologies.tpg.Model.FeesPaidGroupInfo;
 import com.cattechnologies.tpg.Model.ReportParticulrFreePaid;
 import com.cattechnologies.tpg.Model.ReportParticulrFreePaidNew;
 import com.cattechnologies.tpg.Model.ReportParticulrFreePaidSort;
 import com.cattechnologies.tpg.Model.ReportParticulrFreePaidSortNew;
 import com.cattechnologies.tpg.Model.ReportsFeePaid;
-import com.cattechnologies.tpg.Model.ReportsFeePaidNew;
 import com.cattechnologies.tpg.Model.ReportsFeePaidSearch;
 import com.cattechnologies.tpg.Model.ReportsFeePaidSearchNew;
 import com.cattechnologies.tpg.Model.ReportsFeePaidSort;
-import com.cattechnologies.tpg.Model.ReportsFeePaidSortNew;
 import com.cattechnologies.tpg.Model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.Utils.AppInternetStatus;
@@ -61,26 +54,19 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-import android.support.v7.widget.SearchView;
-
 /**
- * Created by ajay kumar on 28-Oct-17.
+ * Created by admin on 1/6/2018.
  */
 
-public class ReportsFeesPaidFragment extends Fragment implements ExpandableListView.OnChildClickListener {
-
+public class ParticularOfficeSbFragment extends Fragment implements ExpandableListView.OnChildClickListener {
 
     public static final String ARG_SECTION_TITLE = "section_number";
     RecyclerView recyclerView;
@@ -109,10 +95,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     Button prev, next;
     EditText searchData;
     LinearLayout layout;
-    int current_page,current_page_sort=1,current_page_search=1,current_page_mock;
+    int current_page, current_page_mock, current_page_search = 1, current_page_sort = 1;
     SearchView searchView;
-    String totalPages;
-    static int currentPage;
     int i = 0;
     int totalC = 1;
     // int j = 1;
@@ -127,23 +111,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
     String sort;
 
-    Button btn;
-
-    public ReportsFeesPaidFragment() {
-    }
-
-    public static Fragment newInstance(String sectionTitle, String userId, String type) {
-        ReportsFeesPaidFragment fragment = new ReportsFeesPaidFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_SECTION_TITLE, sectionTitle);
-        args.putString("app_uid", userId);
-        args.putString("acc_type", type);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     public static Fragment newInstance(String sectionTitle, String userId, String type, String page, String effin) {
-        ReportsFeesPaidFragment fragment = new ReportsFeesPaidFragment();
+        ParticularOfficeSbFragment fragment = new ParticularOfficeSbFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("app_uid", userId);
@@ -165,30 +134,9 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.reports_fragment, container, false);
+        View view = inflater.inflate(R.layout.reports_fragment_particular, container, false);
 
         return view;
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((Dashboard) getActivity()).setTitle("REPORTS");
-
-        if (efinData == null) {
-            feePaidReportsData(userId, userType, reports.getPage());
-
-        }
-
-        //  loadData();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ((Dashboard) getActivity()).setTitle("REPORTS");
-
     }
 
     @Override
@@ -217,11 +165,9 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         parent = Arrays.asList(getResources().getStringArray(R.array.Parent_Head_Report_Fees_Paid));
         bind_and_display.put(parent.get(0), Arrays.asList(getResources().getStringArray(R.array.child_report_feepaid)));
 
-        adapter = new MyExpandableadapterSb(getContext(), parent, bind_and_display);
+        adapter = new MyExpandableadapterSb(getActivity(), parent, bind_and_display);
         myexpandable.setAdapter(adapter);
         myexpandable.setOnChildClickListener(this);
-
-
         reports = new ReportsFeePaid();
         reportsFeePaidSort = new ReportsFeePaidSort();
         reportsFeePaidSearch = new ReportsFeePaidSearch();
@@ -232,11 +178,12 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         reportsFeePaidSort.setPage("1");
         reportParticulrFreePaid.setPage(pageEfin);
         reportParticulrFreePaidSort.setPage(pageEfin);
+        // particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
         if (layout != null) {
             layout.removeAllViews();
         }
         if (searchData.getText().toString().isEmpty()) {
-            feePaidReportsData(userId, userType, reports.getPage());
+            particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
 
 
         }
@@ -268,7 +215,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
                 newText = editable.toString().toLowerCase();
                 if (newText.isEmpty()) {
-                    feePaidReportsData(userId, userType, reports.getPage());
+                    particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
                     recyclerView.setVisibility(View.VISIBLE);
                     prev.setVisibility(View.VISIBLE);
                     next.setVisibility(View.VISIBLE);
@@ -292,14 +239,12 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
 
+
     }
 
-
-
-    private void searchReportItem(String userId, String userType, String page, String searchText) {
-        System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType);
+    private void searchReportItem(String userId, String userType, String page, String newText) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
-            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidDataSearch(userId, userType, page, searchText)
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidDataSearch(userId, userType, page, newText)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
@@ -328,7 +273,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             if (layout != null) {
                 layout.removeAllViews();
             }
-            int totalPage=Integer.parseInt(totalPages);
+            int totalPage = Integer.parseInt(totalPages);
             for (current_page = 0; current_page < totalPage; current_page++) {
                 final Button btn = new Button(getActivity());
                 int width = (int) getResources().getDimension(R.dimen.dim_40);
@@ -340,12 +285,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 btn.setLayoutParams(lp);
                 layout.addView(btn);
 
-
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //   reports = new ReportsFeePaid();
-                      ///  final int index = current_page_search + 1;
                         String currentBtnText = btn.getText().toString();
                         current_page_mock = Integer.parseInt(currentBtnText);
                         final int index = current_page_search;
@@ -361,16 +304,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 prev.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_search);
-
-                            if (current_page_search>1&&totalPage >= current_page_search) {
-                                current_page_search = current_page_search - 1;
-                                reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
-                            }
-
-
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-
+                        if (current_page_search > 1 && totalPage >= current_page_search) {
+                            current_page_search = current_page_search - 1;
+                            reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
+                        }
                         searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
@@ -383,12 +320,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     public void onClick(View view) {
                         System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_search);
                         if (current_page_search < totalPage) {
-                            current_page_search = current_page_search+1;
+                            current_page_search = current_page_search + 1;
                             reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
                         }
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
 
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
                         searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
@@ -400,7 +335,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 mAdapterSearch.setClickListener((view, position) -> {
                     final ReportsFeePaidSearchNew reports = reportsFeePaidNewList.get(position);
                     Dashboard activity = (Dashboard) view.getContext();
-                    Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
+                    android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                             reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                             , reports.getPrimarySsn(), reports.getDisbursementType(),
                             reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
@@ -429,11 +364,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         }
     }
 
-
-    private void feePaidReportsData(String userId, String userType, String page) {
-        System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType);
+    private void particularReportData(String userId, String userType, String page, String efinData) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
-            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidData(userId, userType, page)
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidParticularData
+                    (userId, userType, page, efinData)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
@@ -444,8 +378,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
 
         }
+    }
 
-
+    private void showToast(String msg) {
+        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
     }
 
     private void handleError(Throwable error) {
@@ -471,22 +407,21 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
     }
 
-    private void handleResponse(ReportsFeePaid response) {
-
+    private void handleResponse(ReportParticulrFreePaid response) {
+        System.out.println("ServiceBruoNewFragment.handleResponse===" + response.getFeeReport_data());
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
-            List<ReportsFeePaidNew> reportsFeePaidNewList = response.getFeeReport_data();
+            List<ReportParticulrFreePaidNew> reportsFeePaidNewList = response.getFeeReport_data();
 
-            mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsFeePaidNewList, title);
-            recyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
+            mAdapterParticularList = new ReportPerticularListAdapter(getActivity(), reportsFeePaidNewList, title);
+            recyclerView.setAdapter(mAdapterParticularList);
+            mAdapterParticularList.notifyDataSetChanged();
             if (layout != null) {
                 layout.removeAllViews();
             }
-            int totalPage=Integer.parseInt(totalPages);
+            int totalPage = Integer.parseInt(totalPages);
             for (current_page = 0; current_page < totalPage; current_page++) {
                 final Button btn = new Button(getActivity());
                 int width = (int) getResources().getDimension(R.dimen.dim_40);
@@ -502,72 +437,54 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //   reports = new ReportsFeePaid()
+                        //   reports = new ReportsFeePaid();
                         current_page_mock = Integer.parseInt(btn.getText().toString());
-                        final int index = current_page_mock;
-                        reports.setPage(String.valueOf(index));
-                        System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                        feePaidReportsData(userId, userType, reports.getPage());
+                        reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
+                        System.out.println("ReportsFeesPaidFragment.onClick" + current_page_mock);
+                        particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
 
                     }
                 });
+                prev.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_mock);
+                        if (current_page_mock > 1 && current_page_mock < totalPage) {
+                            current_page_mock--;
+                            reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
+                        }
+                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+
+                        particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        prev.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+
+                    }
+                });
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (current_page > current_page_mock) {
+                            current_page_mock++;
+                            reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
+                        }
+                        particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        prev.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+                    }
+                });
 
             }
-          //  currentPage=totalPage;
-            prev.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                  //  System.out.println("ReportsFeesPaidFragment.onClick===" + index);
-                    if (current_page_mock <= totalPage) {
-
-
-                        if(current_page_mock<=1){
-
-                            reports.setPage(String.valueOf(1));
-                        }
-                        else{
-                            current_page_mock= current_page_mock-1;
-                           // current_page_mock= currentPage-1;
-                            reports.setPage(String.valueOf(current_page_mock));
-                        }
-
-                    }
-                    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                    feePaidReportsData(userId, userType, reports.getPage());
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
-
-                }
-            });
-            next.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                 //   System.out.println("ReportsFeesPaidFragment.onClick===" + index);
-                    if (current_page_mock < totalPage) {
-                        current_page_mock++;
-                        reports.setPage(String.valueOf(current_page_mock));
-
-                    }
-                    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                    feePaidReportsData(userId, userType, reports.getPage());
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
-                    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-
-                }
-            });
-
-
-            mAdapter.setClickListener((view, position) -> {
-                final ReportsFeePaidNew reports = reportsFeePaidNewList.get(position);
+            mAdapterParticularList.setClickListener((view, position) -> {
+                final ReportParticulrFreePaidNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
-                Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
+                android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
@@ -584,17 +501,11 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
 
         }
-    }
-
-
-    private void showToast(String msg) {
-        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
 
     }
-
 
     @Override
-    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+    public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
         int cposition = childPosition;
 
@@ -615,7 +526,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     sort = "disbursment_date";
                     System.out.println("ReportsFeesPaidFragment.Displayitemclicked" + efinData);
 
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                    particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
 
 
                     parentList.collapseGroup(0);
@@ -626,12 +537,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 case 1:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "ssn";
-                  /*  if (efinData != null) {
-                        particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
 
-
-                    } else {*/
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                    particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
 
 
                     parentList.collapseGroup(0);
@@ -641,8 +548,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "lastname";
 
-
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                    particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
 
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
@@ -651,7 +557,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "product_type";
 
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                    particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
 
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
@@ -660,11 +566,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         }
     }
 
-/*
-    private void particularOfficeSort(String userId, String userType, String pageEfin, String efinData, String sort) {
+    private void particularOfficeSort(String userId, String userType, String page, String efinData, String sort) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidParticularDataSort
-                    (userId, userType, pageEfin, efinData, sort)
+                    (userId, userType, page, efinData, sort)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
@@ -676,16 +581,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
         }
     }
-*/
 
-/*
     private void handleResponse(ReportParticulrFreePaidSort response) {
         System.out.println("ServiceBruoNewFragment.handleResponse===" + response.getFeeReport_data());
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
             List<ReportParticulrFreePaidSortNew> reportsFeePaidNewList = response.getFeeReport_data();
 
             mAdapterParticularSortList = new ReportPerticulaSortListAdapter(getActivity(), reportsFeePaidNewList, title);
@@ -694,11 +596,12 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             if (layout != null) {
                 layout.removeAllViews();
             }
-            int totalPage=Integer.parseInt(totalPages);
+            int totalPage = Integer.parseInt(totalPages);
+
             for (current_page = 0; current_page < totalPage; current_page++) {
                 final Button btn = new Button(getActivity());
-                int width = (int) getResources().getDimension(R.dimen.dim_40);
-                int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                int width = (int) getResources().getDimension(R.dimen.dim_35);
+                int hieght = (int) getResources().getDimension(R.dimen.dim_35);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
                 //  lp.setMargins(5, 5, 5, 5);
                 btn.setId(current_page);
@@ -706,13 +609,12 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 btn.setLayoutParams(lp);
                 layout.addView(btn);
 
-                final int index = current_page + 1;
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //   reports = new ReportsFeePaid();
+                        current_page_sort = Integer.parseInt(btn.getText().toString());
+                        final int index = current_page_sort;
                         reportParticulrFreePaidSort.setPage(String.valueOf(index));
-                        System.out.println("ReportsFeesPaidFragment.onClick" + index);
                         particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
@@ -723,12 +625,11 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 prev.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        System.out.println("ReportsFeesPaidFragment.onClick===" + index);
-                        if (current_page <=index) {
-                            current_page--;
-                            reportParticulrFreePaidSort.setPage(String.valueOf(current_page));
+                        System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                        if (current_page_sort > 1 && current_page_sort <= totalPage) {
+                            current_page_sort = current_page_sort - 1;
+                            reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
                         }
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
 
                         particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
                         recyclerView.setVisibility(View.VISIBLE);
@@ -740,9 +641,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (current_page >= index) {
-                            current_page++;
-                            reportParticulrFreePaidSort.setPage(String.valueOf(current_page));
+                        System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                        if (current_page_sort < totalPage) {
+                            current_page_sort = current_page_sort + 1;
+                            reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
                         }
                         particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
                         recyclerView.setVisibility(View.VISIBLE);
@@ -756,7 +658,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             mAdapterParticularSortList.setClickListener((view, position) -> {
                 final ReportParticulrFreePaidSortNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
-                Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
+                android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
@@ -773,126 +675,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
 
         }
-    }
-*/
-
-    private void sortReportItem(String userId, String userType, String page, String type) {
-        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
-            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidDataSort
-                    (userId, userType, page, type)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.newThread())
-                    .subscribe(this::handleResponseSort, this::handleError));
-
-
-        } else {
-            showToast("Internet Connection Is Not Available");
-
-
-        }
 
     }
-
-    private void handleResponseSort(ReportsFeePaidSort response) {
-        if (response.getStatus().equalsIgnoreCase("success")) {
-            progressBar.setVisibility(View.GONE);
-            //showToast(response.getMessage());
-            String totalPages = response.getTotalNoofPages();
-            List<ReportsFeePaidSortNew> reportsFeePaidNewList = response.getFeeReport_data();
-
-            mAdapterSort = new ReportsFeesPaidSortListAdapter(getActivity(), reportsFeePaidNewList, title);
-            recyclerView.setAdapter(mAdapterSort);
-            mAdapterSort.notifyDataSetChanged();
-            if (layout != null) {
-                layout.removeAllViews();
-            }
-            int totalPage=Integer.parseInt(totalPages);
-            for (current_page = 0; current_page < totalPage; current_page++) {
-                final Button btn = new Button(getActivity());
-                int width = (int) getResources().getDimension(R.dimen.dim_40);
-                int hieght = (int) getResources().getDimension(R.dimen.dim_40);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
-                //  lp.setMargins(5, 5, 5, 5);
-                btn.setId(current_page);
-                btn.setText("" + (current_page + 1));
-                btn.setLayoutParams(lp);
-                layout.addView(btn);
-
-
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //   reports = new ReportsFeePaid();
-                        current_page_sort = Integer.parseInt(btn.getText().toString());
-                        final int index = current_page_sort;
-                        reportsFeePaidSort.setPage(String.valueOf(index));
-                        System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        prev.setVisibility(View.VISIBLE);
-                        next.setVisibility(View.VISIBLE);
-
-                    }
-                });
-                prev.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
-                        if (current_page_sort>1 && current_page_sort <= totalPage) {
-                            current_page_sort = current_page_sort-1;
-                            reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
-                        }
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        prev.setVisibility(View.VISIBLE);
-                        next.setVisibility(View.VISIBLE);
-
-                    }
-                });
-                next.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
-                        if (current_page_sort < totalPage) {
-                            current_page_sort = current_page_sort+1;
-                            reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
-                        }
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        prev.setVisibility(View.VISIBLE);
-                        next.setVisibility(View.VISIBLE);
-                    }
-                });
-
-            }
-
-
-            mAdapterSort.setClickListener((view, position) -> {
-                final ReportsFeePaidSortNew reports = reportsFeePaidNewList.get(position);
-                Dashboard activity = (Dashboard) view.getContext();
-                Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
-                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbursementType(),
-                        reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
-                        reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
-                FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.main_content, fragment)
-                        .addToBackStack(null)
-                        .commit();
-                activity.getSupportActionBar().setTitle("REPORTS");
-            });
-
-        }
-
-    }
-
-
 }

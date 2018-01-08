@@ -22,41 +22,10 @@
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 
-    <RelativeLayout
-        android:id="@+id/footer_ero"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/darker_gray"
-        android:padding="@dimen/dim_20">
-
-        <TextView
-            android:id="@+id/forgot_email_ero"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Forgot email?" />
-
-        <TextView
-            android:id="@+id/view_ero"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="|" />
-
-        <TextView
-            android:id="@+id/forgot_pass_ero"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Forgot password?" />
-    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/footer_ero"
         android:layout_below="@id/title"
         android:fillViewport="true">
 
@@ -113,18 +82,9 @@
                     android:divider="#7F7F7F"
                     android:dividerHeight="2dip"
                     android:groupIndicator="@null"
-                    android:listSelector="#8BC34A"
+                    android:listSelector="@android:color/darker_gray"
                     android:scrollbars="vertical" />
 
-
-                <!--  <ExpandableListView
-                      android:id="@+id/simpleExpandableListView_one"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginBottom="@dimen/dim_5"
-                      android:layout_marginTop="@dimen/dim_5"
-                      android:background="@android:color/transparent"
-                      android:groupIndicator="@null" />-->
 
             </RelativeLayout>
 
@@ -162,7 +122,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/recycler_view"
-                        android:hint="Enter efin here" />
+                        android:hint="Enter efin here"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="15" />
 
                     <!--   <EditText
                            android:id="@+id/etDescription"

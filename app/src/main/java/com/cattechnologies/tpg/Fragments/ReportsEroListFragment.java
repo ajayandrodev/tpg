@@ -98,9 +98,9 @@ public class ReportsEroListFragment extends Fragment {
         titulo = (TextView) getActivity().findViewById(R.id.title);
 
         loadData();
-        simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
-        listAdapter = new ReportsExpandableListEroAdapter(getActivity(), deptList);
-        simpleExpandableListView.setAdapter(listAdapter);
+       // simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
+      /*  listAdapter = new ReportsExpandableListEroAdapter(getActivity(), deptList);
+        simpleExpandableListView.setAdapter(listAdapter);*/
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -117,18 +117,18 @@ public class ReportsEroListFragment extends Fragment {
         //expand all the Groups
         // expandAll();
 
-        // setOnChildClickListener listener for child row click
+   /*     // setOnChildClickListener listener for child row click
         simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-            /*    //get the group header
+            *//*    //get the group header
                 GroupInfo headerInfo = deptList.get(groupPosition);
                 //get the child info
                 ChildInfo detailInfo = headerInfo.getProductList().get(childPosition);
-              *//*  //display it or do something with it
+              *//**//*  //display it or do something with it
                 Toast.makeText(getActivity(), " Clicked on :: " + headerInfo.getName()
-                        + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();*//*
-        */
+                        + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();*//**//*
+        *//*
                 return false;
             }
         });
@@ -136,17 +136,17 @@ public class ReportsEroListFragment extends Fragment {
         simpleExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-               /* //get the group header
+               *//* //get the group header
                 GroupInfo headerInfo = deptList.get(groupPosition);
                 //display it or do something with it
-             *//*   Toast.makeText(getActivity(), " Header is :: " + headerInfo.getName(),
+             *//**//*   Toast.makeText(getActivity(), " Header is :: " + headerInfo.getName(),
                         Toast.LENGTH_LONG).show();
-*//*
+*//**//*
 
-*/
+*//*
                 return false;
             }
-        });
+        });*/
     }
 
     private void expandAll() {

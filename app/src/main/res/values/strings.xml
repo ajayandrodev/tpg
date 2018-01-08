@@ -50,18 +50,57 @@
 
     <!-- sbero expandlist data-->
 
-    <string-array name="Parent_head">
-        <item>Ero</item>
+    <string-array name="Parent_Head_Sb">
+        <item>ERO</item>
     </string-array>
-
-    <string-array name="Child_animals">
+    <string-array name="Child_Sb">
         <item>All Offices</item>
         <item>Particular Offices</item>
 
     </string-array>
-  <!--  <string-array name="child_birds">
-        <item>Parrot</item>
-        <item>Dove</item>
-    </string-array>-->
+
+    <!--Report Fee Paid Expand-->
+    <string-array name="Parent_Head_Report_Fees_Paid">
+        <item>FEES PAID</item>
+    </string-array>
+    <string-array name="child_report_feepaid">
+        <item>DISBURSEMENT DATE</item>
+        <item>SSN</item>
+        <item>LAST NAME</item>
+        <item>PRODUCT TYPE</item>
+    </string-array>
+
+    <!--Report Check to pring Expand-->
+    <string-array name="Parent_Head_Check_To_Print">
+        <item>CHECKS TO PRINT</item>
+    </string-array>
+    <string-array name="child_report_check_to_print">
+        <item>SSN</item>
+        <item>LAST NAME</item>
+        <item>TYPE OF FUNDING</item>
+    </string-array>
+
+    <!--Report Account Disbursement Expand-->
+    <string-array name="Parent_Head_Account_Disbursement">
+        <item>ACCOUNT DISBURSEMENTS</item>
+    </string-array>
+    <string-array name="child_report_account_disbursement">
+        <item>SSN</item>
+        <item>LAST NAME</item>
+        <item>PRODUCT TYPE</item>
+        <item>DISBURSEMENT TYPE</item>
+
+    </string-array>
+
+    <!--Report Ero Deposits Expand-->
+    <string-array name="Parent_Head_Ero_Deposits">
+        <item>ERO DISBURSEMENT</item>
+    </string-array>
+    <string-array name="child_report_ero_deposits">
+        <item>DEPOSIT DATE</item>
+        <item>REVERSED DATE</item>
+        <item>DEPOSIT TYPE</item>
+        <item>DAN</item>
+    </string-array>
 
 </resources>

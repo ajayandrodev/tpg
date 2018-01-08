@@ -10,19 +10,19 @@
         android:layout_marginEnd="@dimen/dim_20"
         android:layout_marginRight="@dimen/dim_20"
         android:gravity="center|right"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/parent_sb"
+            android:id="@+id/parent_report_fee_paid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dim_5"
-            android:layout_weight="1"
             android:background="@color/transparent"
             android:gravity="center"
             android:padding="@dimen/dim_5"
             android:text="ajay"
+            android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black"
             android:textSize="@dimen/font_size"

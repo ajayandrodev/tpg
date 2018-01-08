@@ -81,10 +81,10 @@ public class ReportsCheckToPrintFragment extends Fragment {
         titulo = (TextView) getActivity().findViewById(R.id.title);
 
         loadData();
-        simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
+       // simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
 
-        listAdapter = new ReportsExpandableListCheckListToPrintAdapter(getActivity(), deptList);
-        simpleExpandableListView.setAdapter(listAdapter);
+       /* listAdapter = new ReportsExpandableListCheckListToPrintAdapter(getActivity(), deptList);
+        simpleExpandableListView.setAdapter(listAdapter);*/
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -102,16 +102,16 @@ public class ReportsCheckToPrintFragment extends Fragment {
         // expandAll();
 
         // setOnChildClickListener listener for child row click
-        simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+     /*   simpleExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 //get the group header
                 CheckToPrintGroupInfo headerInfo = deptList.get(groupPosition);
                 //get the child info
                 CheckToPrintChildInfo detailInfo = headerInfo.getProductList().get(childPosition);
-              /*  //display it or do something with it
+              *//*  //display it or do something with it
                 Toast.makeText(getActivity(), " Clicked on :: " + headerInfo.getName()
-                        + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();*/
+                        + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();*//*
                 return false;
             }
         });
@@ -122,14 +122,14 @@ public class ReportsCheckToPrintFragment extends Fragment {
                 //get the group header
                 CheckToPrintGroupInfo headerInfo = deptList.get(groupPosition);
                 //display it or do something with it
-             /*   Toast.makeText(getActivity(), " Header is :: " + headerInfo.getName(),
+             *//*   Toast.makeText(getActivity(), " Header is :: " + headerInfo.getName(),
                         Toast.LENGTH_LONG).show();
-*/
+*//*
 
 
                 return false;
             }
-        });
+        });*/
     }
 
     private void expandAll() {

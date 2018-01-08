@@ -12,6 +12,7 @@ import com.cattechnologies.tpg.Model.LoginInfo;
 import com.cattechnologies.tpg.Model.ProfileGroupData;
 import com.cattechnologies.tpg.Model.ProfileGroupInfo;
 import com.cattechnologies.tpg.Model.ReportParticulrFreePaid;
+import com.cattechnologies.tpg.Model.ReportParticulrFreePaidSort;
 import com.cattechnologies.tpg.Model.ReportsFeePaid;
 import com.cattechnologies.tpg.Model.ReportsFeePaidSearch;
 import com.cattechnologies.tpg.Model.ReportsFeePaidSort;
@@ -94,6 +95,12 @@ public interface RetrofitInterface {
     @POST("particular-office")
     Observable<ReportParticulrFreePaid> getFeePaidParticularData(@Field("app_uid") String userId,
                                                                  @Field("acc_type") String userType,
-                                                                 @Field("page") String page, @Field("efin_id") String particularPerson,
-                                                                 @Field("system_year") String date);
+                                                                 @Field("page") String page, @Field("efin_id") String particularPerson);
+    @FormUrlEncoded
+    @POST("sort_particular_SB")
+    Observable<ReportParticulrFreePaidSort> getFeePaidParticularDataSort(@Field("app_uid") String userId,
+                                                                         @Field("acc_type") String userType,
+                                                                         @Field("page") String pageEfin,
+                                                                         @Field("efin_id") String efinData,
+                                                                         @Field("sort") String sort);
 }
