@@ -397,9 +397,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 current_page_search = current_page_search + 1;
                                 reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
                             }
-                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-
-                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
@@ -520,10 +517,11 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         @Override
                         public void onClick(View view) {
                             //   reports = new ReportsFeePaid()
+                           // preferencesManager.setParticularPerson(getActivity(),btn.getText().toString());
+                            btn.setBackgroundColor(getResources().getColor(R.color.selector));
                             current_page_mock = Integer.parseInt(btn.getText().toString());
                             final int index = current_page_mock;
                             reports.setPage(String.valueOf(index));
-                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
                             feePaidReportsData(userId, userType, reports.getPage());
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
@@ -552,7 +550,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             }
 
                         }
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
                         feePaidReportsData(userId, userType, reports.getPage());
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
@@ -569,12 +566,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             reports.setPage(String.valueOf(current_page_mock));
 
                         }
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
                         feePaidReportsData(userId, userType, reports.getPage());
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
 
                     }
                 });

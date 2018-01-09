@@ -25,5 +25,9 @@
     <color name="forgot_hint">#4d4845</color>
     <color name="view_text">#f89820</color>
 
+    <color name="button_pressed">#ff8a00</color>
+    <color name="button_focused">#ff8a00</color>
+    <color name="button_default">#1c76bb</color>
+
 
 </resources>

@@ -2,6 +2,7 @@ package com.cattechnologies.tpg.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
 
 /**
  * Created by admin on 11/17/2017.
@@ -132,6 +133,7 @@ public class PreferencesManager {
         text = settings.getString(PREFS_REPORT_DETAIL_USER_KEY, null);
         return text;
     }
+
 
 }
 
