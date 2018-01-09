@@ -37,9 +37,12 @@ import com.cattechnologies.tpg.Adapters.ReportPerticularListAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsExpandableListFeesPaidAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidListAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidSearchListAdapter;
+import com.cattechnologies.tpg.Adapters.ReportsFeesPaidSearchSortListAdapter;
 import com.cattechnologies.tpg.Adapters.ReportsFeesPaidSortListAdapter;
 import com.cattechnologies.tpg.Model.FeesPaidChildInfo;
 import com.cattechnologies.tpg.Model.FeesPaidGroupInfo;
+import com.cattechnologies.tpg.Model.ReportFreePaidSearchSort;
+import com.cattechnologies.tpg.Model.ReportFreePaidSearchSortNew;
 import com.cattechnologies.tpg.Model.ReportParticulrFreePaid;
 import com.cattechnologies.tpg.Model.ReportParticulrFreePaidNew;
 import com.cattechnologies.tpg.Model.ReportParticulrFreePaidSort;
@@ -88,6 +91,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     ReportsFeesPaidListAdapter mAdapter;
     ReportsFeesPaidSearchListAdapter mAdapterSearch;
     ReportsFeesPaidSortListAdapter mAdapterSort;
+    ReportsFeesPaidSearchSortListAdapter mSearchSortListAdapter;
     ReportPerticularListAdapter mAdapterParticularList;
     ReportPerticulaSortListAdapter mAdapterParticularSortList;
 
@@ -103,13 +107,14 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
     ReportsFeePaid reports;
     ReportsFeePaidSort reportsFeePaidSort;
+    ReportFreePaidSearchSort reportFreePaidSearchSort;
     ReportsFeePaidSearch reportsFeePaidSearch;
     ReportParticulrFreePaid reportParticulrFreePaid;
     ReportParticulrFreePaidSort reportParticulrFreePaidSort;
     Button prev, next;
     EditText searchData;
     LinearLayout layout;
-    int current_page,current_page_sort=1,current_page_search=1,current_page_mock;
+    int current_page, current_page_sort = 1, current_page_search = 1, current_page_mock;
     SearchView searchView;
     String totalPages;
     static int currentPage;
@@ -227,9 +232,11 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         reportsFeePaidSearch = new ReportsFeePaidSearch();
         reportParticulrFreePaid = new ReportParticulrFreePaid();
         reportParticulrFreePaidSort = new ReportParticulrFreePaidSort();
+        reportFreePaidSearchSort = new ReportFreePaidSearchSort();
         reports.setPage("1");
         reportsFeePaidSearch.setPage("1");
         reportsFeePaidSort.setPage("1");
+        reportFreePaidSearchSort.setPage("1");
         reportParticulrFreePaid.setPage(pageEfin);
         reportParticulrFreePaidSort.setPage(pageEfin);
         if (layout != null) {
@@ -295,7 +302,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     }
 
 
-
     private void searchReportItem(String userId, String userType, String page, String searchText) {
         System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
@@ -328,73 +334,80 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             if (layout != null) {
                 layout.removeAllViews();
             }
-            int totalPage=Integer.parseInt(totalPages);
-            for (current_page = 0; current_page < totalPage; current_page++) {
-                final Button btn = new Button(getActivity());
-                int width = (int) getResources().getDimension(R.dimen.dim_40);
-                int hieght = (int) getResources().getDimension(R.dimen.dim_40);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
-                //  lp.setMargins(5, 5, 5, 5);
-                btn.setId(current_page);
-                btn.setText("" + (current_page + 1));
-                btn.setLayoutParams(lp);
-                layout.addView(btn);
+            int totalPage = Integer.parseInt(totalPages);
+            if (totalPage == 1) {
+
+                prev.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+            } else {
+                for (current_page = 0; current_page < totalPage; current_page++) {
+                    final Button btn = new Button(getActivity());
+                    int width = (int) getResources().getDimension(R.dimen.dim_40);
+                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
+                    //  lp.setMargins(5, 5, 5, 5);
+                    btn.setId(current_page);
+                    btn.setText("" + (current_page + 1));
+                    btn.setLayoutParams(lp);
+                    layout.addView(btn);
 
 
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //   reports = new ReportsFeePaid();
-                      ///  final int index = current_page_search + 1;
-                        String currentBtnText = btn.getText().toString();
-                        current_page_mock = Integer.parseInt(currentBtnText);
-                        final int index = current_page_search;
-                        reportsFeePaidSearch.setPage(String.valueOf(index));
-                        System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        prev.setVisibility(View.VISIBLE);
-                        next.setVisibility(View.VISIBLE);
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //   reports = new ReportsFeePaid();
+                            ///  final int index = current_page_search + 1;
+                            String currentBtnText = btn.getText().toString();
+                            current_page_search = Integer.parseInt(currentBtnText);
+                            final int index = current_page_search;
+                            reportsFeePaidSearch.setPage(String.valueOf(index));
+                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
 
-                    }
-                });
-                prev.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_search);
+                        }
+                    });
+                    prev.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_search);
 
-                            if (current_page_search>1&&totalPage >= current_page_search) {
+                            if (current_page_search > 1 && totalPage >= current_page_search) {
                                 current_page_search = current_page_search - 1;
                                 reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
                             }
 
 
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
 
-                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        prev.setVisibility(View.VISIBLE);
-                        next.setVisibility(View.VISIBLE);
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
 
-                    }
-                });
-                next.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_search);
-                        if (current_page_search < totalPage) {
-                            current_page_search = current_page_search+1;
-                            reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
                         }
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                    });
+                    next.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_search);
+                            if (current_page_search < totalPage) {
+                                current_page_search = current_page_search + 1;
+                                reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
+                            }
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
 
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        prev.setVisibility(View.VISIBLE);
-                        next.setVisibility(View.VISIBLE);
-                    }
-                });
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+                }
 
 
                 mAdapterSearch.setClickListener((view, position) -> {
@@ -486,27 +499,60 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             if (layout != null) {
                 layout.removeAllViews();
             }
-            int totalPage=Integer.parseInt(totalPages);
-            for (current_page = 0; current_page < totalPage; current_page++) {
-                final Button btn = new Button(getActivity());
-                int width = (int) getResources().getDimension(R.dimen.dim_40);
-                int hieght = (int) getResources().getDimension(R.dimen.dim_40);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
-                //  lp.setMargins(5, 5, 5, 5);
-                btn.setId(current_page);
-                btn.setText("" + (current_page + 1));
-                btn.setLayoutParams(lp);
-                layout.addView(btn);
+            int totalPage = Integer.parseInt(totalPages);
+            if (totalPage == 1) {
+                prev.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+            } else {
+                for (current_page = 0; current_page < totalPage; current_page++) {
+                    final Button btn = new Button(getActivity());
+                    int width = (int) getResources().getDimension(R.dimen.dim_40);
+                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
+                    //  lp.setMargins(5, 5, 5, 5);
+                    btn.setId(current_page);
+                    btn.setText("" + (current_page + 1));
+                    btn.setLayoutParams(lp);
+                    layout.addView(btn);
 
 
-                btn.setOnClickListener(new View.OnClickListener() {
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //   reports = new ReportsFeePaid()
+                            current_page_mock = Integer.parseInt(btn.getText().toString());
+                            final int index = current_page_mock;
+                            reports.setPage(String.valueOf(index));
+                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            feePaidReportsData(userId, userType, reports.getPage());
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+
+                        }
+                    });
+
+                }
+                //  currentPage=totalPage;
+                prev.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //   reports = new ReportsFeePaid()
-                        current_page_mock = Integer.parseInt(btn.getText().toString());
-                        final int index = current_page_mock;
-                        reports.setPage(String.valueOf(index));
-                        System.out.println("ReportsFeesPaidFragment.onClick" + index);
+
+                        //  System.out.println("ReportsFeesPaidFragment.onClick===" + index);
+                        if (current_page_mock <= totalPage) {
+
+
+                            if (current_page_mock <= 1) {
+
+                                reports.setPage(String.valueOf(1));
+                            } else {
+                                current_page_mock = current_page_mock - 1;
+                                // current_page_mock= currentPage-1;
+                                reports.setPage(String.valueOf(current_page_mock));
+                            }
+
+                        }
+                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
                         feePaidReportsData(userId, userType, reports.getPage());
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
@@ -514,54 +560,27 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
                     }
                 });
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //   System.out.println("ReportsFeesPaidFragment.onClick===" + index);
+                        if (current_page_mock < totalPage) {
+                            current_page_mock++;
+                            reports.setPage(String.valueOf(current_page_mock));
+
+                        }
+                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                        feePaidReportsData(userId, userType, reports.getPage());
+                        recyclerView.setVisibility(View.VISIBLE);
+                        prev.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+
+                    }
+                });
+
 
             }
-          //  currentPage=totalPage;
-            prev.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                  //  System.out.println("ReportsFeesPaidFragment.onClick===" + index);
-                    if (current_page_mock <= totalPage) {
-
-
-                        if(current_page_mock<=1){
-
-                            reports.setPage(String.valueOf(1));
-                        }
-                        else{
-                            current_page_mock= current_page_mock-1;
-                           // current_page_mock= currentPage-1;
-                            reports.setPage(String.valueOf(current_page_mock));
-                        }
-
-                    }
-                    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                    feePaidReportsData(userId, userType, reports.getPage());
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
-
-                }
-            });
-            next.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                 //   System.out.println("ReportsFeesPaidFragment.onClick===" + index);
-                    if (current_page_mock < totalPage) {
-                        current_page_mock++;
-                        reports.setPage(String.valueOf(current_page_mock));
-
-                    }
-                    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                    feePaidReportsData(userId, userType, reports.getPage());
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
-                    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-
-                }
-            });
 
 
             mAdapter.setClickListener((view, position) -> {
@@ -613,9 +632,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     progressBar.setVisibility(View.VISIBLE);
 
                     sort = "disbursment_date";
-                    System.out.println("ReportsFeesPaidFragment.Displayitemclicked" + efinData);
-
+                    if (newText == null) {
                         sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+
+                    } else {
+                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+
+                    }
 
 
                     parentList.collapseGroup(0);
@@ -626,12 +649,14 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 case 1:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "ssn";
-                  /*  if (efinData != null) {
-                        particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
 
-
-                    } else {*/
+                    if (newText == null) {
                         sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+
+                    } else {
+                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+
+                    }
 
 
                     parentList.collapseGroup(0);
@@ -642,7 +667,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     sort = "lastname";
 
 
+                    if (newText == null) {
                         sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+
+                    } else {
+                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+
+                    }
 
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
@@ -651,7 +682,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "product_type";
 
+                    if (newText == null) {
                         sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+
+                    } else {
+                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+
+                    }
 
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
@@ -660,8 +697,129 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         }
     }
 
+    private void searchSortReportData(String userId, String userType, String newText, String page, String sort) {
+        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidDataSearchSort
+                    (userId, userType, newText, page, sort)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(this::handleResponseSearchSort, this::handleError));
 
 
+        } else {
+            showToast("Internet Connection Is Not Available");
+
+
+        }
+    }
+
+    private void handleResponseSearchSort(ReportFreePaidSearchSort response) {
+        if (response.getStatus().equalsIgnoreCase("success")) {
+            progressBar.setVisibility(View.GONE);
+            //showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
+            List<ReportFreePaidSearchSortNew> reportsFeePaidNewList = response.getFeeReport_data();
+
+            mSearchSortListAdapter = new ReportsFeesPaidSearchSortListAdapter(getActivity(), reportsFeePaidNewList, title);
+            recyclerView.setAdapter(mSearchSortListAdapter);
+            mSearchSortListAdapter.notifyDataSetChanged();
+            if (layout != null) {
+                layout.removeAllViews();
+            }
+            int totalPage = Integer.parseInt(totalPages);
+            if (totalPage == 1) {
+                prev.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+            } else {
+                for (current_page = 0; current_page < totalPage; current_page++) {
+                    final Button btn = new Button(getActivity());
+                    int width = (int) getResources().getDimension(R.dimen.dim_40);
+                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
+                    //  lp.setMargins(5, 5, 5, 5);
+                    btn.setId(current_page);
+                    btn.setText("" + (current_page + 1));
+                    btn.setLayoutParams(lp);
+                    layout.addView(btn);
+
+
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //   reports = new ReportsFeePaid();
+                            current_page_sort = Integer.parseInt(btn.getText().toString());
+                            final int index = current_page_sort;
+
+                            reportFreePaidSearchSort.setPage(String.valueOf(index));
+                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+
+                        }
+                    });
+                    prev.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            if (current_page_sort > 1 && current_page_sort <= totalPage) {
+                                current_page_sort = current_page_sort - 1;
+                                reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
+                            }
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+
+                        }
+                    });
+                    next.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            if (current_page_sort < totalPage) {
+                                current_page_sort = current_page_sort + 1;
+                                reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
+                            }
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+                }
+
+            }
+
+
+            mSearchSortListAdapter.setClickListener((view, position) -> {
+                final ReportFreePaidSearchSortNew reports = reportsFeePaidNewList.get(position);
+                Dashboard activity = (Dashboard) view.getContext();
+                Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
+                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
+                        reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                activity.getSupportActionBar().setTitle("REPORTS");
+            });
+
+        }
+
+    }
 
 
     private void sortReportItem(String userId, String userType, String page, String type) {
@@ -694,68 +852,75 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             if (layout != null) {
                 layout.removeAllViews();
             }
-            int totalPage=Integer.parseInt(totalPages);
-            for (current_page = 0; current_page < totalPage; current_page++) {
-                final Button btn = new Button(getActivity());
-                int width = (int) getResources().getDimension(R.dimen.dim_40);
-                int hieght = (int) getResources().getDimension(R.dimen.dim_40);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
-                //  lp.setMargins(5, 5, 5, 5);
-                btn.setId(current_page);
-                btn.setText("" + (current_page + 1));
-                btn.setLayoutParams(lp);
-                layout.addView(btn);
+            int totalPage = Integer.parseInt(totalPages);
+            if (totalPage == 1) {
+                prev.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+            } else {
+                for (current_page = 0; current_page < totalPage; current_page++) {
+                    final Button btn = new Button(getActivity());
+                    int width = (int) getResources().getDimension(R.dimen.dim_40);
+                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
+                    //  lp.setMargins(5, 5, 5, 5);
+                    btn.setId(current_page);
+                    btn.setText("" + (current_page + 1));
+                    btn.setLayoutParams(lp);
+                    layout.addView(btn);
 
 
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //   reports = new ReportsFeePaid();
-                        current_page_sort = Integer.parseInt(btn.getText().toString());
-                        final int index = current_page_sort;
-                        reportsFeePaidSort.setPage(String.valueOf(index));
-                        System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        prev.setVisibility(View.VISIBLE);
-                        next.setVisibility(View.VISIBLE);
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //   reports = new ReportsFeePaid();
+                            current_page_sort = Integer.parseInt(btn.getText().toString());
+                            final int index = current_page_sort;
 
-                    }
-                });
-                prev.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
-                        if (current_page_sort>1 && current_page_sort <= totalPage) {
-                            current_page_sort = current_page_sort-1;
-                            reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
+                            reportsFeePaidSort.setPage(String.valueOf(index));
+                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+
                         }
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                    });
+                    prev.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            if (current_page_sort > 1 && current_page_sort <= totalPage) {
+                                current_page_sort = current_page_sort - 1;
+                                reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
+                            }
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
 
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        prev.setVisibility(View.VISIBLE);
-                        next.setVisibility(View.VISIBLE);
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
 
-                    }
-                });
-                next.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
-                        if (current_page_sort < totalPage) {
-                            current_page_sort = current_page_sort+1;
-                            reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
                         }
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                    });
+                    next.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            if (current_page_sort < totalPage) {
+                                current_page_sort = current_page_sort + 1;
+                                reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
+                            }
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
 
-                        System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        prev.setVisibility(View.VISIBLE);
-                        next.setVisibility(View.VISIBLE);
-                    }
-                });
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+
 
             }
 

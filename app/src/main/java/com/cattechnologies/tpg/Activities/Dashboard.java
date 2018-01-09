@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
@@ -140,8 +141,8 @@ public class Dashboard extends AppCompatActivity {
 
         } else if (getResources().getString(R.string.compras_item).equalsIgnoreCase(title)) {
 
-           fragment= ProfileFragmentNew.newInstance(title,preferencesManager.getUserId(getApplicationContext()),
-                   preferencesManager.getAccountType(getApplicationContext()));
+            fragment= ProfileFragmentNew.newInstance(title,preferencesManager.getUserId(getApplicationContext()),
+                    preferencesManager.getAccountType(getApplicationContext()));
 
 
         } else if (getResources().getString(R.string.ordenes_item).equalsIgnoreCase(title)) {
@@ -193,6 +194,5 @@ public class Dashboard extends AppCompatActivity {
     public void setTitle(String title) {
         toolBarText.setText(title);
     }
-
 
 }

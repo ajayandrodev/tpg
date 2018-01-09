@@ -1,12 +1,14 @@
 package com.cattechnologies.tpg.Fragments;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -157,10 +159,15 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
         //  etDescription = (EditText) findViewById(R.id.etDescription);
         btnAddItem = (ImageButton) getActivity().findViewById(R.id.btnAddItem);
 
+//        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//            getActivity().getActionBar().setHomeAsUpIndicator(R.drawable.down_arrow);
+//        }
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 title = getResources().getString(R.string.dashboard_fee_paid);
+
                 if (myList.size() > 0) {
                     jsonArray = new JSONArray();
                     for (int i = 0; i < myList.size(); i++) {
@@ -186,20 +193,11 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
                                 .addToBackStack(null)
                                 .commit();
                     }
+                } else {
+                    showToast("Please add particular ERO");
                 }
 
 
-
-              /*  fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                        preferencesManager.getAccountType(getActivity()), "1",
-                        preferencesManager.getParticularPerson(getContext()),
-                        "2018");
-                if (fragment != null) {
-                    fragmentManager = getActivity().getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.main_content, fragment)
-                            .addToBackStack(null)
-                            .commit();*/
             }
 
         });
@@ -208,27 +206,21 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
             @Override
             public void onClick(View v) {
                 title = etTitle.getText().toString();
+                if (!TextUtils.isEmpty(title)) {
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    mRecyclerView.setLayoutManager(layoutManager);
+                    mRecyclerView.setHasFixedSize(true);
+                    mRecyclerAdapter = new SbiEroListDataAdapter(myList);
+                    mRecyclerAdapter.newAddedData(0, title);
+
+                    mRecyclerView.setAdapter(mRecyclerAdapter);
+                    mRecyclerAdapter.notifyDataSetChanged();
+                    etTitle.setText("");
+
+                }
 
 
-                //  final ArrayList<RecyclerData> myList = new ArrayList<RecyclerData>();
-
-             /*   RecyclerData mLog = new RecyclerData();
-                mLog.setTitle(title);
-                myList.add(mLog);*/
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                mRecyclerView.setLayoutManager(layoutManager);
-                mRecyclerView.setHasFixedSize(true);
-                mRecyclerAdapter = new SbiEroListDataAdapter(myList);
-                mRecyclerAdapter.newAddedData(0, title);
-                mRecyclerView.setAdapter(mRecyclerAdapter);
-
-             /*   mRecyclerAdapter.notifyItemInserted(myList.size()-1);
-                mRecyclerAdapter.notifyDataSetChanged();*/
-
-                // mRecyclerAdapter.addItem(mLog);
-
-                etTitle.setText("");
                 // etDescription.setText("");
             }
         });
@@ -236,13 +228,25 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
     }
 
 
-
     private void showToast(String msg) {
         Toast.makeText(getContext(), "" + msg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        myList.clear();
 
+//        mRecyclerAdapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        myList.clear();
+
+//        mRecyclerAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void OnRemoveClick(int index) {

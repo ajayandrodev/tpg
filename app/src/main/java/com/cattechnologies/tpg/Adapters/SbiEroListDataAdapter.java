@@ -1,5 +1,6 @@
 package com.cattechnologies.tpg.Adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
     int mLastPosition = 0;
     private RemoveClickListner mListner;
     SbiEroListDataAdapter adapter;
+    private Context mContext;
 
     public SbiEroListDataAdapter(ArrayList<RecyclerData> myList) {
         this.myList = myList;
@@ -35,6 +37,7 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
 
     public RecyclerItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ero_list_item_remove, parent, false);
+        mContext = parent.getContext();
         RecyclerItemViewHolder holder = new RecyclerItemViewHolder(view);
         return holder;
     }
@@ -45,13 +48,16 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
         holder.etTitleTextView.setText(myList.get(position).getTitle());
         //  holder.etDescriptionTextView.setText(myList.get(position).getDescription());
         holder.crossImage.setBackgroundResource(R.drawable.remove_item);
-        mLastPosition = position;
+//        mLastPosition = position;
     }
 
     @Override
     public int getItemCount() {
         if (myList != null) {
+
+
             return myList.size();
+
         } else {
             return 0;
         }
@@ -68,17 +74,23 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
         myList.add(mLog);
         notifyItemInserted(0);
     }
-    public SbiEroListDataAdapter getAdapter(){
+
+    public SbiEroListDataAdapter getAdapter() {
         return adapter;
     }
 
 
-    public void newAddedData(int mLastPosition,String title) {
+    public void newAddedData(int mLastPosition, String title) {
         RecyclerData newValue = new RecyclerData();
         newValue.setTitle(title);
-        myList.add(myList.size(), newValue);
-        notifyItemInserted(myList.size()-1);
-        notifyDataSetChanged();
+        if (!myList.contains(newValue)) {
+            myList.add(myList.size(), newValue);
+            notifyItemInserted(myList.size() - 1);
+            notifyDataSetChanged();
+        } else {
+            Log.d("INT_TASK", "already exists");
+        }
+
 
     }
 

@@ -11,6 +11,8 @@ import com.cattechnologies.tpg.Model.ForgotUserPasswordInfoEmp;
 import com.cattechnologies.tpg.Model.LoginInfo;
 import com.cattechnologies.tpg.Model.ProfileGroupData;
 import com.cattechnologies.tpg.Model.ProfileGroupInfo;
+import com.cattechnologies.tpg.Model.ReportFreePaidPerticularSearchSort;
+import com.cattechnologies.tpg.Model.ReportFreePaidSearchSort;
 import com.cattechnologies.tpg.Model.ReportParticulrFreePaid;
 import com.cattechnologies.tpg.Model.ReportParticulrFreePaidSort;
 import com.cattechnologies.tpg.Model.ReportsFeePaid;
@@ -103,4 +105,21 @@ public interface RetrofitInterface {
                                                                          @Field("page") String pageEfin,
                                                                          @Field("efin_id") String efinData,
                                                                          @Field("sort") String sort);
+    @FormUrlEncoded
+    @POST("search-sort")
+    Observable<ReportFreePaidSearchSort> getFeePaidDataSearchSort(@Field("app_uid")String userId,
+                                                                  @Field("acc_type")String userType,
+                                                                  @Field("search")String newText,
+                                                                  @Field("page")String page,
+                                                                  @Field("sort")String sort);
+    @FormUrlEncoded
+    @POST("particular-search-sort-feepaid")
+    Observable<ReportFreePaidPerticularSearchSort>  getFeePaidParticularDataSearchSort(
+            @Field("app_uid")String userId,
+            @Field("acc_type")String userType,
+            @Field("search")String newText,
+            @Field("page")String page,
+            @Field("efin_id")String efinData,
+            @Field("sort")String sort);
+
 }
