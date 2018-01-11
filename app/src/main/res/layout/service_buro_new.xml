@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.cattechnologies.tpg.Activities.Dashboard">
+    tools:context="com.cattechnologies.tpg.activities.Dashboard">
 
 
     <TextView
@@ -80,7 +80,7 @@
                     android:childDivider="#7F7F7F"
                     android:choiceMode="singleChoice"
                     android:divider="#7F7F7F"
-                    android:dividerHeight="2dip"
+                    android:dividerHeight="1dp"
                     android:groupIndicator="@null"
                     android:listSelector="@android:color/darker_gray"
                     android:scrollbars="vertical" />

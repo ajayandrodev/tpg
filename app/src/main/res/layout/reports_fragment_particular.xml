@@ -73,7 +73,7 @@
             android:childDivider="#7F7F7F"
             android:choiceMode="singleChoice"
             android:divider="#7F7F7F"
-            android:dividerHeight="3dp"
+            android:dividerHeight="1dp"
             android:groupIndicator="@null"
             android:listSelector="@android:color/darker_gray"
             android:scrollbars="vertical" />
@@ -133,9 +133,10 @@
                     <Button
                         android:id="@+id/prev"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/dim_35"
+                        android:layout_height="@dimen/dim_40"
                         android:layout_weight="1"
-                        android:text="prev" />
+                        android:text="prev"
+                        android:gravity="center"/>
 
                     <HorizontalScrollView
                         android:id="@+id/horizontal"
@@ -145,19 +146,20 @@
 
                         <LinearLayout
                             android:id="@+id/button_list"
-                            android:layout_width="@dimen/dim_35"
-                            android:layout_height="@dimen/dim_35"
-                            android:orientation="horizontal" />
+                            android:layout_width="@dimen/dim_40"
+                            android:layout_height="@dimen/dim_40"
+                            android:orientation="horizontal"
+                            android:gravity="center"/>
                     </HorizontalScrollView>
 
                     <Button
                         android:id="@+id/next"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/dim_35"
+                        android:layout_height="@dimen/dim_40"
                         android:layout_weight="1"
-                        android:text="next" />
+                        android:text="next"
+                        android:gravity="center"/>
                 </LinearLayout>
-
 
             </RelativeLayout>
         </RelativeLayout>
