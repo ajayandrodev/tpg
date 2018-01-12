@@ -116,20 +116,20 @@ public class PreferencesManager {
 
 
 
-    public void setParticularPerson(Context context, String text) {
+    public void setParticularPerson(Context context, String key,String value) {
         SharedPreferences settings;
         SharedPreferences.Editor editor;
         settings = context.getSharedPreferences(PREFS_REPORT_DETAIL_USER_PORT, Context.MODE_PRIVATE); //1
         editor = settings.edit(); //2
-        editor.putString(PREFS_REPORT_DETAIL_USER__PORT_KEY, text); //3
+        editor.putString(key, value); //3
         editor.commit(); //4
     }
 
-    public String getParticularPerson(Context context) {
+    public String getParticularPerson(Context context,String key) {
         SharedPreferences settings;
         String text;
         settings = context.getSharedPreferences(PREFS_REPORT_DETAIL_USER_PORT, Context.MODE_PRIVATE);
-        text = settings.getString(PREFS_REPORT_DETAIL_USER_KEY, null);
+        text = settings.getString(key, null);
         return text;
     }
 
