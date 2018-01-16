@@ -20,9 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cattechnologies.tpg.adapters.MyExpandableadapter;
-import com.cattechnologies.tpg.adapters.feePaidReportAdapter.MySbWithErosInfoAdapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.SbiEroListDataAdapter;
-import com.cattechnologies.tpg.model.eroDepositModel.MySbWithEroInfo;
 import com.cattechnologies.tpg.model.RecyclerData;
 import com.cattechnologies.tpg.interfaces.RemoveClickListner;
 import com.cattechnologies.tpg.R;
@@ -37,7 +35,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import rx.subscriptions.CompositeSubscription;
@@ -55,10 +52,7 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
     HashMap<String, List<String>> bind_and_display;
 
 
-    ArrayList<MySbWithEroInfo> deptListAccount = new ArrayList<MySbWithEroInfo>();
-    LinkedHashMap<String, MySbWithEroInfo> subjectsAccount = new LinkedHashMap<String, MySbWithEroInfo>();
     ExpandableListView simpleExpandableListViewThree;
-    MySbWithErosInfoAdapter accountListAdapter;
     TextView sbEro, titulo;
     RecyclerView mRecyclerView;
     SbiEroListDataAdapter mRecyclerAdapter;

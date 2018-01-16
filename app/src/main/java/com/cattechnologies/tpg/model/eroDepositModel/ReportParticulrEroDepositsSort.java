@@ -1,18 +1,17 @@
-package com.cattechnologies.tpg.model;
+package com.cattechnologies.tpg.model.eroDepositModel;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearchNew;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 /**
- * Created by admin on 1/10/2018.
+ * Created by admin on 1/6/2018.
  */
 
-public class ReportsPerticularFeePaidSearch implements Parcelable {
+public class ReportParticulrEroDepositsSort implements Parcelable {
 
     @SerializedName("status")
     private String status;
@@ -24,15 +23,21 @@ public class ReportsPerticularFeePaidSearch implements Parcelable {
     @SerializedName("page")
     private String page;
 
-
     @SerializedName("Total No of Pages")
     private String TotalNoofPages;
+    @SerializedName("EroReport_data")
+    private List<ReportParticulrEroDepositsSortNew> EroReport_data;
 
-    @SerializedName("FeeReport_data")
-    private List<ReportsPerticularFeePaidSearchNew> FeeReport_data;
 
-    public ReportsPerticularFeePaidSearch() {
+    public ReportParticulrEroDepositsSort() {
+    }
 
+    protected ReportParticulrEroDepositsSort(Parcel in) {
+        status = in.readString();
+        message = in.readString();
+        page = in.readString();
+        TotalNoofPages = in.readString();
+        EroReport_data = in.createTypedArrayList(ReportParticulrEroDepositsSortNew.CREATOR);
     }
 
     public String getStatus() {
@@ -67,19 +72,12 @@ public class ReportsPerticularFeePaidSearch implements Parcelable {
         TotalNoofPages = totalNoofPages;
     }
 
-    public List<ReportsPerticularFeePaidSearchNew> getFeeReport_data() {
-        return FeeReport_data;
+    public List<ReportParticulrEroDepositsSortNew> getEroReport_data() {
+        return EroReport_data;
     }
 
-    public void setFeeReport_data(List<ReportsPerticularFeePaidSearchNew> feeReport_data) {
-        FeeReport_data = feeReport_data;
-    }
-
-    protected ReportsPerticularFeePaidSearch(Parcel in) {
-        status = in.readString();
-        message = in.readString();
-        page = in.readString();
-        TotalNoofPages = in.readString();
+    public void setEroReport_data(List<ReportParticulrEroDepositsSortNew> eroReport_data) {
+        EroReport_data = eroReport_data;
     }
 
     @Override
@@ -88,6 +86,7 @@ public class ReportsPerticularFeePaidSearch implements Parcelable {
         dest.writeString(message);
         dest.writeString(page);
         dest.writeString(TotalNoofPages);
+        dest.writeTypedList(EroReport_data);
     }
 
     @Override
@@ -95,15 +94,15 @@ public class ReportsPerticularFeePaidSearch implements Parcelable {
         return 0;
     }
 
-    public static final Creator<ReportsPerticularFeePaidSearch> CREATOR = new Creator<ReportsPerticularFeePaidSearch>() {
+    public static final Creator<ReportParticulrEroDepositsSort> CREATOR = new Creator<ReportParticulrEroDepositsSort>() {
         @Override
-        public ReportsPerticularFeePaidSearch createFromParcel(Parcel in) {
-            return new ReportsPerticularFeePaidSearch(in);
+        public ReportParticulrEroDepositsSort createFromParcel(Parcel in) {
+            return new ReportParticulrEroDepositsSort(in);
         }
 
         @Override
-        public ReportsPerticularFeePaidSearch[] newArray(int size) {
-            return new ReportsPerticularFeePaidSearch[size];
+        public ReportParticulrEroDepositsSort[] newArray(int size) {
+            return new ReportParticulrEroDepositsSort[size];
         }
     };
 }

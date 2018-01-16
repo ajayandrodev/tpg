@@ -1,5 +1,6 @@
 package com.cattechnologies.tpg.fragments.eroDepositsReport;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,18 +21,29 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.adapters.MyExpandableadapterSb;
+import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositSearchListAdapter;
+import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositSearchSortListAdapter;
+import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositSortListAdapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepostListAdapter;
-import com.cattechnologies.tpg.model.ReportsEroDeposit;
-import com.cattechnologies.tpg.model.ReportsEroDepositNew;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchNew;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchSort;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchSortNew;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDeposit;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositNew;
 import com.cattechnologies.tpg.model.Response;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSearch;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSort;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSortNew;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
@@ -57,11 +69,11 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
     public static final String ARG_SECTION_TITLE = "section_number";
     RecyclerView recyclerView;
-    TextView titulo;
-    String title;
+    TextView titulo, textNoData;
+    String title, newText, sort;
     CompositeSubscription mSubscriptions;
     ProgressBar progressBar;
-    String userId, userType;
+    String userId, userType, pagNo = "";
     PreferencesManager preferencesManager;
 
     Button prev, next;
@@ -69,7 +81,18 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     LinearLayout layout;
     int current_page, current_page_sort = 1, current_page_search = 1, current_page_mock;
 
-    String newText;
+
+    ReportsEroDepostListAdapter mAdapter;
+    ReportsEroDepositSearchListAdapter mAdapterSearch;
+    ReportsEroDepositSortListAdapter mAdapterSort;
+    ReportsEroDepositSearchSortListAdapter mSearchSortListAdapter;
+
+
+    ReportsEroDeposit reports;
+    ReportsEroDepositsSort reportsFeePaidSort;
+    ReportEroDepositsSearchSort reportFreePaidSearchSort;
+    ReportsEroDepositsSearch reportsFeePaidSearch;
+
 
     MyExpandableadapterSb adapter;
     ExpandableListView myexpandable;
@@ -77,10 +100,10 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     List<String> child;
     HashMap<String, List<String>> bind_and_display;
 
-    String sort;
-    ReportsEroDeposit reports;
+    HorizontalScrollView horizontalScrollView;
+    ScrollView scrollView;
 
-    ReportsEroDepostListAdapter mAdapter;
+
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
         ReportEroDepositFragment fragment = new ReportEroDepositFragment();
@@ -90,6 +113,15 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         args.putString("acc_type", type);
         fragment.setArguments(args);
         return fragment;
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((Dashboard) getActivity()).setTitle("REPORTS");
+
+
     }
 
     @Nullable
@@ -124,15 +156,17 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
+        horizontalScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.horizontal);
+        scrollView = (ScrollView) getActivity().findViewById(R.id.scroll_data);
+        textNoData = (TextView) getActivity().findViewById(R.id.search_no_data);
+
 
         searchData = (EditText) getActivity().findViewById(R.id.search_paid);
         progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
         layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
         userId = getArguments().getString("app_uid");
         userType = getArguments().getString("acc_type");
-
-        reports = new ReportsEroDeposit();
-        reports.setPage("1");
+        layout.setVisibility(View.VISIBLE);
 
         bind_and_display = new HashMap<String, List<String>>();
         parent = new ArrayList<String>();
@@ -147,6 +181,16 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         myexpandable.setAdapter(adapter);
         myexpandable.setOnChildClickListener(this);
 
+
+        reports = new ReportsEroDeposit();
+        reportsFeePaidSearch = new ReportsEroDepositsSearch();
+        reportsFeePaidSort = new ReportsEroDepositsSort();
+        reportFreePaidSearchSort = new ReportEroDepositsSearchSort();
+
+        reports.setPage("1");
+        reportsFeePaidSearch.setPage("1");
+        reportsFeePaidSort.setPage("1");
+        reportFreePaidSearchSort.setPage("1");
 
         if (layout != null) {
             layout.removeAllViews();
@@ -185,13 +229,13 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
                 newText = editable.toString().toLowerCase();
                 if (TextUtils.isEmpty(newText)) {
-                    //  feePaidReportsData(userId, userType, reports.getPage());
+                    eroDepositReportsData(userId, userType, reports.getPage());
                     recyclerView.setVisibility(View.VISIBLE);
                     prev.setVisibility(View.VISIBLE);
                     next.setVisibility(View.VISIBLE);
                 } else if (!TextUtils.isEmpty(newText)) {
 
-                    //  searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                      searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                     recyclerView.setVisibility(View.VISIBLE);
                     prev.setVisibility(View.VISIBLE);
                     next.setVisibility(View.VISIBLE);
@@ -208,6 +252,23 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+
+    }
+
+    private void searchReportItem(String userId, String userType, String page, String searchText) {
+        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositDataSearch(userId, userType, page, searchText)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(this::handleResponse, this::handleError));
+
+
+        } else {
+            showToast("Internet Connection Is Not Available");
+
+
+        }
+
 
     }
 
@@ -228,9 +289,139 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
     }
 
-    private void showToast(String msg) {
-        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+    private void handleResponse(ReportsEroDepositsSearch response) {
+        if (response.getStatus().equalsIgnoreCase("success")) {
+            progressBar.setVisibility(View.GONE);
+            //showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
+            List<ReportEroDepositsSearchNew> reportsFeePaidNewList = response.getEroReport_data();
 
+            mAdapterSearch = new ReportsEroDepositSearchListAdapter(getActivity(), reportsFeePaidNewList, title);
+            recyclerView.setAdapter(mAdapterSearch);
+            mAdapterSearch.notifyDataSetChanged();
+            layout.setVisibility(View.VISIBLE);
+
+            if (layout != null) {
+                layout.removeAllViews();
+            }
+            int totalPage = Integer.parseInt(totalPages);
+            if (totalPage == 1) {
+
+                prev.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+            } else {
+                for (current_page = 0; current_page < totalPage; current_page++) {
+                    final Button btn = new Button(getActivity());
+                    int width = (int) getResources().getDimension(R.dimen.dim_40);
+                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    //  lp.setMargins(5, 5, 5, 5);
+                    btn.setId(current_page);
+                    btn.setText("" + (current_page + 1));
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+
+                        }
+                    }
+                    btn.setLayoutParams(lp);
+                    layout.addView(btn);
+
+
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String currentBtnText = btn.getText().toString();
+                            current_page_search = Integer.parseInt(currentBtnText);
+                            final int index = current_page_search;
+                            reportsFeePaidSearch.setPage(String.valueOf(index));
+                            pagNo = reportsFeePaidSearch.getPage();
+                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+
+                        }
+                    });
+                    prev.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if (current_page_search > 1 && totalPage >= current_page_search) {
+                                current_page_search = current_page_search - 1;
+                                reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
+                            }
+                            pagNo = reportsFeePaidSearch.getPage();
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
+
+
+                        }
+                    });
+                    next.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (current_page_search < totalPage) {
+                                current_page_search = current_page_search + 1;
+                                reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
+                            }
+                            pagNo = reportsFeePaidSearch.getPage();
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
+
+                        }
+                    });
+
+                }
+                mAdapterSearch.setClickListener((view, position) -> {
+                    final ReportEroDepositsSearchNew reports = reportsFeePaidNewList.get(position);
+                    Dashboard activity = (Dashboard) view.getContext();
+                    Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
+                            reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
+                            , reports.getPrimarySsn(), reports.getDepositType(),
+                            reports.getMasterefin(), reports.getDepositdate(),
+                            reports.getDepositAmount(), reports.getRecordcreatedate()
+                    );
+                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.main_content, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                    activity.getSupportActionBar().setTitle("REPORTS");
+                });
+
+            }
+        } else if (response.getStatus().equalsIgnoreCase("fail")) {
+            showToast(response.getMessage());
+            recyclerView.setVisibility(View.GONE);
+            prev.setVisibility(View.GONE);
+            next.setVisibility(View.GONE);
+            layout.setVisibility(View.GONE);
+
+        }
+    }
+
+
+
+
+
+
+
+    private void showToast(String msg) {
+        Toast.makeText(getContext(), "" + msg, Toast.LENGTH_SHORT).show();
     }
 
     private void handleError(Throwable error) {
@@ -268,6 +459,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             mAdapter = new ReportsEroDepostListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
+            layout.setVisibility(View.VISIBLE);
+
             if (layout != null) {
                 layout.removeAllViews();
             }
@@ -280,10 +473,23 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     final Button btn = new Button(getActivity());
                     int width = (int) getResources().getDimension(R.dimen.dim_40);
                     int hieght = (int) getResources().getDimension(R.dimen.dim_40);
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, hieght);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
                     //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+
+                        }
+                    }
+
+                    btn.setPadding(0, 12, 0, 12);
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 
@@ -291,12 +497,10 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //   reports = new ReportsFeePaid()
-                            // preferencesManager.setParticularPerson(getActivity(),btn.getText().toString());
-                            // btn.setBackgroundColor(getResources().getColor(R.color.selector));
                             current_page_mock = Integer.parseInt(btn.getText().toString());
                             final int index = current_page_mock;
                             reports.setPage(String.valueOf(index));
+                            pagNo = reports.getPage();
                             eroDepositReportsData(userId, userType, reports.getPage());
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
@@ -322,10 +526,12 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                             }
 
                         }
+                        pagNo = reports.getPage();
                         eroDepositReportsData(userId, userType, reports.getPage());
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
+                        horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
 
                     }
                 });
@@ -338,10 +544,14 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                             reports.setPage(String.valueOf(current_page_mock));
 
                         }
+                        pagNo = reports.getPage();
                         eroDepositReportsData(userId, userType, reports.getPage());
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
+                        layout.setVisibility(View.VISIBLE);
+                        horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
+
 
                     }
                 });
@@ -358,7 +568,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         , reports.getPrimarySsn(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
                         reports.getDepositAmount(), reports.getRecordcreatedate()
-                       );
+                );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -390,33 +600,347 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
                 case 0:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "deposit date";
+
+                    sort = "disbursment_date";
+                    if (TextUtils.isEmpty(newText)) {
+                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+
+                    } else {
+                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+
+                    }
+
+
                     parentList.collapseGroup(0);
+
                     progressBar.setVisibility(View.GONE);
-                    showToast(sort);
+
                     break;
                 case 1:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "reversed date";
+
+                    if (TextUtils.isEmpty(newText)) {
+                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+
+                    } else {
+                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+
+                    }
+
+
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
-                    showToast(sort);
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "deposit type";
+
+
+                    if (TextUtils.isEmpty(newText)) {
+                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+
+                    } else {
+                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+
+                    }
+
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
-                    showToast(sort);
                     break;
                 case 3:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "dan";
+
+                    if (TextUtils.isEmpty(newText)) {
+                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+
+                    } else {
+                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+
+                    }
+
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
-                    showToast(sort);
                     break;
             }
         }
     }
+
+    private void searchSortReportData(String userId, String userType, String newText, String page, String sort) {
+        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositsDataSearchSort(userId, userType, newText, page, sort)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(this::handleResponseSearchSort, this::handleError));
+
+
+        } else {
+            showToast("Internet Connection Is Not Available");
+
+
+        }
+    }
+
+    private void handleResponseSearchSort(ReportEroDepositsSearchSort response) {
+        if (response.getStatus().equalsIgnoreCase("success")) {
+            progressBar.setVisibility(View.GONE);
+            //showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
+            List<ReportEroDepositsSearchSortNew> reportsFeePaidNewList = response.getEroReport_data();
+
+            mSearchSortListAdapter = new ReportsEroDepositSearchSortListAdapter(getActivity(), reportsFeePaidNewList, title);
+            recyclerView.setAdapter(mSearchSortListAdapter);
+            mSearchSortListAdapter.notifyDataSetChanged();
+            layout.setVisibility(View.VISIBLE);
+
+            if (layout != null) {
+                layout.removeAllViews();
+            }
+            int totalPage = Integer.parseInt(totalPages);
+            if (totalPage == 1) {
+                prev.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+            } else {
+                for (current_page = 0; current_page < totalPage; current_page++) {
+                    final Button btn = new Button(getActivity());
+                    int width = (int) getResources().getDimension(R.dimen.dim_40);
+                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
+                    btn.setId(current_page);
+                    btn.setText("" + (current_page + 1));
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+
+                        }
+                    }
+                    btn.setLayoutParams(lp);
+                    layout.addView(btn);
+
+
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            current_page_sort = Integer.parseInt(btn.getText().toString());
+                            final int index = current_page_sort;
+
+                            reportFreePaidSearchSort.setPage(String.valueOf(index));
+                            pagNo = reportFreePaidSearchSort.getPage();
+                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+
+                        }
+                    });
+                    prev.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            if (current_page_sort > 1 && current_page_sort <= totalPage) {
+                                current_page_sort = current_page_sort - 1;
+                                reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
+                            }
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            pagNo = reportFreePaidSearchSort.getPage();
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
+
+
+                        }
+                    });
+                    next.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            if (current_page_sort < totalPage) {
+                                current_page_sort = current_page_sort + 1;
+                                reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
+                            }
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            pagNo = reportFreePaidSearchSort.getPage();
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
+
+                        }
+                    });
+
+                }
+
+            }
+
+
+            mSearchSortListAdapter.setClickListener((view, position) -> {
+                final ReportEroDepositsSearchSortNew reports = reportsFeePaidNewList.get(position);
+                Dashboard activity = (Dashboard) view.getContext();
+                Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
+                        , reports.getPrimarySsn(), reports.getDepositType(),
+                        reports.getMasterefin(), reports.getDepositdate(),
+                        reports.getDepositAmount(), reports.getRecordcreatedate()
+                );
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                activity.getSupportActionBar().setTitle("REPORTS");
+            });
+
+        }
+
+    }
+
+
+    private void sortReportItem(String userId, String userType, String page, String type) {
+        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositsDataSort(userId, userType, page, type)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(this::handleResponseSort, this::handleError));
+
+
+        } else {
+            showToast("Internet Connection Is Not Available");
+
+
+        }
+
+    }
+
+    private void handleResponseSort(ReportsEroDepositsSort response) {
+        if (response.getStatus().equalsIgnoreCase("success")) {
+            progressBar.setVisibility(View.GONE);
+            //showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
+            List<ReportsEroDepositsSortNew> reportsFeePaidNewList = response.getEroReport_data();
+
+            mAdapterSort = new ReportsEroDepositSortListAdapter(getActivity(), reportsFeePaidNewList, title);
+            recyclerView.setAdapter(mAdapterSort);
+            mAdapterSort.notifyDataSetChanged();
+            layout.setVisibility(View.VISIBLE);
+            if (layout != null) {
+                layout.removeAllViews();
+            }
+            int totalPage = Integer.parseInt(totalPages);
+            if (totalPage == 1) {
+                prev.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+            } else {
+                for (current_page = 0; current_page < totalPage; current_page++) {
+                    final Button btn = new Button(getActivity());
+                    int width = (int) getResources().getDimension(R.dimen.dim_40);
+                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
+                    btn.setId(current_page);
+                    btn.setText("" + (current_page + 1));
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+
+                        }
+                    }
+                    btn.setLayoutParams(lp);
+                    layout.addView(btn);
+
+
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            current_page_sort = Integer.parseInt(btn.getText().toString());
+                            final int index = current_page_sort;
+                            reportsFeePaidSort.setPage(String.valueOf(index));
+                            pagNo = reportsFeePaidSort.getPage();
+                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+
+                        }
+                    });
+                    prev.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            if (current_page_sort > 1 && current_page_sort <= totalPage) {
+                                current_page_sort = current_page_sort - 1;
+                                reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
+                            }
+                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            pagNo = reportsFeePaidSort.getPage();
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
+
+                        }
+                    });
+                    next.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            if (current_page_sort < totalPage) {
+                                current_page_sort = current_page_sort + 1;
+                                reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
+                            }
+                            pagNo = reportsFeePaidSort.getPage();
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
+
+                        }
+                    });
+                }
+
+
+            }
+
+
+            mAdapterSort.setClickListener((view, position) -> {
+                final ReportsEroDepositsSortNew reports = reportsFeePaidNewList.get(position);
+                Dashboard activity = (Dashboard) view.getContext();
+                Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
+                        , reports.getPrimarySsn(), reports.getDepositType(),
+                        reports.getMasterefin(), reports.getDepositdate(),
+                        reports.getDepositAmount(), reports.getRecordcreatedate()
+                );
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                activity.getSupportActionBar().setTitle("REPORTS");
+            });
+
+        }
+
+    }
+
+
 }

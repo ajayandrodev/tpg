@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidNew;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
+import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidNew;
 
 import java.util.ArrayList;
 import java.util.List;

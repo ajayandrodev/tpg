@@ -1,4 +1,4 @@
-package com.cattechnologies.tpg.model;
+package com.cattechnologies.tpg.model.eroDepositModel;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,10 +6,10 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by admin on 1/10/2018.
+ * Created by admin on 12/26/2017.
  */
 
-public class ReportsPerticularFeePaidSearchNew implements Parcelable {
+public class ReportsFeePaidNew implements Parcelable {
 
     @SerializedName("Id")
     private String Id;
@@ -73,8 +73,18 @@ public class ReportsPerticularFeePaidSearchNew implements Parcelable {
     @SerializedName("Row")
     private String Row;
 
-    public ReportsPerticularFeePaidSearchNew() {
 
+
+    public ReportsFeePaidNew() {
+    }
+
+
+    public String getOtherfees() {
+        return otherfees;
+    }
+
+    public void setOtherfees(String otherfees) {
+        this.otherfees = otherfees;
     }
 
     public String getId() {
@@ -197,14 +207,6 @@ public class ReportsPerticularFeePaidSearchNew implements Parcelable {
         DocumentStorageFeesCollected = documentStorageFeesCollected;
     }
 
-    public String getOtherfees() {
-        return otherfees;
-    }
-
-    public void setOtherfees(String otherfees) {
-        this.otherfees = otherfees;
-    }
-
     public String getToTalSiteFeeCollected() {
         return ToTalSiteFeeCollected;
     }
@@ -245,69 +247,70 @@ public class ReportsPerticularFeePaidSearchNew implements Parcelable {
         Row = row;
     }
 
-    protected ReportsPerticularFeePaidSearchNew(Parcel in) {
-        Id = in.readString();
-        recordcreatedate = in.readString();
-        IrsAcknowledgementDate = in.readString();
-        IrsFundingDate = in.readString();
-        StateFundingDate = in.readString();
-        masterefin = in.readString();
-        Efin = in.readString();
-        PrimaryFirstName = in.readString();
-        PrimaryLastName = in.readString();
-        PrimarySsn = in.readString();
-        TransmitterEfFeesCollected = in.readString();
-        ServiceBureauFeeCollected = in.readString();
-        SiteEfFeesCollected = in.readString();
-        PreparationFeesCollected = in.readString();
-        DocumentStorageFeesCollected = in.readString();
-        otherfees = in.readString();
-        ToTalSiteFeeCollected = in.readString();
-        TransmitterName = in.readString();
-        DisbursementType = in.readString();
-        SBFeesDue = in.readString();
-        Row = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(Id);
-        dest.writeString(recordcreatedate);
-        dest.writeString(IrsAcknowledgementDate);
-        dest.writeString(IrsFundingDate);
-        dest.writeString(StateFundingDate);
-        dest.writeString(masterefin);
-        dest.writeString(Efin);
-        dest.writeString(PrimaryFirstName);
-        dest.writeString(PrimaryLastName);
-        dest.writeString(PrimarySsn);
-        dest.writeString(TransmitterEfFeesCollected);
-        dest.writeString(ServiceBureauFeeCollected);
-        dest.writeString(SiteEfFeesCollected);
-        dest.writeString(PreparationFeesCollected);
-        dest.writeString(DocumentStorageFeesCollected);
-        dest.writeString(otherfees);
-        dest.writeString(ToTalSiteFeeCollected);
-        dest.writeString(TransmitterName);
-        dest.writeString(DisbursementType);
-        dest.writeString(SBFeesDue);
-        dest.writeString(Row);
-    }
 
     @Override
     public int describeContents() {
         return 0;
     }
 
-    public static final Creator<ReportsPerticularFeePaidSearchNew> CREATOR = new Creator<ReportsPerticularFeePaidSearchNew>() {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.Id);
+        dest.writeString(this.recordcreatedate);
+        dest.writeString(this.IrsAcknowledgementDate);
+        dest.writeString(this.IrsFundingDate);
+        dest.writeString(this.StateFundingDate);
+        dest.writeString(this.masterefin);
+        dest.writeString(this.Efin);
+        dest.writeString(this.PrimaryFirstName);
+        dest.writeString(this.PrimaryLastName);
+        dest.writeString(this.PrimarySsn);
+        dest.writeString(this.TransmitterEfFeesCollected);
+        dest.writeString(this.ServiceBureauFeeCollected);
+        dest.writeString(this.SiteEfFeesCollected);
+        dest.writeString(this.PreparationFeesCollected);
+        dest.writeString(this.DocumentStorageFeesCollected);
+        dest.writeString(this.otherfees);
+        dest.writeString(this.ToTalSiteFeeCollected);
+        dest.writeString(this.TransmitterName);
+        dest.writeString(this.DisbursementType);
+        dest.writeString(this.SBFeesDue);
+        dest.writeString(this.Row);
+    }
+
+    protected ReportsFeePaidNew(Parcel in) {
+        this.Id = in.readString();
+        this.recordcreatedate = in.readString();
+        this.IrsAcknowledgementDate = in.readString();
+        this.IrsFundingDate = in.readString();
+        this.StateFundingDate = in.readString();
+        this.masterefin = in.readString();
+        this.Efin = in.readString();
+        this.PrimaryFirstName = in.readString();
+        this.PrimaryLastName = in.readString();
+        this.PrimarySsn = in.readString();
+        this.TransmitterEfFeesCollected = in.readString();
+        this.ServiceBureauFeeCollected = in.readString();
+        this.SiteEfFeesCollected = in.readString();
+        this.PreparationFeesCollected = in.readString();
+        this.DocumentStorageFeesCollected = in.readString();
+        this.otherfees = in.readString();
+        this.ToTalSiteFeeCollected = in.readString();
+        this.TransmitterName = in.readString();
+        this.DisbursementType = in.readString();
+        this.SBFeesDue = in.readString();
+        this.Row = in.readString();
+    }
+
+    public static final Creator<ReportsFeePaidNew> CREATOR = new Creator<ReportsFeePaidNew>() {
         @Override
-        public ReportsPerticularFeePaidSearchNew createFromParcel(Parcel in) {
-            return new ReportsPerticularFeePaidSearchNew(in);
+        public ReportsFeePaidNew createFromParcel(Parcel source) {
+            return new ReportsFeePaidNew(source);
         }
 
         @Override
-        public ReportsPerticularFeePaidSearchNew[] newArray(int size) {
-            return new ReportsPerticularFeePaidSearchNew[size];
+        public ReportsFeePaidNew[] newArray(int size) {
+            return new ReportsFeePaidNew[size];
         }
     };
 }

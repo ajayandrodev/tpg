@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
-import com.cattechnologies.tpg.model.ReportsEroDepositNew;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositNew;
 
 import java.util.List;
 

@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidNew;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
 

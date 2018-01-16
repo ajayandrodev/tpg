@@ -1,4 +1,4 @@
-package com.cattechnologies.tpg.model;
+package com.cattechnologies.tpg.model.eroDepositModel;
 
 import android.os.Parcel;
 import android.os.Parcelable;

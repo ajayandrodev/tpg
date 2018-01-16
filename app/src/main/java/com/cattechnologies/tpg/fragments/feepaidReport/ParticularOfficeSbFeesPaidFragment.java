@@ -10,7 +10,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -22,28 +21,27 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cattechnologies.tpg.adapters.MyExpandableadapterSb;
-import com.cattechnologies.tpg.adapters.ReportsParticularFeesPaidSearchListAdapter;
+import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsParticularFeesPaidSearchListAdapter;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportPerticulaSortListAdapter;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportPerticularListAdapter;
-import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsExpandableListFeesPaidAdapter;
-import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeesPaidListAdapter;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeesPaidParticularSearchSortListAdapter;
-import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeesPaidSortListAdapter;
-import com.cattechnologies.tpg.model.ReportsPerticularFeePaidSearch;
-import com.cattechnologies.tpg.model.ReportsPerticularFeePaidSearchNew;
+import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaid;
+import com.cattechnologies.tpg.model.feePaidModel.ReportsPerticularFeePaidSearch;
+import com.cattechnologies.tpg.model.feePaidModel.ReportsPerticularFeePaidSearchNew;
 import com.cattechnologies.tpg.model.feePaidModel.ReportFreePaidPerticularSearchSort;
 import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaid;
 import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidNew;
 import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidSearchSortNew;
 import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidSort;
 import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidSortNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaid;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearch;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSort;
 import com.cattechnologies.tpg.model.Response;
@@ -74,23 +72,19 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
 
     public static final String ARG_SECTION_TITLE = "section_number";
     RecyclerView recyclerView;
-
-    ReportsFeesPaidListAdapter mAdapter;
-    ReportsParticularFeesPaidSearchListAdapter mAdapterSearch;
-    ReportsFeesPaidSortListAdapter mAdapterSort;
-    ReportPerticularListAdapter mAdapterParticularList;
-    ReportPerticulaSortListAdapter mAdapterParticularSortList;
-    ReportsFeesPaidParticularSearchSortListAdapter mSearchSortListAdapter;
-
-    RecyclerView.LayoutManager mLayoutManager;
-    TextView titulo, expand;
-    String title, pagNo = "";
-    ReportsExpandableListFeesPaidAdapter listAdapter;
-    ExpandableListView simpleExpandableListView;
+    TextView titulo, textNoData;
+    String title, newText, sort;
     CompositeSubscription mSubscriptions;
     ProgressBar progressBar;
-    String userId, userType, pageEfin, efinData;
+    String userId, userType, pageEfin, efinData, pagNo = "";
     PreferencesManager preferencesManager;
+
+
+    ReportsParticularFeesPaidSearchListAdapter mAdapterSearch;
+    ReportPerticularListAdapter mAdapterParticularList;
+    ReportsFeesPaidParticularSearchSortListAdapter mSearchSortListAdapter;
+    ReportPerticulaSortListAdapter mAdapterParticularSortList;
+
 
     ReportsFeePaid reports;
     ReportsFeePaidSort reportsFeePaidSort;
@@ -104,12 +98,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     EditText searchData;
     LinearLayout layout;
     int current_page, current_page_mock, current_page_search = 1, current_page_sort = 1;
-    SearchView searchView;
-    int i = 0;
-    int totalC = 1;
-    // int j = 1;
-    int data;
-    String newText;
 
     MyExpandableadapterSb adapter;
     ExpandableListView myexpandable;
@@ -117,7 +105,8 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     List<String> child;
     HashMap<String, List<String>> bind_and_display;
 
-    String sort;
+    HorizontalScrollView horizontalScrollView;
+    ScrollView scrollView;
 
     public static Fragment newInstance(String sectionTitle, String userId, String type, String page, String effin) {
         ParticularOfficeSbFeesPaidFragment fragment = new ParticularOfficeSbFeesPaidFragment();
@@ -154,6 +143,11 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
         titulo = (TextView) getActivity().findViewById(R.id.title);
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
+        horizontalScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.horizontal);
+        scrollView = (ScrollView) getActivity().findViewById(R.id.scroll_data);
+        textNoData = (TextView) getActivity().findViewById(R.id.search_no_data);
+
+
         searchData = (EditText) getActivity().findViewById(R.id.search_paid);
         progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
         layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
@@ -285,7 +279,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             mAdapterSearch = new ReportsParticularFeesPaidSearchListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterSearch);
             mAdapterSearch.notifyDataSetChanged();
-           // layout.setVisibility(View.VISIBLE);
+            // layout.setVisibility(View.VISIBLE);
 
             if (layout != null) {
                 layout.removeAllViews();
@@ -321,7 +315,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //   reports = new ReportsFeePaid();
                             String currentBtnText = btn.getText().toString();
                             current_page_search = Integer.parseInt(currentBtnText);
                             final int index = current_page_search;
@@ -350,6 +343,8 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() - 50, (int) horizontalScrollView.getScrollY());
+
 
                         }
                     });
@@ -366,6 +361,8 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() + 50, 0);
+
                         }
                     });
 
@@ -492,7 +489,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //   reports = new ReportsFeePaid();
                             current_page_mock = Integer.parseInt(btn.getText().toString());
                             btn.setBackgroundColor(Color.parseColor("#808080"));
 
@@ -531,6 +527,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() - 50, (int) horizontalScrollView.getScrollY());
 
                         }
                     });
@@ -548,6 +545,8 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() + 50, 0);
+
                         }
                     });
 
@@ -727,7 +726,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //   reports = new ReportsFeePaid();
                             current_page_sort = Integer.parseInt(btn.getText().toString());
                             final int index = current_page_sort;
                             btn.setBackgroundColor(Color.parseColor("#808080"));
@@ -756,6 +754,8 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() - 50, (int) horizontalScrollView.getScrollY());
+
 
                         }
                     });
@@ -773,6 +773,8 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() + 50, 0);
+
                         }
                     });
                 }
@@ -892,6 +894,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() - 50, (int) horizontalScrollView.getScrollY());
 
                         }
                     });
@@ -908,6 +911,8 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() + 50, 0);
+
                         }
                     });
 

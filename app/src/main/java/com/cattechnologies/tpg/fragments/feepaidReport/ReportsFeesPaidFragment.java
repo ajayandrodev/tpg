@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.ScrollingMovementMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,8 +35,6 @@ import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeesPaidSear
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeesPaidSortListAdapter;
 import com.cattechnologies.tpg.model.feePaidModel.ReportFreePaidSearchSort;
 import com.cattechnologies.tpg.model.feePaidModel.ReportFreePaidSearchSortNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaid;
-import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidSort;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaid;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidNew;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearch;
@@ -63,8 +60,6 @@ import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-
-import android.support.v7.widget.SearchView;
 
 /**
  * Created by ajay kumar on 28-Oct-17.
@@ -279,8 +274,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
     }
 
-    private void
-    handleResponse(ReportsFeePaidSearch response) {
+    private void handleResponse(ReportsFeePaidSearch response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
@@ -290,7 +284,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             mAdapterSearch = new ReportsFeesPaidSearchListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterSearch);
             mAdapterSearch.notifyDataSetChanged();
-           // layout.setVisibility(View.VISIBLE);
+           layout.setVisibility(View.VISIBLE);
 
             if (layout != null) {
                 layout.removeAllViews();
@@ -320,7 +314,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
                         }
                     }
-                    btn.setTextSize(getResources().getDimension(R.dimen.sp_8));
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 
@@ -328,8 +321,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //   reports = new ReportsFeePaid();
-                            ///  final int index = current_page_search + 1;
                             String currentBtnText = btn.getText().toString();
                             current_page_search = Integer.parseInt(currentBtnText);
                             final int index = current_page_search;
@@ -356,6 +347,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
+
 
                         }
                     });
@@ -371,6 +364,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
+
                         }
                     });
 
@@ -770,7 +765,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //   reports = new ReportsFeePaid();
                             current_page_sort = Integer.parseInt(btn.getText().toString());
                             final int index = current_page_sort;
 
@@ -798,6 +792,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
+
 
                         }
                     });
@@ -816,6 +812,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
+
                         }
                     });
 
@@ -908,7 +906,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //   reports = new ReportsFeePaid();
                             current_page_sort = Integer.parseInt(btn.getText().toString());
                             final int index = current_page_sort;
                             reportsFeePaidSort.setPage(String.valueOf(index));
@@ -935,6 +932,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
 
                         }
                     });
@@ -951,6 +949,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
+                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
+
                         }
                     });
                 }

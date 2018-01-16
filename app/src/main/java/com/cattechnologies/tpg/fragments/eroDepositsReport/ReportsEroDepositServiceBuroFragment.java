@@ -23,10 +23,8 @@ import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.adapters.MyExpandableadapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.SbiEroListDataAdapter;
-import com.cattechnologies.tpg.adapters.feePaidReportAdapter.MySbWithErosInfoAdapter;
 import com.cattechnologies.tpg.interfaces.RemoveClickListner;
 import com.cattechnologies.tpg.model.RecyclerData;
-import com.cattechnologies.tpg.model.eroDepositModel.MySbWithEroInfo;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
@@ -55,10 +53,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
     HashMap<String, List<String>> bind_and_display;
 
 
-    ArrayList<MySbWithEroInfo> deptListAccount = new ArrayList<MySbWithEroInfo>();
-    LinkedHashMap<String, MySbWithEroInfo> subjectsAccount = new LinkedHashMap<String, MySbWithEroInfo>();
-    ExpandableListView simpleExpandableListViewThree;
-    MySbWithErosInfoAdapter accountListAdapter;
+
     TextView sbEro, titulo;
     RecyclerView mRecyclerView;
     SbiEroListDataAdapter mRecyclerAdapter;

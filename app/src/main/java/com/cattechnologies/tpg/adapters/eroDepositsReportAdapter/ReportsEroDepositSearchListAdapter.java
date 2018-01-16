@@ -1,4 +1,4 @@
-package com.cattechnologies.tpg.adapters.feePaidReportAdapter;
+package com.cattechnologies.tpg.adapters.eroDepositsReportAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSortNew;
 import com.cattechnologies.tpg.R;
+import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchNew;
+import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearchNew;
 
 import java.util.List;
 
@@ -18,14 +19,14 @@ import java.util.List;
  * Created by admin on 1/4/2018.
  */
 
-public class ReportsFeesPaidSortListAdapter extends RecyclerView.Adapter<ReportsFeesPaidSortListAdapter.ReportsViewHolder> {
-    List<ReportsFeePaidSortNew> reportsList;
+public class ReportsEroDepositSearchListAdapter extends RecyclerView.Adapter<ReportsEroDepositSearchListAdapter.ReportsViewHolder> {
+    List<ReportEroDepositsSearchNew> reportsList;
     String title;
     private ItemClickListener clickListener;
     String index;
     Context mContext;
 
-    public ReportsFeesPaidSortListAdapter(Context mContext, List<ReportsFeePaidSortNew> reportsList, String title) {
+    public ReportsEroDepositSearchListAdapter(Context mContext, List<ReportEroDepositsSearchNew> reportsList, String title) {
         this.reportsList = reportsList;
         this.mContext = mContext;
         this.title = title;
@@ -33,27 +34,26 @@ public class ReportsFeesPaidSortListAdapter extends RecyclerView.Adapter<Reports
     }
 
     @Override
-    public ReportsFeesPaidSortListAdapter.ReportsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ReportsEroDepositSearchListAdapter.ReportsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_list_row, parent, false);
-        ReportsFeesPaidSortListAdapter.ReportsViewHolder reportsViewHolder
-                = new ReportsFeesPaidSortListAdapter.ReportsViewHolder(itemView);
+        ReportsEroDepositSearchListAdapter.ReportsViewHolder reportsViewHolder
+                = new ReportsEroDepositSearchListAdapter.ReportsViewHolder(itemView);
         return reportsViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ReportsFeesPaidSortListAdapter.ReportsViewHolder holder, int position) {
+    public void onBindViewHolder(ReportsEroDepositSearchListAdapter.ReportsViewHolder holder, int position) {
      /*   if (position % 2 == 0)
             holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
         else
             holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
 
-        ReportsFeePaidSortNew reports = reportsList.get(position);
+        ReportEroDepositsSearchNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
-        holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
+        holder.costData.setText("$" + reports.getDepositAmount());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
-        holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
+        holder.detailsDataDisbush.setText(reports.getDepositType() + " | ");
         holder.dateData.setText(reports.getRecordcreatedate());
-
     }
 
     @Override
@@ -104,7 +104,6 @@ public class ReportsFeesPaidSortListAdapter extends RecyclerView.Adapter<Reports
             if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
         }
     }
-
 
 
 }

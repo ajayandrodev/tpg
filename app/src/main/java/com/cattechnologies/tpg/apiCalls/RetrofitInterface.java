@@ -2,8 +2,16 @@ package com.cattechnologies.tpg.apiCalls;
 
 
 import com.cattechnologies.tpg.model.ReportsEfinValidCheck;
-import com.cattechnologies.tpg.model.ReportsEroDeposit;
-import com.cattechnologies.tpg.model.ReportsPerticularFeePaidSearch;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsPerticularSearchSort;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchSort;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDeposits;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDepositsSort;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDeposit;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSearch;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSort;
+import com.cattechnologies.tpg.model.eroDepositModel.ReportsPerticularEroDepositsSearch;
+import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaid;
+import com.cattechnologies.tpg.model.feePaidModel.ReportsPerticularFeePaidSearch;
 import com.cattechnologies.tpg.model.dashboardModel.DashboardInfo;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserEmailAddress;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserEmailAddressSb;
@@ -11,19 +19,16 @@ import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserNameInfo;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordInfo;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordInfoEmp;
 import com.cattechnologies.tpg.model.profileModel.ProfileGroupData;
-import com.cattechnologies.tpg.model.profileModel.ProfileGroupInfo;
 import com.cattechnologies.tpg.model.feePaidModel.ReportFreePaidPerticularSearchSort;
 import com.cattechnologies.tpg.model.feePaidModel.ReportFreePaidSearchSort;
 import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaid;
 import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidSort;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaid;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearch;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSort;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import rx.Completable;
 import rx.Observable;
 
 public interface RetrofitInterface {
@@ -144,4 +149,65 @@ public interface RetrofitInterface {
                                                     @Field("page") String page);
 
 
+    @FormUrlEncoded
+    @POST("ero-deposit-search")
+    Observable<ReportsEroDepositsSearch> getEroDepositDataSearch
+            (@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
+             @Field("page") String page, @Field("search") String search);
+
+
+    @FormUrlEncoded
+    @POST("SortEroDeposit")
+    Observable<ReportsEroDepositsSort> getEroDepositsDataSort(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
+                                                              @Field("page") String page, @Field("sort") String search);
+
+    @FormUrlEncoded
+    @POST("search-sort")
+    Observable<ReportEroDepositsSearchSort> getEroDepositsDataSearchSort(@Field("app_uid") String userId,
+                                                                         @Field("acc_type") String userType,
+                                                                         @Field("search") String newText,
+                                                                         @Field("page") String page,
+                                                                         @Field("sort") String sort);
+
+   /* particular erodeposit sb*/
+
+    @FormUrlEncoded
+    @POST("particular-office")
+    Observable<ReportParticulrEroDeposits> getEroDepositsParticularData(@Field("app_uid") String userId,
+                                                                        @Field("acc_type") String userType,
+                                                                        @Field("page") String page, @Field("efin_id") String particularPerson);
+
+
+    @FormUrlEncoded
+    @POST("particular-office-search")
+    Observable<ReportsPerticularEroDepositsSearch> getPerticularEroDepositsSearch(
+            @Field("app_uid") String userId,
+            @Field("acc_type") String userType,
+            @Field("page") String page,
+            @Field("search") String newText,
+            @Field("efin_id") String efinData);
+
+    @FormUrlEncoded
+    @POST("EfinValid-SB")
+    Observable<ReportsEfinValidCheck> getEroDepositsEfinValidCheck(@Field("app_uid")String userId,
+                                                        @Field("acc_type")String userType,
+                                                        @Field("efin_check")String title);
+
+    @FormUrlEncoded
+    @POST("sort_particular_SB")
+    Observable<ReportParticulrEroDepositsSort> getEroDepositsParticularDataSort(@Field("app_uid") String userId,
+                                                                                @Field("acc_type") String userType,
+                                                                                @Field("page") String pageEfin,
+                                                                                @Field("efin_id") String efinData,
+                                                                                @Field("sort") String sort);
+
+    @FormUrlEncoded
+    @POST("particular-search-sort-feepaid")
+    Observable<ReportEroDepositsPerticularSearchSort> getEroDepositsParticularDataSearchSort(
+            @Field("app_uid") String userId,
+            @Field("acc_type") String userType,
+            @Field("search") String newText,
+            @Field("page") String page,
+            @Field("efin_id") String efinData,
+            @Field("sort") String sort);
 }
