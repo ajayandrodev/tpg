@@ -70,7 +70,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
     public static final String ARG_SECTION_TITLE = "section_number";
     RecyclerView recyclerView;
-    TextView titulo,textNoData;
+    TextView titulo, textNoData;
     String title, newText, sort;
     CompositeSubscription mSubscriptions;
     ProgressBar progressBar;
@@ -103,6 +103,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
     HorizontalScrollView horizontalScrollView;
     ScrollView scrollView;
+    Button btn;
+    int wdth;
 
     public ReportsFeesPaidFragment() {
     }
@@ -216,29 +218,25 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         searchData.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                System.out.println("ReportsFeesPaidFragment.beforeTextChanged");
             }
 
             @Override
             public void onTextChanged(CharSequence query, int start, int before, int count) {
-
+                System.out.println("ReportsFeesPaidFragment.onTextChanged");
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                System.out.println("ReportsFeesPaidFragment.afterTextChanged");
                 newText = editable.toString().toLowerCase();
                 if (TextUtils.isEmpty(newText)) {
                     feePaidReportsData(userId, userType, reports.getPage());
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
-                } else if (!TextUtils.isEmpty(newText)) {
 
+
+                } else if (!TextUtils.isEmpty(newText)) {
                     searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
+
                 }
 
             }
@@ -280,11 +278,14 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportsFeePaidSearchNew> reportsFeePaidNewList = response.getFeeReport_data();
+            recyclerView.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+            next.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
 
             mAdapterSearch = new ReportsFeesPaidSearchListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterSearch);
             mAdapterSearch.notifyDataSetChanged();
-           layout.setVisibility(View.VISIBLE);
 
             if (layout != null) {
                 layout.removeAllViews();
@@ -296,12 +297,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
-                    int width = (int) getResources().getDimension(R.dimen.dim_40);
-                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    btn = new Button(getActivity());
+
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
                     if (!pagNo.isEmpty()) {
@@ -324,16 +323,39 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             String currentBtnText = btn.getText().toString();
                             current_page_search = Integer.parseInt(currentBtnText);
                             final int index = current_page_search;
-                            reportsFeePaidSearch.setPage(String.valueOf(index));
-                            pagNo = reportsFeePaidSearch.getPage();
-                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                            recyclerView.setVisibility(View.VISIBLE);
-                            prev.setVisibility(View.VISIBLE);
-                            next.setVisibility(View.VISIBLE);
+                            // reportsFeePaidSearch.setPage(String.valueOf(index));
+                            // pagNo = reportsFeePaidSearch.getPage();
+                            int id = view.getId();
+                            id = id + 1;
+                            pagNo = String.valueOf(id);
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            searchReportItem(userId, userType, pagNo, newText);
 
                         }
                     });
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        } else {
+                        }
+                        if (Integer.parseInt(pagNo) > 1) {
+                            prev.setEnabled(true);
+                        } else {
+                            prev.setEnabled(false);
+                        }
+                        if (Integer.parseInt(pagNo) > (totalPage - 1)) {
+                            next.setEnabled(false);
+                        } else {
+                            next.setEnabled(true);
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                            prev.setEnabled(false);
+                        } else {
+                        }
+                    }
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -342,13 +364,14 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 current_page_search = current_page_search - 1;
                                 reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
                             }
-                            pagNo = reportsFeePaidSearch.getPage();
-                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                            //  pagNo = reportsFeePaidSearch.getPage();
+                            pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                            wdth = horizontalScrollView.getScrollX() - btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            searchReportItem(userId, userType, pagNo, newText);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
-
 
                         }
                     });
@@ -359,13 +382,17 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 current_page_search = current_page_search + 1;
                                 reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
                             }
-                            pagNo = reportsFeePaidSearch.getPage();
-                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                            if (pagNo.equalsIgnoreCase("")) {
+                                pagNo = String.valueOf(2);
+                            } else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            }
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            searchReportItem(userId, userType, pagNo, newText);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
-
                         }
                     });
 
@@ -407,8 +434,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
-
         } else {
             showToast("Internet Connection Is Not Available");
 
@@ -441,18 +466,19 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
     }
 
+
     private void handleResponse(ReportsFeePaid response) {
 
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
-            //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
             List<ReportsFeePaidNew> reportsFeePaidNewList = response.getFeeReport_data();
-
+            recyclerView.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+            next.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
             mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapter);
-            layout.setVisibility(View.VISIBLE);
 
             if (layout != null) {
                 layout.removeAllViews();
@@ -463,55 +489,57 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
-                    // pagNo = preferencesManager.getParticularPerson(getContext(), "currentPage");
-
-                    System.out.println("ReportsFeesPaidFragment.handleResponse==pgno===" + pagNo);
-
-                    int width = (int) getResources().getDimension(R.dimen.dim_40);
-                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-/*
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width,hieght);
-*/
-                    //  lp.setMargins(5, 5, 5, 5);
-                    btn.setId(current_page);
 
+                    btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
 
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
-
-                    btn.setPadding(0, 12, 0, 12);
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
                             current_page_mock = Integer.parseInt(btn.getText().toString());
                             final int index = current_page_mock;
-                            reports.setPage(String.valueOf(index));
-                            pagNo = reports.getPage();
-                            feePaidReportsData(userId, userType, reports.getPage());
+                            /// reports.setPage(String.valueOf(index));
+                            int id = view.getId();
+                            id = id + 1;
+                            pagNo = String.valueOf(id);
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            feePaidReportsData(userId, userType, pagNo);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-
                         }
                     });
 
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        } else {
+                        }
+                        if (Integer.parseInt(pagNo) > 1) {
+                            prev.setEnabled(true);
+                        } else {
+                            prev.setEnabled(false);
+                        }
+                        if (Integer.parseInt(pagNo) > (totalPage - 1)) {
+                            next.setEnabled(false);
+                        } else {
+                            next.setEnabled(true);
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                            prev.setEnabled(false);
+                        } else {
+                        }
+                    }
+
                 }
-                //  currentPage=totalPage;
                 prev.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -523,50 +551,36 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 current_page_mock = current_page_mock - 1;
                                 reports.setPage(String.valueOf(current_page_mock));
                             }
-
                         }
-                        pagNo = reports.getPage();
-                       /* horizontalScrollView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                horizontalScrollView.fullScroll(horizontalScrollView.FOCUS_LEFT);
-
-                            }
-                        });*/
-
-                        feePaidReportsData(userId, userType, reports.getPage());
+                        pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                        wdth = horizontalScrollView.getScrollX() - btn.getWidth();
+                        horizontalScrollView.smoothScrollTo(wdth, 0);
+                        feePaidReportsData(userId, userType, pagNo);
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
-                        horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
 
                     }
                 });
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //   System.out.println("ReportsFeesPaidFragment.onClick===" + index);
                         if (current_page_mock < totalPage) {
                             current_page_mock++;
                             reports.setPage(String.valueOf(current_page_mock));
                         }
-
-                        pagNo = reports.getPage();
-                      /*  horizontalScrollView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                              //  horizontalScrollView.fullScroll(horizontalScrollView.FOCUS_RIGHT);
-                                horizontalScrollView.smoothScrollBy(current_page_mock, Integer.parseInt(pagNo));
-                            }
-                        });*/
-
-                        feePaidReportsData(userId, userType, reports.getPage());
+                        if (pagNo.equalsIgnoreCase("")) {
+                            pagNo = String.valueOf(2);
+                        } else {
+                            pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                        }
+                        wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                        horizontalScrollView.smoothScrollTo(wdth, 0);
+                        feePaidReportsData(userId, userType, pagNo);
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
                         layout.setVisibility(View.VISIBLE);
-                        horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
-
 
                     }
                 });
@@ -727,10 +741,14 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             String totalPages = response.getTotalNoofPages();
             List<ReportFreePaidSearchSortNew> reportsFeePaidNewList = response.getFeeReport_data();
 
+            recyclerView.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+            next.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
+
             mSearchSortListAdapter = new ReportsFeesPaidSearchSortListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mSearchSortListAdapter);
             mSearchSortListAdapter.notifyDataSetChanged();
-            layout.setVisibility(View.VISIBLE);
 
             if (layout != null) {
                 layout.removeAllViews();
@@ -741,9 +759,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
-                    int width = (int) getResources().getDimension(R.dimen.dim_40);
-                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    btn = new Button(getActivity());
+
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
@@ -768,16 +785,40 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             current_page_sort = Integer.parseInt(btn.getText().toString());
                             final int index = current_page_sort;
 
-                            reportFreePaidSearchSort.setPage(String.valueOf(index));
-                            pagNo = reportFreePaidSearchSort.getPage();
-                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                            int id = view.getId();
+                            id = id + 1;
+                            pagNo = String.valueOf(id);
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
 
                         }
                     });
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        } else {
+                        }
+                        if (Integer.parseInt(pagNo) > 1) {
+                            prev.setEnabled(true);
+                        } else {
+                            prev.setEnabled(false);
+                        }
+                        if (Integer.parseInt(pagNo) > (totalPage - 1)) {
+                            next.setEnabled(false);
+                        } else {
+                            next.setEnabled(true);
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                            prev.setEnabled(false);
+                        } else {
+                        }
+                    }
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -786,13 +827,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 current_page_sort = current_page_sort - 1;
                                 reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
                             }
-                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                            pagNo = reportFreePaidSearchSort.getPage();
-                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                            pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                            wdth = horizontalScrollView.getScrollX() - btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
 
 
                         }
@@ -805,14 +846,17 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 current_page_sort = current_page_sort + 1;
                                 reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
                             }
-                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                            pagNo = reportFreePaidSearchSort.getPage();
-                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                            if (pagNo.equalsIgnoreCase("")) {
+                                pagNo = String.valueOf(2);
+                            } else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            }
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
 
                         }
                     });
@@ -868,11 +912,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportsFeePaidSortNew> reportsFeePaidNewList = response.getFeeReport_data();
-
+            recyclerView.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+            next.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
             mAdapterSort = new ReportsFeesPaidSortListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterSort);
             mAdapterSort.notifyDataSetChanged();
-            layout.setVisibility(View.VISIBLE);
             if (layout != null) {
                 layout.removeAllViews();
             }
@@ -882,9 +928,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
-                    int width = (int) getResources().getDimension(R.dimen.dim_40);
-                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
@@ -908,16 +952,40 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         public void onClick(View view) {
                             current_page_sort = Integer.parseInt(btn.getText().toString());
                             final int index = current_page_sort;
-                            reportsFeePaidSort.setPage(String.valueOf(index));
-                            pagNo = reportsFeePaidSort.getPage();
-                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                            int id = view.getId();
+                            id = id + 1;
+                            pagNo = String.valueOf(id);
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            sortReportItem(userId, userType, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
 
                         }
                     });
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        } else {
+                        }
+                        if (Integer.parseInt(pagNo) > 1) {
+                            prev.setEnabled(true);
+                        } else {
+                            prev.setEnabled(false);
+                        }
+                        if (Integer.parseInt(pagNo) > (totalPage - 1)) {
+                            next.setEnabled(false);
+                        } else {
+                            next.setEnabled(true);
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                            prev.setEnabled(false);
+                        } else {
+                        }
+                    }
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -926,13 +994,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 current_page_sort = current_page_sort - 1;
                                 reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
                             }
-                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                            pagNo = reportsFeePaidSort.getPage();
-                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                            pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                            wdth = horizontalScrollView.getScrollX() - btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            sortReportItem(userId, userType, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() - 50, (int)horizontalScrollView.getScrollY());
 
                         }
                     });
@@ -944,12 +1012,17 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 current_page_sort = current_page_sort + 1;
                                 reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
                             }
-                            pagNo = reportsFeePaidSort.getPage();
-                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                            if (pagNo.equalsIgnoreCase("")) {
+                                pagNo = String.valueOf(2);
+                            } else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            }
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            sortReportItem(userId, userType, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX() + 50, 0);
 
                         }
                     });

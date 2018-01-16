@@ -49,12 +49,11 @@ public class ReportsEroDepositParticularSearchListAdapter extends RecyclerView.A
             holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
 
         ReportsPerticularEroDepositsSearchNew reports = reportsList.get(position);
-        holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
+        holder.userData.setText(reports.getDAN());
         holder.costData.setText("$" + reports.getDepositAmount());
-        holder.accountDataSSN.setText(reports.getPrimarySsn());
-        holder.detailsDataDisbush.setText(reports.getDepositType() + " | ");
-        holder.dateData.setText(reports.getRecordcreatedate());
-
+        holder.accountDataSSN.setText(reports.getDepositType());
+        holder.detailsDataDisbush.setText("");
+        holder.dateData.setText(reports.getDepositdate());
     }
 
     @Override

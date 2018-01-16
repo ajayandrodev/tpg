@@ -162,7 +162,7 @@ public interface RetrofitInterface {
                                                               @Field("page") String page, @Field("sort") String search);
 
     @FormUrlEncoded
-    @POST("search-sort")
+    @POST("SearchSortEroDeposit")
     Observable<ReportEroDepositsSearchSort> getEroDepositsDataSearchSort(@Field("app_uid") String userId,
                                                                          @Field("acc_type") String userType,
                                                                          @Field("search") String newText,
@@ -172,14 +172,15 @@ public interface RetrofitInterface {
    /* particular erodeposit sb*/
 
     @FormUrlEncoded
-    @POST("particular-office")
+    @POST("EroDeposit-particular-office")
     Observable<ReportParticulrEroDeposits> getEroDepositsParticularData(@Field("app_uid") String userId,
                                                                         @Field("acc_type") String userType,
-                                                                        @Field("page") String page, @Field("efin_id") String particularPerson);
+                                                                        @Field("page") String page,
+                                                                        @Field("efin_id") String particularPerson);
 
 
     @FormUrlEncoded
-    @POST("particular-office-search")
+    @POST("EroDeposit-particular-office-search")
     Observable<ReportsPerticularEroDepositsSearch> getPerticularEroDepositsSearch(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,
@@ -194,7 +195,7 @@ public interface RetrofitInterface {
                                                         @Field("efin_check")String title);
 
     @FormUrlEncoded
-    @POST("sort_particular_SB")
+    @POST("EroDeposit-particular-office-sort")
     Observable<ReportParticulrEroDepositsSort> getEroDepositsParticularDataSort(@Field("app_uid") String userId,
                                                                                 @Field("acc_type") String userType,
                                                                                 @Field("page") String pageEfin,
@@ -202,7 +203,7 @@ public interface RetrofitInterface {
                                                                                 @Field("sort") String sort);
 
     @FormUrlEncoded
-    @POST("particular-search-sort-feepaid")
+    @POST("EroDeposit-particular-office-search-sort")
     Observable<ReportEroDepositsPerticularSearchSort> getEroDepositsParticularDataSearchSort(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,

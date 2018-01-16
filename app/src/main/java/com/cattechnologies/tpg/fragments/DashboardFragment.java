@@ -19,7 +19,7 @@ import com.cattechnologies.tpg.fragments.eroDepositsReport.ReportEroDepositFragm
 import com.cattechnologies.tpg.fragments.eroDepositsReport.ReportsEroDepositServiceBuroFragment;
 import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidServiceBuroFragment;
-import com.cattechnologies.tpg.fragments.feepaidReport.ServiceBruoNewFragment;
+import com.cattechnologies.tpg.fragments.checksToPrintReport.ServiceBruoNewFragment;
 import com.cattechnologies.tpg.model.dashboardModel.DashboardInfoData;
 import com.cattechnologies.tpg.model.dashboardModel.RecentTransactions;
 import com.cattechnologies.tpg.adapters.dashboardAdapter.DashboardListAdapter;

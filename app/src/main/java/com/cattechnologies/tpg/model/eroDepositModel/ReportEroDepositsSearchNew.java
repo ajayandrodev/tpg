@@ -23,6 +23,14 @@ public class ReportEroDepositsSearchNew implements Parcelable{
     @SerializedName("masterefin")
     private String masterefin;
 
+    @SerializedName("DAN")
+    private String DAN;
+
+
+    @SerializedName("Reverseddate")
+    private String Reverseddate;
+
+
     @SerializedName("Efin")
     private String Efin;
 
@@ -53,6 +61,22 @@ public class ReportEroDepositsSearchNew implements Parcelable{
 
     @SerializedName("Depositor")
     private String Depositor;
+
+    public String getReverseddate() {
+        return Reverseddate;
+    }
+
+    public void setReverseddate(String reverseddate) {
+        Reverseddate = reverseddate;
+    }
+
+    public String getDAN() {
+        return DAN;
+    }
+
+    public void setDAN(String DAN) {
+        this.DAN = DAN;
+    }
 
     public String getId() {
         return Id;
@@ -166,39 +190,7 @@ public class ReportEroDepositsSearchNew implements Parcelable{
         Depositor = depositor;
     }
 
-    protected ReportEroDepositsSearchNew(Parcel in) {
-        Id = in.readString();
-        recordcreatedate = in.readString();
-        System_Year = in.readString();
-        masterefin = in.readString();
-        Efin = in.readString();
-        PrimaryFirstName = in.readString();
-        PrimaryLastName = in.readString();
-        PrimarySsn = in.readString();
-        DepositType = in.readString();
-        ProductType = in.readString();
-        DepositAmount = in.readString();
-        depositdate = in.readString();
-        sadjtype = in.readString();
-        Depositor = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(Id);
-        dest.writeString(recordcreatedate);
-        dest.writeString(System_Year);
-        dest.writeString(masterefin);
-        dest.writeString(Efin);
-        dest.writeString(PrimaryFirstName);
-        dest.writeString(PrimaryLastName);
-        dest.writeString(PrimarySsn);
-        dest.writeString(DepositType);
-        dest.writeString(ProductType);
-        dest.writeString(DepositAmount);
-        dest.writeString(depositdate);
-        dest.writeString(sadjtype);
-        dest.writeString(Depositor);
+    public ReportEroDepositsSearchNew() {
     }
 
     @Override
@@ -206,10 +198,49 @@ public class ReportEroDepositsSearchNew implements Parcelable{
         return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.Id);
+        dest.writeString(this.recordcreatedate);
+        dest.writeString(this.System_Year);
+        dest.writeString(this.masterefin);
+        dest.writeString(this.DAN);
+        dest.writeString(this.Reverseddate);
+        dest.writeString(this.Efin);
+        dest.writeString(this.PrimaryFirstName);
+        dest.writeString(this.PrimaryLastName);
+        dest.writeString(this.PrimarySsn);
+        dest.writeString(this.DepositType);
+        dest.writeString(this.ProductType);
+        dest.writeString(this.DepositAmount);
+        dest.writeString(this.depositdate);
+        dest.writeString(this.sadjtype);
+        dest.writeString(this.Depositor);
+    }
+
+    protected ReportEroDepositsSearchNew(Parcel in) {
+        this.Id = in.readString();
+        this.recordcreatedate = in.readString();
+        this.System_Year = in.readString();
+        this.masterefin = in.readString();
+        this.DAN = in.readString();
+        this.Reverseddate = in.readString();
+        this.Efin = in.readString();
+        this.PrimaryFirstName = in.readString();
+        this.PrimaryLastName = in.readString();
+        this.PrimarySsn = in.readString();
+        this.DepositType = in.readString();
+        this.ProductType = in.readString();
+        this.DepositAmount = in.readString();
+        this.depositdate = in.readString();
+        this.sadjtype = in.readString();
+        this.Depositor = in.readString();
+    }
+
     public static final Creator<ReportEroDepositsSearchNew> CREATOR = new Creator<ReportEroDepositsSearchNew>() {
         @Override
-        public ReportEroDepositsSearchNew createFromParcel(Parcel in) {
-            return new ReportEroDepositsSearchNew(in);
+        public ReportEroDepositsSearchNew createFromParcel(Parcel source) {
+            return new ReportEroDepositsSearchNew(source);
         }
 
         @Override

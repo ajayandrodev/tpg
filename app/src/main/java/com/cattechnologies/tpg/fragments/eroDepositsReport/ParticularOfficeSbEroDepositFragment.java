@@ -121,9 +121,11 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
 
     HorizontalScrollView horizontalScrollView;
     ScrollView scrollView;
+    Button btn;
+    int wdth;
 
     public static Fragment newInstance(String sectionTitle, String userId, String type, String page, String effin) {
-        ParticularOfficeSbFeesPaidFragment fragment = new ParticularOfficeSbFeesPaidFragment();
+        ParticularOfficeSbEroDepositFragment fragment = new ParticularOfficeSbEroDepositFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("app_uid", userId);
@@ -178,8 +180,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         mSubscriptions = new CompositeSubscription();
         preferencesManager = new PreferencesManager();
         myexpandable = (ExpandableListView) getActivity().findViewById(R.id.theexpandables);
-        parent = Arrays.asList(getResources().getStringArray(R.array.Parent_Head_Report_Fees_Paid));
-        bind_and_display.put(parent.get(0), Arrays.asList(getResources().getStringArray(R.array.child_report_feepaid)));
+        parent = Arrays.asList(getResources().getStringArray(R.array.Parent_Head_Ero_Deposits));
+        bind_and_display.put(parent.get(0), Arrays.asList(getResources().getStringArray(R.array.child_report_ero_deposits)));
 
         adapter = new MyExpandableadapterSb(getActivity(), parent, bind_and_display);
         myexpandable.setAdapter(adapter);
@@ -289,6 +291,11 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             String totalPages = response.getTotalNoofPages();
             List<ReportsPerticularEroDepositsSearchNew> reportsFeePaidNewList = response.getEroReport_data();
 
+            recyclerView.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+            next.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
+
             mAdapterSearch = new ReportsEroDepositParticularSearchListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterSearch);
             mAdapterSearch.notifyDataSetChanged();
@@ -304,9 +311,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
-                    int width = (int) getResources().getDimension(R.dimen.dim_40);
-                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    btn = new Button(getActivity());
+
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
@@ -331,32 +337,58 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                             String currentBtnText = btn.getText().toString();
                             current_page_search = Integer.parseInt(currentBtnText);
                             final int index = current_page_search;
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                            reportsPerticularFeePaidSearch.setPage(String.valueOf(index));
-                            pagNo = reportsPerticularFeePaidSearch.getPage();
-                            particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
+                            int id = view.getId();
+                            id = id + 1;
+                            pagNo = String.valueOf(id);
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          //  reportsPerticularFeePaidSearch.setPage(String.valueOf(index));
+                          //  pagNo = reportsPerticularFeePaidSearch.getPage();
+                            particularOfficeSearch(userId, userType,pagNo, newText, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
 
                         }
                     });
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        } else {
+                        }
+                        if (Integer.parseInt(pagNo) > 1) {
+                            prev.setEnabled(true);
+                        } else {
+                            prev.setEnabled(false);
+                        }
+                        if (Integer.parseInt(pagNo) > (totalPage - 1)) {
+                            next.setEnabled(false);
+                        } else {
+                            next.setEnabled(true);
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                            prev.setEnabled(false);
+                        } else {
+                        }
+                    }
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_search);
 
                             if (current_page_search > 1 && totalPage >= current_page_search) {
                                 current_page_search = current_page_search - 1;
                                 reportsPerticularFeePaidSearch.setPage(String.valueOf(current_page_search));
                             }
-                            pagNo = reportsPerticularFeePaidSearch.getPage();
-                            particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
+                            pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                            wdth = horizontalScrollView.getScrollX() - btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          //  pagNo = reportsPerticularFeePaidSearch.getPage();
+                            particularOfficeSearch(userId, userType,pagNo, newText, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() - 50, (int) horizontalScrollView.getScrollY());
 
 
                         }
@@ -369,12 +401,19 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                                 current_page_search = current_page_search + 1;
                                 reportsPerticularFeePaidSearch.setPage(String.valueOf(current_page_search));
                             }
-                            pagNo = reportsPerticularFeePaidSearch.getPage();
-                            particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
+
+                            if (pagNo.equalsIgnoreCase("")) {
+                                pagNo = String.valueOf(2);
+                            } else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            }
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                       //     pagNo = reportsPerticularFeePaidSearch.getPage();
+                            particularOfficeSearch(userId, userType, pagNo, newText, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() + 50, 0);
 
                         }
                     });
@@ -387,9 +426,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     Dashboard activity = (Dashboard) view.getContext();
                     Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
                             reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                            , reports.getPrimarySsn(), reports.getDepositType(),
+                            , reports.getDAN(), reports.getDepositType(),
                             reports.getMasterefin(), reports.getDepositdate(),
-                            reports.getDepositAmount(), reports.getRecordcreatedate()
+                            reports.getDepositAmount(), reports.getReverseddate()
                     );
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
                     fragmentManager
@@ -460,11 +499,13 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrEroDepositsNew> reportsFeePaidNewList = response.getEroReport_data();
-
+            recyclerView.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+            next.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
             mAdapterParticularList = new ReportEroDepositPerticularListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterParticularList);
             mAdapterParticularList.notifyDataSetChanged();
-            layout.setVisibility(View.VISIBLE);
 
             if (layout != null) {
                 layout.removeAllViews();
@@ -475,9 +516,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
-                    int width = (int) getResources().getDimension(R.dimen.dim_40);
-                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
@@ -502,12 +541,15 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         @Override
                         public void onClick(View view) {
                             current_page_mock = Integer.parseInt(btn.getText().toString());
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                            reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
-                            pagNo = reportParticulrFreePaid.getPage();
-                            System.out.println("ReportsFeesPaidFragment.onClick" + current_page_mock);
-                            particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+                            int id = view.getId();
+                            id = id + 1;
+                            pagNo = String.valueOf(id);
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                         //   reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
+                          //  pagNo = reportParticulrFreePaid.getPage();
+                            //System.out.println("ReportsFeesPaidFragment.onClick" + current_page_mock);
+                            particularReportData(userId, userType, pagNo, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -515,6 +557,28 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
 
                         }
                     });
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        } else {
+                        }
+                        if (Integer.parseInt(pagNo) > 1) {
+                            prev.setEnabled(true);
+                        } else {
+                            prev.setEnabled(false);
+                        }
+                        if (Integer.parseInt(pagNo) > (totalPage - 1)) {
+                            next.setEnabled(false);
+                        } else {
+                            next.setEnabled(true);
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                            prev.setEnabled(false);
+                        } else {
+                        }
+                    }
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -534,12 +598,14 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                                 }
 
                             }
-                            pagNo = reportParticulrFreePaid.getPage();
-                            particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+                            pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                            wdth = horizontalScrollView.getScrollX() - btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          //  pagNo = reportParticulrFreePaid.getPage();
+                            particularReportData(userId, userType,pagNo , efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() - 50, (int) horizontalScrollView.getScrollY());
 
                         }
                     });
@@ -552,8 +618,15 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                                 reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
 
                             }
-                            pagNo = reportParticulrFreePaid.getPage();
-                            particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+                            if (pagNo.equalsIgnoreCase("")) {
+                                pagNo = String.valueOf(2);
+                            } else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            }
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          //  pagNo = reportParticulrFreePaid.getPage();
+                            particularReportData(userId, userType, pagNo, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -571,9 +644,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDepositType(),
+                        , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getRecordcreatedate()
+                        reports.getDepositAmount(), reports.getReverseddate()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -608,7 +681,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 case 0:
                     progressBar.setVisibility(View.VISIBLE);
 
-                    sort = "disbursment_date";
+                    sort = "deposit_date";
                     System.out.println("ReportsFeesPaidFragment.Displayitemclicked" + efinData);
                     if (TextUtils.isEmpty(newText)) {
                         particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
@@ -626,7 +699,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     break;
                 case 1:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "ssn";
+                    sort = "deposit_type";
 
                     if (TextUtils.isEmpty(newText)) {
                         particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
@@ -642,8 +715,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "lastname";
-
+                    sort = "dan";
                     if (TextUtils.isEmpty(newText)) {
                         particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
 
@@ -655,7 +727,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
-                case 3:
+             /*   case 3:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "product_type";
 
@@ -669,7 +741,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
 
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
-                    break;
+                    break;*/
             }
         }
     }
@@ -698,10 +770,14 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrEroDepositsSearchSortNew> reportsFeePaidNewList = response.getEroReport_data();
 
+            recyclerView.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+            next.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
+
             mSearchSortListAdapter = new ReportsEroDepositParticularSearchSortListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mSearchSortListAdapter);
             mSearchSortListAdapter.notifyDataSetChanged();
-            layout.setVisibility(View.VISIBLE);
 
             if (layout != null) {
                 layout.removeAllViews();
@@ -712,9 +788,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
-                    int width = (int) getResources().getDimension(R.dimen.dim_40);
-                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    btn = new Button(getActivity());
+
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
@@ -739,18 +814,45 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         public void onClick(View view) {
                             current_page_sort = Integer.parseInt(btn.getText().toString());
                             final int index = current_page_sort;
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                            int id = view.getId();
+                            id = id + 1;
+                            pagNo = String.valueOf(id);
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          //  btn.setBackgroundColor(Color.parseColor("#808080"));
 
-                            reportFreePaidParticulrSearchSort.setPage(String.valueOf(index));
-                            pagNo = reportFreePaidParticulrSearchSort.getPage();
-                            System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                           // reportFreePaidParticulrSearchSort.setPage(String.valueOf(index));
+                           // pagNo = reportFreePaidParticulrSearchSort.getPage();
+                           // System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
 
                         }
                     });
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        } else {
+                        }
+                        if (Integer.parseInt(pagNo) > 1) {
+                            prev.setEnabled(true);
+                        } else {
+                            prev.setEnabled(false);
+                        }
+                        if (Integer.parseInt(pagNo) > (totalPage - 1)) {
+                            next.setEnabled(false);
+                        } else {
+                            next.setEnabled(true);
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                            prev.setEnabled(false);
+                        } else {
+                        }
+                    }
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -759,9 +861,13 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                                 current_page_sort = current_page_sort - 1;
                                 reportFreePaidParticulrSearchSort.setPage(String.valueOf(current_page_sort));
                             }
-                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                            pagNo = reportFreePaidParticulrSearchSort.getPage();
-                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+
+                            pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                            wdth = horizontalScrollView.getScrollX() - btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                        //    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                         //   pagNo = reportFreePaidParticulrSearchSort.getPage();
+                            particularOfficeSearchSort(userId, userType, newText,pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -778,13 +884,21 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                                 current_page_sort = current_page_sort + 1;
                                 reportFreePaidParticulrSearchSort.setPage(String.valueOf(current_page_sort));
                             }
-                            pagNo = reportFreePaidParticulrSearchSort.getPage();
-                            System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+
+
+                            if (pagNo.equalsIgnoreCase("")) {
+                                pagNo = String.valueOf(2);
+                            } else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            }
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          //  pagNo = reportFreePaidParticulrSearchSort.getPage();
+                           // System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            particularOfficeSearchSort(userId, userType, newText,pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() + 50, 0);
 
                         }
                     });
@@ -799,9 +913,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDepositType(),
+                        , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getRecordcreatedate()
+                        reports.getDepositAmount(), reports.getReverseddate()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -839,10 +953,14 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrEroDepositsSortNew> reportsFeePaidNewList = response.getEroReport_data();
 
+            recyclerView.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+            next.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
+
             mAdapterParticularSortList = new ReportEroDepositPerticulaSortListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterParticularSortList);
             mAdapterParticularSortList.notifyDataSetChanged();
-            layout.setVisibility(View.VISIBLE);
 
             if (layout != null) {
                 layout.removeAllViews();
@@ -853,9 +971,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
-                    int width = (int) getResources().getDimension(R.dimen.dim_40);
-                    int hieght = (int) getResources().getDimension(R.dimen.dim_40);
+                    btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
@@ -880,30 +996,55 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         public void onClick(View view) {
                             current_page_sort = Integer.parseInt(btn.getText().toString());
                             final int index = current_page_sort;
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                            reportParticulrFreePaidSort.setPage(String.valueOf(index));
-                            pagNo = reportParticulrFreePaidSort.getPage();
-                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+                            int id = view.getId();
+                            id = id + 1;
+                            pagNo = String.valueOf(id);
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
 
                         }
                     });
+                    if (!pagNo.isEmpty()) {
+                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                        } else {
+                        }
+                        if (Integer.parseInt(pagNo) > 1) {
+                            prev.setEnabled(true);
+                        } else {
+                            prev.setEnabled(false);
+                        }
+                        if (Integer.parseInt(pagNo) > (totalPage - 1)) {
+                            next.setEnabled(false);
+                        } else {
+                            next.setEnabled(true);
+                        }
+                    } else {
+                        if (current_page == 0) {
+                            btn.setBackgroundColor(Color.parseColor("#808080"));
+                            prev.setEnabled(false);
+                        } else {
+                        }
+                    }
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 reportParticulrFreePaidSort.setPage(String.valueOf(current_page_sort));
                             }
-                            pagNo = reportParticulrFreePaidSort.getPage();
-                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+                            pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                            wdth = horizontalScrollView.getScrollX() - btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          //  pagNo = reportParticulrFreePaidSort.getPage();
+                            particularOfficeSort(userId, userType,pagNo, efinData, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() - 50, (int) horizontalScrollView.getScrollY());
 
                         }
                     });
@@ -915,12 +1056,19 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                                 current_page_sort = current_page_sort + 1;
                                 reportParticulrFreePaidSort.setPage(String.valueOf(current_page_sort));
                             }
-                            pagNo = reportParticulrFreePaidSort.getPage();
-                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+
+                            if (pagNo.equalsIgnoreCase("")) {
+                                pagNo = String.valueOf(2);
+                            } else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            }
+                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          //  pagNo = reportParticulrFreePaidSort.getPage();
+                            particularOfficeSort(userId, userType,pagNo, efinData, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() + 50, 0);
 
                         }
                     });
@@ -935,9 +1083,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDepositType(),
+                        , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getRecordcreatedate()
+                        reports.getDepositAmount(), reports.getReverseddate()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
