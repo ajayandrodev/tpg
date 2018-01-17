@@ -156,13 +156,14 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
-
+        titulo.setText(title);
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
         horizontalScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.horizontal);
         scrollView = (ScrollView) getActivity().findViewById(R.id.scroll_data);
         textNoData = (TextView) getActivity().findViewById(R.id.search_no_data);
-
+        /**Updated **/ prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
+        /**Updated **/ next.setBackgroundColor(Color.parseColor("#DCDCDC"));
 
         searchData = (EditText) getActivity().findViewById(R.id.search_paid);
         progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
@@ -323,6 +324,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     //  lp.setMargins(5, 5, 5, 5);
+                    lp.setMargins(5,0,5,0);
+                    btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
                     if (!pagNo.isEmpty()) {
@@ -348,8 +351,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                             int id = view.getId();
                             id = id + 1;
                             pagNo = String.valueOf(id);
-                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
-                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);*/
                           //  reportsFeePaidSearch.setPage(String.valueOf(index));
                            // pagNo = reportsFeePaidSearch.getPage();
                            // System.out.println("ReportsFeesPaidFragment.onClick" + index);
@@ -518,6 +521,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     //  lp.setMargins(5, 5, 5, 5);
+                    lp.setMargins(5,0,5,0);
+                    btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
                     if (!pagNo.isEmpty()) {
@@ -544,8 +549,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                             int id = view.getId();
                             id = id + 1;
                             pagNo = String.valueOf(id);
-                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
-                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);*/
                             eroDepositReportsData(userId, userType, pagNo);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
@@ -784,7 +789,10 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     btn = new Button(getActivity());
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                    lp.setMargins(5,0,5,0);
+                    btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
                     if (!pagNo.isEmpty()) {
@@ -809,8 +817,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                             int id = view.getId();
                             id = id + 1;
                             pagNo = String.valueOf(id);
-                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
-                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                           /* wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);*/
                           //  reportFreePaidSearchSort.setPage(String.valueOf(index));
                            // pagNo = reportFreePaidSearchSort.getPage();
                           //  System.out.println("ReportsFeesPaidFragment.onClick" + index);
@@ -959,7 +967,10 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                 for (current_page = 0; current_page < totalPage; current_page++) {
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(5,0,5,0);
+                    btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
+                    //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
                     if (!pagNo.isEmpty()) {
@@ -984,8 +995,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                             int id = view.getId();
                             id = id + 1;
                             pagNo = String.valueOf(id);
-                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
-                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);*/
                           //  reportsFeePaidSort.setPage(String.valueOf(index));
                            // pagNo = reportsFeePaidSort.getPage();
                           //  System.out.println("ReportsFeesPaidFragment.onClick" + index);

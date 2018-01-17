@@ -157,13 +157,15 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
+        titulo.setText(ARG_SECTION_TITLE);
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
         horizontalScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.horizontal);
         scrollView = (ScrollView) getActivity().findViewById(R.id.scroll_data);
         textNoData = (TextView) getActivity().findViewById(R.id.search_no_data);
 
-
+        /**Updated **/ prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
+        /**Updated **/ next.setBackgroundColor(Color.parseColor("#DCDCDC"));
         searchData = (EditText) getActivity().findViewById(R.id.search_paid);
         progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
         layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
@@ -340,8 +342,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                             int id = view.getId();
                             id = id + 1;
                             pagNo = String.valueOf(id);
-                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
-                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);*/
                           //  reportsPerticularFeePaidSearch.setPage(String.valueOf(index));
                           //  pagNo = reportsPerticularFeePaidSearch.getPage();
                             particularOfficeSearch(userId, userType,pagNo, newText, efinData);
@@ -518,7 +520,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 for (current_page = 0; current_page < totalPage; current_page++) {
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(5,0,5,0);
+                    btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
                     if (!pagNo.isEmpty()) {
@@ -544,8 +548,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                             int id = view.getId();
                             id = id + 1;
                             pagNo = String.valueOf(id);
-                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
-                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                           /* wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);*/
                          //   reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
                           //  pagNo = reportParticulrFreePaid.getPage();
                             //System.out.println("ReportsFeesPaidFragment.onClick" + current_page_mock);
@@ -791,7 +795,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     btn = new Button(getActivity());
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(5,0,5,0);
+                    btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
                     if (!pagNo.isEmpty()) {
@@ -817,8 +823,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                             int id = view.getId();
                             id = id + 1;
                             pagNo = String.valueOf(id);
-                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
-                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);*/
                           //  btn.setBackgroundColor(Color.parseColor("#808080"));
 
                            // reportFreePaidParticulrSearchSort.setPage(String.valueOf(index));
@@ -973,7 +979,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 for (current_page = 0; current_page < totalPage; current_page++) {
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(5,0,5,0);
+                    btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
                     if (!pagNo.isEmpty()) {
@@ -999,8 +1007,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                             int id = view.getId();
                             id = id + 1;
                             pagNo = String.valueOf(id);
-                            wdth = horizontalScrollView.getScrollX() + btn.getWidth();
-                            horizontalScrollView.smoothScrollTo(wdth, 0);
+                          /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
+                            horizontalScrollView.smoothScrollTo(wdth, 0);*/
                             particularOfficeSort(userId, userType, pagNo, efinData, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);

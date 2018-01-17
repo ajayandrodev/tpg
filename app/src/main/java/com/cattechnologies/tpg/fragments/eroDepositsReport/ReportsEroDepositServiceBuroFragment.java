@@ -141,7 +141,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                title = getResources().getString(R.string.dashboard_fee_paid);
+                title = getResources().getString(R.string.dashboard_ero_deposits);
 
                 if (myList.size() > 0) {
                     jsonArray = new JSONArray();
@@ -246,7 +246,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
 
             switch (cposition) {
                 case 0:
-                    title = getResources().getString(R.string.dashboard_fee_paid);
+                    title = getResources().getString(R.string.dashboard_ero_deposits);
                     fragment = ReportEroDepositFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                             preferencesManager.getAccountType(getActivity()));
                     if (fragment != null) {
