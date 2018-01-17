@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -110,6 +111,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     Button btn;
     int wdth;
 
+    
     public ReportsFeesPaidFragment() {
     }
 
@@ -224,21 +226,19 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         searchData.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                System.out.println("ReportsFeesPaidFragment.beforeTextChanged");
             }
 
             @Override
             public void onTextChanged(CharSequence query, int start, int before, int count) {
-                System.out.println("ReportsFeesPaidFragment.onTextChanged");
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                newText = editable.toString().toLowerCase();
+                newText = editable.toString();
                 if (TextUtils.isEmpty(newText)) {
                     feePaidReportsData(userId, userType, reports.getPage());
                 } else if (!TextUtils.isEmpty(newText)) {
-                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                    searchReportItem(userId, userType, "1", newText);
                 }
             }
         });
@@ -256,7 +256,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
 
     private void searchReportItem(String userId, String userType, String page, String searchText) {
-        System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidDataSearch(userId, userType, page, searchText)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -274,7 +273,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     }
 
     private void handleResponse(ReportsFeePaidSearch response) {
-        System.out.println("Searched output is ONe");
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
@@ -306,15 +304,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    }
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
                     btn.setOnClickListener(new View.OnClickListener() {
@@ -331,7 +320,9 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                           /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);*/
                             searchReportItem(userId, userType, pagNo, newText);
-
+                            recyclerView.setVisibility(View.VISIBLE);
+                            prev.setVisibility(View.VISIBLE);
+                            next.setVisibility(View.VISIBLE);
                         }
                     });
                     if (!pagNo.isEmpty()) {
@@ -400,6 +391,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     });
 
                 }
+
                 mAdapterSearch.setClickListener((view, position) -> {
                     final ReportsFeePaidSearchNew reports = reportsFeePaidNewList.get(position);
                     Dashboard activity = (Dashboard) view.getContext();
@@ -492,12 +484,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     lp.setMargins(5,0,5,0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
-                    //View btnView = getLayoutInflater().inflate(R.layout.custom_btn_horizontal_view, null);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    /**Updated **/ //btn.setPadding(8, 8 ,0 , 8);
-                    btn.setTextSize(16);
-                    /**Updated **/
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
                     btn.setOnClickListener(new View.OnClickListener() {
@@ -768,19 +756,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
-
 
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -938,16 +915,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 

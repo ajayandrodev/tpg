@@ -308,17 +308,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
-
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 
@@ -515,17 +504,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
-
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 
@@ -534,7 +512,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                         @Override
                         public void onClick(View view) {
                             current_page_mock = Integer.parseInt(btn.getText().toString());
-
                             reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
                             int id = view.getId();
                             id = id + 1;
@@ -789,17 +766,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
-
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 
@@ -967,17 +933,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
-
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 

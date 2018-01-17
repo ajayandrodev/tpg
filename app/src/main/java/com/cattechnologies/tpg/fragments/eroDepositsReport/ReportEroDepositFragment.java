@@ -328,16 +328,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 
@@ -525,18 +515,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
-
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 
@@ -795,16 +773,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 
@@ -973,16 +941,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 

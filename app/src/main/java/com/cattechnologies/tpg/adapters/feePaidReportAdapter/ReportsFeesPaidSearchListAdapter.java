@@ -78,9 +78,9 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
         this.clickListener = itemClickListener;
     }
 
-    public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
+   /* public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
 
-    }
+    }*/
 
   /*  public void setFilter(List<ReportsFeePaidNew> newList) {
         reportsList = new ArrayList<>();
