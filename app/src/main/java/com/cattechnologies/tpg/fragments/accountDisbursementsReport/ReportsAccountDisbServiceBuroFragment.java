@@ -1,4 +1,4 @@
-package com.cattechnologies.tpg.fragments.feepaidReport;
+package com.cattechnologies.tpg.fragments.accountDisbursementsReport;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,7 +22,8 @@ import android.widget.Toast;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.adapters.MyExpandableadapter;
-import com.cattechnologies.tpg.adapters.feePaidReportAdapter.SbiFeePaidListDataAdapter;
+import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.SbiAccountDisbListDataAdapter;
+import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.SbiEroListDataAdapter;
 import com.cattechnologies.tpg.interfaces.RemoveClickListner;
 import com.cattechnologies.tpg.model.RecyclerData;
 import com.cattechnologies.tpg.model.ReportsEfinValidCheck;
@@ -53,7 +54,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by admin on 1/11/2018.
  */
 
-public class ReportsFeesPaidServiceBuroFragment extends Fragment implements RemoveClickListner, ExpandableListView.OnChildClickListener {
+public class ReportsAccountDisbServiceBuroFragment extends Fragment implements RemoveClickListner, ExpandableListView.OnChildClickListener {
 
     MyExpandableadapter adapter;
     ExpandableListView myexpandable;
@@ -65,7 +66,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
 
     TextView sbEro, titulo;
     RecyclerView mRecyclerView;
-    SbiFeePaidListDataAdapter mRecyclerAdapter;
+    SbiAccountDisbListDataAdapter mRecyclerAdapter;
     RecyclerView.LayoutManager mLayoutManager;
     ImageButton btnAddItem;
     ArrayList<RecyclerData> myList = new ArrayList<>();
@@ -87,7 +88,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
     JSONArray jsonArray;
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
-        ReportsFeesPaidServiceBuroFragment fragment = new ReportsFeesPaidServiceBuroFragment();
+        ReportsAccountDisbServiceBuroFragment fragment = new ReportsAccountDisbServiceBuroFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("app_uid", userId);
@@ -107,7 +108,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.service_buro_new, container, false);
+        View view = inflater.inflate(R.layout.service_buro_account_new, container, false);
 
         return view;
     }
@@ -145,17 +146,12 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
 
         fastScroller.setRecyclerView(mRecyclerView);
         etTitle = (EditText) getActivity().findViewById(R.id.etTitle);
-        //  etDescription = (EditText) findViewById(R.id.etDescription);
         btnAddItem = (ImageButton) getActivity().findViewById(R.id.btnAddItem);
 
-//        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-//            getActivity().getActionBar().setHomeAsUpIndicator(R.drawable.down_arrow);
-//        }
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                title = getResources().getString(R.string.dashboard_fee_paid);
+                title = getResources().getString(R.string.dashboard_account_dis);
 
                 if (myList.size() > 0) {
                     jsonArray = new JSONArray();
@@ -173,7 +169,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
                         }
                     }
 
-                    fragment = ParticularOfficeSbFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                    fragment = ParticularOfficeSbAccountDisbFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                             preferencesManager.getAccountType(getActivity()), "1", jsonArray.toString());
                     if (fragment != null) {
                         fragmentManager = getActivity().getSupportFragmentManager();
@@ -205,12 +201,12 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
                 }
 
 
+
                 // etDescription.setText("");
             }
         });
 
     }
-
     private void efinValidCheck(String userId, String userType, String title) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getEfinValidCheck(userId, userType, title)
@@ -225,7 +221,6 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
 
         }
     }
-
     private void handleError(Throwable error) {
         showToast(error.getMessage());
 
@@ -252,7 +247,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(layoutManager);
             mRecyclerView.setHasFixedSize(true);
-            mRecyclerAdapter = new SbiFeePaidListDataAdapter(myList);
+            mRecyclerAdapter = new SbiAccountDisbListDataAdapter(myList);
             mRecyclerAdapter.newAddedData(0, title);
             mRecyclerView.setAdapter(mRecyclerAdapter);
             mRecyclerAdapter.notifyDataSetChanged();
@@ -263,6 +258,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
         }
 
     }
+
 
 
     private void showToast(String msg) {
@@ -307,8 +303,8 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
 
             switch (cposition) {
                 case 0:
-                    title = getResources().getString(R.string.dashboard_fee_paid);
-                    fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                    title = getResources().getString(R.string.dashboard_account_dis);
+                    fragment = ReportAccountDisbFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                             preferencesManager.getAccountType(getActivity()));
                     if (fragment != null) {
                         fragmentManager = getActivity().getSupportFragmentManager();

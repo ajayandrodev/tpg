@@ -17,7 +17,7 @@ import com.cattechnologies.tpg.activities.Dashboard;
  * Created by ajay kumar on 28-Oct-17.
  */
 
-public class ReportsAccountDisbursementDetailsFragment extends Fragment {
+public class ReportsAccountDisbDetailsFragment extends Fragment {
 
     public static final String ARG_SECTION_TITLE = "section_number";
     String title;
@@ -28,15 +28,15 @@ public class ReportsAccountDisbursementDetailsFragment extends Fragment {
     LinearLayout llInfoData, llInfoDetailsData;
 
 
-    public static ReportsAccountDisbursementDetailsFragment newInstance(String sectionTitle) {
-        ReportsAccountDisbursementDetailsFragment fragment = new ReportsAccountDisbursementDetailsFragment();
+    public static ReportsAccountDisbDetailsFragment newInstance(String sectionTitle) {
+        ReportsAccountDisbDetailsFragment fragment = new ReportsAccountDisbDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public ReportsAccountDisbursementDetailsFragment() {
+    public ReportsAccountDisbDetailsFragment() {
     }
 
     @Override

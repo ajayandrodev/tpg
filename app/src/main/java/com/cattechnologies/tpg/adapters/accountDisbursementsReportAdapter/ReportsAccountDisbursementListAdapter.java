@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportsAccountDisbursementDetailsFragment;
+import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportsAccountDisbDetailsFragment;
 import com.cattechnologies.tpg.model.Reports;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
@@ -75,7 +75,7 @@ public class ReportsAccountDisbursementListAdapter extends RecyclerView.Adapter<
 
 
                     Dashboard activity = (Dashboard) v.getContext();
-                    Fragment fragment = ReportsAccountDisbursementDetailsFragment.newInstance(title);
+                    Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
                     fragmentManager
                             .beginTransaction()

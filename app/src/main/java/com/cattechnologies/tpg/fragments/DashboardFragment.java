@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportAccountDisbFragment;
+import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportsAccountDisbServiceBuroFragment;
 import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportsAccountDisbursementFragment;
 import com.cattechnologies.tpg.fragments.checksToPrintReport.ReportsCheckToPrintFragment;
 import com.cattechnologies.tpg.fragments.eroDepositsReport.ReportEroDepositFragment;
@@ -219,12 +221,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     accountDis.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_account_dis);
-                    fragment = ServiceBruoNewFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                    fragment = ReportsAccountDisbServiceBuroFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                             preferencesManager.getAccountType(getActivity()));
                 } else {
                     accountDis.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_account_dis);
-                    fragment = ReportsAccountDisbursementFragment.newInstance(title);
+                    fragment = ReportAccountDisbFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                            preferencesManager.getAccountType(getActivity()));
                 }
                 break;
             case R.id.bt_ero_depo:

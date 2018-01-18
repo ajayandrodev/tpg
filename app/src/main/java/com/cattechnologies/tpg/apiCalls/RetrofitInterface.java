@@ -2,6 +2,14 @@ package com.cattechnologies.tpg.apiCalls;
 
 
 import com.cattechnologies.tpg.model.ReportsEfinValidCheck;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportAccountDisbPerticularSearchSort;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportAccountDisbSearchSort;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportParticulrAccountDisb;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportParticulrAccountDisbSort;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisb;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSearch;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSort;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsPerticularAccountDisbSearch;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsPerticularSearchSort;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchSort;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDeposits;
@@ -205,6 +213,80 @@ public interface RetrofitInterface {
     @FormUrlEncoded
     @POST("EroDeposit-particular-office-search-sort")
     Observable<ReportEroDepositsPerticularSearchSort> getEroDepositsParticularDataSearchSort(
+            @Field("app_uid") String userId,
+            @Field("acc_type") String userType,
+            @Field("search") String newText,
+            @Field("page") String page,
+            @Field("efin_id") String efinData,
+            @Field("sort") String sort);
+
+
+
+
+      /* AccountDisbData*/
+
+    @FormUrlEncoded
+    @POST("EroDeposits")
+    Observable<ReportsAccountDisb> getAccountDisbData(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
+                                                      @Field("page") String page);
+
+
+    @FormUrlEncoded
+    @POST("ero-deposit-search")
+    Observable<ReportsAccountDisbSearch> getAccountDisbDataSearch
+            (@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
+             @Field("page") String page, @Field("search") String search);
+
+
+    @FormUrlEncoded
+    @POST("SortAccountDisb")
+    Observable<ReportsAccountDisbSort> getAccountDisbDataSort(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
+                                                              @Field("page") String page, @Field("sort") String search);
+
+    @FormUrlEncoded
+    @POST("SearchSortAccountDisb")
+    Observable<ReportAccountDisbSearchSort> getAccountDisbDataSearchSort(@Field("app_uid") String userId,
+                                                                         @Field("acc_type") String userType,
+                                                                         @Field("search") String newText,
+                                                                         @Field("page") String page,
+                                                                         @Field("sort") String sort);
+
+   /* particularAccountDisb sb*/
+
+    @FormUrlEncoded
+    @POST("EroDeposit-particular-office")
+    Observable<ReportParticulrAccountDisb> getAccountDisbParticularData(@Field("app_uid") String userId,
+                                                                        @Field("acc_type") String userType,
+                                                                        @Field("page") String page,
+                                                                        @Field("efin_id") String particularPerson);
+
+
+    @FormUrlEncoded
+    @POST("EroDeposit-particular-office-search")
+    Observable<ReportsPerticularAccountDisbSearch> getPerticularAccountDisbSearch(
+            @Field("app_uid") String userId,
+            @Field("acc_type") String userType,
+            @Field("page") String page,
+            @Field("search") String newText,
+            @Field("efin_id") String efinData);
+
+    @FormUrlEncoded
+    @POST("EfinValid-SB")
+    Observable<ReportsEfinValidCheck> getAccountDisbEfinValidCheck(@Field("app_uid")String userId,
+                                                                   @Field("acc_type")String userType,
+                                                                   @Field("efin_check")String title);
+
+    @FormUrlEncoded
+    @POST("EroDeposit-particular-office-sort")
+    Observable<ReportParticulrAccountDisbSort> getAccountDisbParticularDataSort(@Field("app_uid") String userId,
+                                                                                @Field("acc_type") String userType,
+                                                                                @Field("page") String pageEfin,
+                                                                                @Field("efin_id") String efinData,
+                                                                                @Field("sort") String sort);
+
+    @FormUrlEncoded
+    @POST("EroDeposit-particular-office-search-sort")
+    Observable<ReportAccountDisbPerticularSearchSort> getAccountDisbParticularDataSearchSort(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,
             @Field("search") String newText,

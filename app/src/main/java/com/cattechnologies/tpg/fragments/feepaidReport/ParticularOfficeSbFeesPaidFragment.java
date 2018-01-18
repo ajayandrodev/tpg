@@ -28,7 +28,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cattechnologies.tpg.adapters.MyExpandableadapterSb;
+import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeePaidExpandableadapter;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsParticularFeesPaidSearchListAdapter;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportPerticulaSortListAdapter;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportPerticularListAdapter;
@@ -99,7 +99,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     LinearLayout layout;
     int current_page, current_page_mock, current_page_search = 1, current_page_sort = 1;
 
-    MyExpandableadapterSb adapter;
+    ReportsFeePaidExpandableadapter adapter;
     ExpandableListView myexpandable;
     List<String> parent;
     List<String> child;
@@ -143,6 +143,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
+        titulo.setText(title);
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
         /**Updated **/ prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
@@ -171,7 +172,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
         parent = Arrays.asList(getResources().getStringArray(R.array.Parent_Head_Report_Fees_Paid));
         bind_and_display.put(parent.get(0), Arrays.asList(getResources().getStringArray(R.array.child_report_feepaid)));
 
-        adapter = new MyExpandableadapterSb(getActivity(), parent, bind_and_display);
+        adapter = new ReportsFeePaidExpandableadapter(getActivity(), parent, bind_and_display);
         myexpandable.setAdapter(adapter);
         myexpandable.setOnChildClickListener(this);
 

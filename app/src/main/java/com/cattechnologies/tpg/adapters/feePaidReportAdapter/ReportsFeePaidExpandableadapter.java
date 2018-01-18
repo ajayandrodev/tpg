@@ -1,4 +1,4 @@
-package com.cattechnologies.tpg.adapters;
+package com.cattechnologies.tpg.adapters.feePaidReportAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,13 +17,13 @@ import java.util.List;
  * Created by admin on 1/5/2018.
  */
 
-public class MyExpandableadapterSb extends BaseExpandableListAdapter {
+public class ReportsFeePaidExpandableadapter extends BaseExpandableListAdapter {
     private Context mcontext;
     private List<String> parent;
     private HashMap<String, List<String>> bind_and_display;
 
-    public MyExpandableadapterSb(Context context, List<String> listDataHeader,
-                               HashMap<String, List<String>> listChildData) {
+    public ReportsFeePaidExpandableadapter(Context context, List<String> listDataHeader,
+                                           HashMap<String, List<String>> listChildData) {
         this.mcontext = context;
         this.parent = listDataHeader;
         this.bind_and_display = listChildData;

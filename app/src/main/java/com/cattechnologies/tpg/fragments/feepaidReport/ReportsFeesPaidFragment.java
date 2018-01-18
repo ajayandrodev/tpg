@@ -1,11 +1,7 @@
 package com.cattechnologies.tpg.fragments.feepaidReport;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,7 +28,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cattechnologies.tpg.adapters.MyExpandableadapterSb;
+import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeePaidExpandableadapter;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeesPaidListAdapter;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeesPaidSearchListAdapter;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeesPaidSearchSortListAdapter;
@@ -99,7 +95,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     ReportsFeePaidSearch reportsFeePaidSearch;
 
 
-    MyExpandableadapterSb adapter;
+    ReportsFeePaidExpandableadapter adapter;
     ExpandableListView myexpandable;
     List<String> parent;
     List<String> child;
@@ -184,7 +180,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         parent = Arrays.asList(getResources().getStringArray(R.array.Parent_Head_Report_Fees_Paid));
         bind_and_display.put(parent.get(0), Arrays.asList(getResources().getStringArray(R.array.child_report_feepaid)));
 
-        adapter = new MyExpandableadapterSb(getContext(), parent, bind_and_display);
+        adapter = new ReportsFeePaidExpandableadapter(getContext(), parent, bind_and_display);
         myexpandable.setAdapter(adapter);
         myexpandable.setOnChildClickListener(this);
 
@@ -231,7 +227,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             @Override
             public void afterTextChanged(Editable s) {
                 // mAdapterSearch.getFilter().filter(editable.toString());
-                newText = s.toString();
+                newText = s.toString().toLowerCase();
                 if (s.length() > 0){
                     searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
 

@@ -23,21 +23,32 @@ import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.adapters.MyExpandableadapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.SbiEroListDataAdapter;
+import com.cattechnologies.tpg.adapters.feePaidReportAdapter.SbiFeePaidListDataAdapter;
 import com.cattechnologies.tpg.interfaces.RemoveClickListner;
 import com.cattechnologies.tpg.model.RecyclerData;
+import com.cattechnologies.tpg.model.ReportsEfinValidCheck;
+import com.cattechnologies.tpg.model.Response;
+import com.cattechnologies.tpg.utils.AppInternetStatus;
+import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import retrofit2.adapter.rxjava.HttpException;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -98,7 +109,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.service_buro_new, container, false);
+        View view = inflater.inflate(R.layout.service_buro_ero_new, container, false);
 
         return view;
     }
@@ -182,24 +193,66 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
             public void onClick(View v) {
                 title = etTitle.getText().toString();
                 if (!TextUtils.isEmpty(title)) {
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    mRecyclerView.setLayoutManager(layoutManager);
-                    mRecyclerView.setHasFixedSize(true);
-                    mRecyclerAdapter = new SbiEroListDataAdapter(myList);
-                    mRecyclerAdapter.newAddedData(0, title);
-                    mRecyclerView.setAdapter(mRecyclerAdapter);
-                    mRecyclerAdapter.notifyDataSetChanged();
-                    etTitle.setText("");
-
+                    efinValidCheck(userId, userType, title);
                 } else {
                     showToast("Please Enter ERO EFIN");
                 }
 
-
                 // etDescription.setText("");
             }
         });
+
+    }
+    private void efinValidCheck(String userId, String userType, String title) {
+        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getEfinValidCheck(userId, userType, title)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(this::handleResponse, this::handleError));
+
+
+        } else {
+            showToast("Internet Connection Is Not Available");
+
+
+        }
+    }
+
+    private void handleError(Throwable error) {
+        showToast(error.getMessage());
+
+        if (error instanceof HttpException) {
+
+            Gson gson = new GsonBuilder().create();
+
+            try {
+                String errorBody = ((HttpException) error).response().errorBody().string();
+                Response response = gson.fromJson(errorBody, Response.class);
+                showToast(response.getMessage());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showToast("Network Error !");
+        }
+    }
+
+    private void handleResponse(ReportsEfinValidCheck response) {
+        if (response.getStatus().equalsIgnoreCase("success")) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            mRecyclerView.setLayoutManager(layoutManager);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerAdapter = new SbiEroListDataAdapter(myList);
+            mRecyclerAdapter.newAddedData(0, title);
+            mRecyclerView.setAdapter(mRecyclerAdapter);
+            mRecyclerAdapter.notifyDataSetChanged();
+            etTitle.setText("");
+
+        }else {
+            showToast(response.getMessage());
+        }
 
     }
 

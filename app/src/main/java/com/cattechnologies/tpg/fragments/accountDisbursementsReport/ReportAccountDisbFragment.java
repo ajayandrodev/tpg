@@ -1,4 +1,4 @@
-package com.cattechnologies.tpg.fragments.eroDepositsReport;
+package com.cattechnologies.tpg.fragments.accountDisbursementsReport;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,17 +30,29 @@ import android.widget.Toast;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
-import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositExpandableadapter;
+import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportsAccountDisbExpandableadapter;
+import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportsAccountDisbListAdapter;
+import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportsAccountDisbSearchListAdapter;
+import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportsAccountDisbSearchSortListAdapter;
+import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportsAccountDisbSortListAdapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositSearchListAdapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositSearchSortListAdapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositSortListAdapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepostListAdapter;
+import com.cattechnologies.tpg.model.Response;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportAccountDisbSearchNew;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportAccountDisbSearchSort;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportAccountDisbSearchSortNew;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisb;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbNew;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSearch;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSort;
+import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSortNew;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchNew;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchSort;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchSortNew;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDeposit;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositNew;
-import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSearch;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSort;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSortNew;
@@ -65,7 +77,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by admin on 1/11/2018.
  */
 
-public class ReportEroDepositFragment extends Fragment implements ExpandableListView.OnChildClickListener {
+public class ReportAccountDisbFragment extends Fragment implements ExpandableListView.OnChildClickListener {
 
     public static final String ARG_SECTION_TITLE = "section_number";
     RecyclerView recyclerView;
@@ -82,19 +94,19 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     int current_page, current_page_sort = 1, current_page_search = 1, current_page_mock;
 
 
-    ReportsEroDepostListAdapter mAdapter;
-    ReportsEroDepositSearchListAdapter mAdapterSearch;
-    ReportsEroDepositSortListAdapter mAdapterSort;
-    ReportsEroDepositSearchSortListAdapter mSearchSortListAdapter;
+    ReportsAccountDisbListAdapter mAdapter;
+    ReportsAccountDisbSearchListAdapter mAdapterSearch;
+    ReportsAccountDisbSortListAdapter mAdapterSort;
+    ReportsAccountDisbSearchSortListAdapter mSearchSortListAdapter;
 
 
-    ReportsEroDeposit reports;
-    ReportsEroDepositsSort reportsFeePaidSort;
-    ReportEroDepositsSearchSort reportFreePaidSearchSort;
-    ReportsEroDepositsSearch reportsFeePaidSearch;
+    ReportsAccountDisb reports;
+    ReportsAccountDisbSort reportsFeePaidSort;
+    ReportAccountDisbSearchSort reportFreePaidSearchSort;
+    ReportsAccountDisbSearch reportsFeePaidSearch;
 
 
-    ReportsEroDepositExpandableadapter adapter;
+    ReportsAccountDisbExpandableadapter adapter;
     ExpandableListView myexpandable;
     List<String> parent;
     List<String> child;
@@ -107,7 +119,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
-        ReportEroDepositFragment fragment = new ReportEroDepositFragment();
+        ReportAccountDisbFragment fragment = new ReportAccountDisbFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("app_uid", userId);
@@ -133,7 +145,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         return view;
     }
 
-    public ReportEroDepositFragment() {
+    public ReportAccountDisbFragment() {
 
     }
 
@@ -176,18 +188,18 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         mSubscriptions = new CompositeSubscription();
         preferencesManager = new PreferencesManager();
         myexpandable = (ExpandableListView) getActivity().findViewById(R.id.theexpandables);
-        parent = Arrays.asList(getResources().getStringArray(R.array.Parent_Head_Ero_Deposits));
-        bind_and_display.put(parent.get(0), Arrays.asList(getResources().getStringArray(R.array.child_report_ero_deposits)));
+        parent = Arrays.asList(getResources().getStringArray(R.array.Parent_Head_Account_Disbursement));
+        bind_and_display.put(parent.get(0), Arrays.asList(getResources().getStringArray(R.array.child_report_account_disbursement)));
 
-        adapter = new ReportsEroDepositExpandableadapter(getActivity(), parent, bind_and_display);
+        adapter = new ReportsAccountDisbExpandableadapter(getActivity(), parent, bind_and_display);
         myexpandable.setAdapter(adapter);
         myexpandable.setOnChildClickListener(this);
 
 
-        reports = new ReportsEroDeposit();
-        reportsFeePaidSearch = new ReportsEroDepositsSearch();
-        reportsFeePaidSort = new ReportsEroDepositsSort();
-        reportFreePaidSearchSort = new ReportEroDepositsSearchSort();
+        reports = new ReportsAccountDisb();
+        reportsFeePaidSearch = new ReportsAccountDisbSearch();
+        reportsFeePaidSort = new ReportsAccountDisbSort();
+        reportFreePaidSearchSort = new ReportAccountDisbSearchSort();
 
         reports.setPage("1");
         reportsFeePaidSearch.setPage("1");
@@ -259,7 +271,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
     private void searchReportItem(String userId, String userType, String page, String searchText) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
-            mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositDataSearch(userId, userType, page, searchText)
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getAccountDisbDataSearch(userId, userType, page, searchText)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
@@ -277,7 +289,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     private void eroDepositReportsData(String userId, String userType, String page) {
         System.out.println("ReportsFeesPaidFragment.eroDepositReportsData==" + userId + "==" + userType);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
-            mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositData(userId, userType, page)
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getAccountDisbData(userId, userType, page)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
@@ -291,19 +303,19 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
     }
 
-    private void handleResponse(ReportsEroDepositsSearch response) {
+    private void handleResponse(ReportsAccountDisbSearch response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            List<ReportEroDepositsSearchNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportAccountDisbSearchNew> reportsFeePaidNewList = response.getEroReport_data();
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
             layout.setVisibility(View.VISIBLE);
             layout.setVisibility(View.VISIBLE);
 
-            mAdapterSearch = new ReportsEroDepositSearchListAdapter(getActivity(), reportsFeePaidNewList, title);
+            mAdapterSearch = new ReportsAccountDisbSearchListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterSearch);
             mAdapterSearch.notifyDataSetChanged();
 
@@ -418,14 +430,15 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
                 }
                 mAdapterSearch.setClickListener((view, position) -> {
-                    final ReportEroDepositsSearchNew reports = reportsFeePaidNewList.get(position);
+                    final ReportAccountDisbSearchNew reports = reportsFeePaidNewList.get(position);
                     Dashboard activity = (Dashboard) view.getContext();
-                    Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
+                  /*  Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                             reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                             , reports.getDAN(), reports.getDepositType(),
                             reports.getMasterefin(), reports.getDepositdate(),
                             reports.getDepositAmount(), reports.getReverseddate()
-                    );
+                    );*/
+                    Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
                     fragmentManager
                             .beginTransaction()
@@ -479,20 +492,20 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
     }
 
-    private void handleResponse(ReportsEroDeposit response) {
+    private void handleResponse(ReportsAccountDisb response) {
 
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
-            List<ReportsEroDepositNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportsAccountDisbNew> reportsFeePaidNewList = response.getEroReport_data();
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
             layout.setVisibility(View.VISIBLE);
 
-            mAdapter = new ReportsEroDepostListAdapter(getActivity(), reportsFeePaidNewList, title);
+            mAdapter = new ReportsAccountDisbListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
 
@@ -617,14 +630,16 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
 
             mAdapter.setClickListener((view, position) -> {
-                final ReportsEroDepositNew reports = reportsFeePaidNewList.get(position);
+                final ReportsAccountDisbNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
-                Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
+             /*   Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
                         reports.getDepositAmount(), reports.getReverseddate()
-                );
+                );*/
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -725,7 +740,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
     private void searchSortReportData(String userId, String userType, String newText, String page, String sort) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
-            mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositsDataSearchSort(userId, userType, newText, page, sort)
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getAccountDisbDataSearchSort(userId, userType, newText, page, sort)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponseSearchSort, this::handleError));
@@ -738,18 +753,18 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         }
     }
 
-    private void handleResponseSearchSort(ReportEroDepositsSearchSort response) {
+    private void handleResponseSearchSort(ReportAccountDisbSearchSort response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            List<ReportEroDepositsSearchSortNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportAccountDisbSearchSortNew> reportsFeePaidNewList = response.getEroReport_data();
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
             layout.setVisibility(View.VISIBLE);
 
-            mSearchSortListAdapter = new ReportsEroDepositSearchSortListAdapter(getActivity(), reportsFeePaidNewList, title);
+            mSearchSortListAdapter = new ReportsAccountDisbSearchSortListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mSearchSortListAdapter);
             mSearchSortListAdapter.notifyDataSetChanged();
 
@@ -869,14 +884,16 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
 
             mSearchSortListAdapter.setClickListener((view, position) -> {
-                final ReportEroDepositsSearchSortNew reports = reportsFeePaidNewList.get(position);
+                final ReportAccountDisbSearchSortNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
-                Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
+              /*  Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
                         reports.getDepositAmount(), reports.getReverseddate()
-                );
+                );*/
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -893,7 +910,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
     private void sortReportItem(String userId, String userType, String page, String type) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
-            mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositsDataSort(userId, userType, page, type)
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().getAccountDisbDataSort(userId, userType, page, type)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponseSort, this::handleError));
@@ -907,19 +924,19 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
     }
 
-    private void handleResponseSort(ReportsEroDepositsSort response) {
+    private void handleResponseSort(ReportsAccountDisbSort response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            List<ReportsEroDepositsSortNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportsAccountDisbSortNew> reportsFeePaidNewList = response.getEroReport_data();
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
             layout.setVisibility(View.VISIBLE);
             layout.setVisibility(View.VISIBLE);
 
-            mAdapterSort = new ReportsEroDepositSortListAdapter(getActivity(), reportsFeePaidNewList, title);
+            mAdapterSort = new ReportsAccountDisbSortListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterSort);
             mAdapterSort.notifyDataSetChanged();
             if (layout != null) {
@@ -1036,14 +1053,16 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
 
             mAdapterSort.setClickListener((view, position) -> {
-                final ReportsEroDepositsSortNew reports = reportsFeePaidNewList.get(position);
+                final ReportsAccountDisbSortNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
-                Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
+              /*  Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
                         reports.getDepositAmount(), reports.getReverseddate()
-                );
+                );*/
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()

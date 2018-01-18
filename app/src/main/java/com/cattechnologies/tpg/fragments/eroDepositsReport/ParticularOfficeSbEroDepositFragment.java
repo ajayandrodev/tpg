@@ -30,17 +30,11 @@ import android.widget.Toast;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
-import com.cattechnologies.tpg.adapters.MyExpandableadapterSb;
+import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositExpandableadapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositParticularSearchListAdapter;
-import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsParticularFeesPaidSearchListAdapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportEroDepositPerticulaSortListAdapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportEroDepositPerticularListAdapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositParticularSearchSortListAdapter;
-import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportPerticulaSortListAdapter;
-import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportPerticularListAdapter;
-import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeesPaidParticularSearchSortListAdapter;
-import com.cattechnologies.tpg.fragments.feepaidReport.ParticularOfficeSbFeesPaidFragment;
-import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidDetailsFragment;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsPerticularSearchSort;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDeposits;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDepositsNew;
@@ -52,16 +46,6 @@ import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSearch;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSort;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsPerticularEroDepositsSearch;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsPerticularEroDepositsSearchNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsPerticularFeePaidSearch;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsPerticularFeePaidSearchNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportFreePaidPerticularSearchSort;
-import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaid;
-import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidSearchSortNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidSort;
-import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidSortNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearch;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSort;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
@@ -113,7 +97,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
     int current_page, current_page_mock, current_page_search = 1, current_page_sort = 1;
     String title, newText, sort;
 
-    MyExpandableadapterSb adapter;
+    ReportsEroDepositExpandableadapter adapter;
     ExpandableListView myexpandable;
     List<String> parent;
     List<String> child;
@@ -157,7 +141,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
-        titulo.setText(ARG_SECTION_TITLE);
+        titulo.setText(title);
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
         horizontalScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.horizontal);
@@ -185,7 +169,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         parent = Arrays.asList(getResources().getStringArray(R.array.Parent_Head_Ero_Deposits));
         bind_and_display.put(parent.get(0), Arrays.asList(getResources().getStringArray(R.array.child_report_ero_deposits)));
 
-        adapter = new MyExpandableadapterSb(getActivity(), parent, bind_and_display);
+        adapter = new ReportsEroDepositExpandableadapter(getActivity(), parent, bind_and_display);
         myexpandable.setAdapter(adapter);
         myexpandable.setOnChildClickListener(this);
         reports = new ReportsEroDeposit();
@@ -317,19 +301,10 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);                    //  lp.setMargins(5, 5, 5, 5);
+                    lp.setMargins(5,0,5,0);
+                    btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    if (!pagNo.isEmpty()) {
-                        if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-                        }
-                    } else {
-                        if (current_page == 0) {
-                            btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                        }
-                    }
-
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 
@@ -622,7 +597,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() + 50, 0);
 
                         }
                     });
@@ -854,7 +828,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
-                            horizontalScrollView.smoothScrollTo((int) horizontalScrollView.getScrollX() - 50, (int) horizontalScrollView.getScrollY());
 
 
                         }

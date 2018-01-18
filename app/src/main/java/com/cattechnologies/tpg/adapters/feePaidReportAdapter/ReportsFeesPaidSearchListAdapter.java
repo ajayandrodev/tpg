@@ -90,12 +90,7 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
 
     }*/
 
-  /*  public void setFilter(List<ReportsFeePaidNew> newList) {
-        reportsList = new ArrayList<>();
-        reportsList.addAll(newList);
-        notifyDataSetChanged();
-    }
-*/
+
 
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
