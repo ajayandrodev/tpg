@@ -152,13 +152,11 @@ public class ServiceBruoNewFragment extends Fragment implements RemoveClickListn
                 if (myList.size() > 0) {
                     jsonArray = new JSONArray();
                     for (int i = 0; i < myList.size(); i++) {
-                        System.out.println("ServiceBruoNewFragment.onClick" + myList.size());
                         String efin = myList.get(i).getTitle();
                         JSONObject jsonObject = new JSONObject();
                         try {
                             jsonObject.put("Efin", efin);
                             jsonArray.put(jsonObject);
-                            System.out.println("ServiceBruoNewFragment.onClick" + jsonArray);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             showToast(e.getMessage());

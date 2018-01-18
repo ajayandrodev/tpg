@@ -475,7 +475,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     }
 
     private void handleResponse(ReportParticulrFreePaid response) {
-        System.out.println("ServiceBruoNewFragment.handleResponse===" + response.getFeeReport_data());
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());

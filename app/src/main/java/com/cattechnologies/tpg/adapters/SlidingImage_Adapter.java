@@ -93,8 +93,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
                     Intent intent= new Intent(context, LoginScreen.class);
                     context.startActivity(intent);
 
-                 /*   Intent intent= new Intent(context, ServiceBruoNewFragment.class);
-                    context.startActivity(intent);*/
+
 
                 }
             });
