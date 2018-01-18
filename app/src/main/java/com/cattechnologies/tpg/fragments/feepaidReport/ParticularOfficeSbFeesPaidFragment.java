@@ -766,7 +766,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                    btn.setLayoutParams(lp);
+                                     btn.setLayoutParams(lp);
                     layout.addView(btn);
 
 

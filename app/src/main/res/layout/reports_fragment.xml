@@ -84,14 +84,14 @@
         android:text="No Data Found"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ScrollView
         android:id="@+id/scroll_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/expand"
-        android:visibility="visible">
+        android:fillViewport="true">
 
 
         <RelativeLayout
@@ -120,8 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@id/ll_list"
-                android:gravity="bottom"
-                android:padding="@dimen/dim_1">
+                android:gravity="bottom">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -133,12 +132,12 @@
                         android:id="@+id/prev"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dim_2"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:paddingBottom="@dimen/dim_12"
                         android:paddingRight="@dimen/dim_12"
                         android:paddingTop="@dimen/dim_12"
-                        android:layout_marginRight="@dimen/dim_5"
                         android:text="prev" />
 
                     <HorizontalScrollView
@@ -159,12 +158,12 @@
                         android:id="@+id/next"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dim_2"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:paddingBottom="@dimen/dim_12"
                         android:paddingLeft="@dimen/dim_12"
                         android:paddingTop="@dimen/dim_12"
-                        android:layout_marginLeft="@dimen/dim_5"
                         android:text="next" />
                 </LinearLayout>
 

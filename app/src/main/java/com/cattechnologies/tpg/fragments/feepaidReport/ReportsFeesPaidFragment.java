@@ -14,7 +14,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -111,7 +110,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     Button btn;
     int wdth;
 
-
     public ReportsFeesPaidFragment() {
     }
 
@@ -165,19 +163,17 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
-        /**Updated **/ prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
-        /**Updated **/ next.setBackgroundColor(Color.parseColor("#DCDCDC"));
+        /**Updated **/prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
+        /**Updated **/next.setBackgroundColor(Color.parseColor("#DCDCDC"));
         horizontalScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.horizontal);
         scrollView = (ScrollView) getActivity().findViewById(R.id.scroll_data);
         textNoData = (TextView) getActivity().findViewById(R.id.search_no_data);
-
 
         searchData = (EditText) getActivity().findViewById(R.id.search_paid);
         progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
         layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
         userId = getArguments().getString("app_uid");
         userType = getArguments().getString("acc_type");
-        layout.setVisibility(View.VISIBLE);
 
         bind_and_display = new HashMap<String, List<String>>();
         parent = new ArrayList<String>();
@@ -233,13 +229,23 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                newText = editable.toString();
-                if (TextUtils.isEmpty(newText)) {
+            public void afterTextChanged(Editable s) {
+                // mAdapterSearch.getFilter().filter(editable.toString());
+                newText = s.toString();
+                if (s.length() > 0){
+                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+
+                }else {
                     feePaidReportsData(userId, userType, reports.getPage());
-                } else if (!TextUtils.isEmpty(newText)) {
-                    searchReportItem(userId, userType, "1", newText);
+
                 }
+                   /* if (TextUtils.isEmpty(newText)) {
+                        System.out.println("ReportsFeesPaidFragment.afterTextChanged==1==" + newText);
+
+                    } else if (!TextUtils.isEmpty(newText)) {
+
+                        System.out.println("ReportsFeesPaidFragment.afterTextChanged" + newText);
+                    }*/
             }
         });
 
@@ -292,7 +298,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             }
             int totalPage = Integer.parseInt(totalPages);
             if (totalPage == 1) {
-
                 prev.setVisibility(View.GONE);
                 next.setVisibility(View.GONE);
             } else {
@@ -300,7 +305,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -327,10 +332,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     });
                     if (!pagNo.isEmpty()) {
                         if (current_page == (Integer.parseInt(pagNo) - 1)) {
-                           // btn.setBackgroundResource(R.drawable.button_highlight);
                             btn.setBackgroundColor(Color.parseColor("#808080"));
-
-                            // btn.setBackgroundColor(Color.parseColor("#808080"));
                         } else {
                         }
                         if (Integer.parseInt(pagNo) > 1) {
@@ -377,7 +379,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
                             }
                             if (pagNo.equalsIgnoreCase("")) {
-                                pagNo = String.valueOf(2);
+                                pagNo = String.valueOf(reportsFeePaidSearch.getPage());
                             } else {
                                 pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
                             }
@@ -482,7 +484,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -752,7 +754,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -911,7 +913,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -1025,6 +1027,5 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         }
 
     }
-
 
 }

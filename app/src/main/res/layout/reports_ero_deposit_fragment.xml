@@ -78,7 +78,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/expand">
+        android:layout_below="@id/expand"
+        android:fillViewport="true">
 
 
         <RelativeLayout
@@ -107,8 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@id/ll_list"
-                android:gravity="bottom"
-                android:padding="@dimen/dim_1">
+                android:gravity="bottom">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -120,6 +120,7 @@
                         android:id="@+id/prev"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dim_2"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:paddingBottom="@dimen/dim_12"
@@ -145,6 +146,7 @@
                         android:id="@+id/next"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dim_2"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:paddingBottom="@dimen/dim_12"
