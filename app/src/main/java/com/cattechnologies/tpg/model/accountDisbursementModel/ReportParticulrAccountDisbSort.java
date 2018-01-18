@@ -25,19 +25,11 @@ public class ReportParticulrAccountDisbSort implements Parcelable {
 
     @SerializedName("Total No of Pages")
     private String TotalNoofPages;
-    @SerializedName("EroReport_data")
-    private List<ReportParticulrAccountDisbSortNew> EroReport_data;
+    @SerializedName("DisbursmentReport_data")
+    private List<ReportParticulrAccountDisbSortNew> DisbursmentReport_data;
 
 
     public ReportParticulrAccountDisbSort() {
-    }
-
-    protected ReportParticulrAccountDisbSort(Parcel in) {
-        status = in.readString();
-        message = in.readString();
-        page = in.readString();
-        TotalNoofPages = in.readString();
-        EroReport_data = in.createTypedArrayList(ReportParticulrAccountDisbSortNew.CREATOR);
     }
 
     public String getStatus() {
@@ -72,12 +64,20 @@ public class ReportParticulrAccountDisbSort implements Parcelable {
         TotalNoofPages = totalNoofPages;
     }
 
-    public List<ReportParticulrAccountDisbSortNew> getEroReport_data() {
-        return EroReport_data;
+    public List<ReportParticulrAccountDisbSortNew> getDisbursmentReport_data() {
+        return DisbursmentReport_data;
     }
 
-    public void setEroReport_data(List<ReportParticulrAccountDisbSortNew> eroReport_data) {
-        EroReport_data = eroReport_data;
+    public void setDisbursmentReport_data(List<ReportParticulrAccountDisbSortNew> disbursmentReport_data) {
+        DisbursmentReport_data = disbursmentReport_data;
+    }
+
+    protected ReportParticulrAccountDisbSort(Parcel in) {
+        status = in.readString();
+        message = in.readString();
+        page = in.readString();
+        TotalNoofPages = in.readString();
+        DisbursmentReport_data = in.createTypedArrayList(ReportParticulrAccountDisbSortNew.CREATOR);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ReportParticulrAccountDisbSort implements Parcelable {
         dest.writeString(message);
         dest.writeString(page);
         dest.writeString(TotalNoofPages);
-        dest.writeTypedList(EroReport_data);
+        dest.writeTypedList(DisbursmentReport_data);
     }
 
     @Override

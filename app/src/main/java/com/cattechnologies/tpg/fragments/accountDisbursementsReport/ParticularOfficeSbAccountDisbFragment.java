@@ -35,32 +35,14 @@ import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.Report
 import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportAccountDisbPerticularListAdapter;
 import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportsAccountDisbExpandableadapter;
 import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportsAccountDisbParticularSearchSortListAdapter;
-import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportEroDepositPerticulaSortListAdapter;
-import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportEroDepositPerticularListAdapter;
-import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositParticularSearchListAdapter;
-import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositParticularSearchSortListAdapter;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportAccountDisbPerticularSearchSort;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportParticulrAccountDisb;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportParticulrAccountDisbNew;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportParticulrAccountDisbSearchSortNew;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportParticulrAccountDisbSort;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportParticulrAccountDisbSortNew;
-import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisb;
-import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSearch;
-import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSort;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsPerticularAccountDisbSearch;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsPerticularAccountDisbSearchNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsPerticularSearchSort;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDeposits;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDepositsNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDepositsSearchSortNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDepositsSort;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDepositsSortNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDeposit;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSearch;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSort;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsPerticularEroDepositsSearch;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsPerticularEroDepositsSearchNew;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
@@ -285,7 +267,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            List<ReportsPerticularAccountDisbSearchNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportsPerticularAccountDisbSearchNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
 
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -427,7 +409,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             reports.getDepositAmount(), reports.getReverseddate()
                     );*/
 
-                    Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+                    Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
                     fragmentManager
                             .beginTransaction()
@@ -496,7 +478,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            List<ReportParticulrAccountDisbNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportParticulrAccountDisbNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
@@ -635,7 +617,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                         reports.getMasterefin(), reports.getDepositdate(),
                         reports.getDepositAmount(), reports.getReverseddate()
                 );*/
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
 
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -670,7 +652,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 case 0:
                     progressBar.setVisibility(View.VISIBLE);
 
-                    sort = "deposit_date";
+                    sort = "ssn";
                     System.out.println("ReportsFeesPaidFragment.Displayitemclicked" + efinData);
                     if (TextUtils.isEmpty(newText)) {
                         particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
@@ -688,7 +670,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     break;
                 case 1:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "deposit_type";
+                    sort = "lastname";
 
                     if (TextUtils.isEmpty(newText)) {
                         particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
@@ -704,7 +686,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "dan";
+                    sort = "product_type";
                     if (TextUtils.isEmpty(newText)) {
                         particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
 
@@ -718,7 +700,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     break;
                 case 3:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "product_type";
+                    sort = "disbursment_type";
 
                     if (TextUtils.isEmpty(newText)) {
                         particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
@@ -757,7 +739,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            List<ReportParticulrAccountDisbSearchSortNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportParticulrAccountDisbSearchSortNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
 
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -896,7 +878,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                         reports.getMasterefin(), reports.getDepositdate(),
                         reports.getDepositAmount(), reports.getReverseddate()
                 );*/
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
 
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -932,7 +914,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            List<ReportParticulrAccountDisbSortNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportParticulrAccountDisbSortNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
 
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -1059,7 +1041,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                         reports.getMasterefin(), reports.getDepositdate(),
                         reports.getDepositAmount(), reports.getReverseddate()
                 );*/
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
 
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager

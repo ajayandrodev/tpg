@@ -35,10 +35,6 @@ import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.Report
 import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportsAccountDisbSearchListAdapter;
 import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportsAccountDisbSearchSortListAdapter;
 import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.ReportsAccountDisbSortListAdapter;
-import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositSearchListAdapter;
-import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositSearchSortListAdapter;
-import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepositSortListAdapter;
-import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.ReportsEroDepostListAdapter;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportAccountDisbSearchNew;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportAccountDisbSearchSort;
@@ -48,14 +44,6 @@ import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisb
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSearch;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSort;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSortNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchSort;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchSortNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDeposit;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSearch;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSort;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSortNew;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
@@ -140,7 +128,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.reports_ero_deposit_fragment, container, false);
+        View view = inflater.inflate(R.layout.reports_account_disb_deposit_fragment, container, false);
 
         return view;
     }
@@ -308,7 +296,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            List<ReportAccountDisbSearchNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportAccountDisbSearchNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
@@ -432,13 +420,14 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 mAdapterSearch.setClickListener((view, position) -> {
                     final ReportAccountDisbSearchNew reports = reportsFeePaidNewList.get(position);
                     Dashboard activity = (Dashboard) view.getContext();
-                  /*  Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
-                            reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                            , reports.getDAN(), reports.getDepositType(),
-                            reports.getMasterefin(), reports.getDepositdate(),
-                            reports.getDepositAmount(), reports.getReverseddate()
-                    );*/
-                    Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+
+                    Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance
+                            (title, reports.getPrimaryFirstName() + " " +
+                                    reports.getPrimaryLastName(), reports.getPrimarySsn(),
+                                    reports.getProductType(), reports.getExpectedRefund(),
+                                    reports.getExpecteddepdate(), reports.getProductType(),
+                                    reports.getDisbursementDate(), reports.getDisbursmentamount(),
+                                    reports.getExpecteddepdate(), title);
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
                     fragmentManager
                             .beginTransaction()
@@ -499,7 +488,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
-            List<ReportsAccountDisbNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportsAccountDisbNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
@@ -632,13 +621,14 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             mAdapter.setClickListener((view, position) -> {
                 final ReportsAccountDisbNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
-             /*   Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getDAN(), reports.getDepositType(),
-                        reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
-                );*/
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+                        , reports.getPrimarySsn(), reports.getProductType(),
+                        reports.getExpectedRefund(), reports.getExpecteddepdate(),
+                        reports.getProductType(), reports.getDisbursementDate(),
+                        reports.getDisbursmentamount(), reports.getExpecteddepdate(),
+                        reports.getDisbType()
+                );
 
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -672,7 +662,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 case 0:
                     progressBar.setVisibility(View.VISIBLE);
 
-                    sort = "deposit_date";
+                    sort = "ssn";
                     if (TextUtils.isEmpty(newText)) {
                         sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
 
@@ -689,7 +679,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     break;
                 case 1:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "deposit_type";
+                    sort = "lastname";
 
                     if (TextUtils.isEmpty(newText)) {
                         sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
@@ -705,7 +695,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "dan";
+                    sort = "product_type";
 
 
                     if (TextUtils.isEmpty(newText)) {
@@ -719,9 +709,9 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
-              /*  case 3:
+                case 3:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "dan";
+                    sort = "disbursment_type";
 
                     if (TextUtils.isEmpty(newText)) {
                         sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
@@ -733,7 +723,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
 
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
-                    break;*/
+                    break;
             }
         }
     }
@@ -758,7 +748,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            List<ReportAccountDisbSearchSortNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportAccountDisbSearchSortNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
@@ -886,13 +876,8 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             mSearchSortListAdapter.setClickListener((view, position) -> {
                 final ReportAccountDisbSearchSortNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
-              /*  Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
-                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getDAN(), reports.getDepositType(),
-                        reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
-                );*/
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
 
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -929,7 +914,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            List<ReportsAccountDisbSortNew> reportsFeePaidNewList = response.getEroReport_data();
+            List<ReportsAccountDisbSortNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
@@ -1055,13 +1040,8 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             mAdapterSort.setClickListener((view, position) -> {
                 final ReportsAccountDisbSortNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
-              /*  Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
-                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getDAN(), reports.getDepositType(),
-                        reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
-                );*/
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title);
+
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
 
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager

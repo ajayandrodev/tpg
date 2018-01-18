@@ -9,30 +9,35 @@ import com.google.gson.annotations.SerializedName;
  * Created by admin on 1/4/2018.
  */
 
-public class ReportAccountDisbSearchNew implements Parcelable{
+public class ReportAccountDisbSearchNew implements Parcelable {
 
+
+    /*   "Id": "1",
+               "SYSTEM_YEAR": "2018",
+               "masterefin": "612354",
+               "Efin": "060020",
+               "PrimaryFirstName": "YOG",
+               "PrimaryLastName": "REDDY",
+               "PrimarySsn": "XXX-XX-1234",
+               "ProductType": "Non-RT",
+               "expecteddepdate": "20172012",
+               "ExpectedRefund": "51.00",
+               "DisbursementDate": "20171912",
+               "disbursmentamount": "12.00",
+               "DisbType": "Repayment"*/
     @SerializedName("Id")
     private String Id;
 
-    @SerializedName("recordcreatedate")
-    private String recordcreatedate;
-
-    @SerializedName("System_Year")
-    private String System_Year;
+    @SerializedName("SYSTEM_YEAR")
+    private String SYSTEM_YEAR;
 
     @SerializedName("masterefin")
     private String masterefin;
 
-    @SerializedName("DAN")
-    private String DAN;
-
-
-    @SerializedName("Reverseddate")
-    private String Reverseddate;
-
 
     @SerializedName("Efin")
     private String Efin;
+
 
     @SerializedName("PrimaryFirstName")
     private String PrimaryFirstName;
@@ -43,40 +48,23 @@ public class ReportAccountDisbSearchNew implements Parcelable{
     @SerializedName("PrimarySsn")
     private String PrimarySsn;
 
-    @SerializedName("DepositType")
-    private String DepositType;
-
     @SerializedName("ProductType")
     private String ProductType;
 
+    @SerializedName("expecteddepdate")
+    private String expecteddepdate;
 
-    @SerializedName("DepositAmount")
-    private String DepositAmount;
+    @SerializedName("ExpectedRefund")
+    private String ExpectedRefund;
 
-    @SerializedName("depositdate")
-    private String depositdate;
+    @SerializedName("DisbursementDate")
+    private String DisbursementDate;
 
-    @SerializedName("sadjtype")
-    private String sadjtype;
+    @SerializedName("disbursmentamount")
+    private String disbursmentamount;
 
-    @SerializedName("Depositor")
-    private String Depositor;
-
-    public String getReverseddate() {
-        return Reverseddate;
-    }
-
-    public void setReverseddate(String reverseddate) {
-        Reverseddate = reverseddate;
-    }
-
-    public String getDAN() {
-        return DAN;
-    }
-
-    public void setDAN(String DAN) {
-        this.DAN = DAN;
-    }
+    @SerializedName("DisbType")
+    private String DisbType;
 
     public String getId() {
         return Id;
@@ -86,20 +74,12 @@ public class ReportAccountDisbSearchNew implements Parcelable{
         Id = id;
     }
 
-    public String getRecordcreatedate() {
-        return recordcreatedate;
+    public String getSYSTEM_YEAR() {
+        return SYSTEM_YEAR;
     }
 
-    public void setRecordcreatedate(String recordcreatedate) {
-        this.recordcreatedate = recordcreatedate;
-    }
-
-    public String getSystem_Year() {
-        return System_Year;
-    }
-
-    public void setSystem_Year(String system_Year) {
-        System_Year = system_Year;
+    public void setSYSTEM_YEAR(String SYSTEM_YEAR) {
+        this.SYSTEM_YEAR = SYSTEM_YEAR;
     }
 
     public String getMasterefin() {
@@ -142,14 +122,6 @@ public class ReportAccountDisbSearchNew implements Parcelable{
         PrimarySsn = primarySsn;
     }
 
-    public String getDepositType() {
-        return DepositType;
-    }
-
-    public void setDepositType(String depositType) {
-        DepositType = depositType;
-    }
-
     public String getProductType() {
         return ProductType;
     }
@@ -158,89 +130,66 @@ public class ReportAccountDisbSearchNew implements Parcelable{
         ProductType = productType;
     }
 
-    public String getDepositAmount() {
-        return DepositAmount;
+    public String getExpecteddepdate() {
+        return expecteddepdate;
     }
 
-    public void setDepositAmount(String depositAmount) {
-        DepositAmount = depositAmount;
+    public void setExpecteddepdate(String expecteddepdate) {
+        this.expecteddepdate = expecteddepdate;
     }
 
-    public String getDepositdate() {
-        return depositdate;
+    public String getExpectedRefund() {
+        return ExpectedRefund;
     }
 
-    public void setDepositdate(String depositdate) {
-        this.depositdate = depositdate;
+    public void setExpectedRefund(String expectedRefund) {
+        ExpectedRefund = expectedRefund;
     }
 
-    public String getSadjtype() {
-        return sadjtype;
+    public String getDisbursementDate() {
+        return DisbursementDate;
     }
 
-    public void setSadjtype(String sadjtype) {
-        this.sadjtype = sadjtype;
+    public void setDisbursementDate(String disbursementDate) {
+        DisbursementDate = disbursementDate;
     }
 
-    public String getDepositor() {
-        return Depositor;
+    public String getDisbursmentamount() {
+        return disbursmentamount;
     }
 
-    public void setDepositor(String depositor) {
-        Depositor = depositor;
+    public void setDisbursmentamount(String disbursmentamount) {
+        this.disbursmentamount = disbursmentamount;
     }
 
-    public ReportAccountDisbSearchNew() {
+    public String getDisbType() {
+        return DisbType;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.Id);
-        dest.writeString(this.recordcreatedate);
-        dest.writeString(this.System_Year);
-        dest.writeString(this.masterefin);
-        dest.writeString(this.DAN);
-        dest.writeString(this.Reverseddate);
-        dest.writeString(this.Efin);
-        dest.writeString(this.PrimaryFirstName);
-        dest.writeString(this.PrimaryLastName);
-        dest.writeString(this.PrimarySsn);
-        dest.writeString(this.DepositType);
-        dest.writeString(this.ProductType);
-        dest.writeString(this.DepositAmount);
-        dest.writeString(this.depositdate);
-        dest.writeString(this.sadjtype);
-        dest.writeString(this.Depositor);
+    public void setDisbType(String disbType) {
+        DisbType = disbType;
     }
 
     protected ReportAccountDisbSearchNew(Parcel in) {
-        this.Id = in.readString();
-        this.recordcreatedate = in.readString();
-        this.System_Year = in.readString();
-        this.masterefin = in.readString();
-        this.DAN = in.readString();
-        this.Reverseddate = in.readString();
-        this.Efin = in.readString();
-        this.PrimaryFirstName = in.readString();
-        this.PrimaryLastName = in.readString();
-        this.PrimarySsn = in.readString();
-        this.DepositType = in.readString();
-        this.ProductType = in.readString();
-        this.DepositAmount = in.readString();
-        this.depositdate = in.readString();
-        this.sadjtype = in.readString();
-        this.Depositor = in.readString();
+        Id = in.readString();
+        SYSTEM_YEAR = in.readString();
+        masterefin = in.readString();
+        Efin = in.readString();
+        PrimaryFirstName = in.readString();
+        PrimaryLastName = in.readString();
+        PrimarySsn = in.readString();
+        ProductType = in.readString();
+        expecteddepdate = in.readString();
+        ExpectedRefund = in.readString();
+        DisbursementDate = in.readString();
+        disbursmentamount = in.readString();
+        DisbType = in.readString();
     }
 
     public static final Creator<ReportAccountDisbSearchNew> CREATOR = new Creator<ReportAccountDisbSearchNew>() {
         @Override
-        public ReportAccountDisbSearchNew createFromParcel(Parcel source) {
-            return new ReportAccountDisbSearchNew(source);
+        public ReportAccountDisbSearchNew createFromParcel(Parcel in) {
+            return new ReportAccountDisbSearchNew(in);
         }
 
         @Override
@@ -248,4 +197,26 @@ public class ReportAccountDisbSearchNew implements Parcelable{
             return new ReportAccountDisbSearchNew[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(Id);
+        parcel.writeString(SYSTEM_YEAR);
+        parcel.writeString(masterefin);
+        parcel.writeString(Efin);
+        parcel.writeString(PrimaryFirstName);
+        parcel.writeString(PrimaryLastName);
+        parcel.writeString(PrimarySsn);
+        parcel.writeString(ProductType);
+        parcel.writeString(expecteddepdate);
+        parcel.writeString(ExpectedRefund);
+        parcel.writeString(DisbursementDate);
+        parcel.writeString(disbursmentamount);
+        parcel.writeString(DisbType);
+    }
 }

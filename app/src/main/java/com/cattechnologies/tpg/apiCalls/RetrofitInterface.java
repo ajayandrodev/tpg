@@ -226,25 +226,25 @@ public interface RetrofitInterface {
       /* AccountDisbData*/
 
     @FormUrlEncoded
-    @POST("EroDeposits")
+    @POST("DisbursmentReport")
     Observable<ReportsAccountDisb> getAccountDisbData(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                                       @Field("page") String page);
 
 
     @FormUrlEncoded
-    @POST("ero-deposit-search")
+    @POST("DisbursmentReportSearch")
     Observable<ReportsAccountDisbSearch> getAccountDisbDataSearch
             (@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
              @Field("page") String page, @Field("search") String search);
 
 
     @FormUrlEncoded
-    @POST("SortAccountDisb")
+    @POST("DisbursmentReportSort")
     Observable<ReportsAccountDisbSort> getAccountDisbDataSort(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                                               @Field("page") String page, @Field("sort") String search);
 
     @FormUrlEncoded
-    @POST("SearchSortAccountDisb")
+    @POST("DisbursmentReportSearchSort")
     Observable<ReportAccountDisbSearchSort> getAccountDisbDataSearchSort(@Field("app_uid") String userId,
                                                                          @Field("acc_type") String userType,
                                                                          @Field("search") String newText,

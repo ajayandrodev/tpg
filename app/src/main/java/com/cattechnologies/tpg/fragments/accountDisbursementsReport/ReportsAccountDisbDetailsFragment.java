@@ -26,12 +26,27 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
             textReportFive, textReportFiveNext, textReportFiveNextData, textReportFiveData, textFiveNextAnother, textFiveNextAnotherData;
     RelativeLayout llTwo, llThree, llFour, llFive, llSix, llTwoNext, llFiveNext;
     LinearLayout llInfoData, llInfoDetailsData;
+    String name, primarySsn, disbursType, expectedRefund, reportsExpecteddepdate,
+            productType, disbursementDate, disbursmentamount, expecteddepdate;
 
-
-    public static ReportsAccountDisbDetailsFragment newInstance(String sectionTitle) {
+    public static ReportsAccountDisbDetailsFragment newInstance(
+            String title, String name,
+            String primarySsn, String disbursType,
+            String expectedRefund, String reportsExpecteddepdate,
+            String productType, String disbursementDate, String disbursmentamount,
+            String expecteddepdate, String sectionTitle) {
         ReportsAccountDisbDetailsFragment fragment = new ReportsAccountDisbDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
+        args.putString("report_username", name);
+        args.putString("report_ssn", primarySsn);
+        args.putString("report_disb_type", disbursType);
+        args.putString("report_expectedRefund", expectedRefund);
+        args.putString("report_reportsExpecteddepdate", reportsExpecteddepdate);
+        args.putString("report_productType", productType);
+        args.putString("report_disbursementDate", disbursementDate);
+        args.putString("report_disbursmentamount", disbursmentamount);
+        args.putString("report_expecteddepdate", expecteddepdate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,7 +57,7 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((Dashboard)getActivity()).setTitle("REPORTS");
+        ((Dashboard) getActivity()).setTitle("REPORTS");
 
     }
 
@@ -59,10 +74,19 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
 
+        name = getArguments().getString("report_username");
+        primarySsn = getArguments().getString("report_ssn");
+        disbursType = getArguments().getString("report_disb_type");
+        expectedRefund = getArguments().getString("report_expectedRefund");
+        reportsExpecteddepdate = getArguments().getString("report_reportsExpecteddepdate");
+        productType = getArguments().getString("report_productType");
+        disbursementDate = getArguments().getString("report_disbursementDate");
+        disbursmentamount = getArguments().getString("report_disbursmentamount");
+        expecteddepdate = getArguments().getString("report_expecteddepdate");
+
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
-        textReportFirstName = (TextView) getActivity().findViewById(R.id.text_report_one_firstname);
-        textReportSsn = (TextView) getActivity().findViewById(R.id.text_report_one_ssn);
-        textReportType = (TextView) getActivity().findViewById(R.id.text_report_one_type);
+
+
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
         textReportOne = (TextView) getActivity().findViewById(R.id.text_report_one);
         textReportOneData = (TextView) getActivity().findViewById(R.id.text_report_one_data);
@@ -89,28 +113,37 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         llTwoNext = (RelativeLayout) getActivity().findViewById(R.id.ll_two_next);
         llFiveNext = (RelativeLayout) getActivity().findViewById(R.id.ll_two_next_another);
 
+        textReportFirstName = (TextView) getActivity().findViewById(R.id.text_report_one_firstname);
+        textReportFirstName.setText(name);
+
+        textReportSsn = (TextView) getActivity().findViewById(R.id.text_report_one_ssn);
+        textReportSsn.setText(primarySsn);
+
+        textReportType = (TextView) getActivity().findViewById(R.id.text_report_one_type);
+        textReportType.setText(disbursType);
+
 
         titulo.setText("ACCOUNT DISBURSEMENTS - DETAILS");
         textReportTitleDetail.setText("ACCOUNT DISBURSEMENTS");
-        textReportType.setText("DT w/ Man Bank");
+        textReportType.setText(disbursType);
 
         textReportOne.setText("Expected Refund($):");//ll_six
-        textReportOneData.setText("$5,000.00");
+        textReportOneData.setText("$" + expectedRefund);
 
         textReportTwo.setText("Expected Date:");//ll_five
-        textReportTwoData.setText("01-25-2017");
+        textReportTwoData.setText(reportsExpecteddepdate);
 
         textReportThree.setText("Product Type:");//ll_four
-        textReportThreeData.setText("RT");
+        textReportThreeData.setText(productType);
 
         textReportFour.setText("Disbursed  Date:");//ll_three
-        textReportFourData.setText("12-10-2017");
+        textReportFourData.setText(disbursementDate);
 
         textReportFive.setText("Disbursed  Amount:");//ll_two
-        textReportFiveData.setText("$5,200");
+        textReportFiveData.setText("$"+disbursmentamount);
 
         textReportFiveNext.setText("Disbursement Type:");//ll_two next
-        textReportFiveNextData.setText("ACH");
+        textReportFiveNextData.setText(disbursType);
 
         textFiveNextAnother.setText("Disbursement Info:");//ll_two next another
         textFiveNextAnotherData.setText("");

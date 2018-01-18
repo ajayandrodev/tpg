@@ -26,31 +26,51 @@ public class ReportsAccountDisb implements Parcelable {
     @SerializedName("Total No of Pages")
     private String TotalNoofPages;
 
-    @SerializedName("EroReport_data")
-    private List<ReportsAccountDisbNew> EroReport_data;
+    @SerializedName("DisbursmentReport_data")
+    private List<ReportsAccountDisbNew> DisbursmentReport_data;
 
     public ReportsAccountDisb() {
 
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getPage() {
+        return page;
     }
 
     public void setPage(String page) {
         this.page = page;
     }
 
+    public String getTotalNoofPages() {
+        return TotalNoofPages;
+    }
+
     public void setTotalNoofPages(String totalNoofPages) {
         TotalNoofPages = totalNoofPages;
     }
 
-    public void setEroReport_data(List<ReportsAccountDisbNew> eroReport_data) {
-        EroReport_data = eroReport_data;
+    public List<ReportsAccountDisbNew> getDisbursmentReport_data() {
+        return DisbursmentReport_data;
+    }
+
+    public void setDisbursmentReport_data(List<ReportsAccountDisbNew> disbursmentReport_data) {
+        DisbursmentReport_data = disbursmentReport_data;
     }
 
     protected ReportsAccountDisb(Parcel in) {
@@ -58,26 +78,7 @@ public class ReportsAccountDisb implements Parcelable {
         message = in.readString();
         page = in.readString();
         TotalNoofPages = in.readString();
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getPage() {
-        return page;
-    }
-
-    public String getTotalNoofPages() {
-        return TotalNoofPages;
-    }
-
-    public List<ReportsAccountDisbNew> getEroReport_data() {
-        return EroReport_data;
+        DisbursmentReport_data = in.createTypedArrayList(ReportsAccountDisbNew.CREATOR);
     }
 
     @Override
@@ -86,6 +87,7 @@ public class ReportsAccountDisb implements Parcelable {
         dest.writeString(message);
         dest.writeString(page);
         dest.writeString(TotalNoofPages);
+        dest.writeTypedList(DisbursmentReport_data);
     }
 
     @Override

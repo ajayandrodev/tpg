@@ -13,25 +13,15 @@ public class ReportParticulrAccountDisbSortNew implements Parcelable {
     @SerializedName("Id")
     private String Id;
 
-    @SerializedName("recordcreatedate")
-    private String recordcreatedate;
-
-    @SerializedName("System_Year")
-    private String System_Year;
+    @SerializedName("SYSTEM_YEAR")
+    private String SYSTEM_YEAR;
 
     @SerializedName("masterefin")
     private String masterefin;
 
+
     @SerializedName("Efin")
     private String Efin;
-
-
-    @SerializedName("DAN")
-    private String DAN;
-
-    @SerializedName("Reverseddate")
-    private String Reverseddate;
-
 
 
     @SerializedName("PrimaryFirstName")
@@ -43,40 +33,23 @@ public class ReportParticulrAccountDisbSortNew implements Parcelable {
     @SerializedName("PrimarySsn")
     private String PrimarySsn;
 
-    @SerializedName("DepositType")
-    private String DepositType;
-
     @SerializedName("ProductType")
     private String ProductType;
 
+    @SerializedName("expecteddepdate")
+    private String expecteddepdate;
 
-    @SerializedName("DepositAmount")
-    private String DepositAmount;
+    @SerializedName("ExpectedRefund")
+    private String ExpectedRefund;
 
-    @SerializedName("depositdate")
-    private String depositdate;
+    @SerializedName("DisbursementDate")
+    private String DisbursementDate;
 
-    @SerializedName("sadjtype")
-    private String sadjtype;
+    @SerializedName("disbursmentamount")
+    private String disbursmentamount;
 
-    @SerializedName("Depositor")
-    private String Depositor;
-
-    public String getDAN() {
-        return DAN;
-    }
-
-    public void setDAN(String DAN) {
-        this.DAN = DAN;
-    }
-
-    public String getReverseddate() {
-        return Reverseddate;
-    }
-
-    public void setReverseddate(String reverseddate) {
-        Reverseddate = reverseddate;
-    }
+    @SerializedName("DisbType")
+    private String DisbType;
 
     public String getId() {
         return Id;
@@ -86,20 +59,12 @@ public class ReportParticulrAccountDisbSortNew implements Parcelable {
         Id = id;
     }
 
-    public String getRecordcreatedate() {
-        return recordcreatedate;
+    public String getSYSTEM_YEAR() {
+        return SYSTEM_YEAR;
     }
 
-    public void setRecordcreatedate(String recordcreatedate) {
-        this.recordcreatedate = recordcreatedate;
-    }
-
-    public String getSystem_Year() {
-        return System_Year;
-    }
-
-    public void setSystem_Year(String system_Year) {
-        System_Year = system_Year;
+    public void setSYSTEM_YEAR(String SYSTEM_YEAR) {
+        this.SYSTEM_YEAR = SYSTEM_YEAR;
     }
 
     public String getMasterefin() {
@@ -142,14 +107,6 @@ public class ReportParticulrAccountDisbSortNew implements Parcelable {
         PrimarySsn = primarySsn;
     }
 
-    public String getDepositType() {
-        return DepositType;
-    }
-
-    public void setDepositType(String depositType) {
-        DepositType = depositType;
-    }
-
     public String getProductType() {
         return ProductType;
     }
@@ -158,36 +115,77 @@ public class ReportParticulrAccountDisbSortNew implements Parcelable {
         ProductType = productType;
     }
 
-    public String getDepositAmount() {
-        return DepositAmount;
+    public String getExpecteddepdate() {
+        return expecteddepdate;
     }
 
-    public void setDepositAmount(String depositAmount) {
-        DepositAmount = depositAmount;
+    public void setExpecteddepdate(String expecteddepdate) {
+        this.expecteddepdate = expecteddepdate;
     }
 
-    public String getDepositdate() {
-        return depositdate;
+    public String getExpectedRefund() {
+        return ExpectedRefund;
     }
 
-    public void setDepositdate(String depositdate) {
-        this.depositdate = depositdate;
+    public void setExpectedRefund(String expectedRefund) {
+        ExpectedRefund = expectedRefund;
     }
 
-    public String getSadjtype() {
-        return sadjtype;
+    public String getDisbursementDate() {
+        return DisbursementDate;
     }
 
-    public void setSadjtype(String sadjtype) {
-        this.sadjtype = sadjtype;
+    public void setDisbursementDate(String disbursementDate) {
+        DisbursementDate = disbursementDate;
     }
 
-    public String getDepositor() {
-        return Depositor;
+    public String getDisbursmentamount() {
+        return disbursmentamount;
     }
 
-    public void setDepositor(String depositor) {
-        Depositor = depositor;
+    public void setDisbursmentamount(String disbursmentamount) {
+        this.disbursmentamount = disbursmentamount;
+    }
+
+    public String getDisbType() {
+        return DisbType;
+    }
+
+    public void setDisbType(String disbType) {
+        DisbType = disbType;
+    }
+
+    protected ReportParticulrAccountDisbSortNew(Parcel in) {
+        Id = in.readString();
+        SYSTEM_YEAR = in.readString();
+        masterefin = in.readString();
+        Efin = in.readString();
+        PrimaryFirstName = in.readString();
+        PrimaryLastName = in.readString();
+        PrimarySsn = in.readString();
+        ProductType = in.readString();
+        expecteddepdate = in.readString();
+        ExpectedRefund = in.readString();
+        DisbursementDate = in.readString();
+        disbursmentamount = in.readString();
+        DisbType = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Id);
+        dest.writeString(SYSTEM_YEAR);
+        dest.writeString(masterefin);
+        dest.writeString(Efin);
+        dest.writeString(PrimaryFirstName);
+        dest.writeString(PrimaryLastName);
+        dest.writeString(PrimarySsn);
+        dest.writeString(ProductType);
+        dest.writeString(expecteddepdate);
+        dest.writeString(ExpectedRefund);
+        dest.writeString(DisbursementDate);
+        dest.writeString(disbursmentamount);
+        dest.writeString(DisbType);
     }
 
     @Override
@@ -195,52 +193,10 @@ public class ReportParticulrAccountDisbSortNew implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.Id);
-        dest.writeString(this.recordcreatedate);
-        dest.writeString(this.System_Year);
-        dest.writeString(this.masterefin);
-        dest.writeString(this.Efin);
-        dest.writeString(this.DAN);
-        dest.writeString(this.Reverseddate);
-        dest.writeString(this.PrimaryFirstName);
-        dest.writeString(this.PrimaryLastName);
-        dest.writeString(this.PrimarySsn);
-        dest.writeString(this.DepositType);
-        dest.writeString(this.ProductType);
-        dest.writeString(this.DepositAmount);
-        dest.writeString(this.depositdate);
-        dest.writeString(this.sadjtype);
-        dest.writeString(this.Depositor);
-    }
-
-    public ReportParticulrAccountDisbSortNew() {
-    }
-
-    protected ReportParticulrAccountDisbSortNew(Parcel in) {
-        this.Id = in.readString();
-        this.recordcreatedate = in.readString();
-        this.System_Year = in.readString();
-        this.masterefin = in.readString();
-        this.Efin = in.readString();
-        this.DAN = in.readString();
-        this.Reverseddate = in.readString();
-        this.PrimaryFirstName = in.readString();
-        this.PrimaryLastName = in.readString();
-        this.PrimarySsn = in.readString();
-        this.DepositType = in.readString();
-        this.ProductType = in.readString();
-        this.DepositAmount = in.readString();
-        this.depositdate = in.readString();
-        this.sadjtype = in.readString();
-        this.Depositor = in.readString();
-    }
-
     public static final Creator<ReportParticulrAccountDisbSortNew> CREATOR = new Creator<ReportParticulrAccountDisbSortNew>() {
         @Override
-        public ReportParticulrAccountDisbSortNew createFromParcel(Parcel source) {
-            return new ReportParticulrAccountDisbSortNew(source);
+        public ReportParticulrAccountDisbSortNew createFromParcel(Parcel in) {
+            return new ReportParticulrAccountDisbSortNew(in);
         }
 
         @Override

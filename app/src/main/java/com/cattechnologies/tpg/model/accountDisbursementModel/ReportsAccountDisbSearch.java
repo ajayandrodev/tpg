@@ -27,11 +27,15 @@ public class ReportsAccountDisbSearch implements Parcelable {
     @SerializedName("Total No of Pages")
     private String TotalNoofPages;
 
-    @SerializedName("EroReport_data")
-    private List<ReportAccountDisbSearchNew> EroReport_data;
+    @SerializedName("DisbursmentReport_data")
+    private List<ReportAccountDisbSearchNew> DisbursmentReport_data;
 
     public ReportsAccountDisbSearch() {
 
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public void setStatus(String status) {
@@ -62,12 +66,12 @@ public class ReportsAccountDisbSearch implements Parcelable {
         TotalNoofPages = totalNoofPages;
     }
 
-    public List<ReportAccountDisbSearchNew> getEroReport_data() {
-        return EroReport_data;
+    public List<ReportAccountDisbSearchNew> getDisbursmentReport_data() {
+        return DisbursmentReport_data;
     }
 
-    public void setEroReport_data(List<ReportAccountDisbSearchNew> eroReport_data) {
-        EroReport_data = eroReport_data;
+    public void setDisbursmentReport_data(List<ReportAccountDisbSearchNew> disbursmentReport_data) {
+        DisbursmentReport_data = disbursmentReport_data;
     }
 
     protected ReportsAccountDisbSearch(Parcel in) {
@@ -75,21 +79,7 @@ public class ReportsAccountDisbSearch implements Parcelable {
         message = in.readString();
         page = in.readString();
         TotalNoofPages = in.readString();
-        EroReport_data = in.createTypedArrayList(ReportAccountDisbSearchNew.CREATOR);
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(status);
-        dest.writeString(message);
-        dest.writeString(page);
-        dest.writeString(TotalNoofPages);
-        dest.writeTypedList(EroReport_data);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+        DisbursmentReport_data = in.createTypedArrayList(ReportAccountDisbSearchNew.CREATOR);
     }
 
     public static final Creator<ReportsAccountDisbSearch> CREATOR = new Creator<ReportsAccountDisbSearch>() {
@@ -104,8 +94,17 @@ public class ReportsAccountDisbSearch implements Parcelable {
         }
     };
 
-    public String getStatus() {
-        return status;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(status);
+        parcel.writeString(message);
+        parcel.writeString(page);
+        parcel.writeString(TotalNoofPages);
+        parcel.writeTypedList(DisbursmentReport_data);
+    }
 }

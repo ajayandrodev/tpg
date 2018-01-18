@@ -47,11 +47,11 @@ public class ReportAccountDisbPerticulaSortListAdapter extends RecyclerView.Adap
             holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
 
         ReportParticulrAccountDisbSortNew reports = reportsList.get(position);
-        holder.userData.setText(reports.getDAN());
-        holder.costData.setText("$" + reports.getDepositAmount());
-        holder.accountDataSSN.setText(reports.getDepositType());
-        holder.detailsDataDisbush.setText("");
-        holder.dateData.setText(reports.getDepositdate());
+        holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
+        holder.costData.setText("$" + reports.getDisbursmentamount());
+        holder.accountDataSSN.setText(reports.getPrimarySsn());
+        holder.detailsDataDisbush.setText(reports.getDisbType() + " | ");
+        holder.dateData.setText(reports.getDisbursementDate());
     }
 
     @Override

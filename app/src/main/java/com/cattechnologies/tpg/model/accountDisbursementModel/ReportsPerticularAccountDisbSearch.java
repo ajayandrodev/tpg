@@ -27,8 +27,8 @@ public class ReportsPerticularAccountDisbSearch implements Parcelable {
     @SerializedName("Total No of Pages")
     private String TotalNoofPages;
 
-    @SerializedName("EroReport_data")
-    private List<ReportsPerticularAccountDisbSearchNew> EroReport_data;
+    @SerializedName("DisbursmentReport_data")
+    private List<ReportsPerticularAccountDisbSearchNew> DisbursmentReport_data;
 
     public ReportsPerticularAccountDisbSearch() {
 
@@ -66,12 +66,12 @@ public class ReportsPerticularAccountDisbSearch implements Parcelable {
         TotalNoofPages = totalNoofPages;
     }
 
-    public List<ReportsPerticularAccountDisbSearchNew> getEroReport_data() {
-        return EroReport_data;
+    public List<ReportsPerticularAccountDisbSearchNew> getDisbursmentReport_data() {
+        return DisbursmentReport_data;
     }
 
-    public void setEroReport_data(List<ReportsPerticularAccountDisbSearchNew> eroReport_data) {
-        EroReport_data = eroReport_data;
+    public void setDisbursmentReport_data(List<ReportsPerticularAccountDisbSearchNew> disbursmentReport_data) {
+        DisbursmentReport_data = disbursmentReport_data;
     }
 
     protected ReportsPerticularAccountDisbSearch(Parcel in) {
@@ -79,7 +79,7 @@ public class ReportsPerticularAccountDisbSearch implements Parcelable {
         message = in.readString();
         page = in.readString();
         TotalNoofPages = in.readString();
-        EroReport_data = in.createTypedArrayList(ReportsPerticularAccountDisbSearchNew.CREATOR);
+        DisbursmentReport_data = in.createTypedArrayList(ReportsPerticularAccountDisbSearchNew.CREATOR);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class ReportsPerticularAccountDisbSearch implements Parcelable {
         dest.writeString(message);
         dest.writeString(page);
         dest.writeString(TotalNoofPages);
-        dest.writeTypedList(EroReport_data);
+        dest.writeTypedList(DisbursmentReport_data);
     }
 
     @Override
