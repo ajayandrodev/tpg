@@ -254,7 +254,7 @@ public interface RetrofitInterface {
    /* particularAccountDisb sb*/
 
     @FormUrlEncoded
-    @POST("EroDeposit-particular-office")
+    @POST("DisbursmentReportParticularOffice")
     Observable<ReportParticulrAccountDisb> getAccountDisbParticularData(@Field("app_uid") String userId,
                                                                         @Field("acc_type") String userType,
                                                                         @Field("page") String page,
@@ -262,7 +262,7 @@ public interface RetrofitInterface {
 
 
     @FormUrlEncoded
-    @POST("EroDeposit-particular-office-search")
+    @POST("DisbursmentReportParticularOfficeSearch")
     Observable<ReportsPerticularAccountDisbSearch> getPerticularAccountDisbSearch(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,
@@ -277,7 +277,7 @@ public interface RetrofitInterface {
                                                                    @Field("efin_check")String title);
 
     @FormUrlEncoded
-    @POST("EroDeposit-particular-office-sort")
+    @POST("DisbursmentReportParticularOfficeSort")
     Observable<ReportParticulrAccountDisbSort> getAccountDisbParticularDataSort(@Field("app_uid") String userId,
                                                                                 @Field("acc_type") String userType,
                                                                                 @Field("page") String pageEfin,
@@ -285,7 +285,7 @@ public interface RetrofitInterface {
                                                                                 @Field("sort") String sort);
 
     @FormUrlEncoded
-    @POST("EroDeposit-particular-office-search-sort")
+    @POST("DisbursmentReportParticularOfficeSearchSort")
     Observable<ReportAccountDisbPerticularSearchSort> getAccountDisbParticularDataSearchSort(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,

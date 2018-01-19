@@ -200,15 +200,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         }
         if (searchData.getText().toString().isEmpty()) {
             feePaidReportsData(userId, userType, reports.getPage());
-
-
         }
-
-
         searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
                 if ((actionId == EditorInfo.IME_ACTION_DONE)) {
 
                 }
@@ -225,26 +220,16 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable editable) {
                 // mAdapterSearch.getFilter().filter(editable.toString());
-                newText = s.toString().toLowerCase();
-                if (s.length() > 0){
-                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-
-                }else {
+                newText = editable.toString().toLowerCase();
+                if (TextUtils.isEmpty(newText)) {
                     feePaidReportsData(userId, userType, reports.getPage());
-
+                } else if (!TextUtils.isEmpty(newText)) {
+                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                 }
-                   /* if (TextUtils.isEmpty(newText)) {
-                        System.out.println("ReportsFeesPaidFragment.afterTextChanged==1==" + newText);
-
-                    } else if (!TextUtils.isEmpty(newText)) {
-
-                        System.out.println("ReportsFeesPaidFragment.afterTextChanged" + newText);
-                    }*/
             }
         });
-
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -280,15 +265,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportsFeePaidSearchNew> reportsFeePaidNewList = response.getFeeReport_data();
-            recyclerView.setVisibility(View.VISIBLE);
-            prev.setVisibility(View.VISIBLE);
-            next.setVisibility(View.VISIBLE);
-            layout.setVisibility(View.VISIBLE);
+
 
             mAdapterSearch = new ReportsFeesPaidSearchListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterSearch);
             mAdapterSearch.notifyDataSetChanged();
 
+            layout.setVisibility(View.VISIBLE);
             if (layout != null) {
                 layout.removeAllViews();
             }
@@ -467,6 +450,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             layout.setVisibility(View.VISIBLE);
             mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
 
             if (layout != null) {
                 layout.removeAllViews();

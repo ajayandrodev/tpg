@@ -11,12 +11,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.cattechnologies.tpg.R;
+import com.cattechnologies.tpg.viewHolderData.ApplicationInfo;
 
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
-    public static int screenH;
-    public static int screenW;
 
     Button getStarted;
 
@@ -29,8 +28,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_main);
         getStarted = (Button) findViewById(R.id.main_get_started);
         getStarted.setOnClickListener(this);
-        screenH= ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
-        screenW= ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
 
     }
 

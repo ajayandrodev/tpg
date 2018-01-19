@@ -30,6 +30,7 @@ import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
+import com.cattechnologies.tpg.viewHolderData.ApplicationInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -85,7 +86,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             System.out.println("LoginScreen.onCreate===" + drawerTitle);
             selectedForgotData(drawerTitle);
         }
-
+        ApplicationInfo.getInstance().clearApplicationData();
 
     }
 
