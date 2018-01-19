@@ -13,6 +13,8 @@ import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbNew;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositNew;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -25,6 +27,7 @@ public class ReportsAccountDisbListAdapter extends RecyclerView.Adapter<ReportsA
     private ItemClickListener clickListener;
     String index;
     Context mContext;
+    SimpleDateFormat format, format1;
 
     public ReportsAccountDisbListAdapter(Context mContext, List<ReportsAccountDisbNew> reportsList, String title) {
         this.reportsList = reportsList;
@@ -52,6 +55,16 @@ public class ReportsAccountDisbListAdapter extends RecyclerView.Adapter<ReportsA
         holder.costData.setText("$" + reports.getDisbursmentamount());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
         holder.detailsDataDisbush.setText(reports.getDisbType() + " | ");
+        format = new SimpleDateFormat("yyyyMMdd");
+        format1 = new SimpleDateFormat("MM-dd-yyyy");
+
+        String chagnedDate = null;
+        try {
+            chagnedDate = format1.format(format.parse(reports.getDisbursementDate()));
+            reports.setDisbursementDate(chagnedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.dateData.setText(reports.getDisbursementDate());
 
     }

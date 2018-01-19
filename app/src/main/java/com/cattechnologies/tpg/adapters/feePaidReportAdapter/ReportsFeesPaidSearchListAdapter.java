@@ -13,6 +13,8 @@ import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearchNew;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,8 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    private ItemFilter mFilter = new ItemFilter();
+  //  private ItemFilter mFilter = new ItemFilter();
+    SimpleDateFormat format, format1;
 
 
     public ReportsFeesPaidSearchListAdapter(Context mContext, List<ReportsFeePaidSearchNew> reportsList, String title) {
@@ -56,6 +59,17 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
+        format = new SimpleDateFormat("yyyyMMdd");
+        //format1 = new SimpleDateFormat("MM-dd-yyyy");
+        format1 = new SimpleDateFormat("MM-dd-yyyy");
+
+        String chagnedDate = null;
+        try {
+            chagnedDate = format1.format(format.parse(reports.getRecordcreatedate()));
+            reports.setRecordcreatedate(chagnedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.dateData.setText(reports.getRecordcreatedate());
 
     }
@@ -82,14 +96,19 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
         this.clickListener = itemClickListener;
     }
 
+/*
     public Filter getFilter() {
         return mFilter;
     }
+*/
 
    /* public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
 
     }*/
 
+    public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
+
+    }
 
 
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -115,6 +134,7 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
     }
 
 
+/*
     private class ItemFilter extends Filter {
 
 
@@ -150,4 +170,5 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
             notifyDataSetChanged();
         }
     }
+*/
 }

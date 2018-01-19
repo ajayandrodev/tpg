@@ -400,27 +400,24 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     });
 
                 }
-
-
-                mAdapterSearch.setClickListener((view, position) -> {
-                    final ReportsPerticularFeePaidSearchNew reports = reportsFeePaidNewList.get(position);
-                    Dashboard activity = (Dashboard) view.getContext();
-                    android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
-                            reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                            , reports.getPrimarySsn(), reports.getDisbursementType(),
-                            reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
-                            reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                            , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.main_content, fragment)
-                            .addToBackStack(null)
-                            .commit();
-                    activity.getSupportActionBar().setTitle("REPORTS");
-                });
-
             }
+            mAdapterSearch.setClickListener((view, position) -> {
+                final ReportsPerticularFeePaidSearchNew reports = reportsFeePaidNewList.get(position);
+                Dashboard activity = (Dashboard) view.getContext();
+                android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
+                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
+                        reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                activity.getSupportActionBar().setTitle("REPORTS");
+            });
         } else if (response.getStatus().equalsIgnoreCase("fail")) {
             showToast(response.getMessage());
             recyclerView.setVisibility(View.GONE);

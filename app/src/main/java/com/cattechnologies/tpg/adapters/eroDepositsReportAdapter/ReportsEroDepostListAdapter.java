@@ -12,6 +12,8 @@ import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositNew;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -24,6 +26,8 @@ public class ReportsEroDepostListAdapter extends RecyclerView.Adapter<ReportsEro
     private ItemClickListener clickListener;
     String index;
     Context mContext;
+    SimpleDateFormat format, format1;
+
 
     public ReportsEroDepostListAdapter(Context mContext, List<ReportsEroDepositNew> reportsList, String title) {
         this.reportsList = reportsList;
@@ -51,6 +55,16 @@ public class ReportsEroDepostListAdapter extends RecyclerView.Adapter<ReportsEro
         holder.costData.setText("$" + reports.getDepositAmount());
         holder.accountDataSSN.setText(reports.getDepositType());
         holder.detailsDataDisbush.setText("");
+        format = new SimpleDateFormat("yyyyMMdd");
+        format1 = new SimpleDateFormat("MM-dd-yyyy");
+
+        String chagnedDate = null;
+        try {
+            chagnedDate = format1.format(format.parse(reports.getDepositdate()));
+            reports.setDepositdate(chagnedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.dateData.setText(reports.getDepositdate());
 
     }

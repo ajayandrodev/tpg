@@ -397,11 +397,10 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     });
 
                 }
-
-
-                mAdapterSearch.setClickListener((view, position) -> {
-                    final ReportsPerticularAccountDisbSearchNew reports = reportsFeePaidNewList.get(position);
-                    Dashboard activity = (Dashboard) view.getContext();
+            }
+            mAdapterSearch.setClickListener((view, position) -> {
+                final ReportsPerticularAccountDisbSearchNew reports = reportsFeePaidNewList.get(position);
+                Dashboard activity = (Dashboard) view.getContext();
                   /*  Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                             reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                             , reports.getDAN(), reports.getDepositType(),
@@ -409,17 +408,16 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             reports.getDepositAmount(), reports.getReverseddate()
                     );*/
 
-                    Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.main_content, fragment)
-                            .addToBackStack(null)
-                            .commit();
-                    activity.getSupportActionBar().setTitle("REPORTS");
-                });
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                activity.getSupportActionBar().setTitle("REPORTS");
+            });
 
-            }
         } else if (response.getStatus().equalsIgnoreCase("fail")) {
             showToast(response.getMessage());
             recyclerView.setVisibility(View.GONE);

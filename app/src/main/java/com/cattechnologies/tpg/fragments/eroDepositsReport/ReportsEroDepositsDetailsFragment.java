@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 /**
  * Created by ajay kumar on 28-Oct-17.
  */
@@ -31,6 +34,7 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
             userDepositDate,
             userDepositAmount,
             userReversedDate;
+    SimpleDateFormat format, format1;
 
 
     public static ReportsEroDepositsDetailsFragment newInstance(
@@ -127,7 +131,18 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
         textReportThreeData.setText(" $ " + userDepositAmount);
 
         textReportFour.setText("Reversed Date:");
-        textReportFourData.setText(userReversedDate);
+        format = new SimpleDateFormat("yyyyMMdd");
+        //format1 = new SimpleDateFormat("MM-dd-yyyy");
+        format1 = new SimpleDateFormat("MM-dd-yyyy");
+
+        String chagnedDate = null;
+        try {
+            chagnedDate = format1.format(format.parse(userReversedDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        textReportFourData.setText(chagnedDate);
 
 
         textFiveNextAnother.setText("Comments:");

@@ -394,29 +394,26 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
 
                         }
                     });
-
                 }
-
-
-                mAdapterSearch.setClickListener((view, position) -> {
-                    final ReportsPerticularEroDepositsSearchNew reports = reportsFeePaidNewList.get(position);
-                    Dashboard activity = (Dashboard) view.getContext();
-                    Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
-                            reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                            , reports.getDAN(), reports.getDepositType(),
-                            reports.getMasterefin(), reports.getDepositdate(),
-                            reports.getDepositAmount(), reports.getReverseddate()
-                    );
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.main_content, fragment)
-                            .addToBackStack(null)
-                            .commit();
-                    activity.getSupportActionBar().setTitle("REPORTS");
-                });
-
             }
+            mAdapterSearch.setClickListener((view, position) -> {
+                final ReportsPerticularEroDepositsSearchNew reports = reportsFeePaidNewList.get(position);
+                Dashboard activity = (Dashboard) view.getContext();
+                Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
+                        , reports.getDAN(), reports.getDepositType(),
+                        reports.getMasterefin(), reports.getDepositdate(),
+                        reports.getDepositAmount(), reports.getReverseddate()
+                );
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                activity.getSupportActionBar().setTitle("REPORTS");
+            });
+
         } else if (response.getStatus().equalsIgnoreCase("fail")) {
             showToast(response.getMessage());
             recyclerView.setVisibility(View.GONE);

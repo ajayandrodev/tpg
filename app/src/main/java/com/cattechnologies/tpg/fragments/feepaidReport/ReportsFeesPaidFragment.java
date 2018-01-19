@@ -222,7 +222,9 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             @Override
             public void afterTextChanged(Editable editable) {
                 // mAdapterSearch.getFilter().filter(editable.toString());
+                //System.out.println("Here ");
                 newText = editable.toString().toLowerCase();
+                //System.out.println("Here 2"+newText);
                 if (TextUtils.isEmpty(newText)) {
                     feePaidReportsData(userId, userType, reports.getPage());
                 } else if (!TextUtils.isEmpty(newText)) {
@@ -230,6 +232,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 }
             }
         });
+
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -248,15 +251,9 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
-
         } else {
             showToast("Internet Connection Is Not Available");
-
-
         }
-
-
     }
 
     private void handleResponse(ReportsFeePaidSearch response) {
@@ -265,13 +262,15 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportsFeePaidSearchNew> reportsFeePaidNewList = response.getFeeReport_data();
-
+            recyclerView.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+            next.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
 
             mAdapterSearch = new ReportsFeesPaidSearchListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterSearch);
             mAdapterSearch.notifyDataSetChanged();
 
-            layout.setVisibility(View.VISIBLE);
             if (layout != null) {
                 layout.removeAllViews();
             }
@@ -281,7 +280,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    btn = new Button(getActivity());
+                    final Button btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     lp.setMargins(5, 0, 5, 0);
@@ -372,26 +371,24 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     });
 
                 }
-
-                mAdapterSearch.setClickListener((view, position) -> {
-                    final ReportsFeePaidSearchNew reports = reportsFeePaidNewList.get(position);
-                    Dashboard activity = (Dashboard) view.getContext();
-                    Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
-                            reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                            , reports.getPrimarySsn(), reports.getDisbursementType(),
-                            reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
-                            reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                            , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.main_content, fragment)
-                            .addToBackStack(null)
-                            .commit();
-                    activity.getSupportActionBar().setTitle("REPORTS");
-                });
-
             }
+            mAdapterSearch.setClickListener((view, position) -> {
+                final ReportsFeePaidSearchNew reports = reportsFeePaidNewList.get(position);
+                Dashboard activity = (Dashboard) view.getContext();
+                Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
+                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
+                        reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                activity.getSupportActionBar().setTitle("REPORTS");
+            });
         } else if (response.getStatus().equalsIgnoreCase("fail")) {
             showToast(response.getMessage());
             recyclerView.setVisibility(View.GONE);
@@ -461,7 +458,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    btn = new Button(getActivity());
+                  final Button btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     lp.setMargins(5, 0, 5, 0);
@@ -730,7 +727,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    btn = new Button(getActivity());
+                    final Button btn = new Button(getActivity());
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -890,7 +887,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    btn = new Button(getActivity());
+                    final Button btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     lp.setMargins(5, 0, 5, 0);
@@ -1007,5 +1004,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         }
 
     }
+
 
 }

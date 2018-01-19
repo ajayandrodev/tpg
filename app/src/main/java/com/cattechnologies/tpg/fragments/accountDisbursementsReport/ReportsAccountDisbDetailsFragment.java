@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 /**
  * Created by ajay kumar on 28-Oct-17.
  */
@@ -28,6 +31,7 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
     LinearLayout llInfoData, llInfoDetailsData;
     String name, primarySsn, disbursType, expectedRefund, reportsExpecteddepdate,
             productType, disbursementDate, disbursmentamount, expecteddepdate;
+    SimpleDateFormat format, format1;
 
     public static ReportsAccountDisbDetailsFragment newInstance(
             String title, String name,
@@ -131,7 +135,18 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         textReportOneData.setText("$" + expectedRefund);
 
         textReportTwo.setText("Expected Date:");//ll_five
-        textReportTwoData.setText(reportsExpecteddepdate);
+
+        format = new SimpleDateFormat("yyyyMMdd");
+        //format1 = new SimpleDateFormat("MM-dd-yyyy");
+        format1 = new SimpleDateFormat("MM-dd-yyyy");
+
+        String chagnedDate = null;
+        try {
+            chagnedDate = format1.format(format.parse(reportsExpecteddepdate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        textReportTwoData.setText(chagnedDate);
 
         textReportThree.setText("Product Type:");//ll_four
         textReportThreeData.setText(productType);

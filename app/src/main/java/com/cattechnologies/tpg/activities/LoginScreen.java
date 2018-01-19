@@ -283,7 +283,9 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 for (int i = 0; i < response.getRecent_transactions().size(); i++) {
                     RecentTransactions recentTransactions = new RecentTransactions();
                     format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.sss");
+                    //format1 = new SimpleDateFormat("MM-dd-yyyy");
                     format1 = new SimpleDateFormat("MM-dd-yyyy");
+
                     String chagnedDate = null;
                     try {
                         chagnedDate = format1.format(format.parse(response.getRecent_transactions().get(i).getLastUpadte()));

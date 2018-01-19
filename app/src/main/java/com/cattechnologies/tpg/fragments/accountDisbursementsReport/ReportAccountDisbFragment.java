@@ -301,7 +301,6 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
             layout.setVisibility(View.VISIBLE);
-            layout.setVisibility(View.VISIBLE);
 
             mAdapterSearch = new ReportsAccountDisbSearchListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapterSearch);
@@ -417,27 +416,26 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     });
 
                 }
-                mAdapterSearch.setClickListener((view, position) -> {
-                    final ReportAccountDisbSearchNew reports = reportsFeePaidNewList.get(position);
-                    Dashboard activity = (Dashboard) view.getContext();
-
-                    Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance
-                            (title, reports.getPrimaryFirstName() + " " +
-                                    reports.getPrimaryLastName(), reports.getPrimarySsn(),
-                                    reports.getProductType(), reports.getExpectedRefund(),
-                                    reports.getExpecteddepdate(), reports.getProductType(),
-                                    reports.getDisbursementDate(), reports.getDisbursmentamount(),
-                                    reports.getExpecteddepdate(), title);
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.main_content, fragment)
-                            .addToBackStack(null)
-                            .commit();
-                    activity.getSupportActionBar().setTitle("REPORTS");
-                });
-
             }
+            mAdapterSearch.setClickListener((view, position) -> {
+                final ReportAccountDisbSearchNew reports = reportsFeePaidNewList.get(position);
+                Dashboard activity = (Dashboard) view.getContext();
+
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance
+                        (title, reports.getPrimaryFirstName() + " " +
+                                        reports.getPrimaryLastName(), reports.getPrimarySsn(),
+                                reports.getProductType(), reports.getExpectedRefund(),
+                                reports.getExpecteddepdate(), reports.getProductType(),
+                                reports.getDisbursementDate(), reports.getDisbursmentamount(),
+                                reports.getExpecteddepdate(), title);
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                activity.getSupportActionBar().setTitle("REPORTS");
+            });
         } else if (response.getStatus().equalsIgnoreCase("fail")) {
             showToast(response.getMessage());
             recyclerView.setVisibility(View.GONE);

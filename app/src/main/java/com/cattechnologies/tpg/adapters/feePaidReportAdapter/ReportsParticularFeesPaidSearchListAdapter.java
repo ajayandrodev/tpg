@@ -12,6 +12,8 @@ import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsPerticularFeePaidSearchNew;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -24,6 +26,7 @@ public class ReportsParticularFeesPaidSearchListAdapter extends RecyclerView.Ada
     private ItemClickListener clickListener;
     String index;
     Context mContext;
+    SimpleDateFormat format, format1;
 
     public ReportsParticularFeesPaidSearchListAdapter(Context mContext, List<ReportsPerticularFeePaidSearchNew> reportsList, String title) {
         this.reportsList = reportsList;
@@ -52,6 +55,17 @@ public class ReportsParticularFeesPaidSearchListAdapter extends RecyclerView.Ada
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
+        format = new SimpleDateFormat("yyyyMMdd");
+        //format1 = new SimpleDateFormat("MM-dd-yyyy");
+        format1 = new SimpleDateFormat("MM-dd-yyyy");
+
+        String chagnedDate = null;
+        try {
+            chagnedDate = format1.format(format.parse(reports.getRecordcreatedate()));
+            reports.setRecordcreatedate(chagnedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.dateData.setText(reports.getRecordcreatedate());
 
     }

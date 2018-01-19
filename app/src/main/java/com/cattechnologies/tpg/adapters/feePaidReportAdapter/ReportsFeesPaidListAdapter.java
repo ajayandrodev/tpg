@@ -10,8 +10,11 @@ import android.widget.TextView;
 import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
+import com.cattechnologies.tpg.model.dashboardModel.RecentTransactions;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidNew;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +26,8 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
     List<ReportsFeePaidNew> reportsList;
     String title;
     private ItemClickListener clickListener;
-    String index;
     Context mContext;
+    SimpleDateFormat format, format1;
 
     public ReportsFeesPaidListAdapter(Context mContext, List<ReportsFeePaidNew> reportsList, String title) {
         this.reportsList = reportsList;
@@ -52,7 +55,18 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
-        holder.dateData.setText(reports.getRecordcreatedate());
+            format = new SimpleDateFormat("yyyyMMdd");
+            //format1 = new SimpleDateFormat("MM-dd-yyyy");
+            format1 = new SimpleDateFormat("MM-dd-yyyy");
+
+            String chagnedDate = null;
+            try {
+                chagnedDate = format1.format(format.parse(reports.getRecordcreatedate()));
+                reports.setRecordcreatedate(chagnedDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            holder.dateData.setText(reports.getRecordcreatedate());
 
     }
 
@@ -65,7 +79,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
     public int getItemViewType(int position) {
         return position;
     }
-
 
 
     @Override
