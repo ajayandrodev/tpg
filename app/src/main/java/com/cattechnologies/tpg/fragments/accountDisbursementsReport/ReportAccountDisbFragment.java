@@ -141,6 +141,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
+        searchData.setText("e");
     }
 
     @Override

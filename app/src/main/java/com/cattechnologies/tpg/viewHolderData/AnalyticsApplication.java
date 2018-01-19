@@ -1,22 +1,24 @@
 package com.cattechnologies.tpg.viewHolderData;
 
-import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-import java.io.File;
+import com.cattechnologies.tpg.R;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 
-import de.greenrobot.event.EventBus;
+import java.io.File;
 
 /**
  * Created by admin on 10/6/2017.
  */
 
-public class ApplicationInfo extends MultiDexApplication {
-    private static ApplicationInfo instance;
-
+public class AnalyticsApplication extends MultiDexApplication {
+    private static AnalyticsApplication instance;
+    private static GoogleAnalytics sAnalytics;
+    private static Tracker sTracker;
     /*
     http://www.coderefer.com/android-custom-font-entire-application/
 */
@@ -24,18 +26,26 @@ public class ApplicationInfo extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        sAnalytics = GoogleAnalytics.getInstance(this);
         FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Lato-Regular.ttf");
         FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Lato-Regular.ttf");
     }
 
+    synchronized public Tracker getDefaultTracker() {
+        // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+        if (sTracker == null) {
+            sTracker = sAnalytics.newTracker(R.xml.global_tracker);
+        }
 
+        return sTracker;
+    }
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
 
-    public static ApplicationInfo getInstance(){
+    public static AnalyticsApplication getInstance(){
         return instance;
     }
 

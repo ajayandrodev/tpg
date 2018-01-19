@@ -141,6 +141,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
+        searchData.setText("");
     }
 
     @Override

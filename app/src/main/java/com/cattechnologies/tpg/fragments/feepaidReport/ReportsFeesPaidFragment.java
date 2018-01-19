@@ -141,6 +141,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
+        searchData.setText("");
 
     }
 
@@ -184,7 +185,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         myexpandable.setAdapter(adapter);
         myexpandable.setOnChildClickListener(this);
 
-
         reports = new ReportsFeePaid();
         reportsFeePaidSearch = new ReportsFeePaidSearch();
         reportsFeePaidSort = new ReportsFeePaidSort();
@@ -221,10 +221,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
             @Override
             public void afterTextChanged(Editable editable) {
-                // mAdapterSearch.getFilter().filter(editable.toString());
-                //System.out.println("Here ");
+
                 newText = editable.toString().toLowerCase();
-                //System.out.println("Here 2"+newText);
                 if (TextUtils.isEmpty(newText)) {
                     feePaidReportsData(userId, userType, reports.getPage());
                 } else if (!TextUtils.isEmpty(newText)) {
@@ -280,7 +278,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
+                    btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     lp.setMargins(5, 0, 5, 0);
@@ -458,7 +456,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                  final Button btn = new Button(getActivity());
+                    btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     lp.setMargins(5, 0, 5, 0);
@@ -727,7 +725,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
+                    btn = new Button(getActivity());
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -887,7 +885,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 next.setVisibility(View.GONE);
             } else {
                 for (current_page = 0; current_page < totalPage; current_page++) {
-                    final Button btn = new Button(getActivity());
+                    btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     lp.setMargins(5, 0, 5, 0);

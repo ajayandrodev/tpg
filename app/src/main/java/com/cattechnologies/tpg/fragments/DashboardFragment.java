@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportAccountDisbFragment;
 import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportsAccountDisbServiceBuroFragment;
 import com.cattechnologies.tpg.fragments.checksToPrintReport.ReportsCheckToPrintFragment;
@@ -191,6 +193,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         Fragment fragment = null;
         switch (v.getId()) {
             case R.id.bt_fees_paid:
+
                 if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     feesPaid.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_fee_paid);
