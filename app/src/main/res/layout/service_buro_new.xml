@@ -123,7 +123,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/recycler_view"
-                        android:hint="Enter efin here"
+                        android:hint="@string/enter_efin_sb"
                         android:imeOptions="actionDone"
                         android:inputType="number"
                         android:maxLength="15" />

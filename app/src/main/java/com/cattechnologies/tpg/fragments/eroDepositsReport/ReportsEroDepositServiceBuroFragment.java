@@ -113,7 +113,12 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
 
         return view;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        etTitle.setText("");
 
+    }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

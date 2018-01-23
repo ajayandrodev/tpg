@@ -9,10 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportAccountDisbFragment;
@@ -177,6 +181,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -258,4 +266,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 }

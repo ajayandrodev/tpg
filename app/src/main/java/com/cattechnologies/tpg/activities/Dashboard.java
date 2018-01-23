@@ -15,6 +15,7 @@ import android.support.design.widget.NavigationView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cattechnologies.tpg.fragments.DashboardFragment;
 import com.cattechnologies.tpg.fragments.ProfileFragment;
@@ -129,6 +130,7 @@ public class Dashboard extends AppCompatActivity {
                 if ((f instanceof DashboardFragment) || (f instanceof ProfileFragment)) {
                     drawerLayout.openDrawer(GravityCompat.START);
                 } else {
+
                     onBackPressed();
                 }
                 return true;
@@ -206,6 +208,7 @@ public class Dashboard extends AppCompatActivity {
         super.onBackPressed();
         // TODO: 29-Oct-17
         int backStackEntryCount = getFragmentManager().getBackStackEntryCount();
+        
 
        /* if (backStackEntryCount == 0) {
             toolBarText.setText(getResources().getString(R.string.home_item));

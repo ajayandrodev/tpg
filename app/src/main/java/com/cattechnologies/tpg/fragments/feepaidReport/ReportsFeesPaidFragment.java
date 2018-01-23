@@ -504,9 +504,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             progressBar.setVisibility(View.GONE);
             String totalPages = response.getTotalNoofPages();
             List<ReportsFeePaidNew> reportsFeePaidNewList = response.getFeeReport_data();
-
-            System.out.println("Responce Data " + response.getPage());
-
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
@@ -526,6 +523,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
+
                     lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);

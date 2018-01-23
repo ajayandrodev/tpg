@@ -63,7 +63,6 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
     HashMap<String, List<String>> bind_and_display;
 
 
-
     TextView sbEro, titulo;
     RecyclerView mRecyclerView;
     SbiAccountDisbListDataAdapter mRecyclerAdapter;
@@ -111,6 +110,13 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
         View view = inflater.inflate(R.layout.service_buro_account_new, container, false);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        etTitle.setText("");
+
     }
 
     @Override
@@ -199,12 +205,12 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
                 }
 
 
-
                 // etDescription.setText("");
             }
         });
 
     }
+
     private void efinValidCheck(String userId, String userType, String title) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getEfinValidCheck(userId, userType, title)
@@ -219,6 +225,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
 
         }
     }
+
     private void handleError(Throwable error) {
         showToast(error.getMessage());
 
@@ -251,12 +258,11 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
             mRecyclerAdapter.notifyDataSetChanged();
             etTitle.setText("");
 
-        }else {
+        } else {
             showToast(response.getMessage());
         }
 
     }
-
 
 
     private void showToast(String msg) {

@@ -62,7 +62,6 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
     HashMap<String, List<String>> bind_and_display;
 
 
-
     TextView sbEro, titulo;
     RecyclerView mRecyclerView;
     SbiFeePaidListDataAdapter mRecyclerAdapter;
@@ -110,6 +109,13 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
         View view = inflater.inflate(R.layout.service_buro_new, container, false);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        etTitle.setText("");
+
     }
 
     @Override
@@ -256,7 +262,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
             mRecyclerAdapter.notifyDataSetChanged();
             etTitle.setText("");
 
-        }else {
+        } else {
             showToast(response.getMessage());
         }
 
