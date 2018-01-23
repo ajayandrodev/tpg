@@ -83,12 +83,12 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
         newValue.setTitle(title);
         if (!myList.contains(newValue)) {
             myList.add(myList.size(), newValue);
-            notifyItemInserted(myList.size() - 1);
+          //  notifyItemInserted(myList.size() - 1);
             notifyDataSetChanged();
-        } else {
+        } /*else {
             Toast.makeText(mContext, "already e", Toast.LENGTH_SHORT).show();
         }
-
+*/
 
 
     }

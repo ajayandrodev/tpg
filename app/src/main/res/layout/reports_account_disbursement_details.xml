@@ -12,6 +12,7 @@
         android:padding="@dimen/dim_20"
         android:text="@string/reports_details_title"
         android:textAllCaps="true"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:textColor="@android:color/white"
         android:textSize="@dimen/font_size"
         android:textStyle="bold" />
@@ -104,10 +105,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dim_5"
-                        android:layout_marginTop="@dimen/dim_8"
-                        android:orientation="horizontal"
                         android:layout_marginLeft="@dimen/dim_20"
                         android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_8"
+                        android:orientation="horizontal"
                         android:padding="@dimen/dim_1">
 
                         <TextView
@@ -137,13 +138,13 @@
                         android:id="@+id/ll_five"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dim_5"
                         android:layout_marginBottom="@dimen/dim_5"
-
                         android:layout_marginLeft="@dimen/dim_20"
+
                         android:layout_marginRight="@dimen/dim_20"
-                        android:padding="@dimen/dim_1"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dim_1">
 
                         <TextView
                             android:id="@+id/text_report_two"
@@ -174,11 +175,11 @@
                         android:id="@+id/ll_four"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dim_5"
                         android:layout_marginBottom="@dimen/dim_5"
-                        android:orientation="horizontal"
                         android:layout_marginLeft="@dimen/dim_20"
                         android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
                         android:padding="@dimen/dim_1">
 
                         <TextView
@@ -210,11 +211,11 @@
                         android:id="@+id/ll_three"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dim_8"
                         android:layout_marginBottom="@dimen/dim_5"
-                        android:orientation="horizontal"
                         android:layout_marginLeft="@dimen/dim_20"
                         android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_8"
+                        android:orientation="horizontal"
                         android:padding="@dimen/dim_1">
 
                         <TextView
@@ -246,11 +247,11 @@
                         android:id="@+id/ll_two"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dim_5"
                         android:layout_marginBottom="@dimen/dim_5"
-                        android:orientation="horizontal"
                         android:layout_marginLeft="@dimen/dim_20"
                         android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
                         android:padding="@dimen/dim_1">
 
                         <TextView
@@ -278,11 +279,11 @@
                         android:id="@+id/ll_two_next"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dim_5"
                         android:layout_marginBottom="@dimen/dim_5"
-                        android:orientation="horizontal"
                         android:layout_marginLeft="@dimen/dim_20"
                         android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
                         android:padding="@dimen/dim_1">
 
                         <TextView
@@ -310,11 +311,11 @@
                         android:id="@+id/ll_two_next_another"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dim_5"
                         android:layout_marginBottom="@dimen/dim_20"
-                        android:orientation="horizontal"
                         android:layout_marginLeft="@dimen/dim_20"
                         android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
                         android:padding="@dimen/dim_1">
 
                         <TextView

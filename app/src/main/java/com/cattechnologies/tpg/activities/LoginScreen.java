@@ -267,7 +267,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     private void handleResponse(DashboardInfo response) {
         progressBar.setVisibility(View.GONE);
         if (response.getStatus().equalsIgnoreCase("success") && response != null) {
-            showToast(response.getMessage());
+          //  showToast(response.getMessage());
             DashboardInfoData dashboardInfo = response.getDashboard_data();
             if (response.getDashboard_data() == null) {
                 showToast(response.getMessage());

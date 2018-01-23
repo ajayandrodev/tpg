@@ -60,7 +60,7 @@ public class ReportsCheckToPrintFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.reports_fragment, container, false);
+        View view = inflater.inflate(R.layout.reports_chect_to_print_fragment, container, false);
         return view;
     }
 

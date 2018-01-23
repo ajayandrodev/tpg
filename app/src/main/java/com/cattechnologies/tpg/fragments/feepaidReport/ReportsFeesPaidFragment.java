@@ -107,6 +107,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     int wdth;
 
     public ReportsFeesPaidFragment() {
+
     }
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
@@ -124,8 +125,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((Dashboard) getActivity()).setTitle("REPORTS");
-
-
     }
 
     @Nullable
@@ -141,7 +140,20 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
-        searchData.setText("");
+        if (TextUtils.isEmpty(newText)) {
+            if (pagNo.equalsIgnoreCase("")) {
+                sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+            } else {
+                sortReportItem(userId, userType, pagNo, sort);
+            }
+        } else {
+            if (pagNo.equalsIgnoreCase("")) {
+                searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+            } else {
+                searchSortReportData(userId, userType, newText, pagNo, sort);
+            }
+
+        }
 
     }
 
@@ -198,11 +210,54 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         if (layout != null) {
             layout.removeAllViews();
         }
-        if (searchData.getText().toString().isEmpty()) {
-            feePaidReportsData(userId, userType, reports.getPage());
-        }
-        searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
+        if (searchData.getText().toString().isEmpty()) {
+            if (pagNo.equalsIgnoreCase("")) {
+                feePaidReportsData(userId, userType, reports.getPage());
+            } else {
+                feePaidReportsData(userId, userType, pagNo);
+
+            }
+        }
+        /*if (searchData.getText().toString().isEmpty()) {
+
+        }else{
+            System.out.println("New text is "+newText);
+            if(newText != null) {
+
+            }
+        }*/
+
+      /*  if (newText != null) {
+            if (newText.equalsIgnoreCase("")) {
+                if (pagNo.equalsIgnoreCase("")) {
+                    System.out.println("gere search if");
+                    feePaidReportsData(userId, userType, reports.getPage());
+                } else {
+                    System.out.println("therere search if");
+                    feePaidReportsData(userId, userType, pagNo);
+                }
+            } else {
+                if (pagNo.equalsIgnoreCase("")) {
+                    System.out.println("gere search else");
+                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                } else {
+                    System.out.println("therere search else");
+                    searchReportItem(userId, userType, pagNo, newText);
+                }
+            }
+        } else {
+            System.out.println("Else is null");
+            if (pagNo.equalsIgnoreCase("")) {
+                System.out.println("gere else");
+                feePaidReportsData(userId, userType, reports.getPage());
+            } else {
+                System.out.println("therere else" + pagNo);
+                feePaidReportsData(userId, userType, pagNo);
+            }
+        }*/
+
+        searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((actionId == EditorInfo.IME_ACTION_DONE)) {
 
@@ -210,23 +265,34 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 return false;
             }
         });
+
         searchData.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                System.out.println("calling me also");
             }
 
             @Override
             public void onTextChanged(CharSequence query, int start, int before, int count) {
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
                 newText = editable.toString().toLowerCase();
                 if (TextUtils.isEmpty(newText)) {
-                    feePaidReportsData(userId, userType, reports.getPage());
+                    if (pagNo.equalsIgnoreCase("")) {
+                        feePaidReportsData(userId, userType, reports.getPage());
+                    } else {
+                        feePaidReportsData(userId, userType, pagNo);
+                    }
                 } else if (!TextUtils.isEmpty(newText)) {
-                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                    //searchReportItem(userId, userType, pagNo, newText);
+                    if (pagNo.equalsIgnoreCase("")) {
+                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                    } else {
+                        searchReportItem(userId, userType, pagNo, newText);
+                    }
                 }
             }
         });
@@ -239,7 +305,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
-
     }
 
 
@@ -355,7 +420,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
                             }
                             if (pagNo.equalsIgnoreCase("")) {
-                                pagNo = String.valueOf(reportsFeePaidSearch.getPage());
+                                pagNo = String.valueOf(2);
                             } else {
                                 pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
                             }
@@ -398,7 +463,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
 
     private void feePaidReportsData(String userId, String userType, String page) {
-        System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType);
+        System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType + " && " + page);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidData(userId, userType, page)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -439,6 +504,9 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             progressBar.setVisibility(View.GONE);
             String totalPages = response.getTotalNoofPages();
             List<ReportsFeePaidNew> reportsFeePaidNewList = response.getFeeReport_data();
+
+            System.out.println("Responce Data " + response.getPage());
+
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
             next.setVisibility(View.VISIBLE);
@@ -446,7 +514,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             mAdapter = new ReportsFeesPaidListAdapter(getActivity(), reportsFeePaidNewList, title);
             recyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
-
             if (layout != null) {
                 layout.removeAllViews();
             }
@@ -484,6 +551,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     });
 
                     if (!pagNo.isEmpty()) {
+                        System.out.println("page numbeer is not empty " + pagNo);
                         if (current_page == (Integer.parseInt(pagNo) - 1)) {
                             btn.setBackgroundColor(Color.parseColor("#808080"));
                         } else {
@@ -499,6 +567,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             next.setEnabled(true);
                         }
                     } else {
+                        System.out.println("page numbeer is empty " + pagNo);
                         if (current_page == 0) {
                             btn.setBackgroundColor(Color.parseColor("#808080"));
                             prev.setEnabled(false);
@@ -547,7 +616,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
-                        layout.setVisibility(View.VISIBLE);
 
                     }
                 });
@@ -620,10 +688,21 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
                     sort = "disbursment_date";
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            System.out.println("gere else");
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            System.out.println("therere else" + pagNo);
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            System.out.println("gere else");
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            System.out.println("therere else" + pagNo);
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
 
@@ -638,11 +717,21 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     sort = "ssn";
 
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            System.out.println("gere else");
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            System.out.println("therere else" + pagNo);
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            System.out.println("gere else");
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            System.out.println("therere else" + pagNo);
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
                     }
 
 
@@ -655,11 +744,21 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
 
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            System.out.println("gere else");
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            System.out.println("therere else" + pagNo);
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            System.out.println("gere else");
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            System.out.println("therere else" + pagNo);
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
                     }
 
                     parentList.collapseGroup(0);
@@ -670,11 +769,21 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     sort = "product_type";
 
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            System.out.println("gere else");
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            System.out.println("therere else" + pagNo);
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            System.out.println("gere else");
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            System.out.println("therere else" + pagNo);
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
                     }
 
                     parentList.collapseGroup(0);

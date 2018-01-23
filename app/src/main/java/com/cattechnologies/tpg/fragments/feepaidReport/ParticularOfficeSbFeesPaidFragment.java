@@ -146,8 +146,8 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
         titulo.setText(title);
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
-        /**Updated **/ prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
-        /**Updated **/ next.setBackgroundColor(Color.parseColor("#DCDCDC"));
+        /**Updated **/prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
+        /**Updated **/next.setBackgroundColor(Color.parseColor("#DCDCDC"));
         horizontalScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.horizontal);
         scrollView = (ScrollView) getActivity().findViewById(R.id.scroll_data);
         textNoData = (TextView) getActivity().findViewById(R.id.search_no_data);
@@ -197,7 +197,12 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             layout.removeAllViews();
         }
         if (searchData.getText().toString().isEmpty()) {
-            particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+            if (pagNo.equalsIgnoreCase("")) {
+                particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+            } else {
+                particularReportData(userId, userType, pagNo, efinData);
+
+            }
 
 
         }
@@ -228,20 +233,19 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             public void afterTextChanged(Editable editable) {
 
                 newText = editable.toString().toLowerCase();
-                if (TextUtils.isEmpty(newText)) {
-                    particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
-                    layout.setVisibility(View.VISIBLE);
-                } else if (!TextUtils.isEmpty(newText)) {
-                    particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
 
-                    //  searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
-                    layout.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(newText)) {
+                    if (pagNo.equalsIgnoreCase("")) {
+                        particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+                    } else {
+                        particularReportData(userId, userType, pagNo, efinData);
+                    }
+                } else if (!TextUtils.isEmpty(newText)) {
+                    if (pagNo.equalsIgnoreCase("")) {
+                        particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
+                    } else {
+                        particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                    }
                 }
 
             }
@@ -305,7 +309,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -471,6 +475,27 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (TextUtils.isEmpty(newText)) {
+            if (pagNo.equalsIgnoreCase("")) {
+                particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+            } else {
+                particularOfficeSort(userId, userType, pagNo, efinData, sort);
+            }
+        } else {
+            if (pagNo.equalsIgnoreCase("")) {
+                particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+            } else {
+                particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
+            }
+
+        }
+
+
+    }
+
     private void handleResponse(ReportParticulrFreePaid response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
@@ -497,7 +522,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -651,13 +676,19 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     sort = "disbursment_date";
                     System.out.println("ReportsFeesPaidFragment.Displayitemclicked" + efinData);
                     if (TextUtils.isEmpty(newText)) {
-                        particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+                        } else {
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
+                        }
                     } else {
-                        particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        } else {
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
-
 
                     parentList.collapseGroup(0);
 
@@ -669,14 +700,19 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     sort = "ssn";
 
                     if (TextUtils.isEmpty(newText)) {
-                        particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+                        } else {
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
+                        }
                     } else {
-                        particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        } else {
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
-
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -685,28 +721,39 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     sort = "lastname";
 
                     if (TextUtils.isEmpty(newText)) {
-                        particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+                        } else {
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
+                        }
                     } else {
-                        particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        } else {
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 3:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "product_type";
-
                     if (TextUtils.isEmpty(newText)) {
-                        particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+                        } else {
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
+                        }
                     } else {
-                        particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        } else {
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -759,11 +806,11 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
-                                     btn.setLayoutParams(lp);
+                    btn.setLayoutParams(lp);
                     layout.addView(btn);
 
 
@@ -926,7 +973,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));

@@ -74,8 +74,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
     ReportAccountDisbPerticulaSortListAdapter mAdapterParticularSortList;
     ReportsAccountDisbParticularSearchSortListAdapter mSearchSortListAdapter;
 
-    TextView titulo,textNoData;
-    String  pagNo = "";
+    TextView titulo, textNoData;
+    String pagNo = "";
     CompositeSubscription mSubscriptions;
     ProgressBar progressBar;
     String userId, userType, pageEfin, efinData;
@@ -143,8 +143,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
         scrollView = (ScrollView) getActivity().findViewById(R.id.scroll_data);
         textNoData = (TextView) getActivity().findViewById(R.id.search_no_data);
 
-        /**Updated **/ prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
-        /**Updated **/ next.setBackgroundColor(Color.parseColor("#DCDCDC"));
+        /**Updated **/prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
+        /**Updated **/next.setBackgroundColor(Color.parseColor("#DCDCDC"));
         searchData = (EditText) getActivity().findViewById(R.id.search_paid);
         progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
         layout = (LinearLayout) getActivity().findViewById(R.id.button_list);
@@ -184,7 +184,13 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
             layout.removeAllViews();
         }
         if (searchData.getText().toString().isEmpty()) {
-            particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+
+            if (pagNo.equalsIgnoreCase("")) {
+                particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+            } else {
+                particularReportData(userId, userType, pagNo, efinData);
+
+            }
 
 
         }
@@ -215,21 +221,33 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
             public void afterTextChanged(Editable editable) {
 
                 newText = editable.toString().toLowerCase();
+
                 if (TextUtils.isEmpty(newText)) {
-                    particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+                    if (pagNo.equalsIgnoreCase("")) {
+                        particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+                    } else {
+                        particularReportData(userId, userType, pagNo, efinData);
+                    }
+                } else if (!TextUtils.isEmpty(newText)) {
+                    if (pagNo.equalsIgnoreCase("")) {
+                        particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
+                    } else {
+                        particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                    }
+                }
+              /*  if (TextUtils.isEmpty(newText)) {
                     recyclerView.setVisibility(View.VISIBLE);
                     prev.setVisibility(View.VISIBLE);
                     next.setVisibility(View.VISIBLE);
                     layout.setVisibility(View.VISIBLE);
                 } else if (!TextUtils.isEmpty(newText)) {
-                    particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
 
                     recyclerView.setVisibility(View.VISIBLE);
                     prev.setVisibility(View.VISIBLE);
                     next.setVisibility(View.VISIBLE);
                     layout.setVisibility(View.VISIBLE);
                 }
-
+*/
             }
         });
 
@@ -320,9 +338,9 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             pagNo = String.valueOf(id);
                           /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);*/
-                          //  reportsPerticularFeePaidSearch.setPage(String.valueOf(index));
-                          //  pagNo = reportsPerticularFeePaidSearch.getPage();
-                            particularOfficeSearch(userId, userType,pagNo, newText, efinData);
+                            //  reportsPerticularFeePaidSearch.setPage(String.valueOf(index));
+                            //  pagNo = reportsPerticularFeePaidSearch.getPage();
+                            particularOfficeSearch(userId, userType, pagNo, newText, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -362,8 +380,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
                             wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                          //  pagNo = reportsPerticularFeePaidSearch.getPage();
-                            particularOfficeSearch(userId, userType,pagNo, newText, efinData);
+                            //  pagNo = reportsPerticularFeePaidSearch.getPage();
+                            particularOfficeSearch(userId, userType, pagNo, newText, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -387,7 +405,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             }
                             wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                       //     pagNo = reportsPerticularFeePaidSearch.getPage();
+                            //     pagNo = reportsPerticularFeePaidSearch.getPage();
                             particularOfficeSearch(userId, userType, pagNo, newText, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
@@ -408,7 +426,13 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             reports.getDepositAmount(), reports.getReverseddate()
                     );*/
 
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
+                        reports.getPrimarySsn(), reports.getDisbType(),
+                        reports.getExpectedRefund(), reports.getExpecteddepdate(),
+                        reports.getProductType(), reports.getDisbursementDate(),
+                        reports.getDisbursmentamount(),
+                        reports.getExpecteddepdate(), title);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -497,7 +521,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -514,8 +538,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             pagNo = String.valueOf(id);
                            /* wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);*/
-                         //   reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
-                          //  pagNo = reportParticulrFreePaid.getPage();
+                            //   reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
+                            //  pagNo = reportParticulrFreePaid.getPage();
                             //System.out.println("ReportsFeesPaidFragment.onClick" + current_page_mock);
                             particularReportData(userId, userType, pagNo, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
@@ -569,8 +593,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
                             wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                          //  pagNo = reportParticulrFreePaid.getPage();
-                            particularReportData(userId, userType,pagNo , efinData);
+                            //  pagNo = reportParticulrFreePaid.getPage();
+                            particularReportData(userId, userType, pagNo, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -593,7 +617,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             }
                             wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                          //  pagNo = reportParticulrFreePaid.getPage();
+                            //  pagNo = reportParticulrFreePaid.getPage();
                             particularReportData(userId, userType, pagNo, efinData);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
@@ -615,8 +639,13 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                         reports.getMasterefin(), reports.getDepositdate(),
                         reports.getDepositAmount(), reports.getReverseddate()
                 );*/
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
-
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
+                        reports.getPrimarySsn(), reports.getDisbType(),
+                        reports.getExpectedRefund(), reports.getExpecteddepdate(),
+                        reports.getProductType(), reports.getDisbursementDate(),
+                        reports.getDisbursmentamount(),
+                        reports.getExpecteddepdate(), title);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -631,6 +660,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
 
     }
 
+
     @Override
     public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
@@ -639,6 +669,26 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
         Displayitemclicked(gposition, cposition, parent);
         //passing the integer value of grouposition and childposition to the above method when an item is clicked
         return false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (TextUtils.isEmpty(newText)) {
+            if (pagNo.equalsIgnoreCase("")) {
+                particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+            } else {
+                particularOfficeSort(userId, userType, pagNo, efinData, sort);
+            }
+        } else {
+            if (pagNo.equalsIgnoreCase("")) {
+                particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+            } else {
+                particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
+            }
+
+
+        }
     }
 
     private void Displayitemclicked(int gposition, int cposition, ExpandableListView parentList) {
@@ -652,11 +702,19 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
 
                     sort = "ssn";
                     System.out.println("ReportsFeesPaidFragment.Displayitemclicked" + efinData);
-                    if (TextUtils.isEmpty(newText)) {
-                        particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
 
+                    if (TextUtils.isEmpty(newText)) {
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+                        } else {
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
+                        }
                     } else {
-                        particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        } else {
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
 
@@ -671,13 +729,19 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     sort = "lastname";
 
                     if (TextUtils.isEmpty(newText)) {
-                        particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+                        } else {
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
+                        }
                     } else {
-                        particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        } else {
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
-
 
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
@@ -686,13 +750,19 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "product_type";
                     if (TextUtils.isEmpty(newText)) {
-                        particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+                        } else {
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
+                        }
                     } else {
-                        particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        } else {
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -701,10 +771,17 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     sort = "disbursment_type";
 
                     if (TextUtils.isEmpty(newText)) {
-                        particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+                        } else {
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
+                        }
                     } else {
-                        particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+                        } else {
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
 
@@ -761,7 +838,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -779,11 +856,11 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             pagNo = String.valueOf(id);
                           /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);*/
-                          //  btn.setBackgroundColor(Color.parseColor("#808080"));
+                            //  btn.setBackgroundColor(Color.parseColor("#808080"));
 
-                           // reportFreePaidParticulrSearchSort.setPage(String.valueOf(index));
-                           // pagNo = reportFreePaidParticulrSearchSort.getPage();
-                           // System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            // reportFreePaidParticulrSearchSort.setPage(String.valueOf(index));
+                            // pagNo = reportFreePaidParticulrSearchSort.getPage();
+                            // System.out.println("ReportsFeesPaidFragment.onClick" + index);
                             particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
@@ -825,9 +902,9 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
                             wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                        //    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                         //   pagNo = reportFreePaidParticulrSearchSort.getPage();
-                            particularOfficeSearchSort(userId, userType, newText,pagNo, sort);
+                            //    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            //   pagNo = reportFreePaidParticulrSearchSort.getPage();
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -852,9 +929,9 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             }
                             wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                          //  pagNo = reportFreePaidParticulrSearchSort.getPage();
-                           // System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                            particularOfficeSearchSort(userId, userType, newText,pagNo, sort);
+                            //  pagNo = reportFreePaidParticulrSearchSort.getPage();
+                            // System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -876,8 +953,13 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                         reports.getMasterefin(), reports.getDepositdate(),
                         reports.getDepositAmount(), reports.getReverseddate()
                 );*/
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
-
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
+                        reports.getPrimarySsn(), reports.getDisbType(),
+                        reports.getExpectedRefund(), reports.getExpecteddepdate(),
+                        reports.getProductType(), reports.getDisbursementDate(),
+                        reports.getDisbursmentamount(),
+                        reports.getExpecteddepdate(), title);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -935,7 +1017,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -992,8 +1074,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
                             wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                          //  pagNo = reportParticulrFreePaidSort.getPage();
-                            particularOfficeSort(userId, userType,pagNo, efinData, sort);
+                            //  pagNo = reportParticulrFreePaidSort.getPage();
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -1016,8 +1098,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             }
                             wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                          //  pagNo = reportParticulrFreePaidSort.getPage();
-                            particularOfficeSort(userId, userType,pagNo, efinData, sort);
+                            //  pagNo = reportParticulrFreePaidSort.getPage();
+                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -1039,8 +1121,13 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                         reports.getMasterefin(), reports.getDepositdate(),
                         reports.getDepositAmount(), reports.getReverseddate()
                 );*/
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
-
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
+                        reports.getPrimarySsn(), reports.getDisbType(),
+                        reports.getExpectedRefund(), reports.getExpecteddepdate(),
+                        reports.getProductType(), reports.getDisbursementDate(),
+                        reports.getDisbursmentamount(),
+                        reports.getExpecteddepdate(), title);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()

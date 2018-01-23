@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportAccountDisbFragment;
 import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportsAccountDisbServiceBuroFragment;
+import com.cattechnologies.tpg.fragments.checksToPrintReport.EmptyCheckToPrintFragment;
 import com.cattechnologies.tpg.fragments.checksToPrintReport.ReportsCheckToPrintFragment;
 import com.cattechnologies.tpg.fragments.eroDepositsReport.ReportEroDepositFragment;
 import com.cattechnologies.tpg.fragments.eroDepositsReport.ReportsEroDepositServiceBuroFragment;
@@ -203,7 +204,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     feesPaid.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_fee_paid);
 
-                   fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                    fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                             preferencesManager.getAccountType(getActivity()));
                 }
                 break;
@@ -211,12 +212,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     checkToPrint.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_check_to_print);
-                    fragment = ServiceBruoNewFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                    fragment = EmptyCheckToPrintFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                             preferencesManager.getAccountType(getActivity()));
                 } else {
                     checkToPrint.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_check_to_print);
-                    fragment = ReportsCheckToPrintFragment.newInstance(title);
+                    fragment = EmptyCheckToPrintFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                            preferencesManager.getAccountType(getActivity()));
                 }
                 break;
             case R.id.bt_account_dis:

@@ -238,6 +238,8 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
 
     private void handleResponse(ReportsEfinValidCheck response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
+            System.out.println("ReportsEroDepositServiceBuroFragment.handleResponse==="+response.getMessage());
+
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(layoutManager);
@@ -246,10 +248,12 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
             mRecyclerAdapter.newAddedData(0, title);
             mRecyclerView.setAdapter(mRecyclerAdapter);
             mRecyclerAdapter.notifyDataSetChanged();
+
             etTitle.setText("");
 
         }else {
-            showToast(response.getMessage());
+            /*System.out.println("ReportsEroDepositServiceBuroFragment.handleResponse==dd=="+response.getMessage());
+            showToast(response.getMessage());*/
         }
 
     }

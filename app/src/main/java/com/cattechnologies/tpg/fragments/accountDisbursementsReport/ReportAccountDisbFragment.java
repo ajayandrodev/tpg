@@ -141,7 +141,24 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
-        searchData.setText("e");
+        if (TextUtils.isEmpty(newText)) {
+            if (pagNo.equalsIgnoreCase("")) {
+                sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+            } else {
+                sortReportItem(userId, userType, pagNo, sort);
+            }
+        } else {
+            if (pagNo.equalsIgnoreCase("")) {
+                searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+            } else {
+                searchSortReportData(userId, userType, newText, pagNo, sort);
+            }
+
+        }
+
+
+
+
     }
 
     @Override
@@ -161,8 +178,8 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
         horizontalScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.horizontal);
         scrollView = (ScrollView) getActivity().findViewById(R.id.scroll_data);
         textNoData = (TextView) getActivity().findViewById(R.id.search_no_data);
-        /**Updated **/ prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
-        /**Updated **/ next.setBackgroundColor(Color.parseColor("#DCDCDC"));
+        /**Updated **/prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
+        /**Updated **/next.setBackgroundColor(Color.parseColor("#DCDCDC"));
 
         searchData = (EditText) getActivity().findViewById(R.id.search_paid);
         progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_login);
@@ -199,8 +216,11 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             layout.removeAllViews();
         }
         if (searchData.getText().toString().isEmpty()) {
-
-            eroDepositReportsData(userId, userType, reports.getPage());
+            if (pagNo.equalsIgnoreCase("")) {
+                eroDepositReportsData(userId, userType, reports.getPage());
+            } else {
+                eroDepositReportsData(userId, userType,pagNo);
+            }
 
 
         }
@@ -231,18 +251,21 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             public void afterTextChanged(Editable editable) {
 
                 newText = editable.toString().toLowerCase();
-                if (TextUtils.isEmpty(newText)) {
-                    eroDepositReportsData(userId, userType, reports.getPage());
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
-                } else if (!TextUtils.isEmpty(newText)) {
 
-                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(newText)) {
+                    if (pagNo.equalsIgnoreCase("")) {
+                        eroDepositReportsData(userId, userType, reports.getPage());
+                    } else {
+                        eroDepositReportsData(userId, userType, pagNo);
+                    }
+                } else if (!TextUtils.isEmpty(newText)) {
+                    if (pagNo.equalsIgnoreCase("")) {
+                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                    } else {
+                        searchReportItem(userId, userType, pagNo, newText);
+                    }
                 }
+
 
             }
         });
@@ -274,6 +297,8 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
 
 
     }
+
+
 
     private void eroDepositReportsData(String userId, String userType, String page) {
         System.out.println("ReportsFeesPaidFragment.eroDepositReportsData==" + userId + "==" + userType);
@@ -322,7 +347,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     //  lp.setMargins(5, 5, 5, 5);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -341,9 +366,9 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                             pagNo = String.valueOf(id);
                           /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);*/
-                          //  reportsFeePaidSearch.setPage(String.valueOf(index));
-                           // pagNo = reportsFeePaidSearch.getPage();
-                           // System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            //  reportsFeePaidSearch.setPage(String.valueOf(index));
+                            // pagNo = reportsFeePaidSearch.getPage();
+                            // System.out.println("ReportsFeesPaidFragment.onClick" + index);
                             searchReportItem(userId, userType, pagNo, newText);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
@@ -381,7 +406,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                                 current_page_search = current_page_search - 1;
                                 reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
                             }
-                           // pagNo = reportsFeePaidSearch.getPage();
+                            // pagNo = reportsFeePaidSearch.getPage();
                             pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
                             wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
@@ -400,7 +425,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                                 current_page_search = current_page_search + 1;
                                 reportsFeePaidSearch.setPage(String.valueOf(current_page_search));
                             }
-                          //  pagNo = reportsFeePaidSearch.getPage();
+                            //  pagNo = reportsFeePaidSearch.getPage();
                             if (pagNo.equalsIgnoreCase("")) {
                                 pagNo = String.valueOf(2);
                             } else {
@@ -425,7 +450,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance
                         (title, reports.getPrimaryFirstName() + " " +
                                         reports.getPrimaryLastName(), reports.getPrimarySsn(),
-                                reports.getProductType(), reports.getExpectedRefund(),
+                                reports.getDisbType(), reports.getExpectedRefund(),
                                 reports.getExpecteddepdate(), reports.getProductType(),
                                 reports.getDisbursementDate(), reports.getDisbursmentamount(),
                                 reports.getExpecteddepdate(), title);
@@ -446,11 +471,6 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
 
         }
     }
-
-
-
-
-
 
 
     private void showToast(String msg) {
@@ -510,7 +530,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     //  lp.setMargins(5, 5, 5, 5);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -576,11 +596,11 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                             }
 
                         }
-                       // pagNo = reports.getPage();
+                        // pagNo = reports.getPage();
                         pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
                         wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
-                        eroDepositReportsData(userId, userType,pagNo);
+                        eroDepositReportsData(userId, userType, pagNo);
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
@@ -603,7 +623,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                         }
                         wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
-                       // pagNo = reports.getPage();
+                        // pagNo = reports.getPage();
                         eroDepositReportsData(userId, userType, pagNo);
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
@@ -622,7 +642,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getProductType(),
+                        , reports.getPrimarySsn(),  reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(), reports.getExpecteddepdate(),
@@ -663,10 +683,17 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
 
                     sort = "ssn";
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
 
@@ -681,14 +708,19 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     sort = "lastname";
 
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
-
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -698,10 +730,17 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
 
 
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
 
@@ -711,12 +750,18 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 case 3:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "disbursment_type";
-
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
 
@@ -771,7 +816,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -789,10 +834,10 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                             pagNo = String.valueOf(id);
                            /* wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);*/
-                          //  reportFreePaidSearchSort.setPage(String.valueOf(index));
-                           // pagNo = reportFreePaidSearchSort.getPage();
-                          //  System.out.println("ReportsFeesPaidFragment.onClick" + index);
-                            searchSortReportData(userId, userType, newText,pagNo, sort);
+                            //  reportFreePaidSearchSort.setPage(String.valueOf(index));
+                            // pagNo = reportFreePaidSearchSort.getPage();
+                            //  System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -856,10 +901,10 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                             }
                             wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                       //     System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                          //  pagNo = reportFreePaidSearchSort.getPage();
-                          //  System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                            searchSortReportData(userId, userType, newText,pagNo, sort);
+                            //     System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            //  pagNo = reportFreePaidSearchSort.getPage();
+                            //  System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -876,7 +921,13 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 final ReportAccountDisbSearchSortNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
 
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
+                        reports.getPrimarySsn(), reports.getDisbType(),
+                        reports.getExpectedRefund(), reports.getExpecteddepdate(),
+                        reports.getProductType(), reports.getDisbursementDate(),
+                        reports.getDisbursmentamount(),
+                        reports.getExpecteddepdate(), title);
 
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -935,7 +986,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5,0,5,0);
+                    lp.setMargins(5, 0, 5, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     //  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
@@ -954,9 +1005,9 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                             pagNo = String.valueOf(id);
                           /*  wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);*/
-                          //  reportsFeePaidSort.setPage(String.valueOf(index));
-                           // pagNo = reportsFeePaidSort.getPage();
-                          //  System.out.println("ReportsFeesPaidFragment.onClick" + index);
+                            //  reportsFeePaidSort.setPage(String.valueOf(index));
+                            // pagNo = reportsFeePaidSort.getPage();
+                            //  System.out.println("ReportsFeesPaidFragment.onClick" + index);
                             sortReportItem(userId, userType, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
@@ -997,9 +1048,9 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                             pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
                             wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                        //    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
-                         //   pagNo = reportsFeePaidSort.getPage();
-                            sortReportItem(userId, userType,pagNo, sort);
+                            //    System.out.println("ReportsFeesPaidFragment.onClick==" + reports.getPage());
+                            //   pagNo = reportsFeePaidSort.getPage();
+                            sortReportItem(userId, userType, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -1022,7 +1073,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                             }
                             wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                           // pagNo = reportsFeePaidSort.getPage();
+                            // pagNo = reportsFeePaidSort.getPage();
                             sortReportItem(userId, userType, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
@@ -1040,7 +1091,12 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 final ReportsAccountDisbSortNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
 
-                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title, reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(), reports.getPrimarySsn(), reports.getProductType(), reports.getExpectedRefund(), reports.getExpecteddepdate(), reports.getProductType(), reports.getDisbursementDate(), reports.getDisbursmentamount(), reports.getExpecteddepdate(), title);
+                Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
+                        reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
+                        reports.getPrimarySsn(),  reports.getDisbType(), reports.getExpectedRefund(),
+                        reports.getExpecteddepdate(), reports.getProductType(),
+                        reports.getDisbursementDate(), reports.getDisbursmentamount(),
+                        reports.getExpecteddepdate(), title);
 
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager

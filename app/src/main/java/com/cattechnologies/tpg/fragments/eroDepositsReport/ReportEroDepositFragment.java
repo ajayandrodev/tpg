@@ -141,7 +141,21 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
-        searchData.setText("");
+
+        if (TextUtils.isEmpty(newText)) {
+            if (pagNo.equalsIgnoreCase("")) {
+                sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+            } else {
+                sortReportItem(userId, userType, pagNo, sort);
+            }
+        } else {
+            if (pagNo.equalsIgnoreCase("")) {
+                searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+            } else {
+                searchSortReportData(userId, userType, newText, pagNo, sort);
+            }
+
+        }
     }
 
     @Override
@@ -199,8 +213,11 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             layout.removeAllViews();
         }
         if (searchData.getText().toString().isEmpty()) {
-
-            eroDepositReportsData(userId, userType, reports.getPage());
+            if (pagNo.equalsIgnoreCase("")) {
+                eroDepositReportsData(userId, userType, reports.getPage());
+            } else {
+                eroDepositReportsData(userId, userType,pagNo);
+            }
 
 
         }
@@ -231,17 +248,19 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             public void afterTextChanged(Editable editable) {
 
                 newText = editable.toString().toLowerCase();
-                if (TextUtils.isEmpty(newText)) {
-                    eroDepositReportsData(userId, userType, reports.getPage());
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
-                } else if (!TextUtils.isEmpty(newText)) {
 
-                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    prev.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(newText)) {
+                    if (pagNo.equalsIgnoreCase("")) {
+                        eroDepositReportsData(userId, userType, reports.getPage());
+                    } else {
+                        eroDepositReportsData(userId, userType, pagNo);
+                    }
+                } else if (!TextUtils.isEmpty(newText)) {
+                    if (pagNo.equalsIgnoreCase("")) {
+                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                    } else {
+                        searchReportItem(userId, userType, pagNo, newText);
+                    }
                 }
 
             }
@@ -661,10 +680,17 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
                     sort = "deposit_date";
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
 
@@ -679,13 +705,19 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     sort = "deposit_type";
 
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
-
 
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
@@ -693,13 +725,18 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "dan";
-
-
                     if (TextUtils.isEmpty(newText)) {
-                        sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-
+                        if (pagNo.equalsIgnoreCase("")) {
+                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                        } else {
+                            sortReportItem(userId, userType, pagNo, sort);
+                        }
                     } else {
-                        searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                        } else {
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
+                        }
 
                     }
 

@@ -177,6 +177,13 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showOrHideTitleBar();
+
+    }
+
     public void showOrHideTitleBar() {
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.main_content);
         if (f instanceof DashboardFragment) {
@@ -188,9 +195,9 @@ public class Dashboard extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        if(findViewById(R.id.search_paid) != null){
-            ((EditText)findViewById(R.id.search_paid)).setText("");
-        }
+        /*if (findViewById(R.id.search_paid) != null) {
+            ((EditText) findViewById(R.id.search_paid)).setText("");
+        }*/
 
     }
 

@@ -32,23 +32,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         getStarted = (Button) findViewById(R.id.main_get_started);
         getStarted.setOnClickListener(this);
         // Obtain the shared Tracker instance.
-      /*  AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
-*/
+
     }
 
-   /* @Override
+    @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG, "Setting screen name: " + getPackageName());
-        mTracker.setScreenName("Image~" + getPackageName());
+        Log.i(TAG, "Setting screen name: " + getApplicationContext().getPackageName());
+        mTracker.setScreenName("Image~" + getApplicationContext().getPackageName());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-      *//*  mTracker.send(new HitBuilders.EventBuilder()
+      /*  mTracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Action")
                 .setAction("Share")
-                .build());*//*
+                .build());*/
 
-    }*/
+    }
 
     @Override
     public void onClick(View v) {

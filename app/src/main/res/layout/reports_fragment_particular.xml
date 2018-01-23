@@ -16,8 +16,10 @@
         android:background="@color/footer_back_ground_color"
         android:gravity="center"
         android:padding="@dimen/dim_20"
-        android:text="@string/reports_title"
+        android:text="ACCOUNT DISBURSEMENTS"
+        android:textSize="16sp"
         android:textAllCaps="true"
+        android:lines="1"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
