@@ -307,7 +307,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5, 0, 5, 0);
+                    lp.setMargins(3, 0, 3, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -490,7 +490,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5, 0, 5, 0);
+                    lp.setMargins(3, 0, 3, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -752,7 +752,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5, 0, 5, 0);
+                    lp.setMargins(3, 0, 3, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));//  lp.setMargins(5, 5, 5, 5);
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -903,7 +903,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(5, 0, 5, 0);
+                    lp.setMargins(3, 0, 3, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));

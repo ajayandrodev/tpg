@@ -64,6 +64,17 @@
 
     </string-array>
 
+    <!--Report Profile-->
+    <string-array name="Parent_Head_Report_Profile_Owner">
+        <item>Owner Info</item>
+    </string-array>
+    <string-array name="child_report_owner_info">
+        <item>DISBURSEMENT DATE</item>
+        <item>SSN</item>
+        <item>LAST NAME</item>
+        <item>PRODUCT TYPE</item>
+    </string-array>
+
     <!--Report Fee Paid Expand-->
     <string-array name="Parent_Head_Report_Fees_Paid">
         <item>FEES PAID</item>

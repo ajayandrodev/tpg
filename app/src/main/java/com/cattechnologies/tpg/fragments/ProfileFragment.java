@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeePaidExpandableadapter;
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListAccoAdapter;
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListEnrAdapterNew;
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListShipAdapter;
@@ -34,7 +35,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
@@ -76,6 +79,12 @@ public class ProfileFragment extends Fragment {
 
     SimpleDateFormat format, format1;
 
+
+    ReportsFeePaidExpandableadapter adapter;
+    ExpandableListView myexpandable;
+    List<String> parent;
+    List<String> child;
+    HashMap<String, List<String>> bind_and_display;
 
     public static ProfileFragment newInstance(String sectionTitle, String userId, String type) {
         ProfileFragment fragment = new ProfileFragment();
@@ -434,4 +443,4 @@ public class ProfileFragment extends Fragment {
     }
 
 
-}
+    }

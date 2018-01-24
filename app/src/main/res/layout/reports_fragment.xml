@@ -124,20 +124,18 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dim_40"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="4">
+                    android:weightSum="4"
+                    android:layout_marginBottom="@dimen/dim_2">
 
                     <Button
                         android:id="@+id/prev"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dim_2"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:paddingBottom="@dimen/dim_12"
-                        android:paddingRight="@dimen/dim_12"
-                        android:paddingTop="@dimen/dim_12"
                         android:text="prev" />
 
                     <HorizontalScrollView
@@ -157,14 +155,11 @@
 
                     <Button
                         android:id="@+id/next"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dim_2"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:paddingBottom="@dimen/dim_12"
-                        android:paddingLeft="@dimen/dim_12"
-                        android:paddingTop="@dimen/dim_12"
                         android:text="next" />
                 </LinearLayout>
 
