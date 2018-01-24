@@ -3,9 +3,12 @@
     <string name="dashboard_data">APPLIED \n FEDERAL RT</string>
     <string name="dashboard_data_two">PREP FEES PAID (YTD)</string>
 
-    <string name="dashboard_check_to_print">CHECKS TO PRINT</string>
+
+
+    <string name="dashboard_account_dis_title">ACCOUNT DISBURSEMENTS</string>
+    <string name="dashboard_check_to_print">CHECKS TO \n PRINT</string>
     <string name="dashboard_fee_paid">FEES PAID</string>
-    <string name="dashboard_account_dis">ACCOUNT DISBURSEMENTS</string>
+    <string name="dashboard_account_dis">ACCOUNT \n DISBURSEMENTS</string>
     <string name="dashboard_ero_deposits">ERO DEPOSITS</string>
 
 

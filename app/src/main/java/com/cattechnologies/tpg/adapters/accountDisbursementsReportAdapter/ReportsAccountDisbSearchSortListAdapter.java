@@ -55,16 +55,6 @@ public class ReportsAccountDisbSearchSortListAdapter extends RecyclerView.Adapte
         holder.costData.setText("$" + reports.getDisbursmentamount());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
         holder.detailsDataDisbush.setText(reports.getDisbType() + " | ");
-        format = new SimpleDateFormat("yyyyMMdd");
-        format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-        String chagnedDate = null;
-        try {
-            chagnedDate = format1.format(format.parse(reports.getDisbursementDate()));
-            reports.setDisbursementDate(chagnedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         holder.dateData.setText(reports.getDisbursementDate());
     }
 

@@ -154,6 +154,9 @@ public class ReportsAccountDisbNew implements Parcelable {
     public void setDisbType(String disbType) {
         DisbType = disbType;
     }
+    public ReportsAccountDisbNew(){
+
+    }
 
     protected ReportsAccountDisbNew(Parcel in) {
         Id = in.readString();

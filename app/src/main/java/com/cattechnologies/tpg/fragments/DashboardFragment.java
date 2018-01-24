@@ -173,6 +173,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         prepFeesPaidValue.setText("$" + dashData.getPrepFeesPaid());
         taxPayersSmallValue.setText("$" + dashData.getPastDueAccountsAmount());
+/*
+        taxPayersSmall.setText("$"+dashData.);
+*/
 
         mAdapter = new DashboardListAdapter(getActivity(), recentTransactionsList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
@@ -202,7 +205,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         Fragment fragment = null;
         switch (v.getId()) {
             case R.id.bt_fees_paid:
-
                 if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     feesPaid.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_fee_paid);
@@ -217,7 +219,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 }
                 break;
             case R.id.bt_check_print:
-                if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+                checkToPrint.setEnabled(false);
+               /* if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     checkToPrint.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_check_to_print);
                     fragment = EmptyCheckToPrintFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
@@ -227,17 +230,18 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                     title = getResources().getString(R.string.dashboard_check_to_print);
                     fragment = EmptyCheckToPrintFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                             preferencesManager.getAccountType(getActivity()));
-                }
+                }*/
                 break;
             case R.id.bt_account_dis:
-                if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+
+               if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     accountDis.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
-                    title = getResources().getString(R.string.dashboard_account_dis);
+                    title = getResources().getString(R.string.dashboard_account_dis_title);
                     fragment = ReportsAccountDisbServiceBuroFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                             preferencesManager.getAccountType(getActivity()));
                 } else {
                     accountDis.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
-                    title = getResources().getString(R.string.dashboard_account_dis);
+                    title = getResources().getString(R.string.dashboard_account_dis_title);
                     fragment = ReportAccountDisbFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                             preferencesManager.getAccountType(getActivity()));
                 }

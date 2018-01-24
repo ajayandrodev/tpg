@@ -227,22 +227,20 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
     }
 
     private void handleError(Throwable error) {
-        showToast(error.getMessage());
-
+        //showToast("rttott "+error.getMessage());
         if (error instanceof HttpException) {
-
             Gson gson = new GsonBuilder().create();
-
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-
+                //showToast("Network Error !");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            showToast("Network Error !");
+        }
+        if(!error.getMessage().equalsIgnoreCase("")){
+            showToast("EFIN already exist");
         }
     }
 

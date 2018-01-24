@@ -55,17 +55,6 @@ public class ReportsParticularFeesPaidSearchListAdapter extends RecyclerView.Ada
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
-        format = new SimpleDateFormat("yyyyMMdd");
-        //format1 = new SimpleDateFormat("MM-dd-yyyy");
-        format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-        String chagnedDate = null;
-        try {
-            chagnedDate = format1.format(format.parse(reports.getRecordcreatedate()));
-            reports.setRecordcreatedate(chagnedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         holder.dateData.setText(reports.getRecordcreatedate());
 
     }

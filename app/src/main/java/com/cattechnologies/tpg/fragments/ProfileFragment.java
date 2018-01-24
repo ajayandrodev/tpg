@@ -103,6 +103,7 @@ public class ProfileFragment extends Fragment {
     }
 
 
+
     private void loadProfileData(String userId, String userType) {
 
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {

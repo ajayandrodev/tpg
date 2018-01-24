@@ -155,6 +155,9 @@ public class ReportParticulrAccountDisbSearchSortNew implements Parcelable {
     public void setDisbType(String disbType) {
         DisbType = disbType;
     }
+    public ReportParticulrAccountDisbSearchSortNew(){
+
+    }
 
     protected ReportParticulrAccountDisbSearchSortNew(Parcel in) {
         Id = in.readString();

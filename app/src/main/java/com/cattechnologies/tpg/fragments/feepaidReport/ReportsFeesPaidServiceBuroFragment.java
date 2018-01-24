@@ -221,32 +221,26 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
-
         } else {
             showToast("Internet Connection Is Not Available");
-
-
         }
     }
 
     private void handleError(Throwable error) {
-        showToast(error.getMessage());
-
+        //showToast("rttott "+error.getMessage());
         if (error instanceof HttpException) {
-
             Gson gson = new GsonBuilder().create();
-
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-
+                //showToast("Network Error !");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            showToast("Network Error !");
+        }
+        if(!error.getMessage().equalsIgnoreCase("")){
+            showToast("EFIN already exist");
         }
     }
 
@@ -261,11 +255,9 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
             mRecyclerView.setAdapter(mRecyclerAdapter);
             mRecyclerAdapter.notifyDataSetChanged();
             etTitle.setText("");
-
         } else {
             showToast(response.getMessage());
         }
-
     }
 
 

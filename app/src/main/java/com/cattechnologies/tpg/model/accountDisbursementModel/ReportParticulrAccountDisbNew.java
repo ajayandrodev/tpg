@@ -156,6 +156,10 @@ public class ReportParticulrAccountDisbNew implements Parcelable {
         DisbType = disbType;
     }
 
+    public ReportParticulrAccountDisbNew(){
+
+    }
+
     protected ReportParticulrAccountDisbNew(Parcel in) {
         Id = in.readString();
         SYSTEM_YEAR = in.readString();

@@ -28,7 +28,7 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-  //  private ItemFilter mFilter = new ItemFilter();
+    //  private ItemFilter mFilter = new ItemFilter();
     SimpleDateFormat format, format1;
 
 
@@ -59,17 +59,6 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
-        format = new SimpleDateFormat("yyyyMMdd");
-        //format1 = new SimpleDateFormat("MM-dd-yyyy");
-        format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-        String chagnedDate = null;
-        try {
-            chagnedDate = format1.format(format.parse(reports.getRecordcreatedate()));
-            reports.setRecordcreatedate(chagnedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         holder.dateData.setText(reports.getRecordcreatedate());
 
     }

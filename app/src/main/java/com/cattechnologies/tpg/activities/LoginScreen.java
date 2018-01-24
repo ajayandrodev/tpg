@@ -86,7 +86,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             System.out.println("LoginScreen.onCreate===" + drawerTitle);
             selectedForgotData(drawerTitle);
         }
-        AnalyticsApplication.getInstance().clearApplicationData();
+     //   AnalyticsApplication.getInstance().clearApplicationData();
 
     }
 

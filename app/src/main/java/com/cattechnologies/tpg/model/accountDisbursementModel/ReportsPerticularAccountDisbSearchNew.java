@@ -156,6 +156,10 @@ public class ReportsPerticularAccountDisbSearchNew implements Parcelable {
         DisbType = disbType;
     }
 
+    public ReportsPerticularAccountDisbSearchNew(){
+
+    }
+
     protected ReportsPerticularAccountDisbSearchNew(Parcel in) {
         Id = in.readString();
         SYSTEM_YEAR = in.readString();

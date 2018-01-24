@@ -240,8 +240,11 @@ public class ReportParticulrFreePaidSearchSortNew implements Parcelable {
     public void setRow(String row) {
         Row = row;
     }
+    public ReportParticulrFreePaidSearchSortNew(){
 
-    protected ReportParticulrFreePaidSearchSortNew(Parcel in) {
+    }
+
+    public ReportParticulrFreePaidSearchSortNew(Parcel in) {
         Id = in.readString();
         recordcreatedate = in.readString();
         IrsAcknowledgementDate = in.readString();

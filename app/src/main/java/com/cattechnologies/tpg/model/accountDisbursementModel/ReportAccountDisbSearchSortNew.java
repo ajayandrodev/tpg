@@ -156,6 +156,10 @@ public class ReportAccountDisbSearchSortNew implements Parcelable {
         DisbType = disbType;
     }
 
+    public ReportAccountDisbSearchSortNew(){
+
+    }
+
     protected ReportAccountDisbSearchSortNew(Parcel in) {
         Id = in.readString();
         SYSTEM_YEAR = in.readString();

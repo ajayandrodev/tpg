@@ -29,7 +29,7 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
     Context mContext;
     SimpleDateFormat format, format1;
 
-    public ReportsFeesPaidListAdapter(Context mContext, List<ReportsFeePaidNew> reportsList, String title) {
+    public ReportsFeesPaidListAdapter(Context mContext, List<ReportsFeePaidNew> reportsList,String title) {
         this.reportsList = reportsList;
         this.mContext = mContext;
         this.title = title;
@@ -38,6 +38,7 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
 
     @Override
     public ReportsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        System.out.println("ReportsFeesPaidListAdapter.onCreateViewHolder");
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_list_row, parent, false);
         ReportsViewHolder reportsViewHolder = new ReportsViewHolder(itemView);
         return reportsViewHolder;
@@ -49,24 +50,13 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
             holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
         else
             holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-
+        System.out.println("ReportsFeesPaidListAdapter.onBindViewHolder");
         ReportsFeePaidNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
-            try {
-                chagnedDate = format1.format(format.parse(reports.getRecordcreatedate()));
-                reports.setRecordcreatedate(chagnedDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            holder.dateData.setText(reports.getRecordcreatedate());
+        holder.dateData.setText(reports.getRecordcreatedate());
 
     }
 
@@ -116,12 +106,13 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
 
         public ReportsViewHolder(View itemView) {
             super(itemView);
+            System.out.println("ReportsViewHolder.ReportsViewHolder");
             userData = (TextView) itemView.findViewById(R.id.report_user);
             costData = (TextView) itemView.findViewById(R.id.report_rate);
             accountDataSSN = (TextView) itemView.findViewById(R.id.report_account);
             detailsDataDisbush = (TextView) itemView.findViewById(R.id.report_details);
             dateData = (TextView) itemView.findViewById(R.id.report_date);
-            itemView.setTag(itemView);
+            //  itemView.setTag(itemView);
             itemView.setOnClickListener(this);
 
 
