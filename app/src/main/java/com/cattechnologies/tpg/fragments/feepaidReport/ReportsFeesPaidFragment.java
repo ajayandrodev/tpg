@@ -143,7 +143,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             } else {
                 sortReportItem(userId, userType, pagNo, sort);
             }
-        } else {
+        } else if(!TextUtils.isEmpty(newText)){
             if (pagNo.equalsIgnoreCase("")) {
                 searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
             } else {
@@ -152,12 +152,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ((Dashboard) getActivity()).setTitle("REPORTS");
-        mSubscriptions.unsubscribe();
-    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -604,12 +599,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     private void showToast(String msg) {
         Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
     }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.out.println("ReportsFeesPaidFragment.onDestroy");
-        mSubscriptions.unsubscribe();
-    }
+
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
@@ -630,7 +620,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         } else {
                             sortReportItem(userId, userType, pagNo, sort);
                         }
-                    } else {
+                    } else if(!TextUtils.isEmpty(newText)){
                         if (pagNo.equalsIgnoreCase("")) {
                             searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
                         } else {
@@ -649,7 +639,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         } else {
                             sortReportItem(userId, userType, pagNo, sort);
                         }
-                    } else {
+                    } else if(!TextUtils.isEmpty(newText)){
                         if (pagNo.equalsIgnoreCase("")) {
                             searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
                         } else {
@@ -668,7 +658,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         } else {
                             sortReportItem(userId, userType, pagNo, sort);
                         }
-                    } else {
+                    } else if(!TextUtils.isEmpty(newText)){
                         if (pagNo.equalsIgnoreCase("")) {
                             searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
                         } else {
@@ -687,7 +677,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         } else {
                             sortReportItem(userId, userType, pagNo, sort);
                         }
-                    } else {
+                    } else if(!TextUtils.isEmpty(newText)){
                         if (pagNo.equalsIgnoreCase("")) {
                             searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
                         } else {

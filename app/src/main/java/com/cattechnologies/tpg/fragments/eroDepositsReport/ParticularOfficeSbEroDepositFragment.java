@@ -235,7 +235,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     if (pagNo.equalsIgnoreCase("")) {
                         particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
                     } else {
-                        particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                        particularOfficeSearch(userId, userType,pagNo, newText, efinData);
                     }
                 }
             }

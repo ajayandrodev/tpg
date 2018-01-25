@@ -223,7 +223,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                         particularReportData(userId, userType, pagNo, efinData);
                     }
                 } else if (!TextUtils.isEmpty(newText)) {
-                    if (pagNo.equalsIgnoreCase("")) {
+                    if (pagNo.isEmpty()) {
                         particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
                     } else {
                         particularOfficeSearch(userId, userType, pagNo, newText, efinData);

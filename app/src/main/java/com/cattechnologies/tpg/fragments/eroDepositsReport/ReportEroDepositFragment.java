@@ -267,7 +267,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     if (pagNo.equalsIgnoreCase("")) {
                         searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                     } else {
-                        searchReportItem(userId, userType, pagNo, newText);
+                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                     }
                 }
 

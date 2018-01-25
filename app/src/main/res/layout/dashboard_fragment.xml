@@ -487,21 +487,17 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <Button
+                     <!--   <Button
                             android:id="@+id/dd"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/dim_10"
-                            android:layout_marginTop="@dimen/dim_10"
-                            android:background="@color/colorPrimary"
+                            android:background="#0068A9"
                             android:gravity="center"
-                            android:paddingBottom="@dimen/dim_5"
-                            android:paddingTop="@dimen/dim_5"
                             android:text="@string/coming_soon"
                             android:textColor="@android:color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold" />-->
                     </FrameLayout>
 
                     <Button

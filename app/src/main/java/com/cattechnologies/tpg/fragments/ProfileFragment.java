@@ -112,7 +112,6 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
     private void loadProfileData(String userId, String userType) {
 
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
@@ -136,10 +135,20 @@ public class ProfileFragment extends Fragment {
     }
 
     private void handleResponse(ProfileGroupData profileGroupData) {
+        try {
 
-        addProductEnroll("Owner Info", profileGroupData);
-        addProductShipping("Shipping Info", profileGroupData);
-        addProductAccount("Bank Account Info", profileGroupData);
+            if (profileGroupData.getStatus().equalsIgnoreCase("success")) {
+
+
+                addProductEnroll("Owner Info", profileGroupData);
+                addProductShipping("Shipping Info", profileGroupData);
+                addProductAccount("Bank Account Info", profileGroupData);
+            } else {
+                profileGroupData.getMessage();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -360,9 +369,11 @@ public class ProfileFragment extends Fragment {
         simpleExpandableListViewThree.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                System.out.println("ProfileFragment.onGroupClick===" + groupPosition);
 
-
-                collapseAll(2);
+                //  parent.collapseGroup(0);
+                Displayitemclicked(groupPosition, parent);
+                //  collapseAll(2);
 
                 return false;
             }
@@ -378,20 +389,39 @@ public class ProfileFragment extends Fragment {
                     editor.putBoolean("isFirstRun", false);
                     editor.commit();
                 }
+                // parent.collapseGroup(0);
+                System.out.println("ProfileFragment.onGroupClick===" + groupPosition);
 
-
-                collapseAll(1);
+                Displayitemclicked(groupPosition, parent);
+                //   collapseAll(1);
                 return false;
             }
         });
         simpleExpandableListViewOne.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                collapseAll(0);
+                //  collapseAll(0);
 
+                //  parent.collapseGroup(0);
+                System.out.println("ProfileFragment.onGroupClick===" + groupPosition);
+                Displayitemclicked(groupPosition, parent);
                 return false;
             }
         });
+    }
+
+    private void Displayitemclicked(int groupPosition, ExpandableListView parent) {
+        if (groupPosition == 0) {
+            //parent.collapseGroup(0);
+            try {
+                simpleExpandableListViewTwo.collapseGroup(0);
+                simpleExpandableListViewOne.collapseGroup(0);
+                simpleExpandableListViewThree.collapseGroup(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     private void collapseAll(int position) {
@@ -443,4 +473,4 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    }
+}
