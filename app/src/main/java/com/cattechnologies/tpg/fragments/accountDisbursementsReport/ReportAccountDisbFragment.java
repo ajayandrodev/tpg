@@ -397,7 +397,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                                 reports.getDisbType(), reports.getExpectedRefund(),
                                 reports.getExpecteddepdate(), reports.getProductType(),
                                 reports.getDisbursementDate(), reports.getDisbursmentamount(),
-                                reports.getExpecteddepdate(), title);
+                                reports.getExpecteddepdate(), title,reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -582,7 +582,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(), reports.getExpecteddepdate(),
-                        reports.getDisbType()
+                        reports.getDisbType(),reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -837,7 +837,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),
-                        reports.getExpecteddepdate(), title);
+                        reports.getExpecteddepdate(), title,reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -987,7 +987,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                         reports.getPrimarySsn(),  reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
-                        reports.getExpecteddepdate(), title);
+                        reports.getExpecteddepdate(), title,reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()

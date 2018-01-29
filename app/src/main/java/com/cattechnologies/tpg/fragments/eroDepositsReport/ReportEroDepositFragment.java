@@ -312,9 +312,9 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             String chagnedDate = null;
             for(int i=0;i<response.getEroReport_data().size();i++) {
                 try {
-                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
+                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
+                    reportsFeePaidNew.setDepositdate(chagnedDate);
+                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -498,7 +498,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             String chagnedDate = null;
             for(int i=0;i<response.getEroReport_data().size();i++) {
                 try {
-                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getRecordcreatedate()));
+                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
                     reportsFeePaidNew.setDepositdate(chagnedDate);
                     reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
                 } catch (ParseException e) {
@@ -746,9 +746,9 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             String chagnedDate = null;
             for(int i=0;i<response.getEroReport_data().size();i++) {
                 try {
-                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
+                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
+                    reportsFeePaidNew.setDepositdate(chagnedDate);
+                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -900,9 +900,9 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             String chagnedDate = null;
             for(int i=0;i<response.getEroReport_data().size();i++) {
                 try {
-                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
+                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
+                    reportsFeePaidNew.setDepositdate(chagnedDate);
+                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

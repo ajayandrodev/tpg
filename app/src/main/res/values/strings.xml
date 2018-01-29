@@ -110,7 +110,7 @@
 
     <!--Report Ero Deposits Expand-->
     <string-array name="Parent_Head_Ero_Deposits">
-        <item>ERO DISBURSEMENT</item>
+        <item>ERO DEPOSITS</item>
     </string-array>
     <string-array name="child_report_ero_deposits">
         <item>DEPOSIT DATE</item>

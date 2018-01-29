@@ -1,6 +1,7 @@
 package com.cattechnologies.tpg.adapters.profileAdapter;
 
 import android.content.Context;
+import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,21 +146,21 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                 childItem4.setText(detailInfo.getContactLastName().trim());
                 childItem6.setText(detailInfo.getStreet() + "," + detailInfo.getCity() + "," + detailInfo.getZipcode());
                 if (detailInfo.getOfficePhone() != null) {
-                    childItem10.setText(detailInfo.getOfficePhone().trim());
+                    childItem10.setText(PhoneNumberUtils.formatNumber(detailInfo.getOfficePhone().trim()));
 
                 } else {
                     childItem10.setText("-");
 
                 }
                 if (detailInfo.getMobilePhone() != null) {
-                    childItem12.setText(detailInfo.getMobilePhone().trim());
+                    childItem12.setText(PhoneNumberUtils.formatNumber(detailInfo.getMobilePhone().trim()));
 
                 } else {
                     childItem12.setText("-");
 
                 }
                 if (detailInfo.getFaxPhone() != null) {
-                    childItem16.setText(detailInfo.getFaxPhone().trim());
+                    childItem16.setText(PhoneNumberUtils.formatNumber(detailInfo.getFaxPhone().trim()));
 
                 } else {
                     childItem16.setText("-");
@@ -173,21 +174,21 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                 childItem4.setText(detailInfo.getLastName().trim());
                 childItem6.setText(detailInfo.getStreet() + "," + detailInfo.getCity() + "," + detailInfo.getZipcode());
                 if (detailInfo.getWorkPhone() != null) {
-                    childItem10.setText(detailInfo.getWorkPhone().trim());
+                    childItem10.setText(PhoneNumberUtils.formatNumber(detailInfo.getWorkPhone().trim()));
 
                 } else {
                     childItem10.setText("-");
 
                 }
                 if (detailInfo.getMobilePhone() != null) {
-                    childItem12.setText(detailInfo.getMobilePhone().trim());
+                    childItem12.setText(PhoneNumberUtils.formatNumber(detailInfo.getMobilePhone().trim()));
 
                 } else {
                     childItem12.setText("-");
 
                 }
                 if (detailInfo.getHomePhone() != null) {
-                    childItem16.setText(detailInfo.getHomePhone().trim());
+                    childItem16.setText(PhoneNumberUtils.formatNumber(detailInfo.getHomePhone().trim()));
 
                 } else {
                     childItem16.setText("-");

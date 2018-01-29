@@ -482,22 +482,24 @@
                             android:background="@drawable/dashboard_buttons"
                             android:gravity="center"
                             android:padding="@dimen/dim_15"
+                            android:stateListAnimator="@null"
                             android:text="@string/dashboard_check_to_print"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                     <!--   <Button
+                        <TextView
                             android:id="@+id/dd"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:background="#0068A9"
-                            android:gravity="center"
+                            android:gravity="center|bottom"
+                            android:layout_marginTop="@dimen/dim_5"
                             android:text="@string/coming_soon"
                             android:textColor="@android:color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold" />-->
+                            android:textStyle="bold" />
                     </FrameLayout>
 
                     <Button

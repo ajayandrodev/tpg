@@ -26,11 +26,12 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
     String title;
     TextView titulo, textReportFirstName, textReportSsn, textReportType, textReportTitleDetail, textReportOne, textReportOneData,
             textReportTwo, textReportTwoData, textReportThree, textReportThreeData, textReportFour, textReportFourData,
-            textReportFive, textReportFiveNext, textReportFiveNextData, textReportFiveData, textFiveNextAnother, textFiveNextAnotherData;
+            textReportFive, textReportFiveNext, textReportFiveNextData, textReportFiveData, textFiveNextAnother, textFiveNextAnotherData
+            ,textEfinData,textEfin;
     RelativeLayout llTwo, llThree, llFour, llFive, llSix, llTwoNext, llFiveNext;
     LinearLayout llInfoData, llInfoDetailsData;
     String name, primarySsn, disbursType, expectedRefund, reportsExpecteddepdate,
-            productType, disbursementDate, disbursmentamount, expecteddepdate;
+            productType, disbursementDate, disbursmentamount, expecteddepdate,efindata;
     SimpleDateFormat format, format1;
 
     public static ReportsAccountDisbDetailsFragment newInstance(
@@ -38,7 +39,7 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
             String primarySsn, String disbursType,
             String expectedRefund, String reportsExpecteddepdate,
             String productType, String disbursementDate, String disbursmentamount,
-            String expecteddepdate, String sectionTitle) {
+            String expecteddepdate, String sectionTitle,String efindata) {
         ReportsAccountDisbDetailsFragment fragment = new ReportsAccountDisbDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
@@ -51,6 +52,7 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         args.putString("report_disbursementDate", disbursementDate);
         args.putString("report_disbursmentamount", disbursmentamount);
         args.putString("report_expecteddepdate", expecteddepdate);
+        args.putString("report_efin",efindata);
         fragment.setArguments(args);
         return fragment;
     }
@@ -87,9 +89,12 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         disbursementDate = getArguments().getString("report_disbursementDate");
         disbursmentamount = getArguments().getString("report_disbursmentamount");
         expecteddepdate = getArguments().getString("report_expecteddepdate");
+        efindata=getArguments().getString("report_efin");
 
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
 
+        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin);
+        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data);
 
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
         textReportOne = (TextView) getActivity().findViewById(R.id.text_report_one);
@@ -162,6 +167,10 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
 
         textFiveNextAnother.setText("Disbursement Info:");//ll_two next another
         textFiveNextAnotherData.setText("");
+
+        textEfin.setText("EFIN:");//ll_two next another
+        textEfinData.setText(efindata);
+
 
 
     }
