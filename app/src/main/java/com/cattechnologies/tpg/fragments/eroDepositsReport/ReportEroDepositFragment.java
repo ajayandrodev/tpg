@@ -148,21 +148,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
+        sortAndSearch(sort);
 
-        if (TextUtils.isEmpty(newText)) {
-            if (pagNo.equalsIgnoreCase("")) {
-                sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-            } else {
-                sortReportItem(userId, userType, pagNo, sort);
-            }
-        } else {
-            if (pagNo.equalsIgnoreCase("")) {
-                searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-            } else {
-                searchSortReportData(userId, userType, newText, pagNo, sort);
-            }
-
-        }
     }
 
     @Override
@@ -225,7 +212,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             if (pagNo.equalsIgnoreCase("")) {
                 eroDepositReportsData(userId, userType, reports.getPage());
             } else {
-                eroDepositReportsData(userId, userType,pagNo);
+                eroDepositReportsData(userId, userType, pagNo);
             }
 
 
@@ -295,6 +282,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponse(ReportsEroDepositsSearch response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
@@ -303,14 +291,13 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             List<ReportEroDepositsSearchNew> reportsFeePaidNewList = response.getEroReport_data();
 
 
-
-            ReportEroDepositsSearchNew reportsFeePaidNew=new ReportEroDepositsSearchNew();
+            ReportEroDepositsSearchNew reportsFeePaidNew = new ReportEroDepositsSearchNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getEroReport_data().size();i++) {
+            for (int i = 0; i < response.getEroReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
                     reportsFeePaidNew.setDepositdate(chagnedDate);
@@ -439,14 +426,17 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        } else if (response.getStatus().equalsIgnoreCase("fail")) {
+        } else {
+            progressBar.setVisibility(View.GONE);
             showToast(response.getMessage());
             recyclerView.setVisibility(View.GONE);
             prev.setVisibility(View.GONE);
             next.setVisibility(View.GONE);
             layout.setVisibility(View.GONE);
         }
+
     }
+
     private void eroDepositReportsData(String userId, String userType, String page) {
         System.out.println("ReportsFeesPaidFragment.eroDepositReportsData==" + userId + "==" + userType);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
@@ -458,6 +448,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleError(Throwable error) {
         System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
         showToast(error.getMessage());
@@ -490,13 +481,13 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
             List<ReportsEroDepositNew> reportsFeePaidNewList = response.getEroReport_data();
 
-            ReportsEroDepositNew reportsFeePaidNew=new ReportsEroDepositNew();
+            ReportsEroDepositNew reportsFeePaidNew = new ReportsEroDepositNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getEroReport_data().size();i++) {
+            for (int i = 0; i < response.getEroReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
                     reportsFeePaidNew.setDepositdate(chagnedDate);
@@ -524,7 +515,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     btn = new Button(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(3,0,3,0);
+                    lp.setMargins(3, 0, 3, 0);
                     btn.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     btn.setId(current_page);
                     btn.setText("" + (current_page + 1));
@@ -582,7 +573,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
                         wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
-                        eroDepositReportsData(userId, userType,pagNo);
+                        eroDepositReportsData(userId, userType, pagNo);
                         recyclerView.setVisibility(View.VISIBLE);
                         prev.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
@@ -627,16 +618,22 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
+        } else {
+            progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());
         }
     }
+
     private void showToast(String msg) {
         Toast.makeText(getContext(), "" + msg, Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         mSubscriptions.unsubscribe();
     }
+
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
@@ -651,57 +648,22 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                 case 0:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "deposit_date";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        } else {
-                            sortReportItem(userId, userType, pagNo, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-                        } else {
-                            searchSortReportData(userId, userType, newText, pagNo, sort);
-                        }
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 1:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "deposit_type";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        } else {
-                            sortReportItem(userId, userType, pagNo, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-                        } else {
-                            searchSortReportData(userId, userType, newText, pagNo, sort);
-                        }
-                    }
+                    sortAndSearch(sort);
+
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "dan";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        } else {
-                            sortReportItem(userId, userType, pagNo, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-                        } else {
-                            searchSortReportData(userId, userType, newText, pagNo, sort);
-                        }
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -723,6 +685,22 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         }
     }
 
+    private void sortAndSearch(String sort) {
+        if (TextUtils.isEmpty(newText)) {
+            if (pagNo.equalsIgnoreCase("")) {
+                sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+            } else {
+                sortReportItem(userId, userType, pagNo, sort);
+            }
+        } else {
+            if (pagNo.equalsIgnoreCase("")) {
+                searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+            } else {
+                searchSortReportData(userId, userType, newText, pagNo, sort);
+            }
+        }
+    }
+
     private void searchSortReportData(String userId, String userType, String newText, String page, String sort) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositsDataSearchSort(userId, userType, newText, page, sort)
@@ -733,18 +711,19 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponseSearchSort(ReportEroDepositsSearchSort response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportEroDepositsSearchSortNew> reportsFeePaidNewList = response.getEroReport_data();
-            ReportEroDepositsSearchSortNew reportsFeePaidNew=new ReportEroDepositsSearchSortNew();
+            ReportEroDepositsSearchSortNew reportsFeePaidNew = new ReportEroDepositsSearchSortNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
             String chagnedDate = null;
-            for(int i=0;i<response.getEroReport_data().size();i++) {
+            for (int i = 0; i < response.getEroReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
                     reportsFeePaidNew.setDepositdate(chagnedDate);
@@ -787,7 +766,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                             int id = view.getId();
                             id = id + 1;
                             pagNo = String.valueOf(id);
-                            searchSortReportData(userId, userType, newText,pagNo, sort);
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -849,7 +828,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                             }
                             wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                            searchSortReportData(userId, userType, newText,pagNo, sort);
+                            searchSortReportData(userId, userType, newText, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -874,8 +853,12 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
+        } else {
+            progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());
         }
     }
+
     private void sortReportItem(String userId, String userType, String page, String type) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositsDataSort(userId, userType, page, type)
@@ -886,19 +869,20 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponseSort(ReportsEroDepositsSort response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportsEroDepositsSortNew> reportsFeePaidNewList = response.getEroReport_data();
-            ReportsEroDepositsSortNew reportsFeePaidNew=new ReportsEroDepositsSortNew();
+            ReportsEroDepositsSortNew reportsFeePaidNew = new ReportsEroDepositsSortNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getEroReport_data().size();i++) {
+            for (int i = 0; i < response.getEroReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
                     reportsFeePaidNew.setDepositdate(chagnedDate);
@@ -979,7 +963,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                             pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
                             wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
-                            sortReportItem(userId, userType,pagNo, sort);
+                            sortReportItem(userId, userType, pagNo, sort);
                             recyclerView.setVisibility(View.VISIBLE);
                             prev.setVisibility(View.VISIBLE);
                             next.setVisibility(View.VISIBLE);
@@ -1025,6 +1009,9 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
+        } else {
+        /*    progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());*/
         }
     }
 

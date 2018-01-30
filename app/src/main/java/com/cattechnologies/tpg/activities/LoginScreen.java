@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -77,6 +78,9 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_new);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         initViews();
         setToolbar();
         Bundle bundle = getIntent().getExtras();
@@ -134,6 +138,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
+
 
     @Override
     public void onClick(View v) {
@@ -316,6 +321,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     protected void onResume() {
         super.onResume();
         System.out.println("LoginScreen.onResume");
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         if (forgotEmailData != null) {
             if (loginUser.getText().toString().isEmpty()) {
                 loginUser.setText(forgotEmailData);

@@ -122,7 +122,7 @@ public class MyProfileExpandableListShipAdapter extends BaseExpandableListAdapte
                 LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_shipping_three);
                 linearLayout.setVisibility(View.GONE);
 
-            } else {
+            } else if(type.equalsIgnoreCase("ero")){
                 TextView childItem1 = (TextView) view.findViewById(R.id.shipping_address);
                 childItem1.setText("Address:");
                 TextView childItem2 = (TextView) view.findViewById(R.id.shipping_address_data);

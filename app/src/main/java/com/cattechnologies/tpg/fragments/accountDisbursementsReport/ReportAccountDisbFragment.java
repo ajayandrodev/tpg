@@ -122,36 +122,28 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((Dashboard) getActivity()).setTitle("REPORTS");
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.reports_account_disb_deposit_fragment, container, false);
         return view;
     }
+
     public ReportAccountDisbFragment() {
     }
+
     @Override
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
-        if (TextUtils.isEmpty(newText)) {
-            if (pagNo.equalsIgnoreCase("")) {
-                sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-            } else {
-                sortReportItem(userId, userType, pagNo, sort);
-            }
-        } else {
-            if (pagNo.equalsIgnoreCase("")) {
-                searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-            } else {
-                searchSortReportData(userId, userType, newText, pagNo, sort);
-            }
-        }
+        sortAndSearch(sort);
     }
 
     @Override
@@ -160,6 +152,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
         ((Dashboard) getActivity()).setTitle("REPORTS");
         mSubscriptions.unsubscribe();
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -208,7 +201,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             if (pagNo.equalsIgnoreCase("")) {
                 eroDepositReportsData(userId, userType, reports.getPage());
             } else {
-                eroDepositReportsData(userId, userType,pagNo);
+                eroDepositReportsData(userId, userType, pagNo);
             }
         }
         searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -257,6 +250,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
     }
+
     private void searchReportItem(String userId, String userType, String page, String searchText) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getAccountDisbDataSearch(userId, userType, page, searchText)
@@ -267,18 +261,19 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponse(ReportsAccountDisbSearch response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportAccountDisbSearchNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
-            ReportAccountDisbSearchNew reportsFeePaidNew=new ReportAccountDisbSearchNew();
+            ReportAccountDisbSearchNew reportsFeePaidNew = new ReportAccountDisbSearchNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
             String chagnedDate = null;
-            for(int i=0;i<response.getDisbursmentReport_data().size();i++) {
+            for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
                     reportsFeePaidNew.setDisbursementDate(chagnedDate);
@@ -397,7 +392,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                                 reports.getDisbType(), reports.getExpectedRefund(),
                                 reports.getExpecteddepdate(), reports.getProductType(),
                                 reports.getDisbursementDate(), reports.getDisbursmentamount(),
-                                reports.getExpecteddepdate(), title,reports.getEfin());
+                                reports.getExpecteddepdate(), title, reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -406,7 +401,8 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        } else if (response.getStatus().equalsIgnoreCase("fail")) {
+        } else {
+            progressBar.setVisibility(View.GONE);
             showToast(response.getMessage());
             recyclerView.setVisibility(View.GONE);
             prev.setVisibility(View.GONE);
@@ -414,6 +410,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             layout.setVisibility(View.GONE);
         }
     }
+
     private void eroDepositReportsData(String userId, String userType, String page) {
         System.out.println("ReportsFeesPaidFragment.eroDepositReportsData==" + userId + "==" + userType);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
@@ -425,6 +422,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleError(Throwable error) {
         System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
         showToast(error.getMessage());
@@ -447,6 +445,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
         }
 
     }
+
     private void handleResponse(ReportsAccountDisb response) {
 
         if (response.getStatus().equalsIgnoreCase("success")) {
@@ -455,12 +454,12 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             String totalPages = response.getTotalNoofPages();
             System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
             List<ReportsAccountDisbNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
-            ReportsAccountDisbNew reportsFeePaidNew=new ReportsAccountDisbNew();
+            ReportsAccountDisbNew reportsFeePaidNew = new ReportsAccountDisbNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
             String chagnedDate = null;
-            for(int i=0;i<response.getDisbursmentReport_data().size();i++) {
+            for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
                     reportsFeePaidNew.setDisbursementDate(chagnedDate);
@@ -578,11 +577,11 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(),  reports.getDisbType(),
+                        , reports.getPrimarySsn(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(), reports.getExpecteddepdate(),
-                        reports.getDisbType(),reports.getEfin()
+                        reports.getDisbType(), reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -594,18 +593,24 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             });
 
 
+        } else {
+            progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());
         }
 
     }
+
     private void showToast(String msg) {
         Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         System.out.println("ReportsFeesPaidFragment.onDestroy");
         mSubscriptions.unsubscribe();
     }
+
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
@@ -613,85 +618,55 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
         Displayitemclicked(gposition, cposition, parent);
         return false;
     }
+
     private void Displayitemclicked(int gposition, int cposition, ExpandableListView parentList) {
         if (gposition == 0) {
-           switch (cposition) {
+            switch (cposition) {
                 case 0:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "ssn";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        } else {
-                            sortReportItem(userId, userType, pagNo, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-                        } else {
-                            searchSortReportData(userId, userType, newText, pagNo, sort);
-                        }
-                    }
+                    sortAndSearch(sort);
+
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 1:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "lastname";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        } else {
-                            sortReportItem(userId, userType, pagNo, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-                        } else {
-                            searchSortReportData(userId, userType, newText, pagNo, sort);
-                        }
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "product_type";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        } else {
-                            sortReportItem(userId, userType, pagNo, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-                        } else {
-                            searchSortReportData(userId, userType, newText, pagNo, sort);
-                        }
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 3:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "disbursment_type";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-                        } else {
-                            sortReportItem(userId, userType, pagNo, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-                        } else {
-                            searchSortReportData(userId, userType, newText, pagNo, sort);
-                        }
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
+            }
+        }
+    }
+
+    private void sortAndSearch(String sort) {
+        if (TextUtils.isEmpty(newText)) {
+            if (pagNo.equalsIgnoreCase("")) {
+                sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+            } else {
+                sortReportItem(userId, userType, pagNo, sort);
+            }
+        } else {
+            if (pagNo.equalsIgnoreCase("")) {
+                searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+            } else {
+                searchSortReportData(userId, userType, newText, pagNo, sort);
             }
         }
     }
@@ -706,18 +681,19 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponseSearchSort(ReportAccountDisbSearchSort response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportAccountDisbSearchSortNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
-            ReportAccountDisbSearchSortNew reportsFeePaidNew=new ReportAccountDisbSearchSortNew();
+            ReportAccountDisbSearchSortNew reportsFeePaidNew = new ReportAccountDisbSearchSortNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
             String chagnedDate = null;
-            for(int i=0;i<response.getDisbursmentReport_data().size();i++) {
+            for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
                     reportsFeePaidNew.setDisbursementDate(chagnedDate);
@@ -837,7 +813,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),
-                        reports.getExpecteddepdate(), title,reports.getEfin());
+                        reports.getExpecteddepdate(), title, reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -846,8 +822,12 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
+        } else {
+            progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());
         }
     }
+
     private void sortReportItem(String userId, String userType, String page, String type) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getAccountDisbDataSort(userId, userType, page, type)
@@ -858,18 +838,19 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponseSort(ReportsAccountDisbSort response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportsAccountDisbSortNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
-            ReportsAccountDisbSortNew reportsFeePaidNew=new ReportsAccountDisbSortNew();
+            ReportsAccountDisbSortNew reportsFeePaidNew = new ReportsAccountDisbSortNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
             String chagnedDate = null;
-            for(int i=0;i<response.getDisbursmentReport_data().size();i++) {
+            for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
                     reportsFeePaidNew.setDisbursementDate(chagnedDate);
@@ -984,10 +965,10 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySsn(),  reports.getDisbType(), reports.getExpectedRefund(),
+                        reports.getPrimarySsn(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
-                        reports.getExpecteddepdate(), title,reports.getEfin());
+                        reports.getExpecteddepdate(), title, reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -996,6 +977,9 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
+        } else {
+          /*  progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());*/
         }
     }
 }

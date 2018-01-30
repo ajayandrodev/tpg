@@ -108,6 +108,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
         EnrolInfo detailInfo = (EnrolInfo) getChild(groupPosition, childPosition);
+        System.out.println("MyProfileExpandableListEnrAdapterNew.getChildView");
 
         if (view == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -127,7 +128,6 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
             childItem5.setText("Address:");
             TextView childItem6 = (TextView) view.findViewById(R.id.enroll_address_data);
             TextView childItem9 = (TextView) view.findViewById(R.id.enroll_office_phone);
-            childItem9.setText("Office Phone:");
             TextView childItem10 = (TextView) view.findViewById(R.id.enroll_office_phone_data);
             TextView childItem11 = (TextView) view.findViewById(R.id.enroll_mobile_phone);
             childItem11.setText("Mobile Phone:");
@@ -139,11 +139,14 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
             TextView childItem14 = (TextView) view.findViewById(R.id.enroll_email_data);
             TextView childItem16 = (TextView) view.findViewById(R.id.enroll_home_phone_data);
             if (type.equalsIgnoreCase("sb")) {
+                childItem9.setText("Office Phone:");
+
                 childItem2.setText(detailInfo.getContactFirstName().trim());
                 childItem4.setText(detailInfo.getContactLastName().trim());
-                childItem6.setText(detailInfo.getStreet() + "," + detailInfo.getCity() + "," + detailInfo.getZipcode());
-                if (detailInfo.getOfficePhone() != null) {
-
+                childItem6.setText(detailInfo.getStreet().trim() + "," + detailInfo.getCity().trim() + "," + detailInfo.getZipcode().trim());
+                if (detailInfo.getOfficePhone().equalsIgnoreCase("")) {
+                    childItem10.setText("-");
+                } else {
                     try {
                         // phone must begin with '+'
                         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
@@ -151,18 +154,15 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                       /*  int countryCode = numberProto.getCountryCode();
                         long nationalNumber = numberProto.getNationalNumber();*/
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
-                        childItem16.setText(pnE164.replace("+1", ""));
+                        childItem10.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
                         System.err.println("NumberParseException was thrown: " + e.toString());
                     }
 
-
-                } else {
-                    childItem10.setText("-");
-
                 }
-                if (detailInfo.getMobilePhone() != null) {
-
+                if (detailInfo.getMobilePhone().equalsIgnoreCase("")) {
+                    childItem12.setText("-");
+                } else {
                     try {
                         // phone must begin with '+'
                         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
@@ -170,18 +170,15 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                       /*  int countryCode = numberProto.getCountryCode();
                         long nationalNumber = numberProto.getNationalNumber();*/
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
-                        childItem16.setText(pnE164.replace("+1", ""));
+                        childItem12.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
                         System.err.println("NumberParseException was thrown: " + e.toString());
                     }
-
-                } else {
-                    childItem12.setText("-");
-
                 }
-                if (detailInfo.getFaxPhone() != null) {
+                if (detailInfo.getFaxPhone().equalsIgnoreCase("")) {
 
-
+                    childItem16.setText("-");
+                } else {
                     try {
                         // phone must begin with '+'
                         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
@@ -193,21 +190,19 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                     } catch (NumberParseException e) {
                         System.err.println("NumberParseException was thrown: " + e.toString());
                     }
-
-
-                } else {
-                    childItem16.setText("-");
-
                 }
                 childItem14.setText(detailInfo.getEmailAddress().trim());
 
 
             } else if (type.equalsIgnoreCase("ero")) {
+                childItem9.setText("Work Phone:");
+
                 childItem2.setText(detailInfo.getFirstName().trim());
                 childItem4.setText(detailInfo.getLastName().trim());
-                childItem6.setText(detailInfo.getStreet() + "," + detailInfo.getCity() + "," + detailInfo.getZipcode());
-                if (detailInfo.getWorkPhone() != null) {
-
+                childItem6.setText(detailInfo.getStreet().trim() + "," + detailInfo.getCity().trim() + "," + detailInfo.getZipcode().trim());
+                if (detailInfo.getWorkPhone().equalsIgnoreCase("")) {
+                    childItem10.setText("-");
+                } else {
                     try {
                         // phone must begin with '+'
                         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
@@ -215,17 +210,14 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                       /*  int countryCode = numberProto.getCountryCode();
                         long nationalNumber = numberProto.getNationalNumber();*/
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
-                        childItem16.setText(pnE164.replace("+1", ""));
+                        childItem10.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
                         System.err.println("NumberParseException was thrown: " + e.toString());
                     }
-
-
-                } else {
-                    childItem10.setText("-");
-
                 }
-                if (detailInfo.getMobilePhone() != null) {
+                if (detailInfo.getMobilePhone().equalsIgnoreCase("")) {
+                    childItem12.setText("-");
+                } else {
                     try {
                         // phone must begin with '+'
                         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
@@ -233,17 +225,15 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                       /*  int countryCode = numberProto.getCountryCode();
                         long nationalNumber = numberProto.getNationalNumber();*/
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
-                        childItem16.setText(pnE164.replace("+1", ""));
+                        childItem12.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
                         System.err.println("NumberParseException was thrown: " + e.toString());
                     }
 
-
-                } else {
-                    childItem12.setText("-");
-
                 }
-                if (detailInfo.getHomePhone() != null) {
+                if (detailInfo.getHomePhone().equalsIgnoreCase("")) {
+                    childItem16.setText("-");
+                } else {
                     try {
                         // phone must begin with '+'
                         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
@@ -255,10 +245,6 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                     } catch (NumberParseException e) {
                         System.err.println("NumberParseException was thrown: " + e.toString());
                     }
-
-
-                } else {
-                    childItem16.setText("-");
 
                 }
                 childItem14.setText(detailInfo.getEmailAddress().trim());

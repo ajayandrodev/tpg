@@ -67,7 +67,7 @@ public class ProfileFragment extends Fragment {
     PreferencesManager preferencesManager;
 
     private LinkedHashMap<String, MyProfileGroupAccountInfoNew> subjectsAccount = new LinkedHashMap<String, MyProfileGroupAccountInfoNew>();
-    private LinkedHashMap<String, MyProfileGroupShippingInfoNew> subjectsShipping= new LinkedHashMap<String, MyProfileGroupShippingInfoNew>();
+    private LinkedHashMap<String, MyProfileGroupShippingInfoNew> subjectsShipping = new LinkedHashMap<String, MyProfileGroupShippingInfoNew>();
     private LinkedHashMap<String, MyProfileGroupEnrollInfoNew> subjectsEnroll = new LinkedHashMap<String, MyProfileGroupEnrollInfoNew>();
 
     ArrayList<MyProfileGroupEnrollInfoNew> deptListEnroll = new ArrayList<MyProfileGroupEnrollInfoNew>();
@@ -220,6 +220,7 @@ public class ProfileFragment extends Fragment {
 
         EnrolInfo detailInfo = new EnrolInfo();
         if (userType.equalsIgnoreCase("sb")) {
+            System.out.println("ProfileFragment.addProductEnroll");
 
             detailInfo.setContactFirstName(profileGroupInfo.getContactFirstName());
             detailInfo.setContactLastName(profileGroupInfo.getContactLastName());
@@ -234,6 +235,7 @@ public class ProfileFragment extends Fragment {
 
 
         } else if (userType.equalsIgnoreCase("ero")) {
+            System.out.println("ProfileFragment.addProductEnroll");
             detailInfo.setFirstName(profileGroupInfo.getFirstName());
             detailInfo.setLastName(profileGroupInfo.getLastName());
             detailInfo.setStreet(profileGroupInfo.getStreet());
@@ -263,7 +265,7 @@ public class ProfileFragment extends Fragment {
 
     private int addProductShipping(String department, ShippingInfo profileGroupInfo) {
         int groupPosition = 1;
-        System.out.println("ProfileFragment.addProductShipping===="+profileGroupInfo);
+        System.out.println("ProfileFragment.addProductShipping====" + profileGroupInfo);
         //check the hash map if the group already exists
         MyProfileGroupShippingInfoNew headerInfo = subjectsShipping.get(department);
         //add the group if doesn't exists
@@ -284,13 +286,14 @@ public class ProfileFragment extends Fragment {
             detailInfo.setStreet(profileGroupInfo.getStreet());
             detailInfo.setStreet2(profileGroupInfo.getStreet2());
             detailInfo.setZipcode(profileGroupInfo.getZipcode());
+
         } else if (userType.equalsIgnoreCase("ero")) {
             System.out.println("ProfileFragment.addProductShipping==ero==");
-            format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.sss");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
-            try {
 
+            try {
+                format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                format1 = new SimpleDateFormat("MM-dd-yyyy");
+                String chagnedDate = null;
                 detailInfo.setCity(profileGroupInfo.getCity());
                 detailInfo.setState(profileGroupInfo.getState());
                 detailInfo.setStreet(profileGroupInfo.getStreet());
@@ -311,7 +314,7 @@ public class ProfileFragment extends Fragment {
 
         //find the group position inside the list
         groupPosition = deptListShipping.indexOf(headerInfo);
-        System.out.println("ProfileFragment.addProductShipping===="+groupPosition+"==="+deptListShipping+"==="+userType);
+        System.out.println("ProfileFragment.addProductShipping====" + groupPosition + "===" + deptListShipping + "===" + userType);
         shipListAdapter = new MyProfileExpandableListShipAdapter(getActivity(), deptListShipping, userType);
         simpleExpandableListViewTwo.setAdapter(shipListAdapter);
         return groupPosition;
@@ -319,7 +322,7 @@ public class ProfileFragment extends Fragment {
 
     private int addProductAccount(String department, AccountInfo profileGroupInfo) {
         int groupPosition = 2;
-        System.out.println("ProfileFragment.addProductAccount==="+profileGroupInfo);
+        System.out.println("ProfileFragment.addProductAccount===" + profileGroupInfo);
         //check the hash map if the group already exists
         MyProfileGroupAccountInfoNew headerInfo = subjectsAccount.get(department);
         //add the group if doesn't exists

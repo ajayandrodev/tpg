@@ -49,30 +49,30 @@ public interface RetrofitInterface {
 
     /*forgot apis*/
     @FormUrlEncoded
-    @POST("get-forgot-username")
+    @POST("get-forgot-username.php")
     Observable<ForgotUserNameInfo> forgotUserName
     (@Field("user_efin") String efin, @Field("user_email") String email, @Field("acc_type") String type);
 
 
     @FormUrlEncoded
-    @POST("get-forgot-password")
+    @POST("get-forgot-password.php")
     Observable<ForgotUserPasswordInfo> forgotPassword(@Field("username_efin") String forgotUname,
                                                       @Field("user_email") String forgotUpass,
                                                       @Field("acc_type") String acc_type);
 
     @FormUrlEncoded
-    @POST("get-forgot-email")
+    @POST("get-forgot-email.php")
     Observable<ForgotUserEmailAddress> forgotEmailAddress(@Field("user_efin") String forgotUname,
                                                           @Field("ssn_no") String forgotUpass,
                                                           @Field("acc_type") String acc_type);
 
     @FormUrlEncoded
-    @POST("get-forgot-email")
+    @POST("get-forgot-email.php")
     Observable<ForgotUserEmailAddressSb> forgotEmailAddressSb
             (@Field("user_efin") String forgotUname, @Field("acc_type") String acc_type);
 
     @FormUrlEncoded
-    @POST("get-forgot-password")
+    @POST("get-forgot-password.php")
     Observable<ForgotUserPasswordInfoEmp> forgotPasswordEmp(@Field("user_email") String forgotUpass, @Field("acc_type") String acc_type);
 
     /* profile info api*/
@@ -84,23 +84,23 @@ public interface RetrofitInterface {
     /*feePaidEroAndSB*/
 
     @FormUrlEncoded
-    @POST("fee-paid-offset")
+    @POST("fee-paid-offset.php")
     Observable<ReportsFeePaid> getFeePaidData(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                               @Field("page") String page);
 
     @FormUrlEncoded
-    @POST("search2")
+    @POST("search2.php")
     Observable<ReportsFeePaidSearch> getFeePaidDataSearch(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                                           @Field("page") String page, @Field("search") String search);
 
 
     @FormUrlEncoded
-    @POST("sortFeepaid")
+    @POST("sortFeepaid.php")
     Observable<ReportsFeePaidSort> getFeePaidDataSort(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                                       @Field("page") String page, @Field("sort") String search);
 
     @FormUrlEncoded
-    @POST("search-sort")
+    @POST("search-sort.php")
     Observable<ReportFreePaidSearchSort> getFeePaidDataSearchSort(@Field("app_uid") String userId,
                                                                   @Field("acc_type") String userType,
                                                                   @Field("search") String newText,
@@ -110,14 +110,14 @@ public interface RetrofitInterface {
    /* particular feepaid sb*/
 
     @FormUrlEncoded
-    @POST("particular-office")
+    @POST("particular-office.php")
     Observable<ReportParticulrFreePaid> getFeePaidParticularData(@Field("app_uid") String userId,
                                                                  @Field("acc_type") String userType,
                                                                  @Field("page") String page, @Field("efin_id") String particularPerson);
 
 
     @FormUrlEncoded
-    @POST("particular-office-search")
+    @POST("particular-office-search.php")
     Observable<ReportsPerticularFeePaidSearch> getPerticularFeePaidSearch(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,
@@ -126,13 +126,13 @@ public interface RetrofitInterface {
             @Field("efin_id") String efinData);
 
     @FormUrlEncoded
-    @POST("EfinValid-SB")
+    @POST("EfinValid-SB.php")
     Observable<ReportsEfinValidCheck> getEfinValidCheck(@Field("app_uid")String userId,
                                                         @Field("acc_type")String userType,
                                                         @Field("efin_check")String title);
 
     @FormUrlEncoded
-    @POST("sort_particular_SB")
+    @POST("sort_particular_SB.php")
     Observable<ReportParticulrFreePaidSort> getFeePaidParticularDataSort(@Field("app_uid") String userId,
                                                                          @Field("acc_type") String userType,
                                                                          @Field("page") String pageEfin,
@@ -140,7 +140,7 @@ public interface RetrofitInterface {
                                                                          @Field("sort") String sort);
 
     @FormUrlEncoded
-    @POST("particular-search-sort-feepaid")
+    @POST("particular-search-sort-feepaid.php")
     Observable<ReportFreePaidPerticularSearchSort> getFeePaidParticularDataSearchSort(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,
@@ -152,25 +152,25 @@ public interface RetrofitInterface {
    /* eroDepositData*/
 
     @FormUrlEncoded
-    @POST("EroDeposits")
+    @POST("EroDeposits.php")
     Observable<ReportsEroDeposit> getEroDepositData(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                                     @Field("page") String page);
 
 
     @FormUrlEncoded
-    @POST("ero-deposit-search")
+    @POST("ero-deposit-search.php")
     Observable<ReportsEroDepositsSearch> getEroDepositDataSearch
             (@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
              @Field("page") String page, @Field("search") String search);
 
 
     @FormUrlEncoded
-    @POST("SortEroDeposit")
+    @POST("SortEroDeposit.php")
     Observable<ReportsEroDepositsSort> getEroDepositsDataSort(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                                               @Field("page") String page, @Field("sort") String search);
 
     @FormUrlEncoded
-    @POST("SearchSortEroDeposit")
+    @POST("SearchSortEroDeposit.php")
     Observable<ReportEroDepositsSearchSort> getEroDepositsDataSearchSort(@Field("app_uid") String userId,
                                                                          @Field("acc_type") String userType,
                                                                          @Field("search") String newText,
@@ -180,7 +180,7 @@ public interface RetrofitInterface {
    /* particular erodeposit sb*/
 
     @FormUrlEncoded
-    @POST("EroDeposit-particular-office")
+    @POST("EroDeposit-particular-office.php")
     Observable<ReportParticulrEroDeposits> getEroDepositsParticularData(@Field("app_uid") String userId,
                                                                         @Field("acc_type") String userType,
                                                                         @Field("page") String page,
@@ -188,7 +188,7 @@ public interface RetrofitInterface {
 
 
     @FormUrlEncoded
-    @POST("EroDeposit-particular-office-search")
+    @POST("EroDeposit-particular-office-search.php")
     Observable<ReportsPerticularEroDepositsSearch> getPerticularEroDepositsSearch(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,
@@ -197,13 +197,13 @@ public interface RetrofitInterface {
             @Field("efin_id") String efinData);
 
     @FormUrlEncoded
-    @POST("EfinValid-SB")
+    @POST("EfinValid-SB.php")
     Observable<ReportsEfinValidCheck> getEroDepositsEfinValidCheck(@Field("app_uid")String userId,
                                                         @Field("acc_type")String userType,
                                                         @Field("efin_check")String title);
 
     @FormUrlEncoded
-    @POST("EroDeposit-particular-office-sort")
+    @POST("EroDeposit-particular-office-sort.php")
     Observable<ReportParticulrEroDepositsSort> getEroDepositsParticularDataSort(@Field("app_uid") String userId,
                                                                                 @Field("acc_type") String userType,
                                                                                 @Field("page") String pageEfin,
@@ -211,7 +211,7 @@ public interface RetrofitInterface {
                                                                                 @Field("sort") String sort);
 
     @FormUrlEncoded
-    @POST("EroDeposit-particular-office-search-sort")
+    @POST("EroDeposit-particular-office-search-sort.php")
     Observable<ReportEroDepositsPerticularSearchSort> getEroDepositsParticularDataSearchSort(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,
@@ -226,25 +226,25 @@ public interface RetrofitInterface {
       /* AccountDisbData*/
 
     @FormUrlEncoded
-    @POST("DisbursmentReport")
+    @POST("DisbursmentReport.php")
     Observable<ReportsAccountDisb> getAccountDisbData(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                                       @Field("page") String page);
 
 
     @FormUrlEncoded
-    @POST("DisbursmentReportSearch")
+    @POST("DisbursmentReportSearch.php")
     Observable<ReportsAccountDisbSearch> getAccountDisbDataSearch
             (@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
              @Field("page") String page, @Field("search") String search);
 
 
     @FormUrlEncoded
-    @POST("DisbursmentReportSort")
+    @POST("DisbursmentReportSort.php")
     Observable<ReportsAccountDisbSort> getAccountDisbDataSort(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                                               @Field("page") String page, @Field("sort") String search);
 
     @FormUrlEncoded
-    @POST("DisbursmentReportSearchSort")
+    @POST("DisbursmentReportSearchSort.php")
     Observable<ReportAccountDisbSearchSort> getAccountDisbDataSearchSort(@Field("app_uid") String userId,
                                                                          @Field("acc_type") String userType,
                                                                          @Field("search") String newText,
@@ -254,7 +254,7 @@ public interface RetrofitInterface {
    /* particularAccountDisb sb*/
 
     @FormUrlEncoded
-    @POST("DisbursmentReportParticularOffice")
+    @POST("DisbursmentReportParticularOffice.php")
     Observable<ReportParticulrAccountDisb> getAccountDisbParticularData(@Field("app_uid") String userId,
                                                                         @Field("acc_type") String userType,
                                                                         @Field("page") String page,
@@ -262,7 +262,7 @@ public interface RetrofitInterface {
 
 
     @FormUrlEncoded
-    @POST("DisbursmentReportParticularOfficeSearch")
+    @POST("DisbursmentReportParticularOfficeSearch.php")
     Observable<ReportsPerticularAccountDisbSearch> getPerticularAccountDisbSearch(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,
@@ -271,13 +271,13 @@ public interface RetrofitInterface {
             @Field("efin_id") String efinData);
 
     @FormUrlEncoded
-    @POST("EfinValid-SB")
+    @POST("EfinValid-SB.php")
     Observable<ReportsEfinValidCheck> getAccountDisbEfinValidCheck(@Field("app_uid")String userId,
                                                                    @Field("acc_type")String userType,
                                                                    @Field("efin_check")String title);
 
     @FormUrlEncoded
-    @POST("DisbursmentReportParticularOfficeSort")
+    @POST("DisbursmentReportParticularOfficeSort.php")
     Observable<ReportParticulrAccountDisbSort> getAccountDisbParticularDataSort(@Field("app_uid") String userId,
                                                                                 @Field("acc_type") String userType,
                                                                                 @Field("page") String pageEfin,
@@ -285,7 +285,7 @@ public interface RetrofitInterface {
                                                                                 @Field("sort") String sort);
 
     @FormUrlEncoded
-    @POST("DisbursmentReportParticularOfficeSearchSort")
+    @POST("DisbursmentReportParticularOfficeSearchSort.php")
     Observable<ReportAccountDisbPerticularSearchSort> getAccountDisbParticularDataSearchSort(
             @Field("app_uid") String userId,
             @Field("acc_type") String userType,

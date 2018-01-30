@@ -405,7 +405,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
 
-        } else if (response.getStatus().equalsIgnoreCase("fail")) {
+        } else {
+            progressBar.setVisibility(View.GONE);
             showToast(response.getMessage());
             recyclerView.setVisibility(View.GONE);
             prev.setVisibility(View.GONE);
@@ -452,19 +453,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
     @Override
     public void onResume() {
         super.onResume();
-        if (TextUtils.isEmpty(newText)) {
-            if (pagNo.equalsIgnoreCase("")) {
-                particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-            } else {
-                particularOfficeSort(userId, userType, pagNo, efinData, sort);
-            }
-        } else {
-            if (pagNo.equalsIgnoreCase("")) {
-                particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
-            } else {
-                particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
-            }
-        }
+        sortAndSearch(sort);
+
     }
     private void handleResponse(ReportParticulrEroDeposits response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
@@ -610,6 +600,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
+        }else {
+            progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());
         }
     }
     @Override
@@ -629,59 +622,22 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "deposit_date";
                     System.out.println("ReportsFeesPaidFragment.Displayitemclicked" + efinData);
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-                        } else {
-                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
-                        } else {
-                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
-                        }
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 1:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "deposit_type";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-                        } else {
-                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
-                        } else {
-                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
-                        }
+                    sortAndSearch(sort);
 
-                    }
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "dan";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-                        } else {
-                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
-                        } else {
-                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
-                        }
-
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -700,6 +656,22 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;*/
+            }
+        }
+    }
+
+    private void sortAndSearch(String sort) {
+        if (TextUtils.isEmpty(newText)) {
+            if (pagNo.equalsIgnoreCase("")) {
+                particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+            } else {
+                particularOfficeSort(userId, userType, pagNo, efinData, sort);
+            }
+        } else {
+            if (pagNo.equalsIgnoreCase("")) {
+                particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+            } else {
+                particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
             }
         }
     }
@@ -867,6 +839,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
 
+        }else {
+            progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());
         }
 
 
@@ -1030,6 +1005,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
+        }else {
+        /*    progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());*/
         }
     }
 }

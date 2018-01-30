@@ -113,6 +113,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     Button btn;
     int wdth;
     SimpleDateFormat format, format1;
+
     public static Fragment newInstance(String sectionTitle, String userId, String type, String page, String effin) {
         ParticularOfficeSbFeesPaidFragment fragment = new ParticularOfficeSbFeesPaidFragment();
         Bundle args = new Bundle();
@@ -251,6 +252,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
     }
+
     private void particularOfficeSearch(String userId, String userType, String page, String newText, String efinData) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getPerticularFeePaidSearch(userId, userType, page, newText, efinData)
@@ -261,19 +263,20 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponse(ReportsPerticularFeePaidSearch response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportsPerticularFeePaidSearchNew> reportsFeePaidNewList = response.getFeeReport_data();
-            ReportsPerticularFeePaidSearchNew reportsFeePaidNew=new ReportsPerticularFeePaidSearchNew();
+            ReportsPerticularFeePaidSearchNew reportsFeePaidNew = new ReportsPerticularFeePaidSearchNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getFeeReport_data().size();i++) {
+            for (int i = 0; i < response.getFeeReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
                     reportsFeePaidNew.setRecordcreatedate(chagnedDate);
@@ -409,14 +412,18 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        } else if (response.getStatus().equalsIgnoreCase("fail")) {
+        } else {
+            progressBar.setVisibility(View.GONE);
             showToast(response.getMessage());
             recyclerView.setVisibility(View.GONE);
             prev.setVisibility(View.GONE);
             next.setVisibility(View.GONE);
             layout.setVisibility(View.GONE);
-        }
+
     }
+
+}
+
     private void particularReportData(String userId, String userType, String page, String efinData) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidParticularData
@@ -428,9 +435,11 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void showToast(String msg) {
         Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
     }
+
     private void handleError(Throwable error) {
         System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
         showToast(error.getMessage());
@@ -453,36 +462,27 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
         }
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        if (TextUtils.isEmpty(newText)) {
-            if (pagNo.equalsIgnoreCase("")) {
-                particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-            } else {
-                particularOfficeSort(userId, userType, pagNo, efinData, sort);
-            }
-        } else {
-            if (pagNo.equalsIgnoreCase("")) {
-                particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
-            } else {
-                particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
-            }
-        }
+        sortAndSearch(sort);
+
     }
+
     private void handleResponse(ReportParticulrFreePaid response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrFreePaidNew> reportsFeePaidNewList = response.getFeeReport_data();
-            ReportParticulrFreePaidNew reportsFeePaidNew=new ReportParticulrFreePaidNew();
+            ReportParticulrFreePaidNew reportsFeePaidNew = new ReportParticulrFreePaidNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getFeeReport_data().size();i++) {
+            for (int i = 0; i < response.getFeeReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
                     reportsFeePaidNew.setRecordcreatedate(chagnedDate);
@@ -617,8 +617,12 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
+        } else {
+            progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());
         }
     }
+
     @Override
     public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
@@ -636,83 +640,47 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 case 0:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "disbursment_date";
-                    System.out.println("ReportsFeesPaidFragment.Displayitemclicked" + efinData);
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-                        } else {
-                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
-                        } else {
-                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
-                        }
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 1:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "ssn";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-                        } else {
-                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
-                        } else {
-                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
-                        }
-
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "lastname";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-                        } else {
-                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
-                        } else {
-                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
-                        }
-
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 3:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "product_type";
-                    if (TextUtils.isEmpty(newText)) {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
-                        } else {
-                            particularOfficeSort(userId, userType, pagNo, efinData, sort);
-                        }
-                    } else {
-                        if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
-                        } else {
-                            particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
-                        }
-
-                    }
+                    sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
+            }
+        }
+    }
+
+    private void sortAndSearch(String sort) {
+        if (TextUtils.isEmpty(newText)) {
+            if (pagNo.equalsIgnoreCase("")) {
+                particularOfficeSort(userId, userType, reportParticulrFreePaidSort.getPage(), efinData, sort);
+            } else {
+                particularOfficeSort(userId, userType, pagNo, efinData, sort);
+            }
+        } else {
+            if (pagNo.equalsIgnoreCase("")) {
+                particularOfficeSearchSort(userId, userType, newText, reportFreePaidParticulrSearchSort.getPage(), sort);
+            } else {
+                particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
             }
         }
     }
@@ -729,19 +697,20 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponse(ReportFreePaidPerticularSearchSort response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrFreePaidSearchSortNew> reportsFeePaidNewList = response.getFeeReport_data();
-           ReportParticulrFreePaidSearchSortNew reportsFeePaidNew=new ReportParticulrFreePaidSearchSortNew();
+            ReportParticulrFreePaidSearchSortNew reportsFeePaidNew = new ReportParticulrFreePaidSearchSortNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getFeeReport_data().size();i++) {
+            for (int i = 0; i < response.getFeeReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
                     reportsFeePaidNew.setRecordcreatedate(chagnedDate);
@@ -882,6 +851,10 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
 
+        } else {
+            progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());
+
         }
 
 
@@ -898,19 +871,20 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponse(ReportParticulrFreePaidSort response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrFreePaidSortNew> reportsFeePaidNewList = response.getFeeReport_data();
-            ReportParticulrFreePaidSortNew reportsFeePaidNew=new ReportParticulrFreePaidSortNew();
+            ReportParticulrFreePaidSortNew reportsFeePaidNew = new ReportParticulrFreePaidSortNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getFeeReport_data().size();i++) {
+            for (int i = 0; i < response.getFeeReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
                     reportsFeePaidNew.setRecordcreatedate(chagnedDate);
@@ -1043,6 +1017,10 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
+        } else {
+          /*  progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());*/
+
         }
     }
 }
