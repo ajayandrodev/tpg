@@ -26,6 +26,8 @@ public class RecentTransactions implements Parcelable{
      "LastUpadte": "2016-01-25 10:06:07.840",
              "Amount": "180.0000"*/
 
+
+
     @SerializedName("LastUpdate")
     private String LastUpdate;
 

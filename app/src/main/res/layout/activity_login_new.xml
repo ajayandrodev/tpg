@@ -182,6 +182,7 @@
                         android:background="@color/back_and_login_button_color"
                         android:padding="@dimen/dim_20"
                         android:text="LOGIN"
+                        android:imeOptions="actionDone"
                         android:textColor="@color/back_and_login_button_color_text"
                         android:textSize="@dimen/font_size"
                         android:textStyle="bold" />

@@ -245,6 +245,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleError(Throwable error) {
         progressBar.setVisibility(View.GONE);
+        System.out.println("LoginScreen.handleResponse==="+error.getMessage());
+
         showToast(error.getMessage());
         if (error instanceof HttpException) {
 
@@ -266,6 +268,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleResponse(DashboardInfo response) {
         progressBar.setVisibility(View.GONE);
+        System.out.println("LoginScreen.handleResponse==="+response.getMessage());
         if (response.getStatus().equalsIgnoreCase("success") && response != null) {
           //  showToast(response.getMessage());
             DashboardInfoData dashboardInfo = response.getDashboard_data();
@@ -279,7 +282,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 List<RecentTransactions> recentTransactionsList = new ArrayList<>();
                 for (int i = 0; i < response.getRecent_transactions().size(); i++) {
                     RecentTransactions recentTransactions = new RecentTransactions();
-                    format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.sss");
+                    format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     //format1 = new SimpleDateFormat("MM-dd-yyyy");
                     format1 = new SimpleDateFormat("MM-dd-yyyy");
 

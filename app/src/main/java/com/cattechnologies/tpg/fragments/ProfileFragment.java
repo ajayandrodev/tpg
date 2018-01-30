@@ -11,12 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeePaidExpandableadapter;
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListAccoAdapter;
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListEnrAdapterNew;
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListShipAdapter;
+import com.cattechnologies.tpg.model.MyProfileGroupAccountInfoNew;
+import com.cattechnologies.tpg.model.MyProfileGroupShippingInfoNew;
 import com.cattechnologies.tpg.model.accountDisbursementModel.AccountInfo;
 import com.cattechnologies.tpg.model.EnrolInfo;
 import com.cattechnologies.tpg.model.profileModel.MyProfileGroupAccountInfo;
@@ -59,19 +62,17 @@ public class ProfileFragment extends Fragment {
     public static final String ARG_SECTION_TITLE = "section_number";
     private static final String PREFS_NAME = "profile";
     String userId, userType;
-    private CompositeSubscription mSubscriptions;
+    ProgressBar progressBar;
+    CompositeSubscription mSubscriptions;
     PreferencesManager preferencesManager;
 
-    private LinkedHashMap<String, MyProfileGroupAccountInfo> subjectsAccount
-            = new LinkedHashMap<String, MyProfileGroupAccountInfo>();
-    private LinkedHashMap<String, MyProfileGroupShippingInfo> subjectsShipping
-            = new LinkedHashMap<String, MyProfileGroupShippingInfo>();
-
-
+    private LinkedHashMap<String, MyProfileGroupAccountInfoNew> subjectsAccount = new LinkedHashMap<String, MyProfileGroupAccountInfoNew>();
+    private LinkedHashMap<String, MyProfileGroupShippingInfoNew> subjectsShipping= new LinkedHashMap<String, MyProfileGroupShippingInfoNew>();
     private LinkedHashMap<String, MyProfileGroupEnrollInfoNew> subjectsEnroll = new LinkedHashMap<String, MyProfileGroupEnrollInfoNew>();
+
     ArrayList<MyProfileGroupEnrollInfoNew> deptListEnroll = new ArrayList<MyProfileGroupEnrollInfoNew>();
-    ArrayList<MyProfileGroupShippingInfo> deptListShipping = new ArrayList<MyProfileGroupShippingInfo>();
-    ArrayList<MyProfileGroupAccountInfo> deptListAccount = new ArrayList<MyProfileGroupAccountInfo>();
+    ArrayList<MyProfileGroupShippingInfoNew> deptListShipping = new ArrayList<MyProfileGroupShippingInfoNew>();
+    ArrayList<MyProfileGroupAccountInfoNew> deptListAccount = new ArrayList<MyProfileGroupAccountInfoNew>();
 
 
     MyProfileExpandableListEnrAdapterNew enrolListAdapter;
@@ -112,274 +113,26 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-
-    private void loadProfileData(String userId, String userType) {
-
-        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
-
-            try {
-                mSubscriptions.addAll(NetworkUtil.getRetrofit().profileNew(userId, userType)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.newThread())
-                        .subscribe(this::handleResponse, this::handleError));
-            } catch (Exception e) {
-
-            }
-
-
-        } else {
-            showToast("Internet Connection Is Not Available");
-
-        }
-
-
-    }
-
-    private void handleResponse(ProfileGroupData profileGroupData) {
-        try {
-
-            if (profileGroupData.getStatus().equalsIgnoreCase("success")) {
-
-
-                addProductEnroll("Owner Info", profileGroupData);
-                addProductShipping("Shipping Info", profileGroupData);
-                addProductAccount("Bank Account Info", profileGroupData);
-            } else {
-                profileGroupData.getMessage();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private int addProductAccount(String department, ProfileGroupData profileGroupInfo) {
-        int groupPosition = 2;
-
-        //check the hash map if the group already exists
-        MyProfileGroupAccountInfo headerInfo = subjectsAccount.get(department);
-        //add the group if doesn't exists
-        if (headerInfo == null) {
-            headerInfo = new MyProfileGroupAccountInfo();
-            headerInfo.setName(department);
-            subjectsAccount.put(department, headerInfo);
-            deptListAccount.add(headerInfo);
-        }
-
-        //get the children for the group
-        ArrayList<AccountInfo> productList = headerInfo.getProductList();
-        //size of the children list
-        int listSize = productList.size();
-        //add to the counter
-        listSize++;
-/*
-
-        //create a new child and add that to the group
-        AccountInfo detailInfo = new AccountInfo();
-        detailInfo.setAccountNameOnBankAccount("Name on Bank Account: ");
-        detailInfo.setAccountNameOnBankAccountData(product.getAccount_info().get(0).);
-        detailInfo.setAccountNameBankAccount("Name of Bank:");
-        detailInfo.setAccountNameBankAccountData("Bank of the west");
-        detailInfo.setAccountRoutingNum("Bank Routing Number:");
-        detailInfo.setAccountRoutingNumData("123123123");
-        detailInfo.setAccountNum("Bank Account Number:");
-        detailInfo.setAccountNumData("XX3XX3");
-        detailInfo.setAccountType("Type of Account:");
-        detailInfo.setAccountTypeData("checking");*/
-        AccountInfo detailInfo = new AccountInfo();
-        detailInfo.setBankName(profileGroupInfo.getAccount_info().getBankName());
-        detailInfo.setAcctType(profileGroupInfo.getAccount_info().getAcctType());
-        detailInfo.setDAN(profileGroupInfo.getAccount_info().getDAN());
-        detailInfo.setNameOnAccount(profileGroupInfo.getAccount_info().getNameOnAccount());
-        detailInfo.setRTN(profileGroupInfo.getAccount_info().getRTN());
-
-
-        productList.add(detailInfo);
-        headerInfo.setProductList(productList);
-        //find the group position inside the list
-        groupPosition = deptListAccount.indexOf(headerInfo);
-
-        accountListAdapter = new MyProfileExpandableListAccoAdapter(getActivity(), deptListAccount);
-        simpleExpandableListViewThree.setAdapter(accountListAdapter);
-        return groupPosition;
-    }
-
-    private int addProductShipping(String department, ProfileGroupData profileGroupInfo) {
-        int groupPosition = 1;
-
-        //check the hash map if the group already exists
-        MyProfileGroupShippingInfo headerInfo = subjectsShipping.get(department);
-        //add the group if doesn't exists
-        if (headerInfo == null) {
-            headerInfo = new MyProfileGroupShippingInfo();
-            headerInfo.setName(department);
-            subjectsShipping.put(department, headerInfo);
-            deptListShipping.add(headerInfo);
-        }
-
-        //get the children for the group
-        ArrayList<ShippingInfo> productList = headerInfo.getProductList();
-        //size of the children list
-        int listSize = productList.size();
-        //add to the counter
-        listSize++;
-        ShippingInfo detailInfo = new ShippingInfo();
-
-        if (userType.equalsIgnoreCase("sb")) {
-            detailInfo.setCity(profileGroupInfo.getShipping_info().getCity());
-            detailInfo.setState(profileGroupInfo.getShipping_info().getState());
-            detailInfo.setStreet(profileGroupInfo.getShipping_info().getStreet());
-            detailInfo.setStreet2(profileGroupInfo.getShipping_info().getStreet2());
-            detailInfo.setZipcode(profileGroupInfo.getShipping_info().getZipcode());
-        } else {
-            format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.sss");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
-            try {
-
-                detailInfo.setCity(profileGroupInfo.getShipping_info().getCity());
-                detailInfo.setState(profileGroupInfo.getShipping_info().getState());
-                detailInfo.setStreet(profileGroupInfo.getShipping_info().getStreet());
-                detailInfo.setStreet2(profileGroupInfo.getShipping_info().getStreet2());
-                detailInfo.setZipcode(profileGroupInfo.getShipping_info().getZipcode());
-                chagnedDate = format1.format(
-                        format.parse(profileGroupInfo.getShipping_info().getShipmentHoldUntilDate()));
-                detailInfo.setShipmentHoldUntilDate
-                        (chagnedDate);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-     /*   //create a new child and add that to the group
-        ShippingInfo detailInfo = new ShippingInfo();
-        detailInfo.setAddress("Address:");
-        detailInfo.setAddressData("123 South Main Street\n" +
-                "Suite 200");
-        detailInfo.setCity("City,State,Zip:");
-        detailInfo.setCityData("Bellflower, CA\n" +
-                "        90706");
-        detailInfo.setPhone("Shipping Wait Date:");
-        detailInfo.setPhoneData("12-10-2017");*/
-        productList.add(detailInfo);
-        headerInfo.setProductList(productList);
-
-        //find the group position inside the list
-        groupPosition = deptListShipping.indexOf(headerInfo);
-        shipListAdapter = new MyProfileExpandableListShipAdapter(getActivity(), deptListShipping, userType);
-        simpleExpandableListViewTwo.setAdapter(shipListAdapter);
-        return groupPosition;
-    }
-
-
-    private int addProductEnroll(String department, ProfileGroupData profileGroupInfo) {
-
-        int groupPosition = 0;
-        MyProfileGroupEnrollInfoNew headerInfo = subjectsEnroll.get(department);
-        //add the group if doesn't exists
-        if (headerInfo == null) {
-            headerInfo = new MyProfileGroupEnrollInfoNew();
-            headerInfo.setName(department);
-            subjectsEnroll.put(department, headerInfo);
-            deptListEnroll.add(headerInfo);
-
-        }
-
-        //get the children for the group
-        ArrayList<EnrolInfo> productList = headerInfo.getProductList();
-        /*//size of the children list
-        int listSize = productList.size();
-        //add to the counter
-        listSize++;
-*/
-        //create a new child and add that to the group
-        EnrolInfo detailInfo = new EnrolInfo();
-        if (userType.equalsIgnoreCase("sb")) {
-
-            detailInfo.setContactFirstName(profileGroupInfo.getOwner_info().getContactFirstName());
-            detailInfo.setContactLastName(profileGroupInfo.getOwner_info().getContactLastName());
-            detailInfo.setStreet(profileGroupInfo.getOwner_info().getStreet());
-            detailInfo.setStreet2(profileGroupInfo.getOwner_info().getStreet2());
-            detailInfo.setCity(profileGroupInfo.getOwner_info().getCity());
-            detailInfo.setState(profileGroupInfo.getOwner_info().getState());
-            detailInfo.setZipcode(profileGroupInfo.getOwner_info().getZipcode());
-            detailInfo.setOfficePhone(profileGroupInfo.getOwner_info().getOfficePhone());
-            detailInfo.setFaxPhone(profileGroupInfo.getOwner_info().getFaxPhone());
-            detailInfo.setEmailAddress(profileGroupInfo.getOwner_info().getEmailAddress());
-
-
-        } else if (userType.equalsIgnoreCase("ero")) {
-            detailInfo.setFirstName(profileGroupInfo.getOwner_info().getFirstName());
-            detailInfo.setLastName(profileGroupInfo.getOwner_info().getLastName());
-            detailInfo.setStreet(profileGroupInfo.getOwner_info().getStreet());
-            detailInfo.setStreet2(profileGroupInfo.getOwner_info().getStreet2());
-            detailInfo.setCity(profileGroupInfo.getOwner_info().getCity());
-            detailInfo.setState(profileGroupInfo.getOwner_info().getState());
-            detailInfo.setZipcode(profileGroupInfo.getOwner_info().getZipcode());
-            detailInfo.setWorkPhone(profileGroupInfo.getOwner_info().getWorkPhone());
-            detailInfo.setMobilePhone(profileGroupInfo.getOwner_info().getMobilePhone());
-            detailInfo.setHomePhone(profileGroupInfo.getOwner_info().getHomePhone());
-            detailInfo.setEmailAddress(profileGroupInfo.getOwner_info().getEmailAddress());
-
-        }
-        // productList.add(detailInfo);
-
-        productList.add(detailInfo);
-        headerInfo.setProductList(productList);
-
-        //find the group position inside the list
-        groupPosition = deptListEnroll.indexOf(headerInfo);
-        enrolListAdapter = new MyProfileExpandableListEnrAdapterNew(getActivity(), deptListEnroll, userType);
-        simpleExpandableListViewOne.setAdapter(enrolListAdapter);
-
-        return groupPosition;
-
-    }
-
-    private void showToast(String msg) {
-        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
-    }
-
-    private void handleError(Throwable error) {
-        showToast(error.getMessage());
-        if (error instanceof HttpException) {
-
-            Gson gson = new GsonBuilder().create();
-
-            try {
-                String errorBody = ((HttpException) error).response().errorBody().string();
-                Response response = gson.fromJson(errorBody, Response.class);
-                showToast(response.getMessage());
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            showToast("Network Error !");
-        }
-    }
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         simpleExpandableListViewOne = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView_one);
         simpleExpandableListViewTwo = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView_two);
         simpleExpandableListViewThree = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView_three);
+        progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_profile);
 
-        simpleExpandableListViewThree.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+        simpleExpandableListViewOne.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                System.out.println("ProfileFragment.onGroupClick===" + groupPosition);
+                //  collapseAll(0);
 
                 //  parent.collapseGroup(0);
+                System.out.println("ProfileFragment.onGroupClick===" + groupPosition);
                 Displayitemclicked(groupPosition, parent);
-                //  collapseAll(2);
-
                 return false;
             }
         });
-
         simpleExpandableListViewTwo.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -398,18 +151,242 @@ public class ProfileFragment extends Fragment {
                 return false;
             }
         });
-        simpleExpandableListViewOne.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+        simpleExpandableListViewThree.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                //  collapseAll(0);
+                System.out.println("ProfileFragment.onGroupClick===" + groupPosition);
 
                 //  parent.collapseGroup(0);
-                System.out.println("ProfileFragment.onGroupClick===" + groupPosition);
                 Displayitemclicked(groupPosition, parent);
+                //  collapseAll(2);
+
                 return false;
             }
         });
+
+
     }
+
+    private void loadProfileData(String userId, String userType) {
+
+        if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
+            try {
+                mSubscriptions.addAll(NetworkUtil.getRetrofit().profileNew(userId, userType)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.newThread())
+                        .subscribe(this::handleResponse, this::handleError));
+            } catch (Exception e) {
+            }
+        } else {
+            showToast("Internet Connection Is Not Available");
+        }
+    }
+
+    private void handleResponse(ProfileGroupData profileGroupData) {
+        try {
+            progressBar.setVisibility(View.GONE);
+
+            if (profileGroupData.getStatus().equalsIgnoreCase("success")) {
+                addProductEnroll("Owner Info", profileGroupData.getOwner_info());
+                addProductShipping("Shipping Info", profileGroupData.getShipping_info());
+                addProductAccount("Bank Account Info", profileGroupData.getAccount_info());
+
+
+            } else {
+                profileGroupData.getMessage();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private int addProductEnroll(String department, EnrolInfo profileGroupInfo) {
+
+        int groupPosition = 0;
+        MyProfileGroupEnrollInfoNew headerInfo = subjectsEnroll.get(department);
+        //add the group if doesn't exists
+        if (headerInfo == null) {
+            headerInfo = new MyProfileGroupEnrollInfoNew();
+            headerInfo.setName(department);
+            subjectsEnroll.put(department, headerInfo);
+            deptListEnroll.add(headerInfo);
+
+        }
+
+        //get the children for the group
+        ArrayList<EnrolInfo> productList = headerInfo.getProductList();
+
+        EnrolInfo detailInfo = new EnrolInfo();
+        if (userType.equalsIgnoreCase("sb")) {
+
+            detailInfo.setContactFirstName(profileGroupInfo.getContactFirstName());
+            detailInfo.setContactLastName(profileGroupInfo.getContactLastName());
+            detailInfo.setStreet(profileGroupInfo.getStreet());
+            detailInfo.setStreet2(profileGroupInfo.getStreet2());
+            detailInfo.setCity(profileGroupInfo.getCity());
+            detailInfo.setState(profileGroupInfo.getState());
+            detailInfo.setZipcode(profileGroupInfo.getZipcode());
+            detailInfo.setOfficePhone(profileGroupInfo.getOfficePhone());
+            detailInfo.setFaxPhone(profileGroupInfo.getFaxPhone());
+            detailInfo.setEmailAddress(profileGroupInfo.getEmailAddress());
+
+
+        } else if (userType.equalsIgnoreCase("ero")) {
+            detailInfo.setFirstName(profileGroupInfo.getFirstName());
+            detailInfo.setLastName(profileGroupInfo.getLastName());
+            detailInfo.setStreet(profileGroupInfo.getStreet());
+            detailInfo.setStreet2(profileGroupInfo.getStreet2());
+            detailInfo.setCity(profileGroupInfo.getCity());
+            detailInfo.setState(profileGroupInfo.getState());
+            detailInfo.setZipcode(profileGroupInfo.getZipcode());
+            detailInfo.setWorkPhone(profileGroupInfo.getWorkPhone());
+            detailInfo.setMobilePhone(profileGroupInfo.getMobilePhone());
+            detailInfo.setHomePhone(profileGroupInfo.getHomePhone());
+            detailInfo.setEmailAddress(profileGroupInfo.getEmailAddress());
+
+        }
+        // productList.add(detailInfo);
+
+        productList.add(detailInfo);
+        headerInfo.setProductList(productList);
+
+        //find the group position inside the list
+        groupPosition = deptListEnroll.indexOf(headerInfo);
+        enrolListAdapter = new MyProfileExpandableListEnrAdapterNew(getActivity(), deptListEnroll, userType);
+        simpleExpandableListViewOne.setAdapter(enrolListAdapter);
+
+        return groupPosition;
+
+    }
+
+    private int addProductShipping(String department, ShippingInfo profileGroupInfo) {
+        int groupPosition = 1;
+        System.out.println("ProfileFragment.addProductShipping===="+profileGroupInfo);
+        //check the hash map if the group already exists
+        MyProfileGroupShippingInfoNew headerInfo = subjectsShipping.get(department);
+        //add the group if doesn't exists
+        if (headerInfo == null) {
+            headerInfo = new MyProfileGroupShippingInfoNew();
+            headerInfo.setName(department);
+            subjectsShipping.put(department, headerInfo);
+            deptListShipping.add(headerInfo);
+        }
+        ArrayList<ShippingInfo> productList = headerInfo.getList();
+
+        ShippingInfo detailInfo = new ShippingInfo();
+
+        if (userType.equalsIgnoreCase("sb")) {
+            System.out.println("ProfileFragment.addProductShipping==sb===");
+            detailInfo.setCity(profileGroupInfo.getCity());
+            detailInfo.setState(profileGroupInfo.getState());
+            detailInfo.setStreet(profileGroupInfo.getStreet());
+            detailInfo.setStreet2(profileGroupInfo.getStreet2());
+            detailInfo.setZipcode(profileGroupInfo.getZipcode());
+        } else if (userType.equalsIgnoreCase("ero")) {
+            System.out.println("ProfileFragment.addProductShipping==ero==");
+            format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.sss");
+            format1 = new SimpleDateFormat("MM-dd-yyyy");
+            String chagnedDate = null;
+            try {
+
+                detailInfo.setCity(profileGroupInfo.getCity());
+                detailInfo.setState(profileGroupInfo.getState());
+                detailInfo.setStreet(profileGroupInfo.getStreet());
+                detailInfo.setStreet2(profileGroupInfo.getStreet2());
+                detailInfo.setZipcode(profileGroupInfo.getZipcode());
+                chagnedDate = format1.format(
+                        format.parse(profileGroupInfo.getShipmentHoldUntilDate()));
+                detailInfo.setShipmentHoldUntilDate
+                        (chagnedDate);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        productList.add(detailInfo);
+        headerInfo.setList(productList);
+
+        //find the group position inside the list
+        groupPosition = deptListShipping.indexOf(headerInfo);
+        System.out.println("ProfileFragment.addProductShipping===="+groupPosition+"==="+deptListShipping+"==="+userType);
+        shipListAdapter = new MyProfileExpandableListShipAdapter(getActivity(), deptListShipping, userType);
+        simpleExpandableListViewTwo.setAdapter(shipListAdapter);
+        return groupPosition;
+    }
+
+    private int addProductAccount(String department, AccountInfo profileGroupInfo) {
+        int groupPosition = 2;
+        System.out.println("ProfileFragment.addProductAccount==="+profileGroupInfo);
+        //check the hash map if the group already exists
+        MyProfileGroupAccountInfoNew headerInfo = subjectsAccount.get(department);
+        //add the group if doesn't exists
+        if (headerInfo == null) {
+            headerInfo = new MyProfileGroupAccountInfoNew();
+            headerInfo.setName(department);
+            subjectsAccount.put(department, headerInfo);
+            deptListAccount.add(headerInfo);
+        }
+
+        //get the children for the group
+        ArrayList<AccountInfo> productList = headerInfo.getList();
+
+        AccountInfo detailInfo = new AccountInfo();
+
+        if (userType.equalsIgnoreCase("sb")) {
+            System.out.println("ProfileFragment.addProductAccount==sb==");
+            detailInfo.setBankName(profileGroupInfo.getBankName());
+            detailInfo.setAcctType(profileGroupInfo.getAcctType());
+            detailInfo.setDAN(profileGroupInfo.getDAN());
+            detailInfo.setNameOnAccount(profileGroupInfo.getNameOnAccount());
+            detailInfo.setRTN(profileGroupInfo.getRTN());
+        } else if (userType.equalsIgnoreCase("ero")) {
+            System.out.println("ProfileFragment.addProductAccount==ero==");
+            detailInfo.setBankName(profileGroupInfo.getBankName());
+            detailInfo.setAcctType(profileGroupInfo.getAcctType());
+            detailInfo.setDAN(profileGroupInfo.getDAN());
+            detailInfo.setNameOnAccount(profileGroupInfo.getNameOnAccount());
+            detailInfo.setRTN(profileGroupInfo.getRTN());
+        }
+
+
+        productList.add(detailInfo);
+        headerInfo.setList(productList);
+        //find the group position inside the list
+        groupPosition = deptListAccount.indexOf(headerInfo);
+
+        accountListAdapter = new MyProfileExpandableListAccoAdapter(getActivity(), deptListAccount, userType);
+        simpleExpandableListViewThree.setAdapter(accountListAdapter);
+        return groupPosition;
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private void handleError(Throwable error) {
+        showToast(error.getMessage());
+        progressBar.setVisibility(View.GONE);
+
+        if (error instanceof HttpException) {
+
+            Gson gson = new GsonBuilder().create();
+
+            try {
+                String errorBody = ((HttpException) error).response().errorBody().string();
+                Response response = gson.fromJson(errorBody, Response.class);
+                showToast(response.getMessage());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showToast("Network Error !");
+        }
+    }
+
 
     private void Displayitemclicked(int groupPosition, ExpandableListView parent) {
         if (groupPosition == 0) {
@@ -425,40 +402,6 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    private void collapseAll(int position) {
-        int count;
-        if (position == 0) {
-            count = accountListAdapter.getGroupCount();
-            count = shipListAdapter.getGroupCount();
-
-            for (int i = 0; i < count; i++) {
-                simpleExpandableListViewTwo.collapseGroup(i);
-                simpleExpandableListViewThree.collapseGroup(i);
-
-
-            }
-        } else if (position == 1) {
-            count = shipListAdapter.getGroupCount();
-            count = accountListAdapter.getGroupCount();
-
-            for (int i = 0; i < count; i++) {
-                simpleExpandableListViewOne.collapseGroup(i);
-                simpleExpandableListViewThree.collapseGroup(i);
-
-
-            }
-        } else if (position == 2) {
-            count = enrolListAdapter.getGroupCount();
-            count = shipListAdapter.getGroupCount();
-
-            for (int i = 0; i < count; i++) {
-                simpleExpandableListViewOne.collapseGroup(i);
-                simpleExpandableListViewTwo.collapseGroup(i);
-
-            }
-
-        }
-    }
 
     private void showDialog() {
 

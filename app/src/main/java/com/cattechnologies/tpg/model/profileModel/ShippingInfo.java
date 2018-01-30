@@ -30,6 +30,8 @@ public class ShippingInfo {
     }
     ],*/
 
+
+
     @SerializedName("Street")
     private String Street;
 

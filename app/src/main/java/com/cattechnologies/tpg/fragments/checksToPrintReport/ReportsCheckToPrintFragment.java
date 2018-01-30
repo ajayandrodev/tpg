@@ -78,7 +78,7 @@ public class ReportsCheckToPrintFragment extends Fragment {
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
 
-        loadData();
+//        loadData();
        // simpleExpandableListView = (ExpandableListView) getActivity().findViewById(R.id.simpleExpandableListView);
 
        /* listAdapter = new ReportsExpandableListCheckListToPrintAdapter(getActivity(), deptList);

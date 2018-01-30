@@ -42,7 +42,7 @@ import rx.Observable;
 public interface RetrofitInterface {
 
     @FormUrlEncoded
-    @POST("sign-in")
+    @POST("sign-in.php")
     Observable<DashboardInfo> sign(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                    @Field("app_pswd") String app_pswd);
 
@@ -77,7 +77,7 @@ public interface RetrofitInterface {
 
     /* profile info api*/
     @FormUrlEncoded
-    @POST("get-profile-info")
+    @POST("get-profile-info.php")
     Observable<ProfileGroupData> profileNew(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type);
 
 

@@ -1,7 +1,9 @@
 package com.cattechnologies.tpg.adapters.profileAdapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,12 @@ import android.widget.TextView;
 import com.cattechnologies.tpg.model.EnrolInfo;
 import com.cattechnologies.tpg.model.profileModel.MyProfileGroupEnrollInfoNew;
 import com.cattechnologies.tpg.R;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by admin on 12/19/2017.
@@ -26,8 +32,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
     private ArrayList<MyProfileGroupEnrollInfoNew> deptList;
     String type;
 
-    public MyProfileExpandableListEnrAdapterNew(
-            Context context, ArrayList<MyProfileGroupEnrollInfoNew> deptList, String type) {
+    public MyProfileExpandableListEnrAdapterNew(Context context, ArrayList<MyProfileGroupEnrollInfoNew> deptList, String type) {
         this.context = context;
         this.deptList = deptList;
         this.type = type;
@@ -108,14 +113,6 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = infalInflater.inflate(R.layout.my_profile_child_items_enroll, null);
         }
-       /* if (childPosition%2==0) {
-            view.setBackgroundColor(Color.parseColor("#e0e8e8"));
-        } else {
-            view.setBackgroundColor(Color.parseColor("#ebefef"));
-        }
-*/
-       /* TextView sequence = (TextView) view.findViewById(R.id.sequence);
-        sequence.setText(detailInfo.getSequence().trim() + ". ");*/
         try {
             TextView childItem1 = (TextView) view.findViewById(R.id.enroll_first_name);
             childItem1.setText("Owner First Name:");
@@ -146,21 +143,57 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                 childItem4.setText(detailInfo.getContactLastName().trim());
                 childItem6.setText(detailInfo.getStreet() + "," + detailInfo.getCity() + "," + detailInfo.getZipcode());
                 if (detailInfo.getOfficePhone() != null) {
-                    childItem10.setText(PhoneNumberUtils.formatNumber(detailInfo.getOfficePhone().trim()));
+
+                    try {
+                        // phone must begin with '+'
+                        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                        Phonenumber.PhoneNumber numberProto = phoneUtil.parse(detailInfo.getOfficePhone().trim(), "US");
+                      /*  int countryCode = numberProto.getCountryCode();
+                        long nationalNumber = numberProto.getNationalNumber();*/
+                        String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+                        childItem16.setText(pnE164.replace("+1", ""));
+                    } catch (NumberParseException e) {
+                        System.err.println("NumberParseException was thrown: " + e.toString());
+                    }
+
 
                 } else {
                     childItem10.setText("-");
 
                 }
                 if (detailInfo.getMobilePhone() != null) {
-                    childItem12.setText(PhoneNumberUtils.formatNumber(detailInfo.getMobilePhone().trim()));
+
+                    try {
+                        // phone must begin with '+'
+                        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                        Phonenumber.PhoneNumber numberProto = phoneUtil.parse(detailInfo.getMobilePhone().trim(), "US");
+                      /*  int countryCode = numberProto.getCountryCode();
+                        long nationalNumber = numberProto.getNationalNumber();*/
+                        String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+                        childItem16.setText(pnE164.replace("+1", ""));
+                    } catch (NumberParseException e) {
+                        System.err.println("NumberParseException was thrown: " + e.toString());
+                    }
 
                 } else {
                     childItem12.setText("-");
 
                 }
                 if (detailInfo.getFaxPhone() != null) {
-                    childItem16.setText(PhoneNumberUtils.formatNumber(detailInfo.getFaxPhone().trim()));
+
+
+                    try {
+                        // phone must begin with '+'
+                        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                        Phonenumber.PhoneNumber numberProto = phoneUtil.parse(detailInfo.getFaxPhone().trim(), "US");
+                      /*  int countryCode = numberProto.getCountryCode();
+                        long nationalNumber = numberProto.getNationalNumber();*/
+                        String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+                        childItem16.setText(pnE164.replace("+1", ""));
+                    } catch (NumberParseException e) {
+                        System.err.println("NumberParseException was thrown: " + e.toString());
+                    }
+
 
                 } else {
                     childItem16.setText("-");
@@ -174,21 +207,55 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                 childItem4.setText(detailInfo.getLastName().trim());
                 childItem6.setText(detailInfo.getStreet() + "," + detailInfo.getCity() + "," + detailInfo.getZipcode());
                 if (detailInfo.getWorkPhone() != null) {
-                    childItem10.setText(PhoneNumberUtils.formatNumber(detailInfo.getWorkPhone().trim()));
+
+                    try {
+                        // phone must begin with '+'
+                        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                        Phonenumber.PhoneNumber numberProto = phoneUtil.parse(detailInfo.getWorkPhone().trim(), "US");
+                      /*  int countryCode = numberProto.getCountryCode();
+                        long nationalNumber = numberProto.getNationalNumber();*/
+                        String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+                        childItem16.setText(pnE164.replace("+1", ""));
+                    } catch (NumberParseException e) {
+                        System.err.println("NumberParseException was thrown: " + e.toString());
+                    }
+
 
                 } else {
                     childItem10.setText("-");
 
                 }
                 if (detailInfo.getMobilePhone() != null) {
-                    childItem12.setText(PhoneNumberUtils.formatNumber(detailInfo.getMobilePhone().trim()));
+                    try {
+                        // phone must begin with '+'
+                        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                        Phonenumber.PhoneNumber numberProto = phoneUtil.parse(detailInfo.getMobilePhone().trim(), "US");
+                      /*  int countryCode = numberProto.getCountryCode();
+                        long nationalNumber = numberProto.getNationalNumber();*/
+                        String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+                        childItem16.setText(pnE164.replace("+1", ""));
+                    } catch (NumberParseException e) {
+                        System.err.println("NumberParseException was thrown: " + e.toString());
+                    }
+
 
                 } else {
                     childItem12.setText("-");
 
                 }
                 if (detailInfo.getHomePhone() != null) {
-                    childItem16.setText(PhoneNumberUtils.formatNumber(detailInfo.getHomePhone().trim()));
+                    try {
+                        // phone must begin with '+'
+                        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                        Phonenumber.PhoneNumber numberProto = phoneUtil.parse(detailInfo.getHomePhone().trim(), "US");
+                      /*  int countryCode = numberProto.getCountryCode();
+                        long nationalNumber = numberProto.getNationalNumber();*/
+                        String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+                        childItem16.setText(pnE164.replace("+1", ""));
+                    } catch (NumberParseException e) {
+                        System.err.println("NumberParseException was thrown: " + e.toString());
+                    }
+
 
                 } else {
                     childItem16.setText("-");

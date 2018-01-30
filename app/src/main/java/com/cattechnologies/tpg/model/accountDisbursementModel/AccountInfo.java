@@ -19,6 +19,8 @@ public class AccountInfo {
     }
     ]*/
 
+
+
     @SerializedName("BankName")
     private String BankName;
 
