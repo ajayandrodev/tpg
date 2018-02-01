@@ -1,0 +1,388 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_report_details_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/footer_back_ground_color"
+        android:gravity="center"
+        android:padding="@dimen/dim_20"
+        android:text="@string/reports_details_title"
+        android:textAllCaps="true"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_size"
+        android:textStyle="bold" />
+    />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/text_report_details_title">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_info_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dim_10"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_report_one_firstname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dim_20"
+                    android:padding="@dimen/dim_3"
+                    android:text="DELTHENIA ROETHLISBERGER"
+                    android:textSize="@dimen/font_size"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_report_one_ssn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_weight="1"
+                        android:padding="@dimen/dim_3"
+                        android:paddingTop="@dimen/dim_8"
+                        android:text="XXX-XX-0123"
+                        android:textSize="@dimen/font_size" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/text_report_one_efin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_3"
+                            android:text="EFIN:"
+                            android:textSize="@dimen/font_size" />
+
+                        <TextView
+                            android:id="@+id/text_report_one_efin_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_3"
+                            android:text="11122"
+                            android:textSize="@dimen/font_size" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/text_report_one_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dim_20"
+                    android:padding="@dimen/dim_3"
+                    android:paddingTop="@dimen/dim_8"
+                    android:text="RT w/ FCA"
+                    android:textSize="@dimen/font_size" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_info_details_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_info_data"
+                android:layout_marginTop="@dimen/dim_15"
+                android:divider="?android:dividerHorizontal"
+                android:dividerPadding="@dimen/dim_40"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:showDividers="beginning|end">
+
+
+                <TextView
+                    android:id="@+id/text_title_report_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dim_5"
+                    android:layout_marginTop="@dimen/dim_25"
+                    android:gravity="center"
+                    android:padding="@dimen/dim_3"
+                    android:text="ACCOUNT DISBURSEMENT-DETAILS"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_size_two"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+
+                        android:id="@+id/ll_six"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dim_5"
+                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dim_1">
+
+                        <TextView
+                            android:id="@+id/text_report_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="@dimen/dim_5"
+                            android:layout_marginRight="@dimen/dim_10"
+                            android:gravity="center|left"
+                            android:paddingRight="@dimen/dim_5"
+                            android:text="EXPECTED REFUND($):" />
+
+                        <TextView
+                            android:id="@+id/text_report_one_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="@dimen/dim_8"
+                            android:gravity="center|right"
+                            android:paddingLeft="@dimen/dim_8"
+                            android:text="$5000.00" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/ll_five"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dim_5"
+                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dim_1">
+
+                        <TextView
+                            android:id="@+id/text_report_two"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="@dimen/dim_5"
+                            android:layout_marginRight="@dimen/dim_10"
+                            android:gravity="center|left"
+                            android:paddingRight="@dimen/dim_5"
+                            android:text="DISBURSED DATE:" />
+
+                        <TextView
+                            android:id="@+id/text_report_two_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="@dimen/dim_8"
+                            android:gravity="center|right"
+                            android:paddingLeft="@dimen/dim_8"
+                            android:text="06/03/2017"
+
+                            />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/ll_four"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dim_5"
+                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dim_1">
+
+                        <TextView
+                            android:id="@+id/text_report_three"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="@dimen/dim_5"
+                            android:layout_marginRight="@dimen/dim_10"
+                            android:gravity="center|left"
+                            android:paddingRight="@dimen/dim_5"
+                            android:text="DISBURSED AMOUNT($):" />
+
+                        <TextView
+                            android:id="@+id/text_report_three_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginLeft="@dimen/dim_8"
+                            android:gravity="center|right"
+                            android:paddingLeft="@dimen/dim_8"
+                            android:text="$4,719.05" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/ll_three"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dim_5"
+                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dim_1">
+
+                        <TextView
+                            android:id="@+id/text_report_four"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="@dimen/dim_5"
+                            android:layout_marginRight="@dimen/dim_10"
+                            android:gravity="center|left"
+                            android:paddingRight="@dimen/dim_5"
+                            android:text="DISBURSEMENT TYPE:" />
+
+                        <TextView
+                            android:id="@+id/text_report_four_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="@dimen/dim_8"
+                            android:gravity="center|right"
+                            android:paddingLeft="@dimen/dim_8"
+                            android:text="MAN BANK"
+
+
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/ll_two"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dim_5"
+                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dim_1"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/text_report_five"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="@dimen/dim_5"
+                            android:layout_marginRight="@dimen/dim_10"
+                            android:gravity="center|left"
+                            android:paddingRight="@dimen/dim_5"
+                            android:text="DISBURSEMENT INFO:" />
+
+                        <TextView
+                            android:id="@+id/text_report_five_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="@dimen/dim_8"
+                            android:gravity="center|right"
+                            android:paddingLeft="@dimen/dim_8" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/ll_two_next"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dim_5"
+                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dim_1"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/text_report_five_next"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="@dimen/dim_5"
+                            android:layout_marginRight="@dimen/dim_10"
+                            android:gravity="center|left"
+                            android:paddingRight="@dimen/dim_5"
+                            android:text="DISBURSEMENT INFO:" />
+
+                        <TextView
+                            android:id="@+id/text_report_five_next_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="@dimen/dim_8"
+                            android:gravity="center|right"
+                            android:paddingLeft="@dimen/dim_8" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/ll_two_next_another"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dim_20"
+                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_marginRight="@dimen/dim_20"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dim_1">
+
+                        <TextView
+                            android:id="@+id/text_report_five_next_another"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="@dimen/dim_5"
+                            android:layout_marginRight="@dimen/dim_10"
+                            android:gravity="center|left"
+                            android:paddingRight="@dimen/dim_5"
+                            android:text="DISBURSEMENT INFO:" />
+
+                        <TextView
+                            android:id="@+id/text_report_five_next_data_another"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="@dimen/dim_8"
+                            android:gravity="center|right"
+                            android:paddingLeft="@dimen/dim_8" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

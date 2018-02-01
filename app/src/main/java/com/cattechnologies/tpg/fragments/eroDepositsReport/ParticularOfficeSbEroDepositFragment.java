@@ -426,8 +426,11 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
     }
 
     private void showToast(String msg) {
-        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
-    }
+        try {
+            Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }    }
     private void handleError(Throwable error) {
         System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
         showToast(error.getMessage());

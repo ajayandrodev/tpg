@@ -601,8 +601,11 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
     }
 
     private void showToast(String msg) {
-        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
-    }
+        try {
+            Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }    }
 
     @Override
     public void onDestroy() {

@@ -97,10 +97,10 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
     ReportsFeesPaidServiceBuroSearchSortListAdapter mSearchSortListAdapter;
 
 
-    ReportsFeePaid reports;
-    ReportsFeePaidSort reportsFeePaidSort;
-    ReportFreePaidSearchSort reportFreePaidSearchSort;
-    ReportsFeePaidSearch reportsFeePaidSearch;
+    ReportsFeePaidServiceBuro reports;
+    ReportsFeePaidSortServiceBuro reportsFeePaidSort;
+    ReportFreePaidSearchSortServiceBuro reportFreePaidSearchSort;
+    ReportsFeePaidSearchServiceBuro reportsFeePaidSearch;
 
 
     ReportsFeePaidExpandableadapter adapter;
@@ -187,10 +187,10 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
         myexpandable.setAdapter(adapter);
         myexpandable.setOnChildClickListener(this);
 
-        reports = new ReportsFeePaid();
-        reportsFeePaidSearch = new ReportsFeePaidSearch();
-        reportsFeePaidSort = new ReportsFeePaidSort();
-        reportFreePaidSearchSort = new ReportFreePaidSearchSort();
+        reports = new ReportsFeePaidServiceBuro();
+        reportsFeePaidSearch = new ReportsFeePaidSearchServiceBuro();
+        reportsFeePaidSort = new ReportsFeePaidSortServiceBuro();
+        reportFreePaidSearchSort = new ReportFreePaidSearchSortServiceBuro();
 
         reports.setPage("1");
         reportsFeePaidSearch.setPage("1");
@@ -622,9 +622,15 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
         }
     }
 
-    private void showToast(String msg) {
-        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+    private void showToast(String message) {
+        try {
+            Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

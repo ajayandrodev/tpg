@@ -68,7 +68,7 @@ public class ReportsFeesPaidServiceBuroDataDetailsFragment  extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.reports_feepaid_service_details, container, false);
+        View view = inflater.inflate(R.layout.reports_feepaid_service_service_buro_details, container, false);
 
 
         return view;

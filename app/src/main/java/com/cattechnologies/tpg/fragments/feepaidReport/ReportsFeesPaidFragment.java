@@ -623,8 +623,11 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     }
 
     private void showToast(String msg) {
-        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
-    }
+        try {
+            Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }    }
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

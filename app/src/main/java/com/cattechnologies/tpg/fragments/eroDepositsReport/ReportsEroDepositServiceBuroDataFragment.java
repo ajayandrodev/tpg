@@ -96,10 +96,10 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
     ReportsEroDepositServiceBuroSearchSortListAdapter mSearchSortListAdapter;
 
 
-    ReportsEroDeposit reports;
-    ReportsEroDepositsSort reportsFeePaidSort;
-    ReportEroDepositsSearchSort reportFreePaidSearchSort;
-    ReportsEroDepositsSearch reportsFeePaidSearch;
+    ReportsEroDepositsServiceBuro reports;
+    ReportsEroDepositsServiceBuroSearch reportsFeePaidSearch;
+    ReportsEroDepositsServiceBuroSort reportsFeePaidSort;
+    ReportEroDepositsSearchServiceBuroSort reportFreePaidSearchSort;
 
 
     ReportsEroDepositExpandableadapter adapter;
@@ -196,10 +196,10 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
         myexpandable.setOnChildClickListener(this);
 
 
-        reports = new ReportsEroDeposit();
-        reportsFeePaidSearch = new ReportsEroDepositsSearch();
-        reportsFeePaidSort = new ReportsEroDepositsSort();
-        reportFreePaidSearchSort = new ReportEroDepositsSearchSort();
+        reports = new ReportsEroDepositsServiceBuro();
+        reportsFeePaidSearch = new ReportsEroDepositsServiceBuroSearch();
+        reportsFeePaidSort = new ReportsEroDepositsServiceBuroSort();
+        reportFreePaidSearchSort = new ReportEroDepositsSearchServiceBuroSort();
 
         reports.setPage("1");
         reportsFeePaidSearch.setPage("1");
@@ -625,9 +625,13 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
         }
     }
 
-    private void showToast(String msg) {
-        Toast.makeText(getContext(), "" + msg, Toast.LENGTH_SHORT).show();
-    }
+    private void showToast(String message) {
+        try {
+            Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }    }
 
     @Override
     public void onDestroy() {

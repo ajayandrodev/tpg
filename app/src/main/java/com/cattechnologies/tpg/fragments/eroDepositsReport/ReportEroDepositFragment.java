@@ -625,7 +625,11 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     }
 
     private void showToast(String msg) {
-        Toast.makeText(getContext(), "" + msg, Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
