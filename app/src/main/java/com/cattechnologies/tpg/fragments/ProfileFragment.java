@@ -194,7 +194,7 @@ public class ProfileFragment extends Fragment {
 
 
             } else {
-                profileGroupData.getMessage();
+               showToast(profileGroupData.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();

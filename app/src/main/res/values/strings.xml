@@ -6,7 +6,7 @@
 
 
     <string name="dashboard_account_dis_title">ACCOUNT DISBURSEMENTS</string>
-    <string name="dashboard_check_to_print">CHECKS TO PRINT \n PRINT</string>
+    <string name="dashboard_check_to_print">CHECKS TO \n PRINT</string>
     <string name="dashboard_fee_paid">FEES PAID</string>
     <string name="dashboard_account_dis">ACCOUNT \n DISBURSEMENTS</string>
     <string name="dashboard_ero_deposits">ERO DEPOSITS</string>
@@ -49,8 +49,8 @@
     <string name="forgot_user_name_new">FORGOT USERNAME</string>
     <string name="back_to_username_employee">Employee access currently available through our mobile site.</string>
     <string name="back_to_username_employee_d">To logon to our website.</string>
-    <string name="coming_soon">Comming Soon</string>
     <string name="enter_efin_sb">Enter EFIN here</string>
+    <string name="coming_soon_new">Coming Soon!</string>
 
 
     <!-- sbero expandlist data-->

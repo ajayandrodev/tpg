@@ -837,8 +837,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
             });
 
         } else {
-            progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
+           /* progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());*/
         }
 
 
@@ -1009,8 +1009,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
 
 
         } else {
-            progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
+          /*  progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());*/
         }
 
     }

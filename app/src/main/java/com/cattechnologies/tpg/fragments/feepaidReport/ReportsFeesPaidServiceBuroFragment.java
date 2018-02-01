@@ -61,7 +61,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
     List<String> child;
     HashMap<String, List<String>> bind_and_display;
 
-
+    Button sbEroNew;
     TextView sbEro, titulo;
     RecyclerView mRecyclerView;
     SbiFeePaidListDataAdapter mRecyclerAdapter;
@@ -143,8 +143,8 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
 
 
         relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.ero_list_data_layout);
-        sbEro = (TextView) getActivity().findViewById(R.id.selected_type_sb);
-
+      //  sbEro = (TextView) getActivity().findViewById(R.id.selected_type_sb);
+        sbEroNew = (Button) getActivity().findViewById(R.id.selected_type_sb);
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         fastScroller = (FastScroller) getActivity().findViewById(R.id.fast_scroller);
         viewReport = (Button) getActivity().findViewById(R.id.view_report);
@@ -157,6 +157,24 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
 //        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 //            getActivity().getActionBar().setHomeAsUpIndicator(R.drawable.down_arrow);
+
+
+        sbEroNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                title = getResources().getString(R.string.dashboard_fee_paid);
+                fragment = ReportsFeesPaidServiceBuroDataFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                        preferencesManager.getAccountType(getActivity()));
+                if (fragment != null) {
+                    fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.main_content, fragment)
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+            }
+        });
 //        }
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +257,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
                 e.printStackTrace();
             }
         }
-        if(!error.getMessage().equalsIgnoreCase("")){
+        if (!error.getMessage().equalsIgnoreCase("")) {
             showToast("EFIN already exist");
         }
     }
@@ -291,6 +309,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
         int cposition = childPosition;
+        sbEroNew.setVisibility(View.GONE);
 
         Displayitemclicked(gposition, cposition);
         //passing the integer value of grouposition and childposition to the above method when an item is clicked
@@ -298,7 +317,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
     }
 
     private void Displayitemclicked(int gposition, int cposition) {
-        sbEro.setVisibility(View.GONE);
+     //   sbEro.setVisibility(View.GONE);
         if (gposition == 0) {
 
             switch (cposition) {

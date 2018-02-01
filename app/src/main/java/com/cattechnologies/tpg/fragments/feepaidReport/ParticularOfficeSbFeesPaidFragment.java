@@ -403,7 +403,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(),reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -608,7 +608,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(),reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -841,7 +841,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(),reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -1008,7 +1008,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(),reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()

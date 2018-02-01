@@ -83,7 +83,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     public DashboardFragment() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
@@ -173,9 +172,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         prepFeesPaidValue.setText("$" + dashData.getPrepFeesPaid());
         taxPayersSmallValue.setText("$" + dashData.getPastDueAccountsAmount());
-/*
-        taxPayersSmall.setText("$"+dashData.);
-*/
+
+        taxPayersSmall.setText(dashData.getCountTaxpayer() + "\t" + "tax payers");
+
 
         mAdapter = new DashboardListAdapter(getActivity(), recentTransactionsList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
@@ -234,7 +233,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.bt_account_dis:
 
-               if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+                if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
                     accountDis.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_account_dis_title);
                     fragment = ReportsAccountDisbServiceBuroFragment.newInstance(title, preferencesManager.getUserId(getActivity()),

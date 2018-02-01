@@ -36,7 +36,7 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text=""
+            android:text="-"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 
@@ -80,7 +80,7 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text=""
+            android:text="-"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 
@@ -123,7 +123,7 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text=""
+            android:text="-"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 
@@ -168,7 +168,7 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text=""
+            android:text="-"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 
@@ -213,7 +213,7 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text=""
+            android:text="-"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 
@@ -259,7 +259,7 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text=""
+            android:text="-"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 
@@ -304,7 +304,7 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text=""
+            android:text="-"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 </RelativeLayout>

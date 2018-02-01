@@ -21,6 +21,16 @@ public class DashboardInfoData implements Parcelable {
           "PrepFeesPaid": "1095.0000",
           "PastDueAccountsAmount": "1205.0000"
 */
+  /* "AppliedRts": "263",
+           "FundedRTs": "65",
+           "StateFundedRTs": "79",
+           "CheckRTs": "151",
+           "DirectDepositRTs": "308",
+           "PrePaidCards": "147",
+           "Direct2Cash": "53",
+           "PrepFeesPaid": "6540.00",
+           "PastDueAccountsAmount": "1470.00",
+           "CountTaxpayer": "2"*/
 
     @SerializedName("AppliedRts")
     private String AppliedRts;
@@ -48,6 +58,17 @@ public class DashboardInfoData implements Parcelable {
 
     @SerializedName("PastDueAccountsAmount")
     private String PastDueAccountsAmount;
+
+    @SerializedName("CountTaxpayer")
+    private String CountTaxpayer;
+
+    public String getCountTaxpayer() {
+        return CountTaxpayer;
+    }
+
+    public void setCountTaxpayer(String countTaxpayer) {
+        CountTaxpayer = countTaxpayer;
+    }
 
     public String getAppliedRts() {
         return AppliedRts;
@@ -129,22 +150,42 @@ public class DashboardInfoData implements Parcelable {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.AppliedRts);
+        dest.writeString(this.FundedRTs);
+        dest.writeString(this.StateFundedRTs);
+        dest.writeString(this.CheckRTs);
+        dest.writeString(this.DirectDepositRTs);
+        dest.writeString(this.PrePaidCards);
+        dest.writeString(this.Direct2Cash);
+        dest.writeString(this.PrepFeesPaid);
+        dest.writeString(this.PastDueAccountsAmount);
+        dest.writeString(this.CountTaxpayer);
+    }
+
     protected DashboardInfoData(Parcel in) {
-        AppliedRts = in.readString();
-        FundedRTs = in.readString();
-        StateFundedRTs = in.readString();
-        CheckRTs = in.readString();
-        DirectDepositRTs = in.readString();
-        PrePaidCards = in.readString();
-        Direct2Cash = in.readString();
-        PrepFeesPaid = in.readString();
-        PastDueAccountsAmount = in.readString();
+        this.AppliedRts = in.readString();
+        this.FundedRTs = in.readString();
+        this.StateFundedRTs = in.readString();
+        this.CheckRTs = in.readString();
+        this.DirectDepositRTs = in.readString();
+        this.PrePaidCards = in.readString();
+        this.Direct2Cash = in.readString();
+        this.PrepFeesPaid = in.readString();
+        this.PastDueAccountsAmount = in.readString();
+        this.CountTaxpayer = in.readString();
     }
 
     public static final Creator<DashboardInfoData> CREATOR = new Creator<DashboardInfoData>() {
         @Override
-        public DashboardInfoData createFromParcel(Parcel in) {
-            return new DashboardInfoData(in);
+        public DashboardInfoData createFromParcel(Parcel source) {
+            return new DashboardInfoData(source);
         }
 
         @Override
@@ -152,23 +193,4 @@ public class DashboardInfoData implements Parcelable {
             return new DashboardInfoData[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(AppliedRts);
-        parcel.writeString(FundedRTs);
-        parcel.writeString(StateFundedRTs);
-        parcel.writeString(CheckRTs);
-        parcel.writeString(DirectDepositRTs);
-        parcel.writeString(PrePaidCards);
-        parcel.writeString(Direct2Cash);
-        parcel.writeString(PrepFeesPaid);
-        parcel.writeString(PastDueAccountsAmount);
-    }
-
 }

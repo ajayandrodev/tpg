@@ -24,6 +24,7 @@ import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.adapters.MyExpandableadapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.SbiEroListDataAdapter;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.SbiFeePaidListDataAdapter;
+import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidServiceBuroDataFragment;
 import com.cattechnologies.tpg.interfaces.RemoveClickListner;
 import com.cattechnologies.tpg.model.RecyclerData;
 import com.cattechnologies.tpg.model.ReportsEfinValidCheck;
@@ -63,6 +64,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
     List<String> child;
     HashMap<String, List<String>> bind_and_display;
 
+    Button sbEroNew;
 
 
     TextView sbEro, titulo;
@@ -141,7 +143,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
         myexpandable.setOnChildClickListener(this);
         preferencesManager = new PreferencesManager();
         mSubscriptions = new CompositeSubscription();
-
+        sbEroNew = (Button) getActivity().findViewById(R.id.selected_type_sb);
 
         relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.ero_list_data_layout);
         sbEro = (TextView) getActivity().findViewById(R.id.selected_type_sb);
@@ -154,6 +156,22 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
         etTitle = (EditText) getActivity().findViewById(R.id.etTitle);
         btnAddItem = (ImageButton) getActivity().findViewById(R.id.btnAddItem);
 
+        sbEroNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                title = getResources().getString(R.string.dashboard_fee_paid);
+                fragment = ReportsEroDepositServiceBuroDataFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                        preferencesManager.getAccountType(getActivity()));
+                if (fragment != null) {
+                    fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.main_content, fragment)
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+            }
+        });
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

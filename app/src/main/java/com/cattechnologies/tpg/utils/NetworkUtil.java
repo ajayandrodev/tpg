@@ -3,6 +3,7 @@ package com.cattechnologies.tpg.utils;
 
 import com.cattechnologies.tpg.apiCalls.RetrofitInterface;
 
+import java.net.CookieHandler;
 import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 
@@ -97,6 +98,7 @@ public class NetworkUtil {
 
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+
             httpClient.followSslRedirects(true);
             httpClient.connectTimeout(30, TimeUnit.SECONDS);
             httpClient.readTimeout(30, TimeUnit.SECONDS);

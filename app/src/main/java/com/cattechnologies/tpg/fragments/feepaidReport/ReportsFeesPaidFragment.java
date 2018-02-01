@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -141,7 +142,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
-        sortAndSearch(sort);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        if (searchData.getText().toString().isEmpty()) {
+
+        } else {
+            sortAndSearch(sort);
+
+        }
         //searchDataInfo(false);
 
 
@@ -154,6 +161,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.title);
         titulo.setText(title);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         prev = (Button) getActivity().findViewById(R.id.prev);
         next = (Button) getActivity().findViewById(R.id.next);
         /**Updated **/prev.setBackgroundColor(Color.parseColor("#DCDCDC"));
@@ -405,7 +413,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -598,7 +606,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -607,7 +615,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        } else {
+        } else if (response.getStatus().equalsIgnoreCase("fail")) {
             progressBar.setVisibility(View.GONE);
             showToast(response.getMessage());
 
@@ -633,7 +641,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "disbursment_date";
                     sortAndSearch(sort);
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -641,16 +648,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "ssn";
                     sortAndSearch(sort);
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "lastname";
-
                     sortAndSearch(sort);
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -658,7 +662,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "product_type";
                     sortAndSearch(sort);
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -671,13 +674,13 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             if (pagNo.equalsIgnoreCase("")) {
                 sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
             } else {
-                sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                sortReportItem(userId, userType, pagNo, sort);
             }
         } else if (!TextUtils.isEmpty(newText)) {
             if (pagNo.equalsIgnoreCase("")) {
                 searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
             } else {
-                searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                searchSortReportData(userId, userType, newText, pagNo, sort);
             }
         }
     }
@@ -829,7 +832,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -839,9 +842,9 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
         } else {
-            progressBar.setVisibility(View.GONE);
+        /*    progressBar.setVisibility(View.GONE);
             showToast(response.getMessage());
-
+*/
         }
     }
 
@@ -992,7 +995,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()

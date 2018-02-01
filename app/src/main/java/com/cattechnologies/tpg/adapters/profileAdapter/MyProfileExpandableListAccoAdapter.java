@@ -93,7 +93,7 @@ public class MyProfileExpandableListAccoAdapter extends BaseExpandableListAdapte
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
         AccountInfo detailInfo = (AccountInfo) getChild(groupPosition, childPosition);
-        System.out.println("MyProfileExpandableListAccoAdapter.getChildView==="+detailInfo.getAcctType());
+        System.out.println("MyProfileExpandableListAccoAdapter.getChildView===" + detailInfo.getAcctType());
         if (view == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = infalInflater.inflate(R.layout.my_profile_child_items_account, null);
@@ -104,45 +104,97 @@ public class MyProfileExpandableListAccoAdapter extends BaseExpandableListAdapte
                 TextView childItem1 = (TextView) view.findViewById(R.id.account_name_of_bank);
                 childItem1.setText("Name on Bank Account: ");
                 TextView childItem2 = (TextView) view.findViewById(R.id.account_name_of_bank_data);
-                childItem2.setText(detailInfo.getNameOnAccount().trim());
+                if (detailInfo.getNameOnAccount().trim().equalsIgnoreCase("")) {
+                    childItem2.setText("-");
+                } else {
+                    childItem2.setText(detailInfo.getNameOnAccount().trim());
+
+                }
+
                 TextView childItem3 = (TextView) view.findViewById(R.id.account_name_bank_second);
                 childItem3.setText("Name of Bank:");
                 TextView childItem4 = (TextView) view.findViewById(R.id.account_name_bank_second_data);
-                childItem4.setText(detailInfo.getBankName().trim());
+                if (detailInfo.getBankName().trim().equalsIgnoreCase("")) {
+                    childItem4.setText("-");
+                } else {
+                    childItem4.setText(detailInfo.getBankName().trim());
+
+                }
                 TextView childItem5 = (TextView) view.findViewById(R.id.account_rtn);
                 childItem5.setText("Bank Routing Number:");
                 TextView childItem6 = (TextView) view.findViewById(R.id.account_rtn_data);
-                childItem6.setText(detailInfo.getRTN().trim());
+                if (detailInfo.getRTN().trim().equalsIgnoreCase("")) {
+                    childItem6.setText("-");
+                } else {
+                    childItem6.setText(detailInfo.getRTN().trim());
+
+                }
                 TextView childItem7 = (TextView) view.findViewById(R.id.account_number);
                 childItem7.setText("Bank Account Number:");
                 TextView childItem8 = (TextView) view.findViewById(R.id.account_number_data);
-                childItem8.setText(detailInfo.getDAN().trim());
+                if (detailInfo.getDAN().trim().equalsIgnoreCase("")) {
+                    childItem8.setText("-");
+                } else {
+                    childItem8.setText(detailInfo.getDAN().trim());
+
+                }
                 TextView childItem9 = (TextView) view.findViewById(R.id.account_type);
                 childItem9.setText("Type of Account:");
                 TextView childItem10 = (TextView) view.findViewById(R.id.account_type_data);
-                childItem10.setText(detailInfo.getAcctType().trim());
+                if (detailInfo.getAcctType().trim().equalsIgnoreCase("")) {
+                    childItem10.setText("-");
+                } else {
+                    childItem10.setText(detailInfo.getAcctType().trim());
+
+                }
 
             } else {
                 TextView childItem1 = (TextView) view.findViewById(R.id.account_name_of_bank);
                 childItem1.setText("Name on Bank Account: ");
                 TextView childItem2 = (TextView) view.findViewById(R.id.account_name_of_bank_data);
-                childItem2.setText(detailInfo.getNameOnAccount().trim());
+                if (detailInfo.getNameOnAccount().trim().equalsIgnoreCase("")) {
+                    childItem2.setText("-");
+                } else {
+                    childItem2.setText(detailInfo.getNameOnAccount().trim());
+
+                }
+
                 TextView childItem3 = (TextView) view.findViewById(R.id.account_name_bank_second);
                 childItem3.setText("Name of Bank:");
                 TextView childItem4 = (TextView) view.findViewById(R.id.account_name_bank_second_data);
-                childItem4.setText(detailInfo.getBankName().trim());
+                if (detailInfo.getBankName().trim().equalsIgnoreCase("")) {
+                    childItem4.setText("-");
+                } else {
+                    childItem4.setText(detailInfo.getBankName().trim());
+
+                }
                 TextView childItem5 = (TextView) view.findViewById(R.id.account_rtn);
                 childItem5.setText("Bank Routing Number:");
                 TextView childItem6 = (TextView) view.findViewById(R.id.account_rtn_data);
-                childItem6.setText(detailInfo.getRTN().trim());
+                if (detailInfo.getRTN().trim().equalsIgnoreCase("")) {
+                    childItem6.setText("-");
+                } else {
+                    childItem6.setText(detailInfo.getRTN().trim());
+
+                }
                 TextView childItem7 = (TextView) view.findViewById(R.id.account_number);
                 childItem7.setText("Bank Account Number:");
                 TextView childItem8 = (TextView) view.findViewById(R.id.account_number_data);
-                childItem8.setText(detailInfo.getDAN().trim());
+                if (detailInfo.getDAN().trim().equalsIgnoreCase("")) {
+                    childItem8.setText("-");
+                } else {
+                    childItem8.setText(detailInfo.getDAN().trim());
+
+                }
                 TextView childItem9 = (TextView) view.findViewById(R.id.account_type);
                 childItem9.setText("Type of Account:");
                 TextView childItem10 = (TextView) view.findViewById(R.id.account_type_data);
-                childItem10.setText(detailInfo.getAcctType().trim());
+                if (detailInfo.getAcctType().trim().equalsIgnoreCase("")) {
+                    childItem10.setText("-");
+                } else {
+                    childItem10.setText(detailInfo.getAcctType().trim());
+
+                }
 
             }
         } catch (Exception e) {

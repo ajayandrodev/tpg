@@ -416,7 +416,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
+                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -608,7 +608,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
+                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -843,7 +843,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
+                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -854,8 +854,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
         } else {
-            progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
+          /*  progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());*/
         }
     }
 
@@ -999,7 +999,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
+                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager

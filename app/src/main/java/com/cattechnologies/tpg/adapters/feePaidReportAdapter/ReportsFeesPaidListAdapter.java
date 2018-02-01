@@ -27,7 +27,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
     String title;
     private ItemClickListener clickListener;
     Context mContext;
-    SimpleDateFormat format, format1;
 
     public ReportsFeesPaidListAdapter(Context mContext, List<ReportsFeePaidNew> reportsList,String title) {
         this.reportsList = reportsList;
@@ -112,7 +111,7 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
             accountDataSSN = (TextView) itemView.findViewById(R.id.report_account);
             detailsDataDisbush = (TextView) itemView.findViewById(R.id.report_details);
             dateData = (TextView) itemView.findViewById(R.id.report_date);
-            //  itemView.setTag(itemView);
+            itemView.setTag(itemView);
             itemView.setOnClickListener(this);
 
 

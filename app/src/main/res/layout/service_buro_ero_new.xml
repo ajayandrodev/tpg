@@ -18,9 +18,9 @@
         android:padding="@dimen/dim_20"
         android:text="Checks To print"
         android:textAllCaps="true"
-        android:textSize="16sp"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:textColor="@android:color/white"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
 
@@ -47,12 +47,13 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
-            <TextView
+            <Button
                 android:id="@+id/selected_type_sb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/selected_type"
-                android:background="@color/transparent"
+                android:layout_margin="@dimen/dim_5"
+                android:background="@drawable/edittext_border"
                 android:gravity="center"
                 android:padding="@dimen/dim_20"
                 android:text="service bureau"
@@ -61,12 +62,19 @@
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
+            <!--     <view
+                     android:layout_width="match_parent"
+                     android:layout_height="2dp"
+                     android:layout_below="@id/selected_type_sb"
+                     android:background="@android:color/darker_gray" />-->
+
             <RelativeLayout
                 android:id="@+id/expand_sb"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dim_200"
                 android:layout_below="@id/selected_type_sb"
                 android:gravity="center|top"
+                android:layout_marginTop="@dimen/dim_5"
                 android:orientation="vertical"
                 android:padding="@dimen/dim_5">
 
@@ -77,17 +85,23 @@
                     android:layout_gravity="start"
                     android:layout_marginBottom="@dimen/dim_5"
                     android:layout_marginTop="@dimen/dim_5"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/edittext_border"
                     android:childDivider="#7F7F7F"
                     android:choiceMode="singleChoice"
                     android:divider="#7F7F7F"
                     android:dividerHeight="1dp"
                     android:groupIndicator="@null"
-                    android:listSelector="@android:color/darker_gray"
+                    android:listSelector="@android:color/white"
                     android:scrollbars="vertical" />
 
 
             </RelativeLayout>
+
+            <!-- <view
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"
+                 android:layout_below="@id/expand_sb"
+                 android:background="@android:color/darker_gray" />-->
 
             <RelativeLayout
                 android:id="@+id/ero_list_data_layout"

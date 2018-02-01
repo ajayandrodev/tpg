@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
+import com.cattechnologies.tpg.utils.PreferencesManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,7 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
     String title;
     TextView titulo, textReportOne, textReportSsn, textReportType, textReportOneData, textReportTitleDetail,
             textReportTwo, textReportTwoData, textReportThree, textReportThreeData, textReportFour, textReportFourData,
-            textFiveNextAnother, textFiveNextAnotherData;
+            textFiveNextAnother, textFiveNextAnotherData,textEfinData, textEfin;
     RelativeLayout llTwo, llThree, llFour, llFive, llSix, llTwoNext, llFiveNext;
     String userName,
             userSSN,
@@ -33,13 +34,14 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
             userMasterID,
             userDepositDate,
             userDepositAmount,
-            userReversedDate;
+            userReversedDate,efindata;
     SimpleDateFormat format, format1;
+    PreferencesManager preferencesManager;
 
 
     public static ReportsEroDepositsDetailsFragment newInstance(
             String sectionTitle, String firstName, String primarySsn, String depositType,
-            String masterefin, String depositdate, String depositAmount, String recordcreatedate) {
+            String masterefin, String depositdate, String depositAmount, String recordcreatedate, String efindata) {
         ReportsEroDepositsDetailsFragment fragment = new ReportsEroDepositsDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
@@ -50,6 +52,8 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
         args.putString("report_depositDate", depositdate);
         args.putString("report_depositAmount", depositAmount);
         args.putString("report_recordCreatedDate", recordcreatedate);
+        args.putString("report_efin", efindata);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,7 +82,7 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
-
+        preferencesManager=new PreferencesManager();
         userName = getArguments().getString("report_username");
         userSSN = getArguments().getString("report_ssn");
         userDis = getArguments().getString("report_disb");
@@ -87,6 +91,7 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
         userDepositAmount = getArguments().getString("report_depositAmount");
         userReversedDate = getArguments().getString("report_recordCreatedDate");
 
+        efindata = getArguments().getString("report_efin");
 
         textReportSsn = (TextView) getActivity().findViewById(R.id.text_report_one_ssn);
         textReportType = (TextView) getActivity().findViewById(R.id.text_report_one_type);
@@ -106,6 +111,9 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
 
         textFiveNextAnother = (TextView) getActivity().findViewById(R.id.text_report_five_next_another);//ll_two_next_another
         textFiveNextAnotherData = (TextView) getActivity().findViewById(R.id.text_report_five_next_data_another);
+
+        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin);
+        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data);
 
         llSix = (RelativeLayout) getActivity().findViewById(R.id.ll_six);
         llFive = (RelativeLayout) getActivity().findViewById(R.id.ll_five);
@@ -147,7 +155,13 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
 
         textFiveNextAnother.setText("Comments:");
         textFiveNextAnotherData.setText("");
-
+        if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+            textEfin.setText("EFIN:");//ll_two next another
+            textEfinData.setText(efindata);
+        } else {
+            textEfin.setText("");//ll_two next another
+            textEfinData.setText("");
+        }
 
     }
 }

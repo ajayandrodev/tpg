@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
+import com.cattechnologies.tpg.utils.PreferencesManager;
 
 /**
  * Created by ajay kumar on 28-Oct-17.
@@ -24,16 +25,17 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
     TextView titulo, textReportFirstName, textReportSsn, textReportType, textReportTitleDetail, textReportOne, textReportOneData,
             textReportTwo, textReportTwoData, textReportThree, textReportThreeData, textReportFour, textReportFourData,
             textReportFive, textReportFiveData,
-            textReportSix, textReportSixData;
+            textReportSix, textReportSixData,textEfinData, textEfin;
     RelativeLayout llOne, llTwo, llThree, llFour, llFive, llSix;
     LinearLayout llInfoData, llInfoDetailsData;
-    String userName, userSSN, userDis, userDate, userPrep, userEle, userDoc, userTotal, userOther;
+    String userName, userSSN, userDis, userDate, userPrep, userEle, userDoc, userTotal, userOther,efindata;
 
+    PreferencesManager preferencesManager;
 
     public static ReportsFeesPaidDetailsFragment newInstance(String sectionTitle, String username,
                                                              String ssn, String disbursType, String date,
                                                              String prepFee, String electFee, String docFee,
-                                                             String totalfee, String otherfee) {
+                                                             String totalfee, String otherfee, String efindata) {
         ReportsFeesPaidDetailsFragment fragment = new ReportsFeesPaidDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
@@ -46,6 +48,8 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
         args.putString("report_docfee", docFee);
         args.putString("report_totalfee", totalfee);
         args.putString("report_otherfee", otherfee);
+        args.putString("report_efin", efindata);
+
 
         fragment.setArguments(args);
         return fragment;
@@ -75,6 +79,7 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
+        preferencesManager=new PreferencesManager();
         userName = getArguments().getString("report_username");
         userSSN = getArguments().getString("report_ssn");
         userDis = getArguments().getString("report_disb");
@@ -84,6 +89,9 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
         userDoc = getArguments().getString("report_docfee");
         userTotal = getArguments().getString("report_totalfee");
         userOther = getArguments().getString("report_otherfee");
+
+        efindata = getArguments().getString("report_efin");
+
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
         textReportFirstName = (TextView) getActivity().findViewById(R.id.text_report_one_firstname);
         textReportFirstName.setText(userName);
@@ -116,6 +124,9 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
         llInfoData = (LinearLayout) getActivity().findViewById(R.id.ll_info_data);
         llInfoDetailsData = (LinearLayout) getActivity().findViewById(R.id.ll_info_details_data);
 
+        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin);
+        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data);
+
         llSix = (RelativeLayout) getActivity().findViewById(R.id.ll_six);
         llFive = (RelativeLayout) getActivity().findViewById(R.id.ll_five);
         llFour = (RelativeLayout) getActivity().findViewById(R.id.ll_four);
@@ -146,5 +157,13 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
 
         textReportSix.setText("Total Fee Amount:");
         textReportSixData.setText("$" + userTotal);
+
+        if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+            textEfin.setText("EFIN:");//ll_two next another
+            textEfinData.setText(efindata);
+        } else {
+            textEfin.setText("");//ll_two next another
+            textEfinData.setText("");
+        }
     }
 }

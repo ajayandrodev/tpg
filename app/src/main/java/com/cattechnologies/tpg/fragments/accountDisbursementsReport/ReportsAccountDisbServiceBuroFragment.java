@@ -24,6 +24,7 @@ import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.adapters.MyExpandableadapter;
 import com.cattechnologies.tpg.adapters.accountDisbursementsReportAdapter.SbiAccountDisbListDataAdapter;
 import com.cattechnologies.tpg.adapters.eroDepositsReportAdapter.SbiEroListDataAdapter;
+import com.cattechnologies.tpg.fragments.eroDepositsReport.ReportsEroDepositServiceBuroDataFragment;
 import com.cattechnologies.tpg.interfaces.RemoveClickListner;
 import com.cattechnologies.tpg.model.RecyclerData;
 import com.cattechnologies.tpg.model.ReportsEfinValidCheck;
@@ -83,7 +84,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
     String userId, userType;
     FragmentManager fragmentManager;
     CompositeSubscription mSubscriptions;
-
+    Button sbEroNew;
     JSONArray jsonArray;
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
@@ -153,6 +154,25 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
         fastScroller.setRecyclerView(mRecyclerView);
         etTitle = (EditText) getActivity().findViewById(R.id.etTitle);
         btnAddItem = (ImageButton) getActivity().findViewById(R.id.btnAddItem);
+
+
+        sbEroNew = (Button) getActivity().findViewById(R.id.selected_type_sb);
+        sbEroNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                title = getResources().getString(R.string.dashboard_fee_paid);
+                fragment = ReportsAccountDisbServiceBuroDataFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
+                        preferencesManager.getAccountType(getActivity()));
+                if (fragment != null) {
+                    fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.main_content, fragment)
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+            }
+        });
 
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override

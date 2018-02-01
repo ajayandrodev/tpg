@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
+import com.cattechnologies.tpg.model.LoginInfo;
+import com.cattechnologies.tpg.utils.PreferencesManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,20 +28,21 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
     String title;
     TextView titulo, textReportFirstName, textReportSsn, textReportType, textReportTitleDetail, textReportOne, textReportOneData,
             textReportTwo, textReportTwoData, textReportThree, textReportThreeData, textReportFour, textReportFourData,
-            textReportFive, textReportFiveNext, textReportFiveNextData, textReportFiveData, textFiveNextAnother, textFiveNextAnotherData
-            ,textEfinData,textEfin;
+            textReportFive, textReportFiveNext, textReportFiveNextData, textReportFiveData, textFiveNextAnother, textFiveNextAnotherData, textEfinData, textEfin;
     RelativeLayout llTwo, llThree, llFour, llFive, llSix, llTwoNext, llFiveNext;
     LinearLayout llInfoData, llInfoDetailsData;
     String name, primarySsn, disbursType, expectedRefund, reportsExpecteddepdate,
-            productType, disbursementDate, disbursmentamount, expecteddepdate,efindata;
+            productType, disbursementDate, disbursmentamount, expecteddepdate, efindata;
     SimpleDateFormat format, format1;
+    LoginInfo loginInfo;
+    PreferencesManager preferencesManager;
 
     public static ReportsAccountDisbDetailsFragment newInstance(
             String title, String name,
             String primarySsn, String disbursType,
             String expectedRefund, String reportsExpecteddepdate,
             String productType, String disbursementDate, String disbursmentamount,
-            String expecteddepdate, String sectionTitle,String efindata) {
+            String expecteddepdate, String sectionTitle, String efindata) {
         ReportsAccountDisbDetailsFragment fragment = new ReportsAccountDisbDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
@@ -52,7 +55,7 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         args.putString("report_disbursementDate", disbursementDate);
         args.putString("report_disbursmentamount", disbursmentamount);
         args.putString("report_expecteddepdate", expecteddepdate);
-        args.putString("report_efin",efindata);
+        args.putString("report_efin", efindata);
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,7 +82,8 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
-
+        loginInfo = new LoginInfo();
+        preferencesManager=new PreferencesManager();
         name = getArguments().getString("report_username");
         primarySsn = getArguments().getString("report_ssn");
         disbursType = getArguments().getString("report_disb_type");
@@ -89,7 +93,8 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         disbursementDate = getArguments().getString("report_disbursementDate");
         disbursmentamount = getArguments().getString("report_disbursmentamount");
         expecteddepdate = getArguments().getString("report_expecteddepdate");
-        efindata=getArguments().getString("report_efin");
+
+        efindata = getArguments().getString("report_efin");
 
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
 
@@ -160,7 +165,7 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         textReportFourData.setText(disbursementDate);
 
         textReportFive.setText("Disbursed  Amount:");//ll_two
-        textReportFiveData.setText("$"+disbursmentamount);
+        textReportFiveData.setText("$" + disbursmentamount);
 
         textReportFiveNext.setText("Disbursement Type:");//ll_two next
         textReportFiveNextData.setText(disbursType);
@@ -168,9 +173,13 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         textFiveNextAnother.setText("Disbursement Info:");//ll_two next another
         textFiveNextAnotherData.setText("");
 
-        textEfin.setText("EFIN:");//ll_two next another
-        textEfinData.setText(efindata);
-
+        if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+            textEfin.setText("EFIN:");//ll_two next another
+            textEfinData.setText(efindata);
+        } else {
+            textEfin.setText("");//ll_two next another
+            textEfinData.setText("");
+        }
 
 
     }

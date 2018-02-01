@@ -394,7 +394,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
+                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -590,7 +590,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
+                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -828,7 +828,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
+                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -840,8 +840,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             });
 
         }else {
-            progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
+          /*  progressBar.setVisibility(View.GONE);
+            showToast(response.getMessage());*/
         }
 
 
@@ -995,7 +995,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate()
+                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
