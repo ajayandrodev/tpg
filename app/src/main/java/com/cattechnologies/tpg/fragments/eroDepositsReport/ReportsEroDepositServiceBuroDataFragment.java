@@ -118,7 +118,7 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
 
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
-        ReportEroDepositFragment fragment = new ReportEroDepositFragment();
+        ReportsEroDepositServiceBuroDataFragment fragment = new ReportsEroDepositServiceBuroDataFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("app_uid", userId);

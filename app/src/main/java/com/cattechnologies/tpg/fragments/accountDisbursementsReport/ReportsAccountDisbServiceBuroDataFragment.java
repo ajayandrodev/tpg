@@ -116,7 +116,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
 
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
-        ReportAccountDisbFragment fragment = new ReportAccountDisbFragment();
+        ReportsAccountDisbServiceBuroDataFragment fragment = new ReportsAccountDisbServiceBuroDataFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("app_uid", userId);
