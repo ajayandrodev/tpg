@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -77,7 +78,7 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
     public static final String ARG_SECTION_TITLE = "section_number";
     RecyclerView recyclerView;
     TextView titulo, textNoData;
-    String title, newText, sort;
+    String title, newText;
     CompositeSubscription mSubscriptions;
     ProgressBar progressBar;
     String userId, userType, pagNo = "";
@@ -89,6 +90,8 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
     int current_page, current_page_sort = 1, current_page_search = 1, current_page_mock;
     SimpleDateFormat format, format1;
 
+    String sort = "";
+    TextWatcher textWatcher;
 
     ReportsEroDepositServiceBuroListAdapter mAdapter;
     ReportsEroDepositServiceBuroSearchListAdapter mAdapterSearch;
@@ -149,8 +152,49 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
-        sortAndSearch(sort);
+        // sortAndSearch(sort);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        if (textWatcher != null) {
+            searchData.addTextChangedListener(textWatcher);
+        }
+        searchDataInfo(true);
+    }
 
+    private void searchDataInfo(boolean b) {
+        if (layout != null) {
+            layout.removeAllViews();
+        }
+        if (searchData.getText().toString().isEmpty()) {
+            if (sort.isEmpty()) {
+                if (pagNo.equalsIgnoreCase("")) {
+                    eroDepositReportsData(userId, userType, reports.getPage());
+                } else {
+                    eroDepositReportsData(userId, userType, pagNo);
+                }
+            } else {
+                sortAndSearch(sort);
+            }
+        } else {
+            if (sort.isEmpty()) {
+                if (pagNo.equalsIgnoreCase("")) {
+                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                } else {
+                    searchReportItem(userId, userType, pagNo, newText);
+                }
+            } else {
+                sortAndSearch(sort);
+            }
+        }
+        searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if ((actionId == EditorInfo.IME_ACTION_DONE)) {
+
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -206,62 +250,6 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
         reportsFeePaidSort.setPage("1");
         reportFreePaidSearchSort.setPage("1");
 
-        if (layout != null) {
-            layout.removeAllViews();
-        }
-        if (searchData.getText().toString().isEmpty()) {
-            if (pagNo.equalsIgnoreCase("")) {
-                eroDepositReportsData(userId, userType, reports.getPage());
-            } else {
-                eroDepositReportsData(userId, userType, pagNo);
-            }
-
-
-        }
-
-        searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                if ((actionId == EditorInfo.IME_ACTION_DONE)) {
-
-                }
-                return false;
-            }
-        });
-        searchData.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence query, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                newText = editable.toString().toLowerCase();
-
-                if (TextUtils.isEmpty(newText)) {
-                    if (pagNo.equalsIgnoreCase("")) {
-                        eroDepositReportsData(userId, userType, reports.getPage());
-                    } else {
-                        eroDepositReportsData(userId, userType, pagNo);
-                    }
-                } else if (!TextUtils.isEmpty(newText)) {
-                    if (pagNo.equalsIgnoreCase("")) {
-                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    } else {
-                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    }
-                }
-
-            }
-        });
-
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -270,6 +258,46 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+
+        if (textWatcher == null) {
+            textWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    newText = editable.toString().toLowerCase();
+                    System.out.println("On text changed " + newText);
+                    if (!pagNo.isEmpty()) {
+                        pagNo = "";
+                    }
+                    if (TextUtils.isEmpty(newText)) {
+                        if (pagNo.equalsIgnoreCase("")) {
+                            eroDepositReportsData(userId, userType, reports.getPage());
+                        } else {
+                            eroDepositReportsData(userId, userType, pagNo);
+                        }
+                    } else if (!TextUtils.isEmpty(newText)) {
+                        //searchReportItem(userId, userType, pagNo, newText);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        } else {
+                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        }
+                    }
+                }
+            };
+        }
+
 
     }
 
@@ -417,7 +445,7 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate(), reports.getEfin()
+                        reports.getDepositAmount(), reports.getReverseddate()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -605,11 +633,11 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
             mAdapter.setClickListener((view, position) -> {
                 final ReportsEroDepositsServiceBuroNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
-                Fragment fragment = ReportsEroDepositsDetailsFragment.newInstance(title,
+                Fragment fragment = ReportsEroDepositServiceBuroDataDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate(), reports.getEfin()
+                        reports.getDepositAmount(), reports.getReverseddate()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -848,7 +876,7 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate(), reports.getEfin()
+                        reports.getDepositAmount(), reports.getReverseddate()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -1004,7 +1032,7 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate(), reports.getEfin()
+                        reports.getDepositAmount(), reports.getReverseddate()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager

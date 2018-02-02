@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,6 +77,9 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
     public static final String ARG_SECTION_TITLE = "section_number";
     RecyclerView recyclerView;
 
+
+
+
     ReportsEroDepositParticularSearchListAdapter mAdapterSearch;
     ReportEroDepositPerticularListAdapter mAdapterParticularList;
     ReportEroDepositPerticulaSortListAdapter mAdapterParticularSortList;
@@ -100,7 +104,13 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
     EditText searchData;
     LinearLayout layout;
     int current_page, current_page_mock, current_page_search = 1, current_page_sort = 1;
-    String title, newText, sort;
+    String title, newText;
+
+
+    //updated
+    String sort = "";
+    //updated
+    TextWatcher textWatcher;
 
     ReportsEroDepositExpandableadapter adapter;
     ExpandableListView myexpandable;
@@ -191,55 +201,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         reportsPerticularFeePaidSearch.setPage(pageEfin);
         // particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
 
-        if (layout != null) {
-            layout.removeAllViews();
-        }
-        if (searchData.getText().toString().isEmpty()) {
-            if (pagNo.equalsIgnoreCase("")) {
-                particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
-            } else {
-                particularReportData(userId, userType, pagNo, efinData);
-            }
-        }
-        searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                if ((actionId == EditorInfo.IME_ACTION_DONE)) {
-
-                }
-                return false;
-            }
-        });
-        searchData.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence query, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                newText = editable.toString().toLowerCase();
-                if (TextUtils.isEmpty(newText)) {
-                    if (pagNo.equalsIgnoreCase("")) {
-                        particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
-                    } else {
-                        particularReportData(userId, userType, pagNo, efinData);
-                    }
-                } else if (!TextUtils.isEmpty(newText)) {
-                    if (pagNo.equalsIgnoreCase("")) {
-                        particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
-                    } else {
-                        particularOfficeSearch(userId, userType,pagNo, newText, efinData);
-                    }
-                }
-            }
-        });
 
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -249,6 +210,46 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+
+        //updated
+        if (textWatcher == null) {
+            textWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    newText = editable.toString().toLowerCase();
+                    System.out.println("On text changed " + newText);
+                    if (!pagNo.isEmpty()) {
+                        pagNo = "";
+                    }
+                    if (TextUtils.isEmpty(newText)) {
+                        if (pagNo.equalsIgnoreCase("")) {
+                            particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+                        } else {
+                            particularReportData(userId, userType, pagNo, efinData);
+                        }
+                    } else if (!TextUtils.isEmpty(newText)) {
+                        //searchReportItem(userId, userType, pagNo, newText);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
+                            particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                        } else {
+                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
+                            particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                        }
+                    }
+                }
+            };
+        }
     }
     private void particularOfficeSearch(String userId, String userType, String page, String newText, String efinData) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
@@ -456,9 +457,55 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
     @Override
     public void onResume() {
         super.onResume();
-        sortAndSearch(sort);
+        ((Dashboard) getActivity()).setTitle("REPORTS");
+
+        // sortAndSearch(sort);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        if (textWatcher != null) {
+            searchData.addTextChangedListener(textWatcher);
+        }
+        searchDataInfo(true);
 
     }
+
+    private void searchDataInfo(boolean b) {
+        if (layout != null) {
+            layout.removeAllViews();
+        }
+        //updated
+        if (searchData.getText().toString().isEmpty()) {
+            if (sort.isEmpty()) {
+                if (pagNo.equalsIgnoreCase("")) {
+                    particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
+                } else {
+                    particularReportData(userId, userType, pagNo, efinData);
+                }
+            } else {
+                sortAndSearch(sort);
+            }
+        } else {
+            if (sort.isEmpty()) {
+                if (pagNo.equalsIgnoreCase("")) {
+                    particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                } else {
+                    particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                }
+            } else {
+                sortAndSearch(sort);
+            }
+
+        }
+        searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((actionId == EditorInfo.IME_ACTION_DONE)) {
+
+                }
+                return false;
+            }
+        });
+
+    }
+
     private void handleResponse(ReportParticulrEroDeposits response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);

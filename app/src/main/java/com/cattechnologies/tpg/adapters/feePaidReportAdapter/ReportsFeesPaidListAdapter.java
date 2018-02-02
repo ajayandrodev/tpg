@@ -37,7 +37,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
 
     @Override
     public ReportsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        System.out.println("ReportsFeesPaidListAdapter.onCreateViewHolder");
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_list_row, parent, false);
         ReportsViewHolder reportsViewHolder = new ReportsViewHolder(itemView);
         return reportsViewHolder;
@@ -49,7 +48,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
             holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
         else
             holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-        System.out.println("ReportsFeesPaidListAdapter.onBindViewHolder");
         ReportsFeePaidNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
@@ -105,7 +103,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
 
         public ReportsViewHolder(View itemView) {
             super(itemView);
-            System.out.println("ReportsViewHolder.ReportsViewHolder");
             userData = (TextView) itemView.findViewById(R.id.report_user);
             costData = (TextView) itemView.findViewById(R.id.report_rate);
             accountDataSSN = (TextView) itemView.findViewById(R.id.report_account);
@@ -113,8 +110,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
-
         }
 
         @Override

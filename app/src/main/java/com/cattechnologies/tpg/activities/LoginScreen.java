@@ -273,7 +273,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleResponse(DashboardInfo response) {
         progressBar.setVisibility(View.GONE);
-        System.out.println("LoginScreen.handleResponse==="+response.getMessage());
+        //System.out.println("LoginScreen.handleResponse==="+response.getMessage());
         if (response.getStatus().equalsIgnoreCase("success") && response != null) {
           //  showToast(response.getMessage());
             DashboardInfoData dashboardInfo = response.getDashboard_data();
@@ -301,19 +301,16 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     }
                     recentTransactionsList.add(recentTransactions);
                 }
-
                 Intent intent = new Intent(LoginScreen.this, Dashboard.class);
                 intent.putExtra("DashboardInfoData", dashboardInfo);
                 intent.putExtra("ProfileData", profileData);
                 intent.putParcelableArrayListExtra("RecentTransactions", (ArrayList<? extends Parcelable>) recentTransactionsList);
                 startActivity(intent);
+                finish();
             }
-
         } else {
             showToast(response.getMessage());
         }
-
-
     }
 
 

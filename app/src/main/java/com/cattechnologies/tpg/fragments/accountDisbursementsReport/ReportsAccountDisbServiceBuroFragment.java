@@ -108,9 +108,9 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.service_buro_account_new, container, false);
+        View data = inflater.inflate(R.layout.service_buro_account_new, container, false);
 
-        return view;
+        return data;
     }
 
     @Override
@@ -160,7 +160,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
         sbEroNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                title = getResources().getString(R.string.dashboard_fee_paid);
+                title = getResources().getString(R.string.dashboard_account_dis);
                 fragment = ReportsAccountDisbServiceBuroDataFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                         preferencesManager.getAccountType(getActivity()));
                 if (fragment != null) {

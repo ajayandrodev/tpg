@@ -98,8 +98,8 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
 
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
 
-        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin);
-        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data);
+        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin3);
+        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data3);
 
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
         textReportOne = (TextView) getActivity().findViewById(R.id.text_report_one);

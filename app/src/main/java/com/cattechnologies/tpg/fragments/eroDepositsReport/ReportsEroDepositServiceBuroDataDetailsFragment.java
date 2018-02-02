@@ -27,7 +27,7 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
     String title;
     TextView titulo, textReportOne, textReportSsn, textReportType, textReportOneData, textReportTitleDetail,
             textReportTwo, textReportTwoData, textReportThree, textReportThreeData, textReportFour, textReportFourData,
-            textFiveNextAnother, textFiveNextAnotherData,textEfinData, textEfin;
+            textFiveNextAnother, textFiveNextAnotherData;
     RelativeLayout llTwo, llThree, llFour, llFive, llSix, llTwoNext, llFiveNext;
     String userName,
             userSSN,
@@ -35,15 +35,15 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
             userMasterID,
             userDepositDate,
             userDepositAmount,
-            userReversedDate,efindata;
+            userReversedDate;
     SimpleDateFormat format, format1;
     PreferencesManager preferencesManager;
 
 
-    public static ReportsEroDepositsDetailsFragment newInstance(
+    public static ReportsEroDepositServiceBuroDataDetailsFragment newInstance(
             String sectionTitle, String firstName, String primarySsn, String depositType,
-            String masterefin, String depositdate, String depositAmount, String recordcreatedate, String efindata) {
-        ReportsEroDepositsDetailsFragment fragment = new ReportsEroDepositsDetailsFragment();
+            String masterefin, String depositdate, String depositAmount, String recordcreatedate) {
+        ReportsEroDepositServiceBuroDataDetailsFragment fragment = new ReportsEroDepositServiceBuroDataDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("report_username", firstName);
@@ -53,7 +53,6 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
         args.putString("report_depositDate", depositdate);
         args.putString("report_depositAmount", depositAmount);
         args.putString("report_recordCreatedDate", recordcreatedate);
-        args.putString("report_efin", efindata);
 
         fragment.setArguments(args);
         return fragment;
@@ -92,11 +91,8 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
         userDepositAmount = getArguments().getString("report_depositAmount");
         userReversedDate = getArguments().getString("report_recordCreatedDate");
 
-        efindata = getArguments().getString("report_efin");
-
         textReportSsn = (TextView) getActivity().findViewById(R.id.text_report_one_ssn);
         textReportType = (TextView) getActivity().findViewById(R.id.text_report_one_type);
-
 
         textReportOne = (TextView) getActivity().findViewById(R.id.text_report_one);//ll_six
         textReportOneData = (TextView) getActivity().findViewById(R.id.text_report_one_data);
@@ -113,8 +109,8 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
         textFiveNextAnother = (TextView) getActivity().findViewById(R.id.text_report_five_next_another);//ll_two_next_another
         textFiveNextAnotherData = (TextView) getActivity().findViewById(R.id.text_report_five_next_data_another);
 
-        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin);
-        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data);
+        //textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin);
+        //textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data);
 
         llSix = (RelativeLayout) getActivity().findViewById(R.id.ll_six);
         llFive = (RelativeLayout) getActivity().findViewById(R.id.ll_five);
@@ -156,13 +152,6 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
 
         textFiveNextAnother.setText("Comments:");
         textFiveNextAnotherData.setText("");
-        if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
-            textEfin.setText("EFIN:");//ll_two next another
-            textEfinData.setText(efindata);
-        } else {
-            textEfin.setText("");//ll_two next another
-            textEfinData.setText("");
-        }
 
     }
 }

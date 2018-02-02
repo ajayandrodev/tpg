@@ -79,7 +79,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
     public static final String ARG_SECTION_TITLE = "section_number";
     RecyclerView recyclerView;
     TextView titulo, textNoData;
-    String title, newText, sort;
+    String title, newText;
     CompositeSubscription mSubscriptions;
     ProgressBar progressBar;
     String userId, userType, pagNo = "";
@@ -113,6 +113,11 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
     ScrollView scrollView;
     Button btn;
     int wdth;
+    //updated
+    String sort = "";
+    //updated
+    TextWatcher textWatcher;
+
 
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
@@ -146,12 +151,12 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
+        //updated
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        sortAndSearch(sort);
-        //searchDataInfo(false);
-
-
+        if(textWatcher != null){
+            searchData.addTextChangedListener(textWatcher);
+        }
+        searchDataInfo(true);
     }
 
 
@@ -197,9 +202,6 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
         reportsFeePaidSort.setPage("1");
         reportFreePaidSearchSort.setPage("1");
 
-
-        searchDataInfo(true);
-
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -208,24 +210,75 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+        //updated
+        if(textWatcher == null){
+            textWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    newText = editable.toString().toLowerCase();
+                    System.out.println("On text changed "+newText);
+                    if(!pagNo.isEmpty()){
+                        pagNo = "";
+                    }
+                    if (TextUtils.isEmpty(newText)) {
+                        if (pagNo.equalsIgnoreCase("")) {
+                            //System.out.println("On text changed pagno is empty "+newText);
+                            feePaidReportsData(userId, userType, reports.getPage());
+                        } else {
+                            //System.out.println("On text changed pagno is not empty "+newText);
+                            feePaidReportsData(userId, userType, pagNo);
+                        }
+                    } else if (!TextUtils.isEmpty(newText)) {
+                        //searchReportItem(userId, userType, pagNo, newText);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        } else {
+                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        }
+                    }
+                }
+            };
+        }
     }
 
     private void searchDataInfo(boolean b) {
-     /*   if(b==true){
-
-        }else {
-            searchData.setText("");
-        }*/
         if (layout != null) {
             layout.removeAllViews();
         }
-
-        if (searchData.getText().toString().isEmpty()) {
-            if (pagNo.equalsIgnoreCase("")) {
-                feePaidReportsData(userId, userType, reports.getPage());
-            } else {
-                feePaidReportsData(userId, userType, pagNo);
+        //updated
+        if(searchData.getText().toString().isEmpty()) {
+            if(sort.isEmpty()){
+                if (pagNo.equalsIgnoreCase("")) {
+                    feePaidReportsData(userId, userType, reports.getPage());
+                } else {
+                    feePaidReportsData(userId, userType, pagNo);
+                }
+            }else{
+                sortAndSearch(sort);
             }
+        }else{
+            if(sort.isEmpty()){
+                if (pagNo.equalsIgnoreCase("")) {
+                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                } else {
+                    searchReportItem(userId, userType, pagNo, newText);
+                }
+            }else{
+                sortAndSearch(sort);
+            }
+
         }
         searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -233,36 +286,6 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
 
                 }
                 return false;
-            }
-        });
-        searchData.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence query, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                newText = editable.toString().toLowerCase();
-                if (TextUtils.isEmpty(newText)) {
-                    if (pagNo.equalsIgnoreCase("")) {
-                        feePaidReportsData(userId, userType, reports.getPage());
-                    } else {
-                        feePaidReportsData(userId, userType, pagNo);
-                    }
-                } else if (!TextUtils.isEmpty(newText)) {
-                    //searchReportItem(userId, userType, pagNo, newText);
-                    if (pagNo.equalsIgnoreCase("")) {
-                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    } else {
-                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    }
-                }
             }
         });
     }
@@ -680,13 +703,13 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
             if (pagNo.equalsIgnoreCase("")) {
                 sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
             } else {
-                sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
+                sortReportItem(userId, userType, pagNo, sort);
             }
         } else if (!TextUtils.isEmpty(newText)) {
             if (pagNo.equalsIgnoreCase("")) {
                 searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
             } else {
-                searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
+                searchSortReportData(userId, userType, newText,pagNo, sort);
             }
         }
     }

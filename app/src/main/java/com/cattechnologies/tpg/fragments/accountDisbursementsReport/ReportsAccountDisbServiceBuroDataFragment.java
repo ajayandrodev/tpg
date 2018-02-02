@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,7 +73,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
     public static final String ARG_SECTION_TITLE = "section_number";
     RecyclerView recyclerView;
     TextView titulo, textNoData;
-    String title, newText, sort;
+    String title, newText;
     CompositeSubscription mSubscriptions;
     ProgressBar progressBar;
     String userId, userType, pagNo = "";
@@ -83,10 +84,11 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
     LinearLayout layout;
     int current_page, current_page_sort = 1, current_page_search = 1, current_page_mock;
     SimpleDateFormat format, format1;
-
-/*
-    ServiceBuro
-*/
+    //updated
+    String sort = "";
+    /*
+        ServiceBuro
+    */
     ReportsAccountDisbServiceBuroListAdapter mAdapter;
     ReportsAccountDisbServiceBuroSearchListAdapter mAdapterSearch;
     ReportsAccountDisbServiceBuroSortListAdapter mAdapterSort;
@@ -109,6 +111,8 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
     ScrollView scrollView;
     Button btn;
     int wdth;
+    //updated
+    TextWatcher textWatcher;
 
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
@@ -141,7 +145,42 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
-        sortAndSearch(sort);
+        // sortAndSearch(sort);
+        //updated
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        if (textWatcher != null) {
+            searchData.addTextChangedListener(textWatcher);
+        }
+        searchDataInfo(true);
+    }
+
+    private void searchDataInfo(boolean b) {
+        if (layout != null) {
+            layout.removeAllViews();
+        }
+        //updated
+        if (searchData.getText().toString().isEmpty()) {
+            if (sort.isEmpty()) {
+                if (pagNo.equalsIgnoreCase("")) {
+                    eroDepositReportsData(userId, userType, reports.getPage());
+                } else {
+                    eroDepositReportsData(userId, userType, pagNo);
+                }
+            } else {
+                sortAndSearch(sort);
+            }
+        } else {
+            if (sort.isEmpty()) {
+                if (pagNo.equalsIgnoreCase("")) {
+                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                } else {
+                    searchReportItem(userId, userType, pagNo, newText);
+                }
+            } else {
+                sortAndSearch(sort);
+            }
+
+        }
     }
 
     @Override
@@ -192,53 +231,6 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
         reportsFeePaidSort.setPage("1");
         reportFreePaidSearchSort.setPage("1");
 
-        if (layout != null) {
-            layout.removeAllViews();
-        }
-        if (searchData.getText().toString().isEmpty()) {
-            if (pagNo.equalsIgnoreCase("")) {
-                eroDepositReportsData(userId, userType, reports.getPage());
-            } else {
-                eroDepositReportsData(userId, userType, pagNo);
-            }
-        }
-        searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((actionId == EditorInfo.IME_ACTION_DONE)) {
-
-                }
-                return false;
-            }
-        });
-        searchData.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence query, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                newText = editable.toString().toLowerCase();
-                if (TextUtils.isEmpty(newText)) {
-                    if (pagNo.equalsIgnoreCase("")) {
-                        eroDepositReportsData(userId, userType, reports.getPage());
-                    } else {
-                        eroDepositReportsData(userId, userType, pagNo);
-                    }
-                } else if (!TextUtils.isEmpty(newText)) {
-                    if (pagNo.equalsIgnoreCase("")) {
-                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    } else {
-                        searchReportItem(userId, userType, pagNo, newText);
-                    }
-                }
-            }
-        });
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -247,6 +239,46 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+
+        //updated
+        if(textWatcher == null){
+            textWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    newText = editable.toString().toLowerCase();
+                    System.out.println("On text changed "+newText);
+                    if(!pagNo.isEmpty()){
+                        pagNo = "";
+                    }
+                    if (TextUtils.isEmpty(newText)) {
+                        if (pagNo.equalsIgnoreCase("")) {
+                            eroDepositReportsData(userId, userType, reports.getPage());
+                        } else {
+                            eroDepositReportsData(userId, userType, pagNo);
+                        }
+                    } else if (!TextUtils.isEmpty(newText)) {
+                        //searchReportItem(userId, userType, pagNo, newText);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        } else {
+                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        }
+                    }
+                }
+            };
+        }
     }
 
     private void searchReportItem(String userId, String userType, String page, String searchText) {
@@ -389,7 +421,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                         reports.getPrimarySsn(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
-                        reports.getExpecteddepdate(), title, reports.getEfin());
+                        reports.getExpecteddepdate(), title);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -577,7 +609,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                         reports.getPrimarySsn(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
-                        reports.getExpecteddepdate(), title, reports.getEfin());
+                        reports.getExpecteddepdate(), title);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -598,7 +630,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
     private void showToast(String msg) {
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -811,7 +843,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                         reports.getPrimarySsn(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
-                        reports.getExpecteddepdate(), title, reports.getEfin());
+                        reports.getExpecteddepdate(), title);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -966,7 +998,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                         reports.getPrimarySsn(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
-                        reports.getExpecteddepdate(), title, reports.getEfin());
+                        reports.getExpecteddepdate(), title);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()

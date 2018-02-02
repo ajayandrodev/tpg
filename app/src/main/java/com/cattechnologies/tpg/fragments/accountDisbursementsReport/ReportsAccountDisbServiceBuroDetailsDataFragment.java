@@ -28,7 +28,7 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
     String title;
     TextView titulo, textReportFirstName, textReportSsn, textReportType, textReportTitleDetail, textReportOne, textReportOneData,
             textReportTwo, textReportTwoData, textReportThree, textReportThreeData, textReportFour, textReportFourData,
-            textReportFive, textReportFiveNext, textReportFiveNextData, textReportFiveData, textFiveNextAnother, textFiveNextAnotherData, textEfinData, textEfin;
+            textReportFive, textReportFiveNext, textReportFiveNextData, textReportFiveData, textFiveNextAnother, textFiveNextAnotherData;
     RelativeLayout llTwo, llThree, llFour, llFive, llSix, llTwoNext, llFiveNext;
     LinearLayout llInfoData, llInfoDetailsData;
     String name, primarySsn, disbursType, expectedRefund, reportsExpecteddepdate,
@@ -42,7 +42,7 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
             String primarySsn, String disbursType,
             String expectedRefund, String reportsExpecteddepdate,
             String productType, String disbursementDate, String disbursmentamount,
-            String expecteddepdate, String sectionTitle, String efindata) {
+            String expecteddepdate, String sectionTitle) {
         ReportsAccountDisbServiceBuroDetailsDataFragment fragment = new ReportsAccountDisbServiceBuroDetailsDataFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
@@ -55,7 +55,6 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
         args.putString("report_disbursementDate", disbursementDate);
         args.putString("report_disbursmentamount", disbursmentamount);
         args.putString("report_expecteddepdate", expecteddepdate);
-        args.putString("report_efin", efindata);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,7 +71,8 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.reports_account_disbursement_service_buro_details, container, false);
+        View view = inflater.inflate(R.layout.reports_account_disb_service_buro_detail, container, false);
+
 
 
         return view;
@@ -94,12 +94,11 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
         disbursmentamount = getArguments().getString("report_disbursmentamount");
         expecteddepdate = getArguments().getString("report_expecteddepdate");
 
-        efindata = getArguments().getString("report_efin");
 
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
 
-        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin);
-        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data);
+        /*textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin);
+        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data);*/
 
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
         textReportOne = (TextView) getActivity().findViewById(R.id.text_report_one);
@@ -173,13 +172,6 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
         textFiveNextAnother.setText("Disbursement Info:");//ll_two next another
         textFiveNextAnotherData.setText("");
 
-        if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
-            textEfin.setText("EFIN:");//ll_two next another
-            textEfinData.setText(efindata);
-        } else {
-            textEfin.setText("");//ll_two next another
-            textEfinData.setText("");
-        }
 
 
     }

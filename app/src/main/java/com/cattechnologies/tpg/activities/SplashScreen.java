@@ -30,16 +30,15 @@ public class SplashScreen extends Activity {
             System.out.println("SplashScreen.onCreate===isLOging" + preferencesManager.getUserId(getApplicationContext()));
             Intent intent = new Intent(this, LoginScreen.class);
             startActivity(intent);
+            finish();
         } else {
             System.out.println("SplashScreen.onCreate===is not login==");
-
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     Intent i = new Intent(SplashScreen.this, ViewPagerActivity.class);
                     startActivity(i);
                     finish();
-
                 }
             }, Constants.SPLASH_TIME_OUT);
         }
@@ -48,7 +47,7 @@ public class SplashScreen extends Activity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+        //finish();
     }
 }
 

@@ -52,11 +52,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/selected_type"
-                android:layout_margin="@dimen/dim_5"
-                android:background="@drawable/edittext_border"
+                android:background="@drawable/edittext_border_report_data"
                 android:gravity="center"
                 android:padding="@dimen/dim_20"
                 android:text="service bureau"
+                android:textSize="@dimen/font_size"
                 android:textAllCaps="true"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                 android:textColor="@android:color/black"
@@ -74,9 +74,7 @@
                 android:layout_height="@dimen/dim_200"
                 android:layout_below="@id/selected_type_sb"
                 android:gravity="center|top"
-                android:layout_marginTop="@dimen/dim_5"
-                android:orientation="vertical"
-                android:padding="@dimen/dim_5">
+                android:orientation="vertical">
 
                 <ExpandableListView
                     android:id="@+id/theexpandables"
@@ -84,14 +82,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginBottom="@dimen/dim_5"
-                    android:layout_marginTop="@dimen/dim_5"
-                    android:background="@drawable/edittext_border"
+                    android:background="@drawable/edittext_border_report_data"
                     android:childDivider="#7F7F7F"
                     android:choiceMode="singleChoice"
                     android:divider="#7F7F7F"
                     android:dividerHeight="1dp"
                     android:groupIndicator="@null"
-                    android:listSelector="@android:color/white"
+                    android:listSelector="@android:color/transparent"
                     android:scrollbars="vertical" />
 
 

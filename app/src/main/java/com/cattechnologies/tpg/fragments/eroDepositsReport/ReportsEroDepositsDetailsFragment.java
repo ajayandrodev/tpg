@@ -112,8 +112,8 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
         textFiveNextAnother = (TextView) getActivity().findViewById(R.id.text_report_five_next_another);//ll_two_next_another
         textFiveNextAnotherData = (TextView) getActivity().findViewById(R.id.text_report_five_next_data_another);
 
-        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin);
-        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data);
+        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin2);
+        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data2);
 
         llSix = (RelativeLayout) getActivity().findViewById(R.id.ll_six);
         llFive = (RelativeLayout) getActivity().findViewById(R.id.ll_five);
@@ -151,7 +151,6 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
         }
 
         textReportFourData.setText(chagnedDate);
-
 
         textFiveNextAnother.setText("Comments:");
         textFiveNextAnotherData.setText("");

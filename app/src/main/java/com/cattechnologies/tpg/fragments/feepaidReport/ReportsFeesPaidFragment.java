@@ -59,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.SplittableRandom;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
@@ -75,7 +76,11 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     public static final String ARG_SECTION_TITLE = "section_number";
     RecyclerView recyclerView;
     TextView titulo, textNoData;
-    String title, newText, sort;
+    String title, newText;
+
+    //updated
+    String sort = "";
+
     CompositeSubscription mSubscriptions;
     ProgressBar progressBar;
     String userId, userType, pagNo = "";
@@ -110,6 +115,9 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     Button btn;
     int wdth;
 
+    //updated
+    TextWatcher textWatcher;
+
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
         ReportsFeesPaidFragment fragment = new ReportsFeesPaidFragment();
@@ -142,16 +150,12 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
+        //updated
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        if (searchData.getText().toString().isEmpty()) {
-
-        } else {
-            sortAndSearch(sort);
-
+        if(textWatcher != null){
+            searchData.addTextChangedListener(textWatcher);
         }
-        //searchDataInfo(false);
-
-
+        searchDataInfo(true);
     }
 
 
@@ -197,9 +201,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         reportsFeePaidSort.setPage("1");
         reportFreePaidSearchSort.setPage("1");
 
-
-        searchDataInfo(true);
-
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -208,24 +209,76 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.my_custom_divider));
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+
+        //updated
+        if(textWatcher == null){
+            textWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    newText = editable.toString().toLowerCase();
+                    System.out.println("On text changed "+newText);
+                    if(!pagNo.isEmpty()){
+                        pagNo = "";
+                    }
+                    if (TextUtils.isEmpty(newText)) {
+                        if (pagNo.equalsIgnoreCase("")) {
+                            //System.out.println("On text changed pagno is empty "+newText);
+                            feePaidReportsData(userId, userType, reports.getPage());
+                        } else {
+                            //System.out.println("On text changed pagno is not empty "+newText);
+                            feePaidReportsData(userId, userType, pagNo);
+                        }
+                    } else if (!TextUtils.isEmpty(newText)) {
+                        //searchReportItem(userId, userType, pagNo, newText);
+                        if (pagNo.equalsIgnoreCase("")) {
+                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        } else {
+                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
+                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                        }
+                    }
+                }
+            };
+        }
     }
 
     private void searchDataInfo(boolean b) {
-     /*   if(b==true){
-
-        }else {
-            searchData.setText("");
-        }*/
         if (layout != null) {
             layout.removeAllViews();
         }
-
-        if (searchData.getText().toString().isEmpty()) {
-            if (pagNo.equalsIgnoreCase("")) {
-                feePaidReportsData(userId, userType, reports.getPage());
-            } else {
-                feePaidReportsData(userId, userType, pagNo);
+        //updated
+        if(searchData.getText().toString().isEmpty()) {
+            if(sort.isEmpty()){
+                if (pagNo.equalsIgnoreCase("")) {
+                    feePaidReportsData(userId, userType, reports.getPage());
+                } else {
+                    feePaidReportsData(userId, userType, pagNo);
+                }
+            }else{
+                sortAndSearch(sort);
             }
+        }else{
+            if(sort.isEmpty()){
+                if (pagNo.equalsIgnoreCase("")) {
+                    searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                } else {
+                    searchReportItem(userId, userType, pagNo, newText);
+                }
+            }else{
+                sortAndSearch(sort);
+            }
+
         }
         searchData.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -235,36 +288,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 return false;
             }
         });
-        searchData.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence query, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                newText = editable.toString().toLowerCase();
-                if (TextUtils.isEmpty(newText)) {
-                    if (pagNo.equalsIgnoreCase("")) {
-                        feePaidReportsData(userId, userType, reports.getPage());
-                    } else {
-                        feePaidReportsData(userId, userType, pagNo);
-                    }
-                } else if (!TextUtils.isEmpty(newText)) {
-                    //searchReportItem(userId, userType, pagNo, newText);
-                    if (pagNo.equalsIgnoreCase("")) {
-                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    } else {
-                        searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
-                    }
-                }
-            }
-        });
     }
 
     private void searchReportItem(String userId, String userType, String page, String searchText) {
@@ -433,7 +457,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     }
 
     private void feePaidReportsData(String userId, String userType, String page) {
-        System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType + " && " + page);
+        //System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType + " && " + page);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidData(userId, userType, page)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -445,7 +469,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     }
 
     private void handleError(Throwable error) {
-        System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
+        //System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
         showToast(error.getMessage());
         progressBar.setVisibility(View.GONE);
 
@@ -786,7 +810,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 // reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -805,7 +829,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 //  reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -949,7 +973,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 //  reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
@@ -968,7 +992,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
+                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 // reportsFeePaidSort.setPage(String.valueOf(current_page_sort));

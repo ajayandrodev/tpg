@@ -72,17 +72,12 @@ public class ReportsFeePaidExpandableadapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         String parent_text = (String) getGroup(groupPosition);
-
         LayoutInflater infalInflater = (LayoutInflater) this.mcontext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = infalInflater.inflate(R.layout.report_parent_view, null);
-
-
         TextView textparent = (TextView) convertView.findViewById(R.id.parent_report_fee_paid);
         textparent.setText(parent_text);
         ImageView img = (ImageView) convertView.findViewById(R.id.imag_arrow);
-
-
         if (isLastChild) {
             img.setImageResource(R.drawable.up_arrow_icon);
         } else {

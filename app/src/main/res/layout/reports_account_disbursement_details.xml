@@ -60,7 +60,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/text_report_one_efin"
+                            android:id="@+id/text_report_one_efin3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dim_3"
@@ -68,7 +68,7 @@
                             android:textSize="@dimen/font_size" />
 
                         <TextView
-                            android:id="@+id/text_report_one_efin_data"
+                            android:id="@+id/text_report_one_efin_data3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dim_3"

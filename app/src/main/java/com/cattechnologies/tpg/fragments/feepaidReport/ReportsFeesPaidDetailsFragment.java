@@ -124,8 +124,8 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
         llInfoData = (LinearLayout) getActivity().findViewById(R.id.ll_info_data);
         llInfoDetailsData = (LinearLayout) getActivity().findViewById(R.id.ll_info_details_data);
 
-        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin);
-        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data);
+        textEfin = (TextView) getActivity().findViewById(R.id.text_report_one_efin4);
+        textEfinData = (TextView) getActivity().findViewById(R.id.text_report_one_efin_data4);
 
         llSix = (RelativeLayout) getActivity().findViewById(R.id.ll_six);
         llFive = (RelativeLayout) getActivity().findViewById(R.id.ll_five);

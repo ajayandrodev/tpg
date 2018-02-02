@@ -159,7 +159,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
         sbEroNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                title = getResources().getString(R.string.dashboard_fee_paid);
+                title = getResources().getString(R.string.dashboard_ero_deposits);
                 fragment = ReportsEroDepositServiceBuroDataFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
                         preferencesManager.getAccountType(getActivity()));
                 if (fragment != null) {

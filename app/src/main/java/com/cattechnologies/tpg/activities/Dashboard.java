@@ -94,13 +94,11 @@ public class Dashboard extends AppCompatActivity {
             ab.setHomeAsUpIndicator(R.drawable.hamburger);
             ab.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
     public void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
-
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
@@ -130,7 +128,6 @@ public class Dashboard extends AppCompatActivity {
                 if ((f instanceof DashboardFragment) || (f instanceof ProfileFragment)) {
                     drawerLayout.openDrawer(GravityCompat.START);
                 } else {
-
                     onBackPressed();
                 }
                 return true;
@@ -183,7 +180,7 @@ public class Dashboard extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         showOrHideTitleBar();
-
+        System.out.println("Dashboard.onResume");
     }
 
     public void showOrHideTitleBar() {
@@ -193,14 +190,8 @@ public class Dashboard extends AppCompatActivity {
         } else {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_icon);
         }
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        /*if (findViewById(R.id.search_paid) != null) {
-            ((EditText) findViewById(R.id.search_paid)).setText("");
-        }*/
-
     }
 
     @Override
@@ -208,27 +199,44 @@ public class Dashboard extends AppCompatActivity {
         super.onBackPressed();
         // TODO: 29-Oct-17
         int backStackEntryCount = getFragmentManager().getBackStackEntryCount();
-        
-
        /* if (backStackEntryCount == 0) {
             toolBarText.setText(getResources().getString(R.string.home_item));
             ab.show();
-
           /*  Toast.makeText(this, "get", Toast.LENGTH_SHORT).show();
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-
         } else {
            /* Toast.makeText(this, "other", Toast.LENGTH_SHORT).show();
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_icon);
-
             toolBarText.setText(getResources().getString(R.string.productos_item));
             ab.hide();
         }*/
-
-
         showOrHideTitleBar();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("Dashboard.onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println("Dashboard.onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("Dashboard.onDestroy");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        System.out.println("Dashboard.onStart");
     }
 
     public void setTitle(String title) {

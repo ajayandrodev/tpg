@@ -157,12 +157,5 @@ public class ReportsFeesPaidServiceBuroDataDetailsFragment  extends Fragment {
         textReportSix.setText("Total Fee Amount:");
         textReportSixData.setText("$" + userTotal);
 
-        if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
-            textEfin.setText("EFIN:");//ll_two next another
-            textEfinData.setText(efindata);
-        } else {
-            textEfin.setText("");//ll_two next another
-            textEfinData.setText("");
-        }
     }
 }
