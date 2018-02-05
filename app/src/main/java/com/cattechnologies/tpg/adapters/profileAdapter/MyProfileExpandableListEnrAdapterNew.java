@@ -1,9 +1,6 @@
 package com.cattechnologies.tpg.adapters.profileAdapter;
 
 import android.content.Context;
-import android.os.Build;
-import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.cattechnologies.tpg.model.EnrolInfo;
+import com.cattechnologies.tpg.model.profileModel.EnrolInfo;
 import com.cattechnologies.tpg.model.profileModel.MyProfileGroupEnrollInfoNew;
 import com.cattechnologies.tpg.R;
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -20,7 +17,6 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by admin on 12/19/2017.
@@ -82,16 +78,6 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
             LayoutInflater inf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inf.inflate(R.layout.my_profile_group_items_enroll, null);
         }
-     /*   if (isLastChild) {
-            view.setBackgroundColor(Color.parseColor("#ebefef"));
-        } else {
-            view.setBackgroundColor(Color.parseColor("#e0e8e8"));
-        }*/
-
-     /*   LinearLayout.LayoutParams vi_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-                (int)(MainActivity.screen*0.33));
-        view.setLayoutParams(vi_params);*/
-
         TextView heading = (TextView) view.findViewById(R.id.heading);
         heading.setText(headerInfo.getName().toString());
         ImageView img = (ImageView) view.findViewById(R.id.imag_arrow);
@@ -245,11 +231,8 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                     } catch (NumberParseException e) {
                         System.err.println("NumberParseException was thrown: " + e.toString());
                     }
-
                 }
                 childItem14.setText(detailInfo.getEmailAddress().trim());
-
-
             }
         } catch (Exception e) {
             e.printStackTrace();

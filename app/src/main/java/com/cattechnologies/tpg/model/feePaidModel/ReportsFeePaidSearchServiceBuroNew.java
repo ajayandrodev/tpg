@@ -72,7 +72,9 @@ public class ReportsFeePaidSearchServiceBuroNew implements Parcelable {
 
     @SerializedName("Row")
     private String Row;
-    public ReportsFeePaidSearchServiceBuroNew(){}
+
+    public ReportsFeePaidSearchServiceBuroNew() {
+    }
 
     protected ReportsFeePaidSearchServiceBuroNew(Parcel in) {
         Id = in.readString();

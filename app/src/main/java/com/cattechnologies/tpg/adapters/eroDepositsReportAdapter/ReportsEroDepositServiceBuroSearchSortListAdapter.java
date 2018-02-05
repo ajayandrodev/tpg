@@ -40,19 +40,12 @@ public class ReportsEroDepositServiceBuroSearchSortListAdapter extends RecyclerV
 
     @Override
     public void onBindViewHolder(ReportsEroDepositServiceBuroSearchSortListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-        System.out.println("ReportsFeesPaidListAdapter.onBindViewHolder");
         ReportEroDepositsServiceBuroSearchSortNew reports = reportsList.get(position);
         holder.userData.setText(reports.getDAN());
         holder.costData.setText("$" + reports.getDepositAmount());
         holder.accountDataSSN.setText(reports.getDepositType());
         holder.detailsDataDisbush.setText("");
         holder.dateData.setText(reports.getDepositdate());
-
-
     }
 
     @Override
@@ -68,7 +61,6 @@ public class ReportsEroDepositServiceBuroSearchSortListAdapter extends RecyclerV
 
     @Override
     public int getItemCount() {
-
         return reportsList == null ? 0 : reportsList.size();
         // return 0;
     }
@@ -80,7 +72,6 @@ public class ReportsEroDepositServiceBuroSearchSortListAdapter extends RecyclerV
 
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
-
         public ReportsViewHolder(View itemView) {
             super(itemView);
             System.out.println("ReportsViewHolder.ReportsViewHolder");
@@ -91,8 +82,6 @@ public class ReportsEroDepositServiceBuroSearchSortListAdapter extends RecyclerV
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
-
         }
 
         @Override

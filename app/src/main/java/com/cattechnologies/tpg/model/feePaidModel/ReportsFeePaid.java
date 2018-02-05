@@ -11,7 +11,7 @@ import java.util.List;
  * Created by admin on 12/22/2017.
  */
 
-public class ReportsFeePaid implements Parcelable{
+public class ReportsFeePaid implements Parcelable {
 
     @SerializedName("status")
     private String status;

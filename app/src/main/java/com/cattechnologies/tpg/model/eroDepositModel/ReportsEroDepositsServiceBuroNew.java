@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by admin on 2/1/2018.
  */
 
-public class ReportsEroDepositsServiceBuroNew implements Parcelable{
+public class ReportsEroDepositsServiceBuroNew implements Parcelable {
 
 
     @SerializedName("Id")
@@ -62,7 +62,7 @@ public class ReportsEroDepositsServiceBuroNew implements Parcelable{
     @SerializedName("Depositor")
     private String Depositor;
 
-    public ReportsEroDepositsServiceBuroNew(){
+    public ReportsEroDepositsServiceBuroNew() {
 
     }
 

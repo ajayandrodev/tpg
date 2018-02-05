@@ -78,8 +78,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
     RecyclerView recyclerView;
 
 
-
-
     ReportsEroDepositParticularSearchListAdapter mAdapterSearch;
     ReportEroDepositPerticularListAdapter mAdapterParticularList;
     ReportEroDepositPerticulaSortListAdapter mAdapterParticularSortList;
@@ -123,6 +121,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
     Button btn;
     int wdth;
     SimpleDateFormat format, format1;
+
     public static Fragment newInstance(String sectionTitle, String userId, String type, String page, String effin) {
         ParticularOfficeSbEroDepositFragment fragment = new ParticularOfficeSbEroDepositFragment();
         Bundle args = new Bundle();
@@ -251,6 +250,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             };
         }
     }
+
     private void particularOfficeSearch(String userId, String userType, String page, String newText, String efinData) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getPerticularEroDepositsSearch(userId, userType, page, newText, efinData)
@@ -261,19 +261,20 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponse(ReportsPerticularEroDepositsSearch response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportsPerticularEroDepositsSearchNew> reportsFeePaidNewList = response.getEroReport_data();
-            ReportsPerticularEroDepositsSearchNew reportsFeePaidNew=new ReportsPerticularEroDepositsSearchNew();
+            ReportsPerticularEroDepositsSearchNew reportsFeePaidNew = new ReportsPerticularEroDepositsSearchNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getEroReport_data().size();i++) {
+            for (int i = 0; i < response.getEroReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
                     reportsFeePaidNew.setDepositdate(chagnedDate);
@@ -395,7 +396,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
+                        reports.getDepositAmount(), reports.getReverseddate(), reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -415,6 +416,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             layout.setVisibility(View.GONE);
         }
     }
+
     private void particularReportData(String userId, String userType, String page, String efinData) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositsParticularData(userId, userType, page, efinData)
@@ -429,9 +431,11 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
     private void showToast(String msg) {
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }    }
+        }
+    }
+
     private void handleError(Throwable error) {
         System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
         showToast(error.getMessage());
@@ -454,6 +458,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         }
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -512,13 +517,13 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrEroDepositsNew> reportsFeePaidNewList = response.getEroReport_data();
-            ReportParticulrEroDepositsNew reportsFeePaidNew=new ReportParticulrEroDepositsNew();
+            ReportParticulrEroDepositsNew reportsFeePaidNew = new ReportParticulrEroDepositsNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getEroReport_data().size();i++) {
+            for (int i = 0; i < response.getEroReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
                     reportsFeePaidNew.setDepositdate(chagnedDate);
@@ -640,7 +645,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
+                        reports.getDepositAmount(), reports.getReverseddate(), reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -650,11 +655,12 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        }else {
+        } else {
             progressBar.setVisibility(View.GONE);
             showToast(response.getMessage());
         }
     }
+
     @Override
     public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
@@ -737,19 +743,20 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponse(ReportEroDepositsPerticularSearchSort response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrEroDepositsSearchSortNew> reportsFeePaidNewList = response.getEroReport_data();
-            ReportParticulrEroDepositsSearchSortNew reportsFeePaidNew=new ReportParticulrEroDepositsSearchSortNew();
+            ReportParticulrEroDepositsSearchSortNew reportsFeePaidNew = new ReportParticulrEroDepositsSearchSortNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getEroReport_data().size();i++) {
+            for (int i = 0; i < response.getEroReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
                     reportsFeePaidNew.setDepositdate(chagnedDate);
@@ -878,7 +885,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
+                        reports.getDepositAmount(), reports.getReverseddate(), reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -889,7 +896,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
 
-        }else {
+        } else {
           /*  progressBar.setVisibility(View.GONE);
             showToast(response.getMessage());*/
         }
@@ -907,19 +914,20 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
             showToast("Internet Connection Is Not Available");
         }
     }
+
     private void handleResponse(ReportParticulrEroDepositsSort response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrEroDepositsSortNew> reportsFeePaidNewList = response.getEroReport_data();
-            ReportParticulrEroDepositsSortNew reportsFeePaidNew=new ReportParticulrEroDepositsSortNew();
+            ReportParticulrEroDepositsSortNew reportsFeePaidNew = new ReportParticulrEroDepositsSortNew();
             format = new SimpleDateFormat("yyyyMMdd");
             //format1 = new SimpleDateFormat("MM-dd-yyyy");
             format1 = new SimpleDateFormat("MM-dd-yyyy");
 
             String chagnedDate = null;
-            for(int i=0;i<response.getEroReport_data().size();i++) {
+            for (int i = 0; i < response.getEroReport_data().size(); i++) {
                 try {
                     chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
                     reportsFeePaidNew.setDepositdate(chagnedDate);
@@ -1045,7 +1053,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
                         , reports.getDAN(), reports.getDepositType(),
                         reports.getMasterefin(), reports.getDepositdate(),
-                        reports.getDepositAmount(), reports.getReverseddate(),reports.getEfin()
+                        reports.getDepositAmount(), reports.getReverseddate(), reports.getEfin()
                 );
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
@@ -1055,7 +1063,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        }else {
+        } else {
         /*    progressBar.setVisibility(View.GONE);
             showToast(response.getMessage());*/
         }

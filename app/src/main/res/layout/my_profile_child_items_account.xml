@@ -22,7 +22,6 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|left"
-            android:text="Owner Last Name:"
             android:textAppearance="?android:attr/textAppearance"
             android:textColor="@color/profile_text"
             android:textStyle="bold" />
@@ -35,7 +34,6 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text="Doe"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 
@@ -65,7 +63,6 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|left"
-            android:text="Owner Last Name:"
             android:textAppearance="?android:attr/textAppearance"
             android:textColor="@color/profile_text"
             android:textStyle="bold" />
@@ -78,7 +75,6 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text="Doe"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 
@@ -108,7 +104,6 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|left"
-            android:text="Owner Last Name:"
             android:textAppearance="?android:attr/textAppearance"
             android:textColor="@color/profile_text"
             android:textStyle="bold" />
@@ -121,7 +116,6 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text="Doe"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 
@@ -151,7 +145,6 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|left"
-            android:text="Owner Last Name:"
             android:textAppearance="?android:attr/textAppearance"
             android:textColor="@color/profile_text"
             android:textStyle="bold" />
@@ -164,7 +157,6 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text="Doe"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 
@@ -196,7 +188,6 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|left"
-            android:text="Owner Last Name:"
             android:textAppearance="?android:attr/textAppearance"
             android:textColor="@color/profile_text"
             android:textStyle="bold" />
@@ -209,7 +200,6 @@
             android:layout_marginRight="@dimen/dim_10"
             android:layout_weight="1"
             android:gravity="center|right"
-            android:text="Doe"
             android:textColor="@color/profile_text_data" />
     </LinearLayout>
 

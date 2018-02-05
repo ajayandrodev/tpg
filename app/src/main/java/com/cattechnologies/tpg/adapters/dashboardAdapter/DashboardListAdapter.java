@@ -17,7 +17,6 @@ import java.util.List;
  */
 
 public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdapter.ReportsViewHolder> {
-    //  List<DashboardData> reportsList;
     List<RecentTransactions> recentTransactionsList;
     Context mContext;
 
@@ -35,12 +34,7 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
 
     @Override
     public void onBindViewHolder(DashboardListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-        RecentTransactions reports = recentTransactionsList.get(position);
-
+       RecentTransactions reports = recentTransactionsList.get(position);
         holder.userData.setText(reports.getLastUpadte());
         holder.costData.setText("$" + reports.getAmount());
 
@@ -48,21 +42,16 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
 
     @Override
     public int getItemCount() {
-
         return recentTransactionsList == null ? 0 : recentTransactionsList.size();
         // return 0;
     }
 
     public class ReportsViewHolder extends RecyclerView.ViewHolder {
         TextView userData, costData;
-
         public ReportsViewHolder(View itemView) {
             super(itemView);
             userData = (TextView) itemView.findViewById(R.id.report_user);
             costData = (TextView) itemView.findViewById(R.id.report_rate);
-
-
         }
-
     }
 }

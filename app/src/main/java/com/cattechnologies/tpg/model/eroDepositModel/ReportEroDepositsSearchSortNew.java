@@ -80,6 +80,7 @@ public class ReportEroDepositsSearchSortNew implements Parcelable {
     public void setReverseddate(String reverseddate) {
         Reverseddate = reverseddate;
     }
+
     public String getId() {
         return Id;
     }

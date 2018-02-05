@@ -40,11 +40,6 @@ public class ReportsFeesPaidServiceBuroListAdapter  extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ReportsFeesPaidServiceBuroListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-        System.out.println("ReportsFeesPaidListAdapter.onBindViewHolder");
         ReportsFeePaidServiceBuroNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
@@ -90,8 +85,6 @@ public class ReportsFeesPaidServiceBuroListAdapter  extends RecyclerView.Adapter
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
-
         }
 
         @Override

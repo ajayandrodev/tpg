@@ -82,7 +82,6 @@ public class MyExpandableadapter extends BaseExpandableListAdapter {
         TextView textparent = (TextView) convertView.findViewById(R.id.parent_sb);
         textparent.setText(parent_text);
         ImageView img = (ImageView) convertView.findViewById(R.id.imag_arrow);
-
         if (isLastChild) {
             img.setImageResource(R.mipmap.up_arrow_expan);
         } else {
@@ -94,8 +93,6 @@ public class MyExpandableadapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         String child_text = (String) getChild(groupPosition, childPosition);
-
-
         LayoutInflater infalInflater = (LayoutInflater) this.mcontext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = infalInflater.inflate(R.layout.child_view, null);

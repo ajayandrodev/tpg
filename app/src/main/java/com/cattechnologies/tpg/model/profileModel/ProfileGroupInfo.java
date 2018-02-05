@@ -1,7 +1,5 @@
 package com.cattechnologies.tpg.model.profileModel;
 
-import com.cattechnologies.tpg.model.EnrolInfo;
-import com.cattechnologies.tpg.model.accountDisbursementModel.AccountInfo;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;

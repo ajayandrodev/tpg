@@ -28,7 +28,8 @@ public class ReportEroDepositsSearchServiceBuroSort implements Parcelable {
 
     @SerializedName("Service_Bureau_EroReport_data")
     private List<ReportEroDepositsServiceBuroSearchSortNew> Service_Bureau_EroReport_data;
-    public ReportEroDepositsSearchServiceBuroSort(){
+
+    public ReportEroDepositsSearchServiceBuroSort() {
 
     }
 

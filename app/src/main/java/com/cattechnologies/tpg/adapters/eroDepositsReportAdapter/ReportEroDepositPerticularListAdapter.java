@@ -44,11 +44,6 @@ public class ReportEroDepositPerticularListAdapter extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-
         ReportParticulrEroDepositsNew reports = reportsList.get(position);
         holder.userData.setText(reports.getDAN());
         holder.costData.setText("$" + reports.getDepositAmount());
@@ -56,7 +51,6 @@ public class ReportEroDepositPerticularListAdapter extends RecyclerView.Adapter<
         holder.detailsDataDisbush.setText("");
         format = new SimpleDateFormat("yyyyMMdd");
         format1 = new SimpleDateFormat("MM-dd-yyyy");
-
         String chagnedDate = null;
         try {
             chagnedDate = format1.format(format.parse(reports.getDepositdate()));
@@ -65,7 +59,6 @@ public class ReportEroDepositPerticularListAdapter extends RecyclerView.Adapter<
             e.printStackTrace();
         }
         holder.dateData.setText(reports.getDepositdate());
-
     }
 
     @Override
@@ -78,10 +71,8 @@ public class ReportEroDepositPerticularListAdapter extends RecyclerView.Adapter<
         return position;
     }
 
-
     @Override
     public int getItemCount() {
-
         return reportsList == null ? 0 : reportsList.size();
         // return 0;
     }
@@ -89,15 +80,8 @@ public class ReportEroDepositPerticularListAdapter extends RecyclerView.Adapter<
     public void setClickListener(ItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
-
-  /*  public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }
-*/
-
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
-
         public ReportsViewHolder(View itemView) {
             super(itemView);
             userData = (TextView) itemView.findViewById(R.id.report_user);
@@ -107,8 +91,6 @@ public class ReportEroDepositPerticularListAdapter extends RecyclerView.Adapter<
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
-
         }
 
         @Override

@@ -41,10 +41,6 @@ public class ReportsEroDepositServiceBuroListAdapter extends RecyclerView.Adapte
 
     @Override
     public void onBindViewHolder(ReportsEroDepositServiceBuroListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
         System.out.println("ReportsFeesPaidListAdapter.onBindViewHolder");
         ReportsEroDepositsServiceBuroNew reports = reportsList.get(position);
         holder.userData.setText(reports.getDAN());
@@ -52,8 +48,6 @@ public class ReportsEroDepositServiceBuroListAdapter extends RecyclerView.Adapte
         holder.accountDataSSN.setText(reports.getDepositType());
         holder.detailsDataDisbush.setText("");
         holder.dateData.setText(reports.getDepositdate());
-
-
     }
 
     @Override

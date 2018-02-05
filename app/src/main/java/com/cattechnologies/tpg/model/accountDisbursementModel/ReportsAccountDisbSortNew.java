@@ -155,7 +155,8 @@ public class ReportsAccountDisbSortNew implements Parcelable {
     public void setDisbType(String disbType) {
         DisbType = disbType;
     }
-    public ReportsAccountDisbSortNew(){
+
+    public ReportsAccountDisbSortNew() {
 
     }
 

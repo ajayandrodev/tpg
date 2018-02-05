@@ -28,7 +28,8 @@ public class ReportEroDepositsSearchSort implements Parcelable {
 
     @SerializedName("EroReport_data")
     private List<ReportEroDepositsSearchSortNew> EroReport_data;
-    public ReportEroDepositsSearchSort(){
+
+    public ReportEroDepositsSearchSort() {
 
     }
 

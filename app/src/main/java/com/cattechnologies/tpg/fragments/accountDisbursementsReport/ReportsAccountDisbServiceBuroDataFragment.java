@@ -241,7 +241,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
 
         //updated
-        if(textWatcher == null){
+        if (textWatcher == null) {
             textWatcher = new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -256,8 +256,8 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                 @Override
                 public void afterTextChanged(Editable editable) {
                     newText = editable.toString().toLowerCase();
-                    System.out.println("On text changed "+newText);
-                    if(!pagNo.isEmpty()){
+                    System.out.println("On text changed " + newText);
+                    if (!pagNo.isEmpty()) {
                         pagNo = "";
                     }
                     if (TextUtils.isEmpty(newText)) {

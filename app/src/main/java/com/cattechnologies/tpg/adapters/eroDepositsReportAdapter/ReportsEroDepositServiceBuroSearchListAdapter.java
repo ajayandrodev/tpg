@@ -40,19 +40,12 @@ public class ReportsEroDepositServiceBuroSearchListAdapter extends RecyclerView.
 
     @Override
     public void onBindViewHolder(ReportsEroDepositServiceBuroSearchListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-        System.out.println("ReportsFeesPaidListAdapter.onBindViewHolder");
         ReportEroDepositsServiceBuroSearchNew reports = reportsList.get(position);
         holder.userData.setText(reports.getDAN());
         holder.costData.setText("$" + reports.getDepositAmount());
         holder.accountDataSSN.setText(reports.getDepositType());
         holder.detailsDataDisbush.setText("");
         holder.dateData.setText(reports.getDepositdate());
-
-
     }
 
     @Override
@@ -91,8 +84,6 @@ public class ReportsEroDepositServiceBuroSearchListAdapter extends RecyclerView.
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
-
         }
 
         @Override

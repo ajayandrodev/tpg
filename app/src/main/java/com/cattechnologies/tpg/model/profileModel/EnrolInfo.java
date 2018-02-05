@@ -1,4 +1,7 @@
-package com.cattechnologies.tpg.model;
+package com.cattechnologies.tpg.model.profileModel;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,35 +9,8 @@ import com.google.gson.annotations.SerializedName;
  * Created by admin on 10/23/2017.
  */
 
-public class EnrolInfo {
-    /*
-      "owner_info": {
-            "Street": "123 ADDRESS",
-                    "street2": null,
-                    "City": "SAN DIEGO",
-                    "State": "SA",
-                    "Zipcode": "92117",
-                    "FirstName": "JOHN",
-                    "LastName": "PUTNAM",
-                    "EmailAddress": "0084849955485",
-                    "WorkPhone": null,
-                    "HomePhone": "8586038067",
-                    "MobilePhone": null
-        },*/
+public class EnrolInfo implements Parcelable {
 
-    /* "owner_info": [
-    {
-        "ContactFirstName": "MIKE",
-            "ContactLastName": "NEWMAN",
-            "EmailAddress": "QA@SBTPG.COM",
-            "FaxPhone": "8582222222",
-            "OfficePhone": "8581111111",
-            "Street": "11085 N TORREY PINES",
-            "street2": null,
-            "City": "LA JOLLA",
-            "State": "CA",
-            "Zipcode": "92037"
-    }*/
     @SerializedName("FirstName")
     private String FirstName;
 
@@ -43,6 +19,64 @@ public class EnrolInfo {
 
     @SerializedName("OfficePhone")
     private String OfficePhone;
+
+    public EnrolInfo() {
+    }
+
+
+    protected EnrolInfo(Parcel in) {
+        FirstName = in.readString();
+        FaxPhone = in.readString();
+        OfficePhone = in.readString();
+        ContactFirstName = in.readString();
+        ContactLastName = in.readString();
+        LastName = in.readString();
+        Street = in.readString();
+        street2 = in.readString();
+        City = in.readString();
+        State = in.readString();
+        Zipcode = in.readString();
+        WorkPhone = in.readString();
+        MobilePhone = in.readString();
+        HomePhone = in.readString();
+        EmailAddress = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(FirstName);
+        dest.writeString(FaxPhone);
+        dest.writeString(OfficePhone);
+        dest.writeString(ContactFirstName);
+        dest.writeString(ContactLastName);
+        dest.writeString(LastName);
+        dest.writeString(Street);
+        dest.writeString(street2);
+        dest.writeString(City);
+        dest.writeString(State);
+        dest.writeString(Zipcode);
+        dest.writeString(WorkPhone);
+        dest.writeString(MobilePhone);
+        dest.writeString(HomePhone);
+        dest.writeString(EmailAddress);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<EnrolInfo> CREATOR = new Creator<EnrolInfo>() {
+        @Override
+        public EnrolInfo createFromParcel(Parcel in) {
+            return new EnrolInfo(in);
+        }
+
+        @Override
+        public EnrolInfo[] newArray(int size) {
+            return new EnrolInfo[size];
+        }
+    };
 
     public String getFaxPhone() {
         return FaxPhone;

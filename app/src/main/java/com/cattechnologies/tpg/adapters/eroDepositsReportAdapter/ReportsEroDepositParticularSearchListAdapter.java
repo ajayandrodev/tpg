@@ -46,11 +46,6 @@ public class ReportsEroDepositParticularSearchListAdapter extends RecyclerView.A
 
     @Override
     public void onBindViewHolder(ReportsEroDepositParticularSearchListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-
         ReportsPerticularEroDepositsSearchNew reports = reportsList.get(position);
         holder.userData.setText(reports.getDAN());
         holder.costData.setText("$" + reports.getDepositAmount());
@@ -80,13 +75,6 @@ public class ReportsEroDepositParticularSearchListAdapter extends RecyclerView.A
     public void setClickListener(ItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
-
-    public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }
-
-
-
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
 
@@ -99,8 +87,6 @@ public class ReportsEroDepositParticularSearchListAdapter extends RecyclerView.A
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
-
         }
 
         @Override

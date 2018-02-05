@@ -11,32 +11,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProfileData implements Parcelable {
 
-
-  /*    "profile_data": {
-        "LOGIN_NAME": "ANAM00N63",
-                "EFIN": "060020"
-    },*/
-
-  /*   "ACCOUNT_LOGIN_ID": "13715",
-             "EMAIL_ADDRESS": "ER525711",
-             "LOGIN_NAME": "POLLOCK62",
-             "EFIN": "525711"*/
-/*
-
-   "EmployeeID": "1890",
-           "FirstName": "chris",
-           "LastName": "bagg",
-           "UserName": "BAGGC",
-           "emailAddress": "chris.bagg@sbtpg.com
-*/
-
-
-  /*  @SerializedName("ACCOUNT_LOGIN_ID")
-    private String ACCOUNT_LOGIN_ID;
-
-    @SerializedName("EMAIL_ADDRESS")
-    private String EMAIL_ADDRESS;*/
-
     @SerializedName("LOGIN_NAME")
     private String LOGIN_NAME;
 

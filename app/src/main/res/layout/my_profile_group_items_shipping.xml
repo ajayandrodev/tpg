@@ -13,7 +13,6 @@
         android:layout_margin="@dimen/dim_10"
         android:gravity="center|left"
         android:padding="@dimen/dim_4"
-        android:text="ajay"
         android:textAppearance="?android:attr/textAppearance"
         android:textColor="@color/profile_text_data"
         android:textSize="@dimen/font_size"

@@ -25,7 +25,7 @@ import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserNameData;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserNameInfo;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordData;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordInfo;
-import com.cattechnologies.tpg.model.LoginInfo;
+import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
@@ -72,9 +72,7 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
         loginUsername = (EditText) findViewById(R.id.login_username_forgot);
         loginUserPassword = (EditText) findViewById(R.id.login_password_forgot);
         mTextPass = (TextView) findViewById(R.id.text_password);
-
         llForgotPassword = (Button) findViewById(R.id.login_business_patner);
-
         llForgotCheckBox = (LinearLayout) findViewById(R.id.ll_forgot_checkbox);
         checkBox = (CheckBox) findViewById(R.id.checkbox_data);
         Bundle bundle = getIntent().getExtras();
@@ -85,7 +83,6 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
         preferencesManager = new PreferencesManager();
         loginInfo = new LoginInfo();
         checkBox.setOnCheckedChangeListener(this);
-
         setToolbar();
 
     }
@@ -127,7 +124,6 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
 
 
         } else if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_password))) {
-
             mTextEfin.setText("EFIN OR USERNAME");
             loginUsername.setHint("Enter your EFIN or Username");
             mTextPass.setText("EMAIL");
@@ -139,8 +135,6 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
 
 
         } else if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_email))) {
-
-
             mTextEfin.setText("EFIN");
             loginUsername.setHint("Enter your EFIN ");
             mTextPass.setText("LAST 4 OF SSN");
@@ -164,9 +158,7 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
         switch (id) {
             case R.id.login_button_recover:
                 mLogin.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
-
                 if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_name))) {
-
                     String forgotUname = loginUsername.getText().toString();
                     String forgotUpass = loginUserPassword.getText().toString();
                     String type = null;
@@ -198,20 +190,16 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
 
                         forgotPassword(forgotUname, forgotUpass, loginInfo.getAcc_type());
                     } else if (llForgotPassword.getText().equals(getResources().getString(R.string.ero_info))) {
-
-
                         String forgotUname = loginUsername.getText().toString();
                         String forgotUpass = loginUserPassword.getText().toString();
                         String type = "ero";
                         loginInfo.setAcc_type(type);
                         preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-
                         forgotPassword(forgotUname, forgotUpass, loginInfo.getAcc_type());
                     } else {
                         Intent i = new Intent(this, BackToLoginScreen.class);
                         i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
                         startActivity(i);
-
                     }
 
 
@@ -227,9 +215,7 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
                         type = "ero";
                         loginInfo.setAcc_type(type);
                         preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-
                     }
-
                     forgotEmailAddress(forgotUname, forgotUpass, loginInfo.getAcc_type());
 
                 }

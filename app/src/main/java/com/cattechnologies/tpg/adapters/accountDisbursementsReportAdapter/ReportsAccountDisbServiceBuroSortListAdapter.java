@@ -45,11 +45,6 @@ public class ReportsAccountDisbServiceBuroSortListAdapter extends RecyclerView.A
 
     @Override
     public void onBindViewHolder(ReportsAccountDisbServiceBuroSortListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-
         ReportsAccountDisbServiceBuroSortNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getDisbursmentamount());
@@ -90,14 +85,8 @@ public class ReportsAccountDisbServiceBuroSortListAdapter extends RecyclerView.A
     public void setClickListener(ItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
-
-    public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }
-
-    public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
-
         public ReportsViewHolder(View itemView) {
             super(itemView);
             userData = (TextView) itemView.findViewById(R.id.report_user);
@@ -107,8 +96,6 @@ public class ReportsAccountDisbServiceBuroSortListAdapter extends RecyclerView.A
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
-
         }
 
         @Override

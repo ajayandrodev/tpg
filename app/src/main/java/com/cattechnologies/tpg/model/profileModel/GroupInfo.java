@@ -1,4 +1,4 @@
-package com.cattechnologies.tpg.model;
+package com.cattechnologies.tpg.model.profileModel;
 
 import java.util.ArrayList;
 

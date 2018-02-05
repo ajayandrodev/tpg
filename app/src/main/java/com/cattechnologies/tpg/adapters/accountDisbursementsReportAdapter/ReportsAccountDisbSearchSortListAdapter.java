@@ -45,11 +45,6 @@ public class ReportsAccountDisbSearchSortListAdapter extends RecyclerView.Adapte
 
     @Override
     public void onBindViewHolder(ReportsAccountDisbSearchSortListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-
         ReportAccountDisbSearchSortNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getDisbursmentamount());
@@ -79,13 +74,6 @@ public class ReportsAccountDisbSearchSortListAdapter extends RecyclerView.Adapte
     public void setClickListener(ItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
-
-   /* public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }*/
-
-
-
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
 

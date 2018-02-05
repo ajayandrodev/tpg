@@ -49,11 +49,6 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
 
     @Override
     public void onBindViewHolder(ReportsFeesPaidSearchListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-
         ReportsFeePaidSearchNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
@@ -85,21 +80,6 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
         this.clickListener = itemClickListener;
     }
 
-/*
-    public Filter getFilter() {
-        return mFilter;
-    }
-*/
-
-   /* public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }*/
-
-    public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }
-
-
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
 
@@ -122,42 +102,4 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
         }
     }
 
-
-/*
-    private class ItemFilter extends Filter {
-
-
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-
-            String filterString = constraint.toString().toLowerCase();
-
-            FilterResults results = new FilterResults();
-
-            int count = reportsList.size();
-
-            final ArrayList<ReportsFeePaidSearchNew> tempFilterList = new ArrayList<ReportsFeePaidSearchNew>(count);
-
-            String filterableString;
-            for (int i = 0; i < count; i++) {
-                filterableString = reportsList.get(i).getPrimaryLastName();
-                if (filterableString.toLowerCase().contains(filterString)) {
-                    tempFilterList.add(reportsList.get(i));
-                }
-            }
-
-            results.values = tempFilterList;
-            results.count = tempFilterList.size();
-
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults results) {
-            reportsList.clear();
-            reportsList = (ArrayList<ReportsFeePaidSearchNew>) results.values;
-            notifyDataSetChanged();
-        }
-    }
-*/
 }

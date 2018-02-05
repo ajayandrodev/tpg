@@ -1,12 +1,14 @@
 package com.cattechnologies.tpg.model.profileModel;
 
+import com.cattechnologies.tpg.model.profileModel.ShippingInfo;
+
 import java.util.ArrayList;
 
 /**
- * Created by admin on 10/23/2017.
+ * Created by admin on 1/30/2018.
  */
 
-public class MyProfileGroupShippingInfo {
+public class MyProfileGroupShippingInfoNew {
     private String name;
     private ArrayList<ShippingInfo> list = new ArrayList<ShippingInfo>();
 
@@ -18,12 +20,11 @@ public class MyProfileGroupShippingInfo {
         this.name = name;
     }
 
-    public ArrayList<ShippingInfo> getProductList() {
+    public ArrayList<ShippingInfo> getList() {
         return list;
     }
 
-    public void setProductList(ArrayList<ShippingInfo> productList) {
-        this.list = productList;
+    public void setList(ArrayList<ShippingInfo> list) {
+        this.list = list;
     }
-
 }

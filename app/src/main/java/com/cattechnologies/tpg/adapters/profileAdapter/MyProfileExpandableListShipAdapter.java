@@ -9,8 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.cattechnologies.tpg.model.MyProfileGroupShippingInfoNew;
-import com.cattechnologies.tpg.model.profileModel.MyProfileGroupShippingInfo;
+import com.cattechnologies.tpg.model.profileModel.MyProfileGroupShippingInfoNew;
 import com.cattechnologies.tpg.model.profileModel.ShippingInfo;
 import com.cattechnologies.tpg.R;
 
@@ -76,18 +75,9 @@ public class MyProfileExpandableListShipAdapter extends BaseExpandableListAdapte
             LayoutInflater inf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inf.inflate(R.layout.my_profile_group_items_shipping, null);
         }
-     /*   if (isLastChild) {
-            view.setBackgroundColor(Color.parseColor("#ebefef"));
-        } else {
-            view.setBackgroundColor(Color.parseColor("#e0e8e8"));
-        }*/
-
-
         TextView heading = (TextView) view.findViewById(R.id.heading);
         heading.setText(headerInfo.getName().trim());
         ImageView img = (ImageView) view.findViewById(R.id.imag_arrow);
-
-
         if (isExpanded) {
             img.setImageResource(R.mipmap.arrow_down);
         } else {

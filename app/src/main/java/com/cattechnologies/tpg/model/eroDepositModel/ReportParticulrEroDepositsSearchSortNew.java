@@ -34,7 +34,6 @@ public class ReportParticulrEroDepositsSearchSortNew implements Parcelable {
     private String Reverseddate;
 
 
-
     @SerializedName("PrimaryFirstName")
     private String PrimaryFirstName;
 

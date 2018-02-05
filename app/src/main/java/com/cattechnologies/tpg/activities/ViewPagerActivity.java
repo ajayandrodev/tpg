@@ -49,43 +49,21 @@ public class ViewPagerActivity extends FragmentActivity {
     }
 
     private void init() {
-      /*  for (int i = 0; i < IMAGES.length; i++)
-            ImagesArray.add(IMAGES[i]);
-*/
+
         mPager = (ViewPager) findViewById(R.id.pager);
         adapter = new SlidingImage_Adapter(this);
-
         mPager.setAdapter(adapter);
-
-        //  mPager.setAdapter(new SlidingImage_Adapter(ViewPagerActivity.this, ImagesArray));
-
-
         CirclePageIndicator indicator = (CirclePageIndicator)
                 findViewById(R.id.indicator);
-
         indicator.setViewPager(mPager);
-
-
         final float density = getResources().getDisplayMetrics().density;
         indicator.setStrokeWidth(2);
         indicator.setRadius(8 * density);
-
-
         NUM_PAGES = IMAGES.length;
-
-
         // Auto start of viewpager
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
-             /*   if (adapter.getCount()==currentPage){
-                    currentPage = 0;
-                    System.out.println("ViewPagerActivity.run====ada=="+adapter.getCount()+"==="+currentPage);
-                }else {
-                    mPager.setCurrentItem(currentPage++, true);
-                    System.out.println("ViewPagerActivity.run==="+mPager.getCurrentItem());
-
-                }*/
                 if (currentPage == NUM_PAGES) {
                     currentPage = 0;
                     System.out.println("ViewPagerActivity.run===" + currentPage);
@@ -110,21 +88,16 @@ public class ViewPagerActivity extends FragmentActivity {
             public void onPageSelected(int position) {
                 currentPage = position;
                 System.out.println("ViewPagerActivity.onPageSelected");
-
                 if (position == 3) {
                     swipeTimer.cancel();
-
                     indicator.setVisibility(View.GONE);
                     System.out.println("ViewPagerActivity.onPageSelected===eee==" + currentPage);
-
                 } else {
                     indicator.setVisibility(View.VISIBLE);
                     System.out.println("ViewPagerActivity.onPageSelected===erer====" + currentPage);
 
                 }
-
             }
-
             @Override
             public void onPageScrolled(int pos, float arg1, int arg2) {
 

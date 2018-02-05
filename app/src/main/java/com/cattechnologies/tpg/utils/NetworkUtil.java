@@ -2,7 +2,9 @@ package com.cattechnologies.tpg.utils;
 
 
 import com.cattechnologies.tpg.apiCalls.RetrofitInterface;
+import com.cattechnologies.tpg.viewHolderData.AnalyticsApplication;
 
+import java.io.File;
 import java.net.CookieHandler;
 import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
@@ -14,6 +16,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
@@ -22,31 +25,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.schedulers.Schedulers;
 
 public class NetworkUtil {
-    private static Retrofit retrofit = null;
+    private static RetrofitInterface retrofit = null;
+    private static RxJavaCallAdapterFactory rxAdapter;
 
-    public static Retrofit getClient() {
+    public static RetrofitInterface getRetrofit() {
+        rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.BASE_URL)
+                    .client(createbuild())
+                    .addCallAdapterFactory(rxAdapter)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+                    .build().create(RetrofitInterface.class);
         }
         return retrofit;
     }
 
-
-    public static RetrofitInterface getRetrofit() {
-
-    /*  *//**//*  String credentials = email + ":" + password;
-        String basic = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
-      *//**//**/
-
-        //   .header("Authorization", "Basic"+"VHBnQHBwQGRtaU46KVt9I2Yza2F+ZyU2dHBnOSZqW3soJC9dfSklJA==")
-
+    private static OkHttpClient createbuild() {
         OkHttpClient.Builder httpClient = getUnsafeOkHttpClient();
-
-
-
         httpClient.addInterceptor(chain -> {
             Request original = chain.request();
             Request.Builder builder = original.newBuilder()
@@ -58,16 +54,9 @@ public class NetworkUtil {
             return chain.proceed(builder.build());
 
         });
-
-        RxJavaCallAdapterFactory rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
-
-        return new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .client(httpClient.build())
-                .addCallAdapterFactory(rxAdapter)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build().create(RetrofitInterface.class);
+        return httpClient.build();
     }
+
 
     public static OkHttpClient.Builder getUnsafeOkHttpClient() {
         try {
@@ -98,8 +87,8 @@ public class NetworkUtil {
 
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-
-            httpClient.followSslRedirects(true);
+            //  httpClient.followSslRedirects(true);
+            httpClient.cache(new Cache(new File(AnalyticsApplication.getInstance().getCacheDir(), "https"), 1024 * 1024 * 10));
             httpClient.connectTimeout(30, TimeUnit.SECONDS);
             httpClient.readTimeout(30, TimeUnit.SECONDS);
             httpClient.writeTimeout(30, TimeUnit.SECONDS);

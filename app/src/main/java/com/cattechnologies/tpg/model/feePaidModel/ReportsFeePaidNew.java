@@ -74,7 +74,6 @@ public class ReportsFeePaidNew implements Parcelable {
     private String Row;
 
 
-
     public ReportsFeePaidNew() {
     }
 

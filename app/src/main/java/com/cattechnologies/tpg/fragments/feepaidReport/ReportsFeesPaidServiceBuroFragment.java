@@ -143,7 +143,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
 
 
         relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.ero_list_data_layout);
-      //  sbEro = (TextView) getActivity().findViewById(R.id.selected_type_sb);
+        //  sbEro = (TextView) getActivity().findViewById(R.id.selected_type_sb);
         sbEroNew = (Button) getActivity().findViewById(R.id.selected_type_sb);
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         fastScroller = (FastScroller) getActivity().findViewById(R.id.fast_scroller);
@@ -317,7 +317,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
     }
 
     private void Displayitemclicked(int gposition, int cposition) {
-     //   sbEro.setVisibility(View.GONE);
+        //   sbEro.setVisibility(View.GONE);
         if (gposition == 0) {
 
             switch (cposition) {

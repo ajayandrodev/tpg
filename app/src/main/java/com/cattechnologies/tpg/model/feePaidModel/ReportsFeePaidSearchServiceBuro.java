@@ -28,7 +28,7 @@ public class ReportsFeePaidSearchServiceBuro implements Parcelable {
     @SerializedName("ServiceBureau_FeePaid_Report_data")
     private List<ReportsFeePaidSearchServiceBuroNew> ServiceBureau_FeePaid_Report_data;
 
-    public ReportsFeePaidSearchServiceBuro(){
+    public ReportsFeePaidSearchServiceBuro() {
 
     }
 

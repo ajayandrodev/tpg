@@ -18,7 +18,7 @@ import com.cattechnologies.tpg.utils.PreferencesManager;
  * Created by admin on 2/1/2018.
  */
 
-public class ReportsFeesPaidServiceBuroDataDetailsFragment  extends Fragment {
+public class ReportsFeesPaidServiceBuroDataDetailsFragment extends Fragment {
 
     public static final String ARG_SECTION_TITLE = "section_number";
     String title;
@@ -33,9 +33,9 @@ public class ReportsFeesPaidServiceBuroDataDetailsFragment  extends Fragment {
     PreferencesManager preferencesManager;
 
     public static ReportsFeesPaidServiceBuroDataDetailsFragment newInstance(String sectionTitle, String username,
-                                                             String ssn, String disbursType, String date,
-                                                             String prepFee, String electFee, String docFee,
-                                                             String totalfee, String otherfee, String efindata) {
+                                                                            String ssn, String disbursType, String date,
+                                                                            String prepFee, String electFee, String docFee,
+                                                                            String totalfee, String otherfee, String efindata) {
         ReportsFeesPaidServiceBuroDataDetailsFragment fragment = new ReportsFeesPaidServiceBuroDataDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);

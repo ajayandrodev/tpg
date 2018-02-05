@@ -22,7 +22,6 @@
             android:layout_weight="1"
             android:gravity="center|left"
             android:padding="@dimen/dim_1"
-            android:text="06-03-2017 - "
             android:textColor="@color/dashboard_color"
 
             android:textStyle="bold" />
@@ -36,7 +35,6 @@
             android:layout_weight="1"
             android:gravity="center|right"
             android:padding="@dimen/dim_1"
-            android:text="$2,30421.50"
             android:textColor="@color/back_and_login_button_color"
 
             android:textStyle="bold" />

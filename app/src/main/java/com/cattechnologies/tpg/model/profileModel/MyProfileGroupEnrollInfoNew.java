@@ -1,7 +1,5 @@
 package com.cattechnologies.tpg.model.profileModel;
 
-import com.cattechnologies.tpg.model.EnrolInfo;
-
 import java.util.ArrayList;
 
 /**

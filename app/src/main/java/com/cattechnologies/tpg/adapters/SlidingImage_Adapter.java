@@ -41,8 +41,6 @@ public class SlidingImage_Adapter extends PagerAdapter {
         this.context = context;
         this.IMAGES = IMAGES;
         inflater = LayoutInflater.from(context);
-
-
     }
 
     @Override
@@ -53,7 +51,6 @@ public class SlidingImage_Adapter extends PagerAdapter {
     @Override
     public int getCount() {
         //return IMAGES.size();
-
         return layoutes.length;
     }
 
@@ -61,7 +58,6 @@ public class SlidingImage_Adapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup view, int position) {
 
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 
         if (position == 0) {
             one = layoutInflater.inflate(R.layout.view_one, view, false);
@@ -81,17 +77,12 @@ public class SlidingImage_Adapter extends PagerAdapter {
                     System.out.println("SlidingImage_Adapter.onClick====="+position);
                     Intent intent= new Intent(context, LoginScreen.class);
                     context.startActivity(intent);
-
-
-
                 }
             });
         }
-
         View viewarr[] = {one, two, three, four};
         view.addView(viewarr[position]);
         return viewarr[position];
-
         // return imageLayout;
     }
 

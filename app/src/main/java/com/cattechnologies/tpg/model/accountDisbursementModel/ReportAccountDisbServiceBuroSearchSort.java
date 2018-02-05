@@ -1,5 +1,8 @@
 package com.cattechnologies.tpg.model.accountDisbursementModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
  * Created by admin on 2/2/2018.
  */
 
-public class ReportAccountDisbServiceBuroSearchSort {
+public class ReportAccountDisbServiceBuroSearchSort implements Parcelable {
 
     @SerializedName("status")
     private String status;
@@ -26,6 +29,44 @@ public class ReportAccountDisbServiceBuroSearchSort {
 
     @SerializedName("DisbursmentReport_data")
     private List<ReportAccountDisbServiceBuroSearchSortNew> DisbursmentReport_data;
+
+    public ReportAccountDisbServiceBuroSearchSort() {
+    }
+
+
+    protected ReportAccountDisbServiceBuroSearchSort(Parcel in) {
+        status = in.readString();
+        message = in.readString();
+        page = in.readString();
+        TotalNoofPages = in.readString();
+        DisbursmentReport_data = in.createTypedArrayList(ReportAccountDisbServiceBuroSearchSortNew.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(status);
+        dest.writeString(message);
+        dest.writeString(page);
+        dest.writeString(TotalNoofPages);
+        dest.writeTypedList(DisbursmentReport_data);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ReportAccountDisbServiceBuroSearchSort> CREATOR = new Creator<ReportAccountDisbServiceBuroSearchSort>() {
+        @Override
+        public ReportAccountDisbServiceBuroSearchSort createFromParcel(Parcel in) {
+            return new ReportAccountDisbServiceBuroSearchSort(in);
+        }
+
+        @Override
+        public ReportAccountDisbServiceBuroSearchSort[] newArray(int size) {
+            return new ReportAccountDisbServiceBuroSearchSort[size];
+        }
+    };
 
     public String getStatus() {
         return status;

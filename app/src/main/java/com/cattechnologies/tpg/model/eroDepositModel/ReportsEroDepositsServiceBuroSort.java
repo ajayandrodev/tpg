@@ -11,7 +11,7 @@ import java.util.List;
  * Created by admin on 2/1/2018.
  */
 
-public class ReportsEroDepositsServiceBuroSort implements Parcelable{
+public class ReportsEroDepositsServiceBuroSort implements Parcelable {
 
     @SerializedName("status")
     private String status;
@@ -28,7 +28,9 @@ public class ReportsEroDepositsServiceBuroSort implements Parcelable{
 
     @SerializedName("Service_Bureau_EroReport_data")
     private List<ReportsEroDepositsServiceBuroSortNew> Service_Bureau_EroReport_data;
-    public ReportsEroDepositsServiceBuroSort(){}
+
+    public ReportsEroDepositsServiceBuroSort() {
+    }
 
 
     protected ReportsEroDepositsServiceBuroSort(Parcel in) {

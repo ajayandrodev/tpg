@@ -240,7 +240,8 @@ public class ReportParticulrFreePaidSearchSortNew implements Parcelable {
     public void setRow(String row) {
         Row = row;
     }
-    public ReportParticulrFreePaidSearchSortNew(){
+
+    public ReportParticulrFreePaidSearchSortNew() {
 
     }
 

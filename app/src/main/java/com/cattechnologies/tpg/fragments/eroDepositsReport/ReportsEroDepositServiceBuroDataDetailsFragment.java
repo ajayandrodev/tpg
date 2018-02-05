@@ -82,7 +82,7 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
-        preferencesManager=new PreferencesManager();
+        preferencesManager = new PreferencesManager();
         userName = getArguments().getString("report_username");
         userSSN = getArguments().getString("report_ssn");
         userDis = getArguments().getString("report_disb");

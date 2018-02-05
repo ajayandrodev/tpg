@@ -7,20 +7,17 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.NavigationView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cattechnologies.tpg.fragments.DashboardFragment;
 import com.cattechnologies.tpg.fragments.ProfileFragment;
 import com.cattechnologies.tpg.model.dashboardModel.DashboardInfoData;
-import com.cattechnologies.tpg.model.LoginInfo;
+import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.profileModel.ProfileData;
 import com.cattechnologies.tpg.model.dashboardModel.RecentTransactions;
 import com.cattechnologies.tpg.R;
@@ -198,20 +195,6 @@ public class Dashboard extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         // TODO: 29-Oct-17
-        int backStackEntryCount = getFragmentManager().getBackStackEntryCount();
-       /* if (backStackEntryCount == 0) {
-            toolBarText.setText(getResources().getString(R.string.home_item));
-            ab.show();
-          /*  Toast.makeText(this, "get", Toast.LENGTH_SHORT).show();
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
-        } else {
-           /* Toast.makeText(this, "other", Toast.LENGTH_SHORT).show();
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_icon);
-            toolBarText.setText(getResources().getString(R.string.productos_item));
-            ab.hide();
-        }*/
         showOrHideTitleBar();
     }
 

@@ -52,8 +52,6 @@ public class SbiFeePaidListDataAdapter extends RecyclerView.Adapter<SbiFeePaidLi
     @Override
     public int getItemCount() {
         if (myList != null) {
-
-
             return myList.size();
 
         } else {
@@ -67,16 +65,9 @@ public class SbiFeePaidListDataAdapter extends RecyclerView.Adapter<SbiFeePaidLi
         this.myList = myList;
         notifyDataSetChanged();
     }
-
-    public void addItem(RecyclerData mLog) {
-        myList.add(mLog);
-        notifyItemInserted(0);
-    }
-
     public SbiFeePaidListDataAdapter getAdapter() {
         return adapter;
     }
-
 
     public void newAddedData(int mLastPosition, String title) {
         RecyclerData newValue = new RecyclerData();
@@ -88,21 +79,7 @@ public class SbiFeePaidListDataAdapter extends RecyclerView.Adapter<SbiFeePaidLi
         } else {
             Toast.makeText(mContext, "already e", Toast.LENGTH_SHORT).show();
         }
-
-
-
     }
-
-
-   /* public void addItem(final int position, RecyclerData model) {
-        Log.d("Position-item", position + "");
-
-        myList.add(position, model);
-        notifyItemInserted(position);
-        //notifyDataSetChanged();
-    }*/
-
-
     public class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
         private final TextView etTitleTextView;
         //    private final TextView etDescriptionTextView;
@@ -129,7 +106,6 @@ public class SbiFeePaidListDataAdapter extends RecyclerView.Adapter<SbiFeePaidLi
                     notifyItemRemoved(getAdapterPosition());
                     notifyItemRangeChanged(getAdapterPosition(), myList.size());
                     Toast.makeText(itemView.getContext(), "deleted", Toast.LENGTH_SHORT).show();
-
 
                 }
             });

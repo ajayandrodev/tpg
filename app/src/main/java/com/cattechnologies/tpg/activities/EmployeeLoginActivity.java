@@ -76,19 +76,14 @@ public class EmployeeLoginActivity extends AppCompatActivity implements View.OnC
 
         } else if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_email))) {
             textData.setText("");
-
-
         }
 
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

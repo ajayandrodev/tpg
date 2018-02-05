@@ -1,10 +1,7 @@
-package com.cattechnologies.tpg.model.accountDisbursementModel;
+package com.cattechnologies.tpg.model.profileModel;
 
-/**
- * Created by ajay kumar on 29-Oct-17.
- */
+public class ChildInfo {
 
-public class AccountDisbursementChildInfo {
     private String sequence = "";
     private String name = "";
 

@@ -44,11 +44,6 @@ public class ReportsFeesPaidSearchSortListAdapter extends RecyclerView.Adapter<R
 
     @Override
     public void onBindViewHolder(ReportsFeesPaidSearchSortListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-
         ReportFreePaidSearchSortNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
@@ -79,11 +74,6 @@ public class ReportsFeesPaidSearchSortListAdapter extends RecyclerView.Adapter<R
     public void setClickListener(ItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
-
-   /* public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }*/
-
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
 
@@ -96,8 +86,6 @@ public class ReportsFeesPaidSearchSortListAdapter extends RecyclerView.Adapter<R
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
-
         }
 
         @Override

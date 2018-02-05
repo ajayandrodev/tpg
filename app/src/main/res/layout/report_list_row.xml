@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:padding="@dimen/dim_1"
-            android:text="roethlisberger"
             android:textAllCaps="true"
             android:textColor="@android:color/black"
             android:textSize="12sp"
@@ -32,23 +31,11 @@
             android:drawablePadding="@dimen/dim_10"
             android:padding="@dimen/dim_1"
             android:paddingRight="@dimen/dim_25"
-            android:text="$125"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
-        <!-- <ImageView
-             android:id="@+id/arrow"
-             android:layout_width="@dimen/dim_20"
-             android:layout_height="@dimen/dim_20"
-             android:layout_alignBaseline="@id/report_rate"
-             android:layout_alignParentRight="true"
-             android:layout_marginLeft="@dimen/dim_10"
-             android:layout_toLeftOf="@id/report_rate"
-             android:padding="@dimen/dim_1"
-             android:src="@mipmap/forward_arrow"
-             android:textColor="@android:color/black" />
- -->
+
         <TextView
             android:id="@+id/report_account"
             android:layout_width="wrap_content"
@@ -58,7 +45,6 @@
             android:layout_marginTop="@dimen/dim_4"
             android:gravity="left"
             android:padding="@dimen/dim_1"
-            android:text="XXX-XX-0123"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
 
@@ -72,7 +58,6 @@
             android:gravity="right"
             android:padding="@dimen/dim_1"
             android:paddingRight="@dimen/dim_10"
-            android:text="06-04-2017"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
 
@@ -86,7 +71,6 @@
             android:layout_toRightOf="@id/report_account"
             android:gravity="center|right"
             android:padding="@dimen/dim_1"
-            android:text="RT w/ FCA"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
 

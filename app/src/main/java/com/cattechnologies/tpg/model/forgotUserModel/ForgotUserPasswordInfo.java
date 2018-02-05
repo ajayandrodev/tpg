@@ -1,20 +1,15 @@
 package com.cattechnologies.tpg.model.forgotUserModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by admin on 12/1/2017.
  */
 
-public class ForgotUserPasswordInfo {
-
-    /*{
-        "status": "success",
-            "message": "Your temporary pin has been sent to your registered email id",
-            "user_data": {
-        "TEMPORARY_PIN": "30153"
-    }
-    }*/
+public class ForgotUserPasswordInfo implements Parcelable {
 
 
     @SerializedName("status")
@@ -26,6 +21,34 @@ public class ForgotUserPasswordInfo {
 
     @SerializedName("user_data")
     private ForgotUserPasswordData user_data;
+
+    protected ForgotUserPasswordInfo(Parcel in) {
+        status = in.readString();
+        message = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(status);
+        dest.writeString(message);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ForgotUserPasswordInfo> CREATOR = new Creator<ForgotUserPasswordInfo>() {
+        @Override
+        public ForgotUserPasswordInfo createFromParcel(Parcel in) {
+            return new ForgotUserPasswordInfo(in);
+        }
+
+        @Override
+        public ForgotUserPasswordInfo[] newArray(int size) {
+            return new ForgotUserPasswordInfo[size];
+        }
+    };
 
     public ForgotUserPasswordData getUser_data() {
         return user_data;

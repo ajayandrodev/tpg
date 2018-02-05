@@ -469,8 +469,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/dim_4"
-                        android:fitsSystemWindows="true"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:fitsSystemWindows="true">
 
                         <Button
                             android:id="@+id/bt_check_print"
@@ -499,9 +499,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dim_4"
                                 android:gravity="center"
+                                android:paddingTop="@dimen/dim_5"
                                 android:text="Check to"
                                 android:textAllCaps="true"
-                                android:paddingTop="@dimen/dim_5"
                                 android:textColor="@android:color/white"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
@@ -523,11 +523,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
+                                android:paddingBottom="@dimen/dim_5"
                                 android:text="print"
                                 android:textAllCaps="true"
                                 android:textColor="@android:color/white"
                                 android:textSize="14sp"
-                                android:paddingBottom="@dimen/dim_5"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </FrameLayout>

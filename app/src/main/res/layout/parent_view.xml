@@ -22,7 +22,6 @@
             android:layout_marginTop="@dimen/dim_5"
             android:background="@color/transparent"
             android:gravity="center"
-            android:text="ajay"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black"
             android:textSize="@dimen/font_size"

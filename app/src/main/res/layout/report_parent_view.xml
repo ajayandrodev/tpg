@@ -21,7 +21,6 @@
             android:background="@color/transparent"
             android:gravity="center"
             android:padding="@dimen/dim_5"
-            android:text="ajay"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black"

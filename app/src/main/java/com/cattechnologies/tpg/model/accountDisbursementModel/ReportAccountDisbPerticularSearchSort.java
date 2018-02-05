@@ -16,7 +16,6 @@ public class ReportAccountDisbPerticularSearchSort implements Parcelable {
     @SerializedName("status")
     private String status;
 
-
     @SerializedName("message")
     private String message;
 

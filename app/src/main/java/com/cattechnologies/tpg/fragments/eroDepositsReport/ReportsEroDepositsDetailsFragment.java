@@ -26,7 +26,7 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
     String title;
     TextView titulo, textReportOne, textReportSsn, textReportType, textReportOneData, textReportTitleDetail,
             textReportTwo, textReportTwoData, textReportThree, textReportThreeData, textReportFour, textReportFourData,
-            textFiveNextAnother, textFiveNextAnotherData,textEfinData, textEfin;
+            textFiveNextAnother, textFiveNextAnotherData, textEfinData, textEfin;
     RelativeLayout llTwo, llThree, llFour, llFive, llSix, llTwoNext, llFiveNext;
     String userName,
             userSSN,
@@ -34,7 +34,7 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
             userMasterID,
             userDepositDate,
             userDepositAmount,
-            userReversedDate,efindata;
+            userReversedDate, efindata;
     SimpleDateFormat format, format1;
     PreferencesManager preferencesManager;
 
@@ -82,7 +82,7 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
         title = getArguments().getString(ARG_SECTION_TITLE);
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
-        preferencesManager=new PreferencesManager();
+        preferencesManager = new PreferencesManager();
         userName = getArguments().getString("report_username");
         userSSN = getArguments().getString("report_ssn");
         userDis = getArguments().getString("report_disb");

@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:gravity="center"
-            android:text="ajay"
             android:layout_marginTop="@dimen/dim_5"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black"

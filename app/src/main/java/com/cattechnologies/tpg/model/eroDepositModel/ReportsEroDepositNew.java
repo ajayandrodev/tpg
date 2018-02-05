@@ -11,22 +11,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class ReportsEroDepositNew implements Parcelable {
 
- /* "Id": 132,
-          "System_Year": 2018,
-          "recordcreatedate": "20181508",
-          "masterefin": "612354",
-           "DAN": "XXX0134",
-          "Efin": "060020",
-          "PrimaryFirstName": "MOHSIN",
-          "PrimaryLastName": "majage",
-          "PrimarySsn": "XXX-XX-1031",
-          "DepositType": "Unknown",
-          "ProductType": "RT",
-          "DepositAmount": 12,
-          "depositdate": "20170202",
-          "sadjtype": "I",
-            "Reverseddate": "20180827",
-          "Depositor": "IRS"*/
 
     @SerializedName("Id")
     private String Id;

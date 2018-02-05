@@ -43,11 +43,6 @@ public class ReportPerticularListAdapter extends RecyclerView.Adapter<ReportPert
 
     @Override
     public void onBindViewHolder(ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-
         ReportParticulrFreePaidNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
@@ -78,12 +73,6 @@ public class ReportPerticularListAdapter extends RecyclerView.Adapter<ReportPert
     public void setClickListener(ItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
-
-  /*  public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }
-*/
-
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
 
@@ -96,8 +85,6 @@ public class ReportPerticularListAdapter extends RecyclerView.Adapter<ReportPert
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
-
         }
 
         @Override

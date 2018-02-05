@@ -119,7 +119,6 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
     TextWatcher textWatcher;
 
 
-
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
         ReportsFeesPaidServiceBuroDataFragment fragment = new ReportsFeesPaidServiceBuroDataFragment();
         Bundle args = new Bundle();
@@ -153,7 +152,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
         ((Dashboard) getActivity()).setTitle("REPORTS");
         //updated
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        if(textWatcher != null){
+        if (textWatcher != null) {
             searchData.addTextChangedListener(textWatcher);
         }
         searchDataInfo(true);
@@ -211,7 +210,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
         //updated
-        if(textWatcher == null){
+        if (textWatcher == null) {
             textWatcher = new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -226,8 +225,8 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                 @Override
                 public void afterTextChanged(Editable editable) {
                     newText = editable.toString().toLowerCase();
-                    System.out.println("On text changed "+newText);
-                    if(!pagNo.isEmpty()){
+                    System.out.println("On text changed " + newText);
+                    if (!pagNo.isEmpty()) {
                         pagNo = "";
                     }
                     if (TextUtils.isEmpty(newText)) {
@@ -258,24 +257,24 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
             layout.removeAllViews();
         }
         //updated
-        if(searchData.getText().toString().isEmpty()) {
-            if(sort.isEmpty()){
+        if (searchData.getText().toString().isEmpty()) {
+            if (sort.isEmpty()) {
                 if (pagNo.equalsIgnoreCase("")) {
                     feePaidReportsData(userId, userType, reports.getPage());
                 } else {
                     feePaidReportsData(userId, userType, pagNo);
                 }
-            }else{
+            } else {
                 sortAndSearch(sort);
             }
-        }else{
-            if(sort.isEmpty()){
+        } else {
+            if (sort.isEmpty()) {
                 if (pagNo.equalsIgnoreCase("")) {
                     searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                 } else {
                     searchReportItem(userId, userType, pagNo, newText);
                 }
-            }else{
+            } else {
                 sortAndSearch(sort);
             }
 
@@ -436,7 +435,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(),reports.getEfin());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -629,7 +628,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(),reports.getEfin());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -647,9 +646,9 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
 
     private void showToast(String message) {
         try {
-            Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -709,7 +708,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
             if (pagNo.equalsIgnoreCase("")) {
                 searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
             } else {
-                searchSortReportData(userId, userType, newText,pagNo, sort);
+                searchSortReportData(userId, userType, newText, pagNo, sort);
             }
         }
     }
@@ -860,7 +859,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(),reports.getEfin());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()
@@ -1022,7 +1021,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                         , reports.getPrimarySsn(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
-                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(),reports.getEfin());
+                        , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager
                         .beginTransaction()

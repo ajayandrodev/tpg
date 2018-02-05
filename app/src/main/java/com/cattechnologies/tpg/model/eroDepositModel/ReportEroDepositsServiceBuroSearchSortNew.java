@@ -61,7 +61,8 @@ public class ReportEroDepositsServiceBuroSearchSortNew implements Parcelable {
 
     @SerializedName("Depositor")
     private String Depositor;
-    public ReportEroDepositsServiceBuroSearchSortNew(){
+
+    public ReportEroDepositsServiceBuroSearchSortNew() {
 
     }
 

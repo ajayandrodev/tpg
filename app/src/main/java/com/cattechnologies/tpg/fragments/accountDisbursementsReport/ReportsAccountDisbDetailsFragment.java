@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
-import com.cattechnologies.tpg.model.LoginInfo;
+import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 
 import java.text.ParseException;
@@ -83,7 +83,7 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
         loginInfo = new LoginInfo();
-        preferencesManager=new PreferencesManager();
+        preferencesManager = new PreferencesManager();
         name = getArguments().getString("report_username");
         primarySsn = getArguments().getString("report_ssn");
         disbursType = getArguments().getString("report_disb_type");

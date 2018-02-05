@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserNameData;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserNameInfo;
-import com.cattechnologies.tpg.model.LoginInfo;
+import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
@@ -63,12 +63,9 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
 
         mTextEfin = (TextView) findViewById(R.id.text_efin);
         loginUsername = (EditText) findViewById(R.id.login_username_forgot);
-
         mTextPass = (TextView) findViewById(R.id.text_password);
         loginUserPassword = (EditText) findViewById(R.id.login_password_forgot);
         progressBar = (ProgressBar) findViewById(R.id.progress_login);
-
-
         llForgotCheckBox = (LinearLayout) findViewById(R.id.ll_forgot_checkbox);
         checkBox = (CheckBox) findViewById(R.id.checkbox_data);
         Bundle bundle = getIntent().getExtras();
@@ -79,9 +76,7 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
         preferencesManager = new PreferencesManager();
         loginInfo = new LoginInfo();
         checkBox.setOnCheckedChangeListener(this);
-
         setToolbar();
-
     }
 
     private void setToolbar() {
@@ -101,17 +96,12 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
         loginUserPassword.setHint("Enter Email Address");
         // loginUserPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.email_icon, 0, 0, 0);
         mLogin.setText("RECOVER USERNAME");
-
-
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -153,56 +143,41 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
 
     private void forgotUserNameResponse(String efin, String email, String type) {
         progressBar.setVisibility(View.VISIBLE);
-
         if (AppInternetStatus.getInstance(this).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().forgotUserName(efin, email, type)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
-
         } else {
             showToast("Internet Connection Is Not Available");
 
         }
-
     }
-
     private void showToast(String msg) {
         Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT).show();
     }
-
     private void handleResponse(ForgotUserNameInfo response) {
         showToast(response.getMessage());
         progressBar.setVisibility(View.GONE);
-
         if (response.getStatus().equalsIgnoreCase("success")) {
             showToast(response.getMessage());
             ForgotUserNameData forgotUserDetailsData = response.getUser_data();
             String data = forgotUserDetailsData.getLOGIN_NAME();
-
             Intent i = new Intent(this, BackToLoginScreen.class);
             i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
             i.putExtra("forgotUser", data);
             startActivity(i);
-
         }
     }
-
-
     private void handleError(Throwable error) {
         progressBar.setVisibility(View.GONE);
-
         showToast(error.getMessage());
         if (error instanceof HttpException) {
-
             Gson gson = new GsonBuilder().create();
-
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

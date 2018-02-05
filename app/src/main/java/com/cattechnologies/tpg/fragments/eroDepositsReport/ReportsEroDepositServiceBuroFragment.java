@@ -115,12 +115,14 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
 
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
         etTitle.setText("");
 
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -224,6 +226,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
         });
 
     }
+
     private void efinValidCheck(String userId, String userType, String title) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getEfinValidCheck(userId, userType, title)
@@ -252,14 +255,14 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
                 e.printStackTrace();
             }
         }
-        if(!error.getMessage().equalsIgnoreCase("")){
+        if (!error.getMessage().equalsIgnoreCase("")) {
             showToast("EFIN already exist");
         }
     }
 
     private void handleResponse(ReportsEfinValidCheck response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
-            System.out.println("ReportsEroDepositServiceBuroFragment.handleResponse==="+response.getMessage());
+            System.out.println("ReportsEroDepositServiceBuroFragment.handleResponse===" + response.getMessage());
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -272,7 +275,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
 
             etTitle.setText("");
 
-        }else {
+        } else {
             /*System.out.println("ReportsEroDepositServiceBuroFragment.handleResponse==dd=="+response.getMessage());
             showToast(response.getMessage());*/
         }

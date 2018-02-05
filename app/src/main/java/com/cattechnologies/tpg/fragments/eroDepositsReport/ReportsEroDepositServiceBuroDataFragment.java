@@ -655,11 +655,12 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
 
     private void showToast(String message) {
         try {
-            Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }    }
+        }
+    }
 
     @Override
     public void onDestroy() {

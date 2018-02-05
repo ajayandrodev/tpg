@@ -44,17 +44,12 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
 
     @Override
     public void onBindViewHolder(ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
         ReportsFeePaidNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
         holder.accountDataSSN.setText(reports.getPrimarySsn());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
         holder.dateData.setText(reports.getRecordcreatedate());
-
     }
 
     @Override
@@ -78,26 +73,6 @@ public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFees
     public void setClickListener(ItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
-
-    public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }
-
-    public void setFilter(List<ReportsFeePaidNew> newList) {
-        reportsList = new ArrayList<>();
-        reportsList.addAll(newList);
-        notifyDataSetChanged();
-    }
-
-    public void update(List<ReportsFeePaidNew> reportsList) {
-        reportsList.clear();
-        for (ReportsFeePaidNew model : reportsList) {
-            reportsList.addAll(reportsList);
-        }
-        notifyDataSetChanged();
-    }
-
-
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
 

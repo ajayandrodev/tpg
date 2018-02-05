@@ -36,7 +36,6 @@ public class ReportsFeePaidExpandableadapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-
         return this.bind_and_display.get(this.parent.get(groupPosition))
                 .size();
     }
@@ -89,8 +88,6 @@ public class ReportsFeePaidExpandableadapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         String child_text = (String) getChild(groupPosition, childPosition);
-
-
         LayoutInflater infalInflater = (LayoutInflater) this.mcontext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = infalInflater.inflate(R.layout.report_child_view, null);

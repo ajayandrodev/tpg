@@ -11,27 +11,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class DashboardInfoData implements Parcelable {
 
- /* "AppliedRts": "8",
-          "FundedRTs": "7",
-          "StateFundedRTs": "6",
-          "CheckRTs": "1",
-          "DirectDepositRTs": "7",
-          "PrePaidCards": "0",
-          "Direct2Cash": "0",
-          "PrepFeesPaid": "1095.0000",
-          "PastDueAccountsAmount": "1205.0000"
-*/
-  /* "AppliedRts": "263",
-           "FundedRTs": "65",
-           "StateFundedRTs": "79",
-           "CheckRTs": "151",
-           "DirectDepositRTs": "308",
-           "PrePaidCards": "147",
-           "Direct2Cash": "53",
-           "PrepFeesPaid": "6540.00",
-           "PastDueAccountsAmount": "1470.00",
-           "CountTaxpayer": "2"*/
-
     @SerializedName("AppliedRts")
     private String AppliedRts;
 

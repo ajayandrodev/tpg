@@ -8,8 +8,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cattechnologies.tpg.model.ChildInfo;
-import com.cattechnologies.tpg.model.GroupInfo;
+import com.cattechnologies.tpg.model.profileModel.ChildInfo;
+import com.cattechnologies.tpg.model.profileModel.GroupInfo;
 import com.cattechnologies.tpg.R;
 
 import java.util.ArrayList;
@@ -48,15 +48,6 @@ public class ReportsExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = infalInflater.inflate(R.layout.child_items, null);
         }
-
-       /* if (childPosition%2==0) {
-            view.setBackgroundColor(Color.parseColor("#e0e8e8"));
-        } else {
-            view.setBackgroundColor(Color.parseColor("#ebefef"));
-        }
-*/
-       /* TextView sequence = (TextView) view.findViewById(R.id.sequence);
-        sequence.setText(detailInfo.getSequence().trim() + ". ");*/
         TextView childItem = (TextView) view.findViewById(R.id.childItem);
         childItem.setText(detailInfo.getName().trim());
 
@@ -95,24 +86,14 @@ public class ReportsExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater inf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inf.inflate(R.layout.group_items, null);
         }
-
         TextView heading = (TextView) view.findViewById(R.id.heading);
         heading.setText(headerInfo.getName().trim());
         ImageView img = (ImageView) view.findViewById(R.id.imag_arrow);
-
-
         if (isLastChild) {
             img.setImageResource(R.drawable.up_arrow_icon);
         } else {
             img.setImageResource(R.drawable.down_arrow_icon);
         }
-     /*   if (isLastChild) {
-            view.setBackgroundColor(Color.parseColor("#ebefef"));
-        } else {
-            view.setBackgroundColor(Color.parseColor("#e0e8e8"));
-        }*/
-
-
 
         return view;
     }

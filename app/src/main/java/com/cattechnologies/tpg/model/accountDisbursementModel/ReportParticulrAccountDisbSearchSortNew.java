@@ -155,7 +155,8 @@ public class ReportParticulrAccountDisbSearchSortNew implements Parcelable {
     public void setDisbType(String disbType) {
         DisbType = disbType;
     }
-    public ReportParticulrAccountDisbSearchSortNew(){
+
+    public ReportParticulrAccountDisbSearchSortNew() {
 
     }
 

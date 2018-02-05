@@ -8,9 +8,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cattechnologies.tpg.model.MyProfileGroupAccountInfoNew;
-import com.cattechnologies.tpg.model.accountDisbursementModel.AccountInfo;
-import com.cattechnologies.tpg.model.profileModel.MyProfileGroupAccountInfo;
+import com.cattechnologies.tpg.model.profileModel.MyProfileGroupAccountInfoNew;
+import com.cattechnologies.tpg.model.profileModel.AccountInfo;
 import com.cattechnologies.tpg.R;
 
 import java.util.ArrayList;

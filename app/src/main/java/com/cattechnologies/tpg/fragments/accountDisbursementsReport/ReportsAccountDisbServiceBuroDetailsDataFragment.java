@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
-import com.cattechnologies.tpg.model.LoginInfo;
+import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 
 import java.text.ParseException;
@@ -72,7 +72,6 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.reports_account_disb_service_buro_detail, container, false);
-
 
 
         return view;
@@ -171,7 +170,6 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
 
         textFiveNextAnother.setText("Disbursement Info:");//ll_two next another
         textFiveNextAnotherData.setText("");
-
 
 
     }

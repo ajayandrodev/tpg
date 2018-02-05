@@ -1,12 +1,15 @@
 package com.cattechnologies.tpg.model.forgotUserModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by admin on 12/1/2017.
  */
 
-public class ForgotUserEmailAddress {
+public class ForgotUserEmailAddress implements Parcelable{
 
     @SerializedName("status")
     private String status;
@@ -17,6 +20,34 @@ public class ForgotUserEmailAddress {
 
     @SerializedName("user_data")
     private ForgotUserEmailData user_data;
+
+    protected ForgotUserEmailAddress(Parcel in) {
+        status = in.readString();
+        message = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(status);
+        dest.writeString(message);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ForgotUserEmailAddress> CREATOR = new Creator<ForgotUserEmailAddress>() {
+        @Override
+        public ForgotUserEmailAddress createFromParcel(Parcel in) {
+            return new ForgotUserEmailAddress(in);
+        }
+
+        @Override
+        public ForgotUserEmailAddress[] newArray(int size) {
+            return new ForgotUserEmailAddress[size];
+        }
+    };
 
     public String getStatus() {
         return status;

@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.cattechnologies.tpg.model.dashboardModel.DashboardInfo;
 import com.cattechnologies.tpg.model.dashboardModel.DashboardInfoData;
-import com.cattechnologies.tpg.model.LoginInfo;
+import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.profileModel.ProfileData;
 import com.cattechnologies.tpg.model.dashboardModel.RecentTransactions;
 import com.cattechnologies.tpg.model.Response;
@@ -31,7 +31,7 @@ import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
-import com.cattechnologies.tpg.viewHolderData.AnalyticsApplication;
+import com.cattechnologies.tpg.viewHolderData.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -73,14 +73,13 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     String forgotEmailData;
     Intent i;
     PreferencesManager preferencesManager;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_new);
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
         initViews();
         setToolbar();
         Bundle bundle = getIntent().getExtras();
@@ -96,7 +95,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void initViews() {
         mSubscriptions = new CompositeSubscription();
-
         mEmailTitle = (TextView) findViewById(R.id.text_email_title);
         mLoginUsername = (TextView) findViewById(R.id.login_username_text);
         mLoginUserPass = (TextView) findViewById(R.id.login_pass_text);
@@ -108,13 +106,11 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         progressBar = (ProgressBar) findViewById(R.id.progress_login);
         loginInfo = new LoginInfo();
         preferencesManager = new PreferencesManager();
+        sessionManager=new SessionManager(getApplicationContext());
         loginBt.setOnClickListener(this);
         footer.setOnClickListener(this);
         checkBox.setOnCheckedChangeListener(this);
-
-
     }
-
     private void selectedForgotData(String drawerTitle) {
         if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_email_new))) {
             mEmailTitle.setVisibility(View.VISIBLE);
@@ -136,24 +132,17 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         setSupportActionBar(toolbar);
         mTitle.setText(drawerTitle);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
     }
-
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.login_button:
                 loginBt.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
-
-
                 if (loginUser.getText().toString().isEmpty()) {
                     showToast("Please enter your User ID.");
-
                 } else if (loginPass.getText().toString().isEmpty()) {
                     showToast("Please enter your password.");
-
                 } else if (!(loginUser.getText().toString().isEmpty()) && !(loginPass.getText().toString().isEmpty())) {
                     String type = null;
                     if (checkBox.isChecked()) {
@@ -163,11 +152,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                         type = "ero";
                         loginInfo.setAcc_type(type);
                     }
-
-
                     loadLoginResponse(loginUser.getText().toString(), loginInfo.getAcc_type(), loginPass.getText().toString());
                     progressBar.setVisibility(View.VISIBLE);
-
                 }
 
                 break;
@@ -210,7 +196,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 i.putExtra(ForgotUsernameDetails.ARG_SELECTION_USER, forgotPasswordData);
                 startActivity(i);
                 d.dismiss();
-
                 break;
             case R.id.cancel_forgot:
                 d.dismiss();
@@ -222,46 +207,34 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
 
     private void loadLoginResponse(String userId, String type, String userPassword) {
-
-
         loginInfo.setApp_uid(userId);
         loginInfo.setApp_pswd(userPassword);
         loginInfo.setAcc_type(type);
         loginInfo.setUser_efin(userId);
-
         preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
         preferencesManager.saveUserId(getApplicationContext(), loginInfo.getApp_uid());
         if (AppInternetStatus.getInstance(this).isOnline()) {
             progressBar.setVisibility(View.VISIBLE);
-
             mSubscriptions.addAll(NetworkUtil.getRetrofit().sign(userId,
                     type, userPassword)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
         } else {
             showToast("Internet Connection Is Not Available");
-
         }
-
-
     }
 
     private void handleError(Throwable error) {
         progressBar.setVisibility(View.GONE);
         System.out.println("LoginScreen.handleResponse==="+error.getMessage());
-
         showToast(error.getMessage());
         if (error instanceof HttpException) {
-
             Gson gson = new GsonBuilder().create();
-
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -269,8 +242,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             showToast("Network Error !");
         }
     }
-
-
     private void handleResponse(DashboardInfo response) {
         progressBar.setVisibility(View.GONE);
         //System.out.println("LoginScreen.handleResponse==="+response.getMessage());
@@ -290,7 +261,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     //format1 = new SimpleDateFormat("MM-dd-yyyy");
                     format1 = new SimpleDateFormat("MM-dd-yyyy");
-
                     String chagnedDate = null;
                     try {
                         chagnedDate = format1.format(format.parse(response.getRecent_transactions().get(i).getLastUpadte()));
@@ -319,7 +289,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         super.onResume();
         System.out.println("LoginScreen.onResume");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
         if (forgotEmailData != null) {
             if (loginUser.getText().toString().isEmpty()) {
                 loginUser.setText(forgotEmailData);
@@ -377,13 +346,10 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-
         if (isChecked) {
             loginInfo.setAcc_type("sb");
         } else {
             loginInfo.setAcc_type("ero");
         }
-
-
     }
 }

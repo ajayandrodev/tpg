@@ -1,4 +1,7 @@
-package com.cattechnologies.tpg.model.accountDisbursementModel;
+package com.cattechnologies.tpg.model.profileModel;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,20 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by admin on 10/23/2017.
  */
 
-public class AccountInfo {
-
- /*
-     "account_info": [
-    {
-        "BankName": "WELLS FARGO",
-            "NameOnAccount": "MISTER MANAGER",
-            "RTN": "051400345",
-            "DAN": "203066472",
-            "AcctType": "C"
-    }
-    ]*/
-
-
+public class AccountInfo implements Parcelable {
 
     @SerializedName("BankName")
     private String BankName;
@@ -35,6 +25,44 @@ public class AccountInfo {
 
     @SerializedName("AcctType")
     private String AcctType;
+
+    public AccountInfo() {
+
+    }
+
+    protected AccountInfo(Parcel in) {
+        BankName = in.readString();
+        NameOnAccount = in.readString();
+        RTN = in.readString();
+        DAN = in.readString();
+        AcctType = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(BankName);
+        dest.writeString(NameOnAccount);
+        dest.writeString(RTN);
+        dest.writeString(DAN);
+        dest.writeString(AcctType);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<AccountInfo> CREATOR = new Creator<AccountInfo>() {
+        @Override
+        public AccountInfo createFromParcel(Parcel in) {
+            return new AccountInfo(in);
+        }
+
+        @Override
+        public AccountInfo[] newArray(int size) {
+            return new AccountInfo[size];
+        }
+    };
 
     public String getBankName() {
         return BankName;

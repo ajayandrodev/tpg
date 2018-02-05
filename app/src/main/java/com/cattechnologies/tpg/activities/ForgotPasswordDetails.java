@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordData;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordInfo;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordInfoEmp;
-import com.cattechnologies.tpg.model.LoginInfo;
+import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
@@ -84,10 +84,7 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
         preferencesManager = new PreferencesManager();
         loginInfo = new LoginInfo();
         progressBar = (ProgressBar) findViewById(R.id.progress_login);
-
-
         setToolbar();
-
     }
 
     private void setToolbar() {
@@ -130,25 +127,19 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
                     loginInfo.setAcc_type(type);
                     preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
                     forgotPasswordEmp(forgotUpass, loginInfo.getAcc_type());
-
-
                 } else if (llForgotPassword.getText().equals(getResources().getString(R.string.service_buro))) {
                     String forgotUname = loginUsername.getText().toString();
                     String forgotUpass = loginUserPassword.getText().toString();
                     String type = "sb";
                     loginInfo.setAcc_type(type);
                     preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-
                     forgotPassword(forgotUname, forgotUpass, loginInfo.getAcc_type());
-
-
                 } else if (llForgotPassword.getText().equals(getResources().getString(R.string.ero_info))) {
                     String forgotUname = loginUsername.getText().toString();
                     String forgotUpass = loginUserPassword.getText().toString();
                     String type = "ero";
                     loginInfo.setAcc_type(type);
                     preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-
                     forgotPassword(forgotUname, forgotUpass, loginInfo.getAcc_type());
                 } else if (TextUtils.isEmpty(loginUsername.getText().toString())&&
                         !(llForgotPassword.getText().equals(getResources().getString(R.string.office_emp)))) {
@@ -162,10 +153,7 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
                 } else if (TextUtils.isEmpty(loginUserPassword.getText().toString()) &&
                         llForgotPassword.getText().equals(getResources().getString(R.string.office_emp))) {
                     Toast.makeText(this, "Please enter your email address.", Toast.LENGTH_SHORT).show();
-
-
                 }
-
                 break;
             case R.id.login_business_patner:
                 d = new BottomSheetDialog(this, R.style.AppTheme);
@@ -213,14 +201,11 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
     private void forgotPasswordEmp(String forgotUpass, String acc_type) {
         System.out.println("ForgotPasswordDetails.forgotPassword====" + forgotUpass + "===" + acc_type);
         progressBar.setVisibility(View.VISIBLE);
-
         if (AppInternetStatus.getInstance(this).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().forgotPasswordEmp(forgotUpass, acc_type)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
-
         } else {
             showToast("Internet Connection Is Not Available");
 
@@ -230,35 +215,26 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
     private void handleResponse(ForgotUserPasswordInfoEmp response) {
         showToast(response.getMessage());
         progressBar.setVisibility(View.GONE);
-
         System.out.println("ForgotPasswordDetails.handleResponse====" + response.getMessage());
         if (response.getStatus().equalsIgnoreCase("success")) {
             showToast(response.getMessage());
             ForgotUserPasswordData forgotUserDetailsData = response.getUser_data();
             String data = forgotUserDetailsData.getTEMPORARY_PIN();
-
             Intent i = new Intent(this, BackToLoginScreen.class);
             i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
             i.putExtra("forgotUser", data);
             startActivity(i);
-
         }
 
     }
-
-
     private void forgotPassword(String forgotUname, String forgotUpass, String acc_type) {
         System.out.println("ForgotPasswordDetails.forgotPassword====" + forgotUname + "===" + forgotUpass + "===" + acc_type);
         progressBar.setVisibility(View.VISIBLE);
-
-
         if (AppInternetStatus.getInstance(this).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().forgotPassword(forgotUname, forgotUpass, acc_type)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
-
         } else {
             showToast("Internet Connection Is Not Available");
 
@@ -275,12 +251,10 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
             ForgotUserPasswordData forgotUserDetailsData = response.getUser_data();
             String data = forgotUserDetailsData.getTEMPORARY_PIN();
             System.out.println("ForgotPasswordDetails.handleResponse===" + data);
-
             Intent i = new Intent(this, BackToLoginScreen.class);
             i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
             i.putExtra("forgotUser", data);
             startActivity(i);
-
         }
 
     }
@@ -294,17 +268,13 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
         showToast(error.getMessage());
         System.out.println("ForgotPasswordDetails.handleError=="+error.getMessage());
         progressBar.setVisibility(View.GONE);
-
         if (error instanceof HttpException) {
-
             Gson gson = new GsonBuilder().create();
-
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
                 System.out.println("ForgotPasswordDetails.handleError===" + errorBody);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

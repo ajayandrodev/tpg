@@ -241,9 +241,10 @@ public class ReportParticulrFreePaidSortNew implements Parcelable {
         Row = row;
     }
 
-    public ReportParticulrFreePaidSortNew(){
+    public ReportParticulrFreePaidSortNew() {
 
     }
+
     public ReportParticulrFreePaidSortNew(Parcel in) {
         Id = in.readString();
         recordcreatedate = in.readString();

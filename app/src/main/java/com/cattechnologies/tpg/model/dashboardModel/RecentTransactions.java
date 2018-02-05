@@ -11,23 +11,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class RecentTransactions implements Parcelable{
 
-  /*   "recent_transactions": [
-    {
-        "LastUpdate": "2016-01-25 10:06:07.900",
-            "Amount": "286.0500"
-    },
-    {
-        "LastUpdate": "2014-12-16 07:52:01.050",
-            "Amount": "1500.0000"
-    }
-    ]*/
-
-/*
-     "LastUpadte": "2016-01-25 10:06:07.840",
-             "Amount": "180.0000"*/
-
-
-
     @SerializedName("LastUpdate")
     private String LastUpdate;
 

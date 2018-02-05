@@ -70,9 +70,10 @@ public class ReportFreePaidSearchSort implements Parcelable {
         FeeReport_data = feeReport_data;
     }
 
-    public ReportFreePaidSearchSort(){
+    public ReportFreePaidSearchSort() {
 
     }
+
     public ReportFreePaidSearchSort(Parcel in) {
         status = in.readString();
         message = in.readString();

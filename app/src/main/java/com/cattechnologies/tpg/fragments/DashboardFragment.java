@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,22 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportAccountDisbFragment;
 import com.cattechnologies.tpg.fragments.accountDisbursementsReport.ReportsAccountDisbServiceBuroFragment;
-import com.cattechnologies.tpg.fragments.checksToPrintReport.EmptyCheckToPrintFragment;
-import com.cattechnologies.tpg.fragments.checksToPrintReport.ReportsCheckToPrintFragment;
 import com.cattechnologies.tpg.fragments.eroDepositsReport.ReportEroDepositFragment;
 import com.cattechnologies.tpg.fragments.eroDepositsReport.ReportsEroDepositServiceBuroFragment;
 import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidServiceBuroFragment;
-import com.cattechnologies.tpg.fragments.checksToPrintReport.ServiceBruoNewFragment;
 import com.cattechnologies.tpg.model.dashboardModel.DashboardInfoData;
 import com.cattechnologies.tpg.model.dashboardModel.RecentTransactions;
 import com.cattechnologies.tpg.adapters.dashboardAdapter.DashboardListAdapter;
-import com.cattechnologies.tpg.model.dashboardModel.DashboardResentTransactionsData;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 
@@ -48,7 +41,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     String title;
     Bundle args;
     FragmentManager fragmentManager;
-    List<DashboardResentTransactionsData> reportsList = new ArrayList<>();
     RecyclerView recyclerView;
     DashboardListAdapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;

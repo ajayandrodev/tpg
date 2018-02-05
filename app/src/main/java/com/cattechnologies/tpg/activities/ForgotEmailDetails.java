@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserEmailAddress;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserEmailAddressSb;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserEmailData;
-import com.cattechnologies.tpg.model.LoginInfo;
+import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
@@ -72,13 +72,11 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
         drawerTitle = bundle.getString(ARG_SELECTION_USER);
         mLogin.setOnClickListener(this);
         progressBar = (ProgressBar) findViewById(R.id.progress_login);
-
         mSubscriptions = new CompositeSubscription();
         preferencesManager = new PreferencesManager();
         loginInfo = new LoginInfo();
         checkBox.setOnCheckedChangeListener(this);
         setToolbar();
-
     }
 
     private void setToolbar() {
@@ -117,8 +115,6 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
                 String forgotUname = loginUsername.getText().toString();
                 String forgotUpass = loginUserPassword.getText().toString();
                 String type = null;
-
-
                 if (checkBox.isChecked()) {
                     type = "sb";
                     loginInfo.setAcc_type(type);
@@ -128,8 +124,6 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
                     loginInfo.setAcc_type(type);
                     preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
                 }
-
-
                 if (loginInfo.getAcc_type().equalsIgnoreCase("sb")) {
                     if (loginUsername.getText().toString().isEmpty() &&
                             loginUserPassword.getText().toString().isEmpty()) {
@@ -146,8 +140,6 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
                         forgotEmailAddressSb(forgotUname, loginInfo.getAcc_type());
 
                     }
-
-
                 } else if (loginInfo.getAcc_type().equalsIgnoreCase("ero")) {
                     if (loginUsername.getText().toString().isEmpty() &&
                             loginUserPassword.getText().toString().isEmpty()) {

@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by admin on 2/1/2018.
  */
 
-public class ReportsFeePaidSortServiceBuroNew implements Parcelable{
+public class ReportsFeePaidSortServiceBuroNew implements Parcelable {
     @SerializedName("Id")
     private String Id;
 

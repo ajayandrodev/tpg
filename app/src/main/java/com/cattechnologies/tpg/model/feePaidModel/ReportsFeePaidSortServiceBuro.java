@@ -11,7 +11,7 @@ import java.util.List;
  * Created by admin on 2/1/2018.
  */
 
-public class ReportsFeePaidSortServiceBuro implements Parcelable{
+public class ReportsFeePaidSortServiceBuro implements Parcelable {
 
     @SerializedName("status")
     private String status;
@@ -29,7 +29,7 @@ public class ReportsFeePaidSortServiceBuro implements Parcelable{
     @SerializedName("ServiceBureau_FeePaid_Report_data")
     private List<ReportsFeePaidSortServiceBuroNew> ServiceBureau_FeePaid_Report_data;
 
-    public ReportsFeePaidSortServiceBuro(){
+    public ReportsFeePaidSortServiceBuro() {
 
     }
 

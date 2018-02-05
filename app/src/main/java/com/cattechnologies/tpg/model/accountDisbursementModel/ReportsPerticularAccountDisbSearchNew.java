@@ -156,7 +156,7 @@ public class ReportsPerticularAccountDisbSearchNew implements Parcelable {
         DisbType = disbType;
     }
 
-    public ReportsPerticularAccountDisbSearchNew(){
+    public ReportsPerticularAccountDisbSearchNew() {
 
     }
 

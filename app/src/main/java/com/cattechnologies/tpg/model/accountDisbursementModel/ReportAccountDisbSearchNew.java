@@ -11,20 +11,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class ReportAccountDisbSearchNew implements Parcelable {
 
-
-    /*   "Id": "1",
-               "SYSTEM_YEAR": "2018",
-               "masterefin": "612354",
-               "Efin": "060020",
-               "PrimaryFirstName": "YOG",
-               "PrimaryLastName": "REDDY",
-               "PrimarySsn": "XXX-XX-1234",
-               "ProductType": "Non-RT",
-               "expecteddepdate": "20172012",
-               "ExpectedRefund": "51.00",
-               "DisbursementDate": "20171912",
-               "disbursmentamount": "12.00",
-               "DisbType": "Repayment"*/
     @SerializedName("Id")
     private String Id;
 
@@ -170,7 +156,7 @@ public class ReportAccountDisbSearchNew implements Parcelable {
         DisbType = disbType;
     }
 
-    public ReportAccountDisbSearchNew(){
+    public ReportAccountDisbSearchNew() {
 
     }
 

@@ -47,7 +47,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 .setCategory("Action")
                 .setAction("Share")
                 .build());*/
-
     }
 
     @Override

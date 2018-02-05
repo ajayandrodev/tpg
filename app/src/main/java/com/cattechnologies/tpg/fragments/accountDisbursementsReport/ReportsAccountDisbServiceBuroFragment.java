@@ -259,7 +259,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
                 e.printStackTrace();
             }
         }
-        if(!error.getMessage().equalsIgnoreCase("")){
+        if (!error.getMessage().equalsIgnoreCase("")) {
             showToast("EFIN already exist");
         }
     }

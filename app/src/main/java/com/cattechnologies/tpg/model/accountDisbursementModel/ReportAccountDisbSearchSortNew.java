@@ -156,7 +156,7 @@ public class ReportAccountDisbSearchSortNew implements Parcelable {
         DisbType = disbType;
     }
 
-    public ReportAccountDisbSearchSortNew(){
+    public ReportAccountDisbSearchSortNew() {
 
     }
 

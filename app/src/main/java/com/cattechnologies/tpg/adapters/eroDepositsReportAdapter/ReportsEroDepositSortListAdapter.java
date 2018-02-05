@@ -46,11 +46,6 @@ public class ReportsEroDepositSortListAdapter extends RecyclerView.Adapter<Repor
 
     @Override
     public void onBindViewHolder(ReportsEroDepositSortListAdapter.ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-
         ReportsEroDepositsSortNew reports = reportsList.get(position);
         holder.userData.setText(reports.getDAN());
         holder.costData.setText("$" + reports.getDepositAmount());
@@ -80,14 +75,8 @@ public class ReportsEroDepositSortListAdapter extends RecyclerView.Adapter<Repor
     public void setClickListener(ItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
-
-    public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }
-
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
-
         public ReportsViewHolder(View itemView) {
             super(itemView);
             userData = (TextView) itemView.findViewById(R.id.report_user);
@@ -97,7 +86,6 @@ public class ReportsEroDepositSortListAdapter extends RecyclerView.Adapter<Repor
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
 
         }
 

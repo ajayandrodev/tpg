@@ -156,7 +156,7 @@ public class ReportParticulrAccountDisbNew implements Parcelable {
         DisbType = disbType;
     }
 
-    public ReportParticulrAccountDisbNew(){
+    public ReportParticulrAccountDisbNew() {
 
     }
 

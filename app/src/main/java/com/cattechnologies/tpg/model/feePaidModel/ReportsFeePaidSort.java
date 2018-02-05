@@ -11,7 +11,7 @@ import java.util.List;
  * Created by admin on 1/4/2018.
  */
 
-public class ReportsFeePaidSort implements Parcelable{
+public class ReportsFeePaidSort implements Parcelable {
 
     @SerializedName("status")
     private String status;
@@ -70,9 +70,10 @@ public class ReportsFeePaidSort implements Parcelable{
         FeeReport_data = feeReport_data;
     }
 
-    public ReportsFeePaidSort(){
+    public ReportsFeePaidSort() {
 
     }
+
     protected ReportsFeePaidSort(Parcel in) {
         status = in.readString();
         message = in.readString();

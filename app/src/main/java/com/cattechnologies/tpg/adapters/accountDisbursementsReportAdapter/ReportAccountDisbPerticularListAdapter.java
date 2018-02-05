@@ -44,11 +44,6 @@ public class ReportAccountDisbPerticularListAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ReportsViewHolder holder, int position) {
-     /*   if (position % 2 == 0)
-            holder.itemView.setBackgroundColor(Color.parseColor("#ebefef"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#e0e8e8"));*/
-
         ReportParticulrAccountDisbNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getDisbursmentamount());
@@ -61,12 +56,10 @@ public class ReportAccountDisbPerticularListAdapter extends RecyclerView.Adapter
     public long getItemId(int position) {
         return position;
     }
-
     @Override
     public int getItemViewType(int position) {
         return position;
     }
-
 
     @Override
     public int getItemCount() {
@@ -74,19 +67,11 @@ public class ReportAccountDisbPerticularListAdapter extends RecyclerView.Adapter
         return reportsList == null ? 0 : reportsList.size();
         // return 0;
     }
-
     public void setClickListener(ItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
-
-  /*  public void setClickListener(ReportsFeesPaidFragment reportsFeesPaidFragment) {
-
-    }
-*/
-
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
-
         public ReportsViewHolder(View itemView) {
             super(itemView);
             userData = (TextView) itemView.findViewById(R.id.report_user);
@@ -96,10 +81,7 @@ public class ReportAccountDisbPerticularListAdapter extends RecyclerView.Adapter
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);
             itemView.setOnClickListener(this);
-
-
         }
-
         @Override
         public void onClick(View view) {
             if (clickListener != null) clickListener.onClick(view, getAdapterPosition());

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +17,11 @@ import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeePaidExpan
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListAccoAdapter;
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListEnrAdapterNew;
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListShipAdapter;
-import com.cattechnologies.tpg.model.MyProfileGroupAccountInfoNew;
-import com.cattechnologies.tpg.model.MyProfileGroupShippingInfoNew;
-import com.cattechnologies.tpg.model.accountDisbursementModel.AccountInfo;
-import com.cattechnologies.tpg.model.EnrolInfo;
-import com.cattechnologies.tpg.model.profileModel.MyProfileGroupAccountInfo;
+import com.cattechnologies.tpg.model.profileModel.MyProfileGroupAccountInfoNew;
+import com.cattechnologies.tpg.model.profileModel.MyProfileGroupShippingInfoNew;
+import com.cattechnologies.tpg.model.profileModel.AccountInfo;
+import com.cattechnologies.tpg.model.profileModel.EnrolInfo;
 import com.cattechnologies.tpg.model.profileModel.MyProfileGroupEnrollInfoNew;
-import com.cattechnologies.tpg.model.profileModel.MyProfileGroupShippingInfo;
 import com.cattechnologies.tpg.model.profileModel.ProfileGroupData;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.model.profileModel.ShippingInfo;
@@ -194,7 +191,7 @@ public class ProfileFragment extends Fragment {
 
 
             } else {
-               showToast(profileGroupData.getMessage());
+                showToast(profileGroupData.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();

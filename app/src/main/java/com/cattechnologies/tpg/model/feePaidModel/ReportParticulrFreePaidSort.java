@@ -68,9 +68,10 @@ public class ReportParticulrFreePaidSort implements Parcelable {
         FeeReport_data = feeReport_data;
     }
 
-    public ReportParticulrFreePaidSort(){
+    public ReportParticulrFreePaidSort() {
 
     }
+
     protected ReportParticulrFreePaidSort(Parcel in) {
         status = in.readString();
         message = in.readString();

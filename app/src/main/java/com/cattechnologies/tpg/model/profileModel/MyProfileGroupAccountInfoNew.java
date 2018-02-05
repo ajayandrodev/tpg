@@ -1,15 +1,14 @@
 package com.cattechnologies.tpg.model.profileModel;
 
-import com.cattechnologies.tpg.model.accountDisbursementModel.AccountInfo;
+import com.cattechnologies.tpg.model.profileModel.AccountInfo;
 
 import java.util.ArrayList;
 
 /**
- * Created by admin on 10/23/2017.
+ * Created by admin on 1/30/2018.
  */
 
-public class MyProfileGroupAccountInfo {
-
+public class MyProfileGroupAccountInfoNew {
     private String name;
     private ArrayList<AccountInfo> list = new ArrayList<AccountInfo>();
 
@@ -21,12 +20,11 @@ public class MyProfileGroupAccountInfo {
         this.name = name;
     }
 
-    public ArrayList<AccountInfo> getProductList() {
+    public ArrayList<AccountInfo> getList() {
         return list;
     }
 
-    public void setProductList(ArrayList<AccountInfo> productList) {
-        this.list = productList;
+    public void setList(ArrayList<AccountInfo> list) {
+        this.list = list;
     }
-
 }

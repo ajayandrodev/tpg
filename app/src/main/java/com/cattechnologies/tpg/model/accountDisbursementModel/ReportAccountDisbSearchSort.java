@@ -16,7 +16,6 @@ public class ReportAccountDisbSearchSort implements Parcelable {
     @SerializedName("status")
     private String status;
 
-
     @SerializedName("message")
     private String message;
 
@@ -69,7 +68,7 @@ public class ReportAccountDisbSearchSort implements Parcelable {
         DisbursmentReport_data = disbursmentReport_data;
     }
 
-    public ReportAccountDisbSearchSort(){
+    public ReportAccountDisbSearchSort() {
 
     }
 

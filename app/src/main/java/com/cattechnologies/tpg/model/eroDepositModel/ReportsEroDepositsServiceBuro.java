@@ -30,7 +30,6 @@ public class ReportsEroDepositsServiceBuro implements Parcelable {
     private List<ReportsEroDepositsServiceBuroNew> Service_Bureau_EroReport_data;
 
 
-
     public ReportsEroDepositsServiceBuro() {
     }
 

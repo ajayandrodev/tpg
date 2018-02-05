@@ -33,6 +33,10 @@ public class ReportsEfinValidCheck implements Parcelable {
         this.message = message;
     }
 
+    public ReportsEfinValidCheck() {
+    }
+
+
     protected ReportsEfinValidCheck(Parcel in) {
         status = in.readString();
         message = in.readString();

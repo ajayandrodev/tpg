@@ -25,10 +25,10 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
     TextView titulo, textReportFirstName, textReportSsn, textReportType, textReportTitleDetail, textReportOne, textReportOneData,
             textReportTwo, textReportTwoData, textReportThree, textReportThreeData, textReportFour, textReportFourData,
             textReportFive, textReportFiveData,
-            textReportSix, textReportSixData,textEfinData, textEfin;
+            textReportSix, textReportSixData, textEfinData, textEfin;
     RelativeLayout llOne, llTwo, llThree, llFour, llFive, llSix;
     LinearLayout llInfoData, llInfoDetailsData;
-    String userName, userSSN, userDis, userDate, userPrep, userEle, userDoc, userTotal, userOther,efindata;
+    String userName, userSSN, userDis, userDate, userPrep, userEle, userDoc, userTotal, userOther, efindata;
 
     PreferencesManager preferencesManager;
 
@@ -66,7 +66,6 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.reports_feepaid_details, container, false);
@@ -79,7 +78,7 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
-        preferencesManager=new PreferencesManager();
+        preferencesManager = new PreferencesManager();
         userName = getArguments().getString("report_username");
         userSSN = getArguments().getString("report_ssn");
         userDis = getArguments().getString("report_disb");

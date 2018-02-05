@@ -19,9 +19,7 @@ public class AnalyticsApplication extends MultiDexApplication {
     private static AnalyticsApplication instance;
     private static GoogleAnalytics sAnalytics;
     private static Tracker sTracker;
-    /*
-    http://www.coderefer.com/android-custom-font-entire-application/
-*/
+
     @Override
     public void onCreate() {
         super.onCreate();

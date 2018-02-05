@@ -52,10 +52,7 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
     @Override
     public int getItemCount() {
         if (myList != null) {
-
-
             return myList.size();
-
         } else {
             return 0;
         }
@@ -85,23 +82,8 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
             myList.add(myList.size(), newValue);
           //  notifyItemInserted(myList.size() - 1);
             notifyDataSetChanged();
-        } /*else {
-            Toast.makeText(mContext, "already e", Toast.LENGTH_SHORT).show();
         }
-*/
-
-
     }
-
-
-   /* public void addItem(final int position, RecyclerData model) {
-        Log.d("Position-item", position + "");
-
-        myList.add(position, model);
-        notifyItemInserted(position);
-        //notifyDataSetChanged();
-    }*/
-
 
     public class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
         private final TextView etTitleTextView;

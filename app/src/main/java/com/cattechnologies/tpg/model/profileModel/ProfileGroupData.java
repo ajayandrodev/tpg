@@ -1,47 +1,15 @@
 package com.cattechnologies.tpg.model.profileModel;
 
-import com.cattechnologies.tpg.model.EnrolInfo;
-import com.cattechnologies.tpg.model.accountDisbursementModel.AccountInfo;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by admin on 12/19/2017.
  */
 
-public class ProfileGroupData {
-   /* {
-        "status": "success",
-            "message": "Data found successfully",
-            "owner_info": {
-        "Street": "2 LONG STREET",
-                "street2": null,
-                "City": "SARASOTA",
-                "State": "FL",
-                "Zipcode": "34235",
-                "FirstName": "BOB",
-                "LastName": "BOB",
-                "EmailAddress": "JH.JAH@JHNET.COM",
-                "WorkPhone": null,
-                "HomePhone": "6759876789",
-                "MobilePhone": null
-    },
-        "shipping_info": {
-        "Street": "300 CENTER POINT DRIVE 300",
-                "street2": "",
-                "City": "VIRGINIA BEACH",
-                "State": "CA",
-                "Zipcode": "23462",
-                "ShipmentHoldUntilDate": "2017-11-30 00:00:00.000"
-    },
-        "account_info": {
-        "BankName": "WELLS FARGO",
-                "NameOnAccount": "MISTER MANAGER",
-                "RTN": "051400345",
-                "DAN": "203066472",
-                "AcctType": "C"
-    }
-    }
-}*/
+public class ProfileGroupData implements Parcelable{
 
     @SerializedName("status")
     private String status;
@@ -55,6 +23,38 @@ public class ProfileGroupData {
 
     @SerializedName("account_info")
     private AccountInfo account_info;
+
+    protected ProfileGroupData(Parcel in) {
+        status = in.readString();
+        message = in.readString();
+        owner_info = in.readParcelable(EnrolInfo.class.getClassLoader());
+        account_info = in.readParcelable(AccountInfo.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(status);
+        dest.writeString(message);
+        dest.writeParcelable(owner_info, flags);
+        dest.writeParcelable(account_info, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ProfileGroupData> CREATOR = new Creator<ProfileGroupData>() {
+        @Override
+        public ProfileGroupData createFromParcel(Parcel in) {
+            return new ProfileGroupData(in);
+        }
+
+        @Override
+        public ProfileGroupData[] newArray(int size) {
+            return new ProfileGroupData[size];
+        }
+    };
 
     public String getStatus() {
         return status;
