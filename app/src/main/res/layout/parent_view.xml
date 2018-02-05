@@ -12,7 +12,7 @@
         android:layout_marginRight="@dimen/dim_20"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="@dimen/dim_15">
+        android:padding="@dimen/dim_10">
 
         <TextView
             android:id="@+id/parent_sb"
@@ -32,11 +32,10 @@
             android:id="@+id/imag_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/dim_5"
-            android:padding="@dimen/dim_5"
-            android:src="@drawable/up_arrow_icon" />
+            android:layout_centerVertical="true"
+            android:src="@mipmap/down_arrow_expand" />
     </RelativeLayout>
 
 </RelativeLayout>

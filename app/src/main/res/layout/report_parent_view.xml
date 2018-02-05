@@ -35,7 +35,7 @@
             android:layout_marginTop="@dimen/dim_5"
             android:foregroundGravity="center|top"
             android:padding="@dimen/dim_5"
-            android:src="@drawable/up_arrow_icon" />
+            android:src="@mipmap/up_arrow_expan" />
     </LinearLayout>
 
 </RelativeLayout>

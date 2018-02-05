@@ -79,9 +79,9 @@ public class ReportsFeePaidExpandableadapter extends BaseExpandableListAdapter {
         textparent.setText(parent_text);
         ImageView img = (ImageView) convertView.findViewById(R.id.imag_arrow);
         if (isLastChild) {
-            img.setImageResource(R.drawable.up_arrow_icon);
+            img.setImageResource(R.mipmap.up_arrow_expan);
         } else {
-            img.setImageResource(R.drawable.down_arrow_icon);
+            img.setImageResource(R.mipmap.down_arrow_expand);
         }
         return convertView;
     }

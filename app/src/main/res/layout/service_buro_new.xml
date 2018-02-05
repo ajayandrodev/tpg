@@ -54,7 +54,7 @@
                 android:layout_below="@id/selected_type"
                 android:background="@drawable/edittext_border_report_data"
                 android:gravity="center"
-                android:padding="@dimen/dim_20"
+                android:padding="@dimen/dim_23"
                 android:text="service bureau"
                 android:textSize="@dimen/font_size"
                 android:textAllCaps="true"
@@ -71,7 +71,7 @@
             <RelativeLayout
                 android:id="@+id/expand_sb"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dim_200"
+                android:layout_height="@dimen/dim_220"
                 android:layout_below="@id/selected_type_sb"
                 android:gravity="center|top"
                 android:orientation="vertical">
@@ -89,7 +89,8 @@
                     android:dividerHeight="1dp"
                     android:groupIndicator="@null"
                     android:listSelector="@android:color/transparent"
-                    android:scrollbars="vertical" />
+                    android:scrollbars="vertical"
+                   />
 
 
             </RelativeLayout>

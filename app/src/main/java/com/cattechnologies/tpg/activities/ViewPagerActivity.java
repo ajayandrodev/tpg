@@ -28,6 +28,7 @@ public class ViewPagerActivity extends FragmentActivity {
     private static Integer[] IMAGES = {R.drawable.onboarding_bg_new, R.drawable.onboarding_bg_new,
             R.drawable.onboarding_bg_new, R.drawable.onboarding_bg_new};
     Display display;
+    SlidingImage_Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,9 @@ public class ViewPagerActivity extends FragmentActivity {
             ImagesArray.add(IMAGES[i]);
 */
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setAdapter(new SlidingImage_Adapter(this));
+        adapter = new SlidingImage_Adapter(this);
+
+        mPager.setAdapter(adapter);
 
         //  mPager.setAdapter(new SlidingImage_Adapter(ViewPagerActivity.this, ImagesArray));
 
@@ -75,16 +78,27 @@ public class ViewPagerActivity extends FragmentActivity {
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
+             /*   if (adapter.getCount()==currentPage){
+                    currentPage = 0;
+                    System.out.println("ViewPagerActivity.run====ada=="+adapter.getCount()+"==="+currentPage);
+                }else {
+                    mPager.setCurrentItem(currentPage++, true);
+                    System.out.println("ViewPagerActivity.run==="+mPager.getCurrentItem());
+
+                }*/
                 if (currentPage == NUM_PAGES) {
                     currentPage = 0;
+                    System.out.println("ViewPagerActivity.run===" + currentPage);
                 }
                 mPager.setCurrentItem(currentPage++, true);
+                System.out.println("ViewPagerActivity.run===sss==" + mPager.getCurrentItem());
             }
         };
         Timer swipeTimer = new Timer();
         swipeTimer.schedule(new TimerTask() {
             @Override
             public void run() {
+                System.out.println("ViewPagerActivity.run===timer" + Update);
                 handler.post(Update);
             }
         }, 1000, 1000);
@@ -95,12 +109,17 @@ public class ViewPagerActivity extends FragmentActivity {
             @Override
             public void onPageSelected(int position) {
                 currentPage = position;
+                System.out.println("ViewPagerActivity.onPageSelected");
 
                 if (position == 3) {
+                    swipeTimer.cancel();
+
                     indicator.setVisibility(View.GONE);
+                    System.out.println("ViewPagerActivity.onPageSelected===eee==" + currentPage);
 
                 } else {
                     indicator.setVisibility(View.VISIBLE);
+                    System.out.println("ViewPagerActivity.onPageSelected===erer====" + currentPage);
 
                 }
 

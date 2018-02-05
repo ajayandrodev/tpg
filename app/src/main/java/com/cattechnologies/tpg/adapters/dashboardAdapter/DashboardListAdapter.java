@@ -42,7 +42,7 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
         RecentTransactions reports = recentTransactionsList.get(position);
 
         holder.userData.setText(reports.getLastUpadte());
-        holder.costData.setText(reports.getAmount());
+        holder.costData.setText("$" + reports.getAmount());
 
     }
 
