@@ -463,7 +463,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     public void onResume() {
         super.onResume();
         ((Dashboard) getActivity()).setTitle("REPORTS");
-
         // sortAndSearch(sort);
         //updated
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

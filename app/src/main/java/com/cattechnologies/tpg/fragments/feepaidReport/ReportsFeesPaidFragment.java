@@ -470,7 +470,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
     private void handleError(Throwable error) {
         //System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        showToast(error.getMessage());
+       // showToast(error.getMessage());
+        System.out.println("ReportsFeesPaidFragment.handleError====="+error.getMessage());
         progressBar.setVisibility(View.GONE);
 
         if (error instanceof HttpException) {
@@ -481,6 +482,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
+                System.out.println("ReportsFeesPaidFragment.handleError"+response.getMessage());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -641,7 +643,15 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             });
         } else if (response.getStatus().equalsIgnoreCase("fail")) {
             progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
+
+            int totalPage = Integer.parseInt(totalPages);
+            if(current_page_mock<totalPage||current_page_mock>totalPage){
+
+            }else {
+                showToast(response.getMessage());
+
+            }
 
         }
     }

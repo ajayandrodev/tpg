@@ -51,6 +51,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+
         Intent i = new Intent(MainActivity.this, LoginScreen.class);
         startActivity(i);
     }

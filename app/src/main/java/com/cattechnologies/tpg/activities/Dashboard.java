@@ -1,11 +1,13 @@
 package com.cattechnologies.tpg.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.NavigationView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cattechnologies.tpg.fragments.DashboardFragment;
 import com.cattechnologies.tpg.fragments.ProfileFragment;
@@ -124,6 +127,7 @@ public class Dashboard extends AppCompatActivity {
                 Fragment f = getSupportFragmentManager().findFragmentById(R.id.main_content);
                 if ((f instanceof DashboardFragment) || (f instanceof ProfileFragment)) {
                     drawerLayout.openDrawer(GravityCompat.START);
+                    System.out.println("Dashboard.onOptionsItemSelected======");
                 } else {
                     onBackPressed();
                 }
@@ -177,7 +181,7 @@ public class Dashboard extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         showOrHideTitleBar();
-        System.out.println("Dashboard.onResume");
+
     }
 
     public void showOrHideTitleBar() {
@@ -185,6 +189,7 @@ public class Dashboard extends AppCompatActivity {
         if (f instanceof DashboardFragment) {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
         } else {
+            System.out.println("Dashboard.showOrHideTitleBar===is not dash");
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_icon);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -193,26 +198,73 @@ public class Dashboard extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        // TODO: 29-Oct-17
-        showOrHideTitleBar();
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.main_content);
+
+        if (f instanceof DashboardFragment || f instanceof ProfileFragment) {
+           // showOrHideTitleBar();
+            alertDialog();
+            System.out.println("Dashboard.onBackPressed===dash==");
+
+        } else {
+            super.onBackPressed();
+            // TODO: 29-Oct-17
+            showOrHideTitleBar();
+            System.out.println("Dashboard.onBackPressed===" + drawerTitle + "===" + tiTitle);
+        }
+
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
         System.out.println("Dashboard.onPause");
+    }
+
+    private void alertDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        // set title
+        alertDialogBuilder.setTitle("Exit");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Do you really want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+
         System.out.println("Dashboard.onStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         System.out.println("Dashboard.onDestroy");
     }
 

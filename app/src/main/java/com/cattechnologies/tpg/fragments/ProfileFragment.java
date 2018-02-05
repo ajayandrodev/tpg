@@ -13,6 +13,7 @@ import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.cattechnologies.tpg.activities.Dashboard;
 import com.cattechnologies.tpg.adapters.feePaidReportAdapter.ReportsFeePaidExpandableadapter;
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListAccoAdapter;
 import com.cattechnologies.tpg.adapters.profileAdapter.MyProfileExpandableListEnrAdapterNew;
@@ -78,12 +79,7 @@ public class ProfileFragment extends Fragment {
 
     SimpleDateFormat format, format1;
 
-
-    ReportsFeePaidExpandableadapter adapter;
-    ExpandableListView myexpandable;
-    List<String> parent;
-    List<String> child;
-    HashMap<String, List<String>> bind_and_display;
+    Dashboard dashboard;
 
     public static ProfileFragment newInstance(String sectionTitle, String userId, String type) {
         ProfileFragment fragment = new ProfileFragment();
@@ -106,6 +102,7 @@ public class ProfileFragment extends Fragment {
         userType = getArguments().getString("acc_type");
         mSubscriptions = new CompositeSubscription();
         preferencesManager = new PreferencesManager();
+        dashboard=new Dashboard();
         loadProfileData(userId, userType);
         return view;
     }
@@ -163,6 +160,15 @@ public class ProfileFragment extends Fragment {
         });
 
 
+    }
+
+    public void setDashboard(Dashboard dashboard) {
+        this.dashboard = dashboard;
+    }
+
+    public Dashboard getDashboard() {
+        dashboard.onBackPressed();
+        return dashboard;
     }
 
     private void loadProfileData(String userId, String userType) {

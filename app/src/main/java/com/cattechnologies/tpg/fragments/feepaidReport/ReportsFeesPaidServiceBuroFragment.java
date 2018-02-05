@@ -309,7 +309,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
         int cposition = childPosition;
-        sbEroNew.setVisibility(View.GONE);
+     //   sbEroNew.setVisibility(View.GONE);
 
         Displayitemclicked(gposition, cposition);
         //passing the integer value of grouposition and childposition to the above method when an item is clicked

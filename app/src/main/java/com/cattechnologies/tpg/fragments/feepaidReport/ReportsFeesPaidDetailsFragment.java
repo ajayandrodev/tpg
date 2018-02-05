@@ -49,8 +49,6 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
         args.putString("report_totalfee", totalfee);
         args.putString("report_otherfee", otherfee);
         args.putString("report_efin", efindata);
-
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,18 +60,12 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((Dashboard) getActivity()).setTitle("REPORTS");
-
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.reports_feepaid_details, container, false);
-
-
         return view;
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -88,25 +80,19 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
         userDoc = getArguments().getString("report_docfee");
         userTotal = getArguments().getString("report_totalfee");
         userOther = getArguments().getString("report_otherfee");
-
         efindata = getArguments().getString("report_efin");
-
         titulo = (TextView) getActivity().findViewById(R.id.text_report_details_title);
         textReportFirstName = (TextView) getActivity().findViewById(R.id.text_report_one_firstname);
         textReportFirstName.setText(userName);
         textReportSsn = (TextView) getActivity().findViewById(R.id.text_report_one_ssn);
         textReportSsn.setText(userSSN);
         textReportType = (TextView) getActivity().findViewById(R.id.text_report_one_type);
-
         textReportType.setText(userDis);
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
-
         textReportOne = (TextView) getActivity().findViewById(R.id.text_report_one);//ll_six
         textReportOneData = (TextView) getActivity().findViewById(R.id.text_report_one_data);
-
         textReportTwo = (TextView) getActivity().findViewById(R.id.text_report_two);//ll_five
         textReportTwoData = (TextView) getActivity().findViewById(R.id.text_report_two_data);
-
         textReportThree = (TextView) getActivity().findViewById(R.id.text_report_three);//ll_foure
         textReportThreeData = (TextView) getActivity().findViewById(R.id.text_report_three_data);
 
@@ -133,27 +119,18 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
         llTwo = (RelativeLayout) getActivity().findViewById(R.id.ll_two);
         llOne = (RelativeLayout) getActivity().findViewById(R.id.ll_one);
 
-
         titulo.setText("FEES PAID - DETAILS");
-
         textReportTitleDetail.setText("FEES PAID");
-
         textReportOne.setText("Disbursement Date:");
-
         textReportOneData.setText(userDate);
-
         textReportTwo.setText("Prep Fee:");
         textReportTwoData.setText("$" + userPrep);
-
         textReportThree.setText("Electronic Filling Fee:");
         textReportThreeData.setText("$" + userEle);
-
         textReportFour.setText("Doc Prep Fee:");
         textReportFourData.setText("$" + userDoc);
-
         textReportFive.setText("Other Fee:");
         textReportFiveData.setText("$" + userOther);
-
         textReportSix.setText("Total Fee Amount:");
         textReportSixData.setText("$" + userTotal);
 

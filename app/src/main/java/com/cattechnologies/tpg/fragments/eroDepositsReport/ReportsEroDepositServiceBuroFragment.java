@@ -292,7 +292,6 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
         super.onPause();
         myList.clear();
 
-//        mRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -300,7 +299,6 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
         super.onStop();
         myList.clear();
 
-//        mRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -320,7 +318,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
     }
 
     private void Displayitemclicked(int gposition, int cposition) {
-        sbEro.setVisibility(View.GONE);
+      //  sbEro.setVisibility(View.GONE);
         if (gposition == 0) {
 
             switch (cposition) {

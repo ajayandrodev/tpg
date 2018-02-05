@@ -320,7 +320,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
     }
 
     private void Displayitemclicked(int gposition, int cposition) {
-        sbEro.setVisibility(View.GONE);
+       // sbEro.setVisibility(View.GONE);
         if (gposition == 0) {
 
             switch (cposition) {

@@ -131,20 +131,16 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((Dashboard) getActivity()).setTitle("REPORTS");
-
-
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.reports_ero_deposit_fragment, container, false);
-
         return view;
     }
 
     public ReportEroDepositFragment() {
-
     }
 
     @Override
@@ -157,7 +153,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             searchData.addTextChangedListener(textWatcher);
         }
         searchDataInfo(true);
-
     }
 
     private void searchDataInfo(boolean b) {
@@ -464,7 +459,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         }
 
     }
-
+//ero deposit
     private void eroDepositReportsData(String userId, String userType, String page) {
         System.out.println("ReportsFeesPaidFragment.eroDepositReportsData==" + userId + "==" + userType);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
@@ -732,19 +727,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                 searchSortReportData(userId, userType, newText, pagNo, sort);
             }
         }
-       /* if (TextUtils.isEmpty(newText)) {
-            if (pagNo.equalsIgnoreCase("")) {
-                sortReportItem(userId, userType, reportsFeePaidSort.getPage(), sort);
-            } else {
-                sortReportItem(userId, userType, pagNo, sort);
-            }
-        } else {
-            if (pagNo.equalsIgnoreCase("")) {
-                searchSortReportData(userId, userType, newText, reportFreePaidSearchSort.getPage(), sort);
-            } else {
-                searchSortReportData(userId, userType, newText, pagNo, sort);
-            }
-        }*/
+
     }
 
     private void searchSortReportData(String userId, String userType, String newText, String page, String sort) {

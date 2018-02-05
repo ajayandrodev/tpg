@@ -133,7 +133,7 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
         textReportTwoData.setText(userDepositDate);
 
         textReportThree.setText("Deposit Amount:");
-        textReportThreeData.setText(" $ " + userDepositAmount);
+        textReportThreeData.setText("$" + userDepositAmount);
 
         textReportFour.setText("Reversed Date:");
         format = new SimpleDateFormat("yyyyMMdd");

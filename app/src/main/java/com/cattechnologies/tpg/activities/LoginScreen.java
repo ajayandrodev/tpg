@@ -73,7 +73,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     String forgotEmailData;
     Intent i;
     PreferencesManager preferencesManager;
-    SessionManager sessionManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,7 +105,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         progressBar = (ProgressBar) findViewById(R.id.progress_login);
         loginInfo = new LoginInfo();
         preferencesManager = new PreferencesManager();
-        sessionManager=new SessionManager(getApplicationContext());
         loginBt.setOnClickListener(this);
         footer.setOnClickListener(this);
         checkBox.setOnCheckedChangeListener(this);
@@ -276,7 +274,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 intent.putExtra("ProfileData", profileData);
                 intent.putParcelableArrayListExtra("RecentTransactions", (ArrayList<? extends Parcelable>) recentTransactionsList);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         } else {
             showToast(response.getMessage());
