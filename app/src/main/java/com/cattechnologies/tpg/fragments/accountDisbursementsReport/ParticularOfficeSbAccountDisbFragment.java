@@ -425,9 +425,10 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
     }
 
     private void handleError(Throwable error) {
-        System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        showToast(error.getMessage());
+      /*  System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
+        showToast(error.getMessage());*/
         progressBar.setVisibility(View.GONE);
+        System.out.println("ReportsFeesPaidFragment.handleError" + error.getMessage());
 
         if (error instanceof retrofit2.adapter.rxjava.HttpException) {
 
@@ -437,6 +438,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 String errorBody = ((retrofit2.adapter.rxjava.HttpException) error).response().errorBody().string();
                 com.cattechnologies.tpg.model.Response response = gson.fromJson(errorBody, com.cattechnologies.tpg.model.Response.class);
                 showToast(response.getMessage());
+                System.out.println("ReportsFeesPaidFragment.handleError" + response.getMessage());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -598,7 +600,14 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                                     reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
                                 }
                             }
-                            pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                            if (Integer.parseInt(pagNo) <= totalPage) {
+                                if (Integer.parseInt(pagNo) <= 1) {
+                                    pagNo = String.valueOf(1);
+                                } else {
+                                    pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+
+                                }
+                            }
                             wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
                             particularReportData(userId, userType, pagNo, efinData);
@@ -617,7 +626,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                             if (pagNo.equalsIgnoreCase("")) {
                                 pagNo = String.valueOf(2);
                             } else {
-                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                                if (Integer.parseInt(pagNo) < (totalPage))
+                                    pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
                             }
                             wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
@@ -647,9 +657,17 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        } else {
+        } else if (response.getStatus().equalsIgnoreCase("fail")) {
             progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
+
+            int totalPage = Integer.parseInt(totalPages);
+            if (current_page_mock < totalPage || current_page_mock > totalPage) {
+
+            } else {
+                showToast(response.getMessage());
+
+            }
         }
     }
 
@@ -889,6 +907,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
 
 
     }
+
 
     private void particularOfficeSort(String userId, String userType, String page, String efinData, String sort) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {

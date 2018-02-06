@@ -470,8 +470,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
     private void handleError(Throwable error) {
         //System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-       // showToast(error.getMessage());
-        System.out.println("ReportsFeesPaidFragment.handleError====="+error.getMessage());
+        // showToast(error.getMessage());
+        System.out.println("ReportsFeesPaidFragment.handleError=====" + error.getMessage());
         progressBar.setVisibility(View.GONE);
 
         if (error instanceof HttpException) {
@@ -482,7 +482,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-                System.out.println("ReportsFeesPaidFragment.handleError"+response.getMessage());
+                System.out.println("ReportsFeesPaidFragment.handleError" + response.getMessage());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -557,23 +557,36 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     if (!pagNo.isEmpty()) {
                         if (current_page == (Integer.parseInt(pagNo) - 1)) {
                             btn.setBackgroundColor(Color.parseColor("#808080"));
+                            System.out.println("page.handleResponse==page not empty==" + current_page);
                         } else {
                         }
                         if (Integer.parseInt(pagNo) > 1) {
                             prev.setEnabled(true);
+                            System.out.println("page.handleResponse==page prev >1==" + current_page);
+
                         } else {
                             prev.setEnabled(false);
+                            System.out.println("page.handleResponse==prev not >1===" + current_page);
+
                         }
                         if (Integer.parseInt(pagNo) > (totalPage - 1)) {
                             next.setEnabled(false);
+                            System.out.println("page.handleResponse==next >total==" + current_page);
+
                         } else {
                             next.setEnabled(true);
+                            System.out.println("page.handleResponse==next >total not===" + current_page);
+
                         }
                     } else {
                         if (current_page == 0) {
                             btn.setBackgroundColor(Color.parseColor("#808080"));
                             prev.setEnabled(false);
+                            System.out.println("page.handleResponse==btan data====" + current_page);
+
                         } else {
+                            System.out.println("page.handleResponse==btn empty====" + current_page);
+
                         }
                     }
 
@@ -589,8 +602,16 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 // reports.setPage(String.valueOf(current_page_mock));
                             }
                         }
-                        pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
-                        reports.setPage(String.valueOf(pagNo));
+                        if (Integer.parseInt(pagNo) <= totalPage) {
+                            if (Integer.parseInt(pagNo) <= 1) {
+                                pagNo = String.valueOf(1);
+                            }else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+
+                            }
+                        }
+                        System.out.println("page.onClick====onclick prev==" + pagNo);
+                        //reports.setPage(String.valueOf(pagNo));
 
                         wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
@@ -610,9 +631,11 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         if (pagNo.equalsIgnoreCase("")) {
                             pagNo = String.valueOf(2);
                         } else {
-                            pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            if (Integer.parseInt(pagNo) < (totalPage))
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
                         }
-                        reports.setPage(String.valueOf(pagNo));
+                        //  reports.setPage(String.valueOf(pagNo));
+                        System.out.println("page.onClick====next ==" + pagNo);
 
                         wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
@@ -646,9 +669,9 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             String totalPages = response.getTotalNoofPages();
 
             int totalPage = Integer.parseInt(totalPages);
-            if(current_page_mock<totalPage||current_page_mock>totalPage){
+            if (current_page_mock < totalPage || current_page_mock > totalPage) {
 
-            }else {
+            } else {
                 showToast(response.getMessage());
 
             }
@@ -896,6 +919,18 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         } else {
             showToast("Internet Connection Is Not Available");
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSubscriptions.unsubscribe();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
     }
 
     private void handleResponseSort(ReportsFeePaidSort response) {

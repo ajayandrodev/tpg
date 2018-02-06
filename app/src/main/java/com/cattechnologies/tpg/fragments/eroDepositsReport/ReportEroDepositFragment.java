@@ -192,13 +192,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ((Dashboard) getActivity()).setTitle("REPORTS");
-        mSubscriptions.unsubscribe();
-
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -459,7 +452,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         }
 
     }
-//ero deposit
+
+    //ero deposit
     private void eroDepositReportsData(String userId, String userType, String page) {
         System.out.println("ReportsFeesPaidFragment.eroDepositReportsData==" + userId + "==" + userType);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
@@ -473,8 +467,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     }
 
     private void handleError(Throwable error) {
-        System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        showToast(error.getMessage());
+    /*    System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
+        showToast(error.getMessage());*/
         progressBar.setVisibility(View.GONE);
 
         if (error instanceof HttpException) {
@@ -593,7 +587,14 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                                 reports.setPage(String.valueOf(current_page_mock));
                             }
                         }
-                        pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                        if (Integer.parseInt(pagNo) <= totalPage) {
+                            if (Integer.parseInt(pagNo) <= 1) {
+                                pagNo = String.valueOf(1);
+                            } else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+
+                            }
+                        }
                         wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
                         eroDepositReportsData(userId, userType, pagNo);
@@ -613,7 +614,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         if (pagNo.equalsIgnoreCase("")) {
                             pagNo = String.valueOf(2);
                         } else {
-                            pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            if (Integer.parseInt(pagNo) < (totalPage))
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
                         }
                         wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
@@ -641,9 +643,17 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        } else {
+        } else if (response.getStatus().equalsIgnoreCase("fail")) {
             progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
+
+            int totalPage = Integer.parseInt(totalPages);
+            if (current_page_mock < totalPage || current_page_mock > totalPage) {
+
+            } else {
+                showToast(response.getMessage());
+
+            }
         }
     }
 
@@ -655,11 +665,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mSubscriptions.unsubscribe();
-    }
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

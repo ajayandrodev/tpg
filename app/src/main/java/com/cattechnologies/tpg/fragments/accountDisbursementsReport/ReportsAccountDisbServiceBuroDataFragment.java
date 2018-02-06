@@ -183,12 +183,6 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ((Dashboard) getActivity()).setTitle("REPORTS");
-        mSubscriptions.unsubscribe();
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -453,9 +447,10 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
     }
 
     private void handleError(Throwable error) {
-        System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        showToast(error.getMessage());
+       /* System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
+        showToast(error.getMessage());*/
         progressBar.setVisibility(View.GONE);
+        System.out.println("ReportsFeesPaidFragment.handleError" + error.getMessage());
 
         if (error instanceof HttpException) {
 
@@ -465,6 +460,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
+                System.out.println("ReportsFeesPaidFragment.handleError" + response.getMessage());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -571,7 +567,14 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                                 reports.setPage(String.valueOf(current_page_mock));
                             }
                         }
-                        pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                        if (Integer.parseInt(pagNo) <= totalPage) {
+                            if (Integer.parseInt(pagNo) <= 1) {
+                                pagNo = String.valueOf(1);
+                            } else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+
+                            }
+                        }
                         wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
                         eroDepositReportsData(userId, userType, pagNo);
@@ -590,7 +593,8 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                         if (pagNo.equalsIgnoreCase("")) {
                             pagNo = String.valueOf(2);
                         } else {
-                            pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            if (Integer.parseInt(pagNo) < (totalPage))
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
                         }
                         wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
@@ -620,11 +624,18 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
             });
 
 
-        } else {
+        } else if (response.getStatus().equalsIgnoreCase("fail")) {
             progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
-        }
+            String totalPages = response.getTotalNoofPages();
 
+            int totalPage = Integer.parseInt(totalPages);
+            if (current_page_mock < totalPage || current_page_mock > totalPage) {
+
+            } else {
+                showToast(response.getMessage());
+
+            }
+        }
     }
 
     private void showToast(String msg) {
@@ -635,12 +646,6 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.out.println("ReportsFeesPaidFragment.onDestroy");
-        mSubscriptions.unsubscribe();
-    }
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

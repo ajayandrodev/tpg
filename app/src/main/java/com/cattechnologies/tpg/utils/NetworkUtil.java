@@ -56,8 +56,6 @@ public class NetworkUtil {
         });
         return httpClient.build();
     }
-
-
     public static OkHttpClient.Builder getUnsafeOkHttpClient() {
         try {
             // Create a trust manager that does not validate certificate chains

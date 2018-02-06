@@ -13,7 +13,6 @@ public class RecyclerData {
     String title;
     String description;
     RecyclerView data;
-
     @Override
     public boolean equals(Object v) {
         boolean retVal = false;
@@ -21,7 +20,6 @@ public class RecyclerData {
         if (v instanceof RecyclerData) {
             RecyclerData ptr = (RecyclerData) v;
             retVal = ptr.title.equals(this.title);
-
         }
 
         return retVal;

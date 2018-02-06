@@ -15,7 +15,6 @@ import java.util.HashMap;
 
 public class SessionManager {
 
-
     private static SessionManager preferencesData;
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor prefsEditor;

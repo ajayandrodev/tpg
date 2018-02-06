@@ -10,13 +10,11 @@ import android.util.Log;
  */
 
 public class AppInternetStatus {
-
     private static AppInternetStatus instance = new AppInternetStatus();
     static Context context;
     ConnectivityManager connectivityManager;
     NetworkInfo wifiInfo, mobileInfo;
     boolean connected = false;
-
     public static AppInternetStatus getInstance(Context ctx) {
         context = ctx.getApplicationContext();
         return instance;

@@ -230,7 +230,7 @@ public class Dashboard extends AppCompatActivity {
 
         // set dialog message
         alertDialogBuilder
-                .setMessage("Do you really want to exit?")
+                .setMessage("Do you want to exit?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

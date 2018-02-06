@@ -439,8 +439,9 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     }
 
     private void handleError(Throwable error) {
-        System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        showToast(error.getMessage());
+        //System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
+        // showToast(error.getMessage());
+        System.out.println("ReportsFeesPaidFragment.handleError=====" + error.getMessage());
         progressBar.setVisibility(View.GONE);
 
         if (error instanceof HttpException) {
@@ -449,6 +450,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
+                System.out.println("ReportsFeesPaidFragment.handleError" + response.getMessage());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -558,8 +560,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn.setText("" + (current_page + 1));
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
-
-
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -607,9 +607,15 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                                     // current_page_mock= currentPage-1;
                                     reportParticulrFreePaid.setPage(String.valueOf(current_page_mock));
                                 }
-
                             }
-                            pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+                            if (Integer.parseInt(pagNo) <= totalPage) {
+                                if (Integer.parseInt(pagNo) <= 1) {
+                                    pagNo = String.valueOf(1);
+                                } else {
+                                    pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
+
+                                }
+                            }
                             wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
                             particularReportData(userId, userType, pagNo, efinData);
@@ -629,7 +635,8 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                             if (pagNo.equalsIgnoreCase("")) {
                                 pagNo = String.valueOf(2);
                             } else {
-                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                                if (Integer.parseInt(pagNo) < (totalPage))
+                                    pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
                             }
                             wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                             horizontalScrollView.smoothScrollTo(wdth, 0);
@@ -658,9 +665,16 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        } else {
+        } else if (response.getStatus().equalsIgnoreCase("fail")) {
             progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
+            int totalPage = Integer.parseInt(totalPages);
+            if (current_page_mock < totalPage || current_page_mock > totalPage) {
+
+            } else {
+                showToast(response.getMessage());
+
+            }
         }
     }
 
@@ -902,6 +916,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
 
 
     }
+
 
     private void particularOfficeSort(String userId, String userType, String page, String efinData, String sort) {
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {

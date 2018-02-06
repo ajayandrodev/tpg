@@ -467,8 +467,10 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
     }
 
     private void handleError(Throwable error) {
-        System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        showToast(error.getMessage());
+      /*  System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
+        showToast(error.getMessage());*/
+        System.out.println("ReportsFeesPaidFragment.handleError" + error.getMessage());
+
         progressBar.setVisibility(View.GONE);
 
         if (error instanceof HttpException) {
@@ -479,6 +481,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
+                System.out.println("ReportsFeesPaidFragment.handleError" + response.getMessage());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -585,9 +588,14 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                                 // reports.setPage(String.valueOf(current_page_mock));
                             }
                         }
-                        pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
-                        reports.setPage(String.valueOf(pagNo));
+                        if (Integer.parseInt(pagNo) <= totalPage) {
+                            if (Integer.parseInt(pagNo) <= 1) {
+                                pagNo = String.valueOf(1);
+                            } else {
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
 
+                            }
+                        }
                         wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
                         feePaidReportsData(userId, userType, pagNo);
@@ -606,7 +614,8 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                         if (pagNo.equalsIgnoreCase("")) {
                             pagNo = String.valueOf(2);
                         } else {
-                            pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
+                            if (Integer.parseInt(pagNo) < (totalPage))
+                                pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
                         }
                         reports.setPage(String.valueOf(pagNo));
 
@@ -639,8 +648,15 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
             });
         } else if (response.getStatus().equalsIgnoreCase("fail")) {
             progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
+            String totalPages = response.getTotalNoofPages();
 
+            int totalPage = Integer.parseInt(totalPages);
+            if (current_page_mock < totalPage || current_page_mock > totalPage) {
+
+            } else {
+                showToast(response.getMessage());
+
+            }
         }
     }
 
@@ -885,6 +901,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
             showToast("Internet Connection Is Not Available");
         }
     }
+
 
     private void handleResponseSort(ReportsFeePaidSortServiceBuro response) {
         if (response.getStatus().equalsIgnoreCase("success")) {
