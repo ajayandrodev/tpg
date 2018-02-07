@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
- * Created by admin on 11/21/2017.
+ * Created by Ajay on 11/21/2017.
  */
 
 public class ProfileGroupInfo {

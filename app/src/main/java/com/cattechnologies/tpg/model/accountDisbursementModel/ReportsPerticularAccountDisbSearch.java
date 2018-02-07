@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by admin on 1/10/2018.
+ * Created by Ajay on 1/10/2018.
  */
 
 public class ReportsPerticularAccountDisbSearch implements Parcelable {

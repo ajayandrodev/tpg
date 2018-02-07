@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 /**
- * Created by admin on 11/17/2017.
+ * Created by Ajay on 11/17/2017.
  */
 
 public class AppInternetStatus {

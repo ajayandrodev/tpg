@@ -37,7 +37,7 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by admin on 12/6/2017.
+ * Created by Ajay on 12/6/2017.
  */
 
 public class ForgotEmailDetails extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {

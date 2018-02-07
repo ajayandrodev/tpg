@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Created by admin on 1/5/2018.
+ * Created by Ajay on 1/5/2018.
  */
 
 public class ReportAccountDisbPerticularListAdapter extends RecyclerView.Adapter<ReportAccountDisbPerticularListAdapter.ReportsViewHolder> {

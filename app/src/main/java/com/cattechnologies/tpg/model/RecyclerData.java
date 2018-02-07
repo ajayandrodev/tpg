@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 /**
- * Created by admin on 11/24/2017.
+ * Created by Ajay on 11/24/2017.
  */
 
 public class RecyclerData {

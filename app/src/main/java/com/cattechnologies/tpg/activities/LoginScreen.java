@@ -2,6 +2,7 @@ package com.cattechnologies.tpg.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -49,12 +50,14 @@ import rx.subscriptions.CompositeSubscription;
 
 
 /**
- * Created by admin on 9/29/2017.
+ * Created by Ajay on 9/29/2017.
  */
 
 public class LoginScreen extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     public static final String ARG_SELECTION_USER = "forgot_user_data";
+    private static final String IS_LOGIN = "IsLoggedIn";
+    int PRIVATE_MODE = 0;
     Button loginBt;
     TextView footer;
     Toolbar toolbar;
@@ -73,6 +76,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     String forgotEmailData;
     Intent i;
     PreferencesManager preferencesManager;
+    SharedPreferences sh_Pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,7 +93,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             System.out.println("LoginScreen.onCreate===" + drawerTitle);
             selectedForgotData(drawerTitle);
         }
-     //   AnalyticsApplication.getInstance().clearApplicationData();
+        //   AnalyticsApplication.getInstance().clearApplicationData();
 
     }
 
@@ -109,6 +114,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         footer.setOnClickListener(this);
         checkBox.setOnCheckedChangeListener(this);
     }
+
     private void selectedForgotData(String drawerTitle) {
         if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_email_new))) {
             mEmailTitle.setVisibility(View.VISIBLE);
@@ -131,6 +137,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         mTitle.setText(drawerTitle);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -150,6 +157,12 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                         type = "ero";
                         loginInfo.setAcc_type(type);
                     }
+                    sh_Pref = getSharedPreferences("Login Credentials", PRIVATE_MODE);
+                    editor = sh_Pref.edit();
+                    editor.putBoolean(IS_LOGIN, true);
+                    editor.putString("userEfin", loginUser.getText().toString());
+                    editor.putString("userAccountType", loginInfo.getAcc_type());
+                    editor.commit();
                     loadLoginResponse(loginUser.getText().toString(), loginInfo.getAcc_type(), loginPass.getText().toString());
                     progressBar.setVisibility(View.VISIBLE);
                 }
@@ -225,7 +238,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleError(Throwable error) {
         progressBar.setVisibility(View.GONE);
-        System.out.println("LoginScreen.handleResponse==="+error.getMessage());
+        System.out.println("LoginScreen.handleResponse===" + error.getMessage());
         showToast(error.getMessage());
         if (error instanceof HttpException) {
             Gson gson = new GsonBuilder().create();
@@ -240,11 +253,12 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             showToast("Network Error !");
         }
     }
+
     private void handleResponse(DashboardInfo response) {
         progressBar.setVisibility(View.GONE);
         //System.out.println("LoginScreen.handleResponse==="+response.getMessage());
         if (response.getStatus().equalsIgnoreCase("success") && response != null) {
-          //  showToast(response.getMessage());
+            //  showToast(response.getMessage());
             DashboardInfoData dashboardInfo = response.getDashboard_data();
             if (response.getDashboard_data() == null) {
                 showToast(response.getMessage());
@@ -252,7 +266,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
                 startActivity(i);
             } else {
-                ProfileData profileData =response.getProfile_data();
+                ProfileData profileData = response.getProfile_data();
                 List<RecentTransactions> recentTransactionsList = new ArrayList<>();
                 for (int i = 0; i < response.getRecent_transactions().size(); i++) {
                     RecentTransactions recentTransactions = new RecentTransactions();
@@ -269,12 +283,19 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     }
                     recentTransactionsList.add(recentTransactions);
                 }
-                Intent intent = new Intent(LoginScreen.this, Dashboard.class);
-                intent.putExtra("DashboardInfoData", dashboardInfo);
-                intent.putExtra("ProfileData", profileData);
-                intent.putParcelableArrayListExtra("RecentTransactions", (ArrayList<? extends Parcelable>) recentTransactionsList);
-                startActivity(intent);
-                //finish();
+                sh_Pref = getSharedPreferences("Login Credentials", PRIVATE_MODE);
+                boolean check = sh_Pref.getBoolean(IS_LOGIN, false);
+                if (check) {
+                    Intent intent = new Intent(LoginScreen.this, Dashboard.class);
+                    intent.putExtra("DashboardInfoData", dashboardInfo);
+                    intent.putExtra("ProfileData", profileData);
+                    intent.putParcelableArrayListExtra("RecentTransactions", (ArrayList<? extends Parcelable>) recentTransactionsList);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    System.out.println("LoginScreen.handleResponse===" + check);
+                }
+
             }
         } else {
             showToast(response.getMessage());

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by admin on 11/30/2017.
+ * Created by Ajay on 11/30/2017.
  */
 
 public class ForgotUserNameInfo implements Parcelable{

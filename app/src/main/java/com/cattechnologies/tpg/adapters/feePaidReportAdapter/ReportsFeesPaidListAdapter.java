@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ajay kumar on 28-Oct-17.
+ * Created by Ajay on 28-Oct-17.
  */
 
 public class ReportsFeesPaidListAdapter extends RecyclerView.Adapter<ReportsFeesPaidListAdapter.ReportsViewHolder> {

@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Created by admin on 2/1/2018.
+ * Created by Ajay on 2/1/2018.
  */
 
 public class ReportsFeesPaidServiceBuroSearchSortListAdapter extends RecyclerView.Adapter<ReportsFeesPaidServiceBuroSearchSortListAdapter.ReportsViewHolder> {

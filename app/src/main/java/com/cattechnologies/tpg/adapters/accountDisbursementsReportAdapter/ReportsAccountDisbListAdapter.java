@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Created by admin on 1/11/2018.
+ * Created by Ajay on 1/11/2018.
  */
 
 public class ReportsAccountDisbListAdapter extends RecyclerView.Adapter<ReportsAccountDisbListAdapter.ReportsViewHolder> {

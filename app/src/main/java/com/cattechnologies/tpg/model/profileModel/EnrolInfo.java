@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by admin on 10/23/2017.
+ * Created by Ajay on 10/23/2017.
  */
 
 public class EnrolInfo implements Parcelable {

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.cattechnologies.tpg.R;
 
 /**
- * Created by admin on 11/3/2017.
+ * Created by Ajay on 11/3/2017.
  */
 
 public class EmployeeLoginActivity extends AppCompatActivity implements View.OnClickListener {

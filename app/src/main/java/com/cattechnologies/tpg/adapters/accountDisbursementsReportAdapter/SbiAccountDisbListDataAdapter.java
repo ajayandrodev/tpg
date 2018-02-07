@@ -19,7 +19,7 @@ import com.cattechnologies.tpg.model.RecyclerData;
 import java.util.ArrayList;
 
 /**
- * Created by admin on 11/24/2017.
+ * Created by Ajay on 11/24/2017.
  */
 
 public class SbiAccountDisbListDataAdapter extends RecyclerView.Adapter<SbiAccountDisbListDataAdapter.RecyclerItemViewHolder> {

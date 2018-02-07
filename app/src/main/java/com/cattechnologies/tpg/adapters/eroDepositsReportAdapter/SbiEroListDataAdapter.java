@@ -19,7 +19,7 @@ import com.cattechnologies.tpg.R;
 import java.util.ArrayList;
 
 /**
- * Created by admin on 11/24/2017.
+ * Created by Ajay on 11/24/2017.
  */
 
 public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAdapter.RecyclerItemViewHolder> {

@@ -17,7 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by admin on 11/1/2017.
+ * Created by Ajay on 11/1/2017.
  */
 
 public class ViewPagerActivity extends FragmentActivity {
@@ -69,7 +69,6 @@ public class ViewPagerActivity extends FragmentActivity {
                     System.out.println("ViewPagerActivity.run===" + currentPage);
                 }
                 mPager.setCurrentItem(currentPage++, true);
-                System.out.println("ViewPagerActivity.run===sss==" + mPager.getCurrentItem());
             }
         };
         Timer swipeTimer = new Timer();

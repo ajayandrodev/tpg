@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by admin on 11/9/2017.
+ * Created by Ajay on 11/9/2017.
  */
 
 public class DashboardInfo implements Parcelable{

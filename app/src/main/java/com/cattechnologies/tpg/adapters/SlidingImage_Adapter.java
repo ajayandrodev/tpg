@@ -15,7 +15,7 @@ import com.cattechnologies.tpg.activities.LoginScreen;
 import java.util.ArrayList;
 
 /**
- * Created by admin on 11/1/2017.
+ * Created by Ajay on 11/1/2017.
  */
 
 public class SlidingImage_Adapter extends PagerAdapter {

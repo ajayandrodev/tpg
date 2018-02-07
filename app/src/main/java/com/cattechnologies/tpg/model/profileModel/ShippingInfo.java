@@ -1,36 +1,15 @@
 package com.cattechnologies.tpg.model.profileModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by admin on 10/23/2017.
+ * Created by Ajay on 10/23/2017.
  */
 
-public class ShippingInfo {
-
-   /*   "shipping_info": [
-    {
-        "Street": "300 CENTER POINT DRIVE 300",
-            "street2": "",
-            "City": "VIRGINIA BEACH",
-            "State": "CA",
-            "Zipcode": "23462",
-            "ShipmentHoldUntilDate": "2017-11-30 00:00:00.000"
-    }
-    ],*/
-
-
-  /*   "shipping_info": [
-    {
-        "Street": "11085 N TORREY PINES",
-            "street2": null,
-            "City": "LA JOLLA",
-            "State": "CA",
-            "Zipcode": "92037"
-    }
-    ],*/
-
-
+public class ShippingInfo implements Parcelable {
 
     @SerializedName("Street")
     private String Street;
@@ -49,6 +28,42 @@ public class ShippingInfo {
 
     @SerializedName("ShipmentHoldUntilDate")
     private String ShipmentHoldUntilDate;
+
+    protected ShippingInfo(Parcel in) {
+        Street = in.readString();
+        street2 = in.readString();
+        City = in.readString();
+        State = in.readString();
+        Zipcode = in.readString();
+        ShipmentHoldUntilDate = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Street);
+        dest.writeString(street2);
+        dest.writeString(City);
+        dest.writeString(State);
+        dest.writeString(Zipcode);
+        dest.writeString(ShipmentHoldUntilDate);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ShippingInfo> CREATOR = new Creator<ShippingInfo>() {
+        @Override
+        public ShippingInfo createFromParcel(Parcel in) {
+            return new ShippingInfo(in);
+        }
+
+        @Override
+        public ShippingInfo[] newArray(int size) {
+            return new ShippingInfo[size];
+        }
+    };
 
     public String getStreet() {
         return Street;

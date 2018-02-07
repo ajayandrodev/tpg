@@ -13,7 +13,7 @@ import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 
 /**
- * Created by admin on 9/29/2017.
+ * Created by Ajay on 9/29/2017.
  */
 
 public class SplashScreen extends Activity {

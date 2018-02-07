@@ -3,7 +3,7 @@ package com.cattechnologies.tpg.model.forgotUserModel;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by admin on 11/30/2017.
+ * Created by Ajay on 11/30/2017.
  */
 
 public class ForgotUserNameData {

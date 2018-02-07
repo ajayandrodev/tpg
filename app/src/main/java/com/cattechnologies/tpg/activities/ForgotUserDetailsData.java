@@ -43,7 +43,7 @@ import rx.subscriptions.CompositeSubscription;
 
 
 /**
- * Created by admin on 10/10/2017.
+ * Created by Ajay on 10/10/2017.
  */
 
 public class ForgotUserDetailsData extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener {

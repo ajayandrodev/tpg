@@ -12,7 +12,7 @@ import com.google.android.gms.analytics.Tracker;
 import java.io.File;
 
 /**
- * Created by admin on 10/6/2017.
+ * Created by Ajay on 10/6/2017.
  */
 
 public class AnalyticsApplication extends MultiDexApplication {

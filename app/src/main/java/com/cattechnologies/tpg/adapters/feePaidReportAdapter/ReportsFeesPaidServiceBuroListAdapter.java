@@ -14,7 +14,7 @@ import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidServiceBuroNew;
 import java.util.List;
 
 /**
- * Created by admin on 2/1/2018.
+ * Created by Ajay on 2/1/2018.
  */
 
 public class ReportsFeesPaidServiceBuroListAdapter  extends RecyclerView.Adapter<ReportsFeesPaidServiceBuroListAdapter.ReportsViewHolder> {

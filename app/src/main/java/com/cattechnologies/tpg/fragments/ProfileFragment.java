@@ -49,7 +49,7 @@ import rx.subscriptions.CompositeSubscription;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
- * Created by admin on 12/19/2017.
+ * Created by Ajay on 12/19/2017.
  */
 
 public class ProfileFragment extends Fragment {

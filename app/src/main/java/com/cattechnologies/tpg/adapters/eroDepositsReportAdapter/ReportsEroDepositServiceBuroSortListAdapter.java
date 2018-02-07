@@ -14,7 +14,7 @@ import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsServiceBu
 import java.util.List;
 
 /**
- * Created by admin on 2/1/2018.
+ * Created by Ajay on 2/1/2018.
  */
 
 public class ReportsEroDepositServiceBuroSortListAdapter extends RecyclerView.Adapter<ReportsEroDepositServiceBuroSortListAdapter.ReportsViewHolder> {

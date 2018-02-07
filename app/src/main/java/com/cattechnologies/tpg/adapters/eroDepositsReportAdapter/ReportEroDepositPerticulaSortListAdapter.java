@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Created by admin on 1/6/2018.
+ * Created by Ajay on 1/6/2018.
  */
 
 public class ReportEroDepositPerticulaSortListAdapter extends RecyclerView.Adapter<ReportEroDepositPerticulaSortListAdapter.ReportsViewHolder> {

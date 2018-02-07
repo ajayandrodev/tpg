@@ -10,7 +10,7 @@ import com.cattechnologies.tpg.activities.LoginScreen;
 import java.util.HashMap;
 
 /**
- * Created by admin on 11/9/2017.
+ * Created by Ajay on 11/9/2017.
  */
 
 public class SessionManager {
