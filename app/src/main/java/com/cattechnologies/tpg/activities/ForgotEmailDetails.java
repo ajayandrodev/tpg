@@ -85,13 +85,11 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
         mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(getResources().getString(R.string.forgot_user_email_new));
         drawerTitle = mTitle.getText().toString();
-        System.out.println("ForgotEmailDetails.setToolbar===" + drawerTitle);
         selectedData(drawerTitle);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     private void selectedData(String drawerTitle) {
-        System.out.println("ForgotEmailDetails.selectedData===" + drawerTitle);
         mTextEfin.setText("EFIN");
         loginUsername.setHint("Enter your EFIN ");
         mTextPass.setText("LAST 4 OF SSN");
@@ -165,7 +163,6 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
 
     private void forgotEmailAddressSb(String forgotUname, String acc_type) {
         progressBar.setVisibility(View.VISIBLE);
-        System.out.println("ForgotEmailDetails.forgotEmailAddressSb===issbcalling");
         if (AppInternetStatus.getInstance(this).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().forgotEmailAddressSb(forgotUname, acc_type)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -199,7 +196,6 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
 
     private void forgotEmailAddress(String forgotUname, String forgotUpass, String acc_type) {
         progressBar.setVisibility(View.VISIBLE);
-        System.out.println("ForgotEmailDetails.forgotEmailAddress===");
         if (AppInternetStatus.getInstance(this).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().forgotEmailAddress(forgotUname, forgotUpass, acc_type)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -214,7 +210,6 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
     }
 
     private void handleResponse(ForgotUserEmailAddress response) {
-        System.out.println("ForgotEmailDetails.handleResponse==" + response.getMessage());
         showToast(response.getMessage());
         progressBar.setVisibility(View.GONE);
 
@@ -263,7 +258,6 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
     public void onBackPressed() {
         super.onBackPressed();
         loginUsername.setText("");
-        System.out.println("ForgotEmailDetails.onBackPressed====");
         loginUserPassword.setText("");
         if (checkBox.isChecked()) {
             checkBox.setChecked(false);
@@ -273,7 +267,6 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("ForgotEmailDetails.onResume===");
         loginUsername.setText("");
         loginUserPassword.setText("");
         if (checkBox.isChecked()) {

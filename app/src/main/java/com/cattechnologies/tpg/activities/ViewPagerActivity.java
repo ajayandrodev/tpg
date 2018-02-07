@@ -66,7 +66,6 @@ public class ViewPagerActivity extends FragmentActivity {
             public void run() {
                 if (currentPage == NUM_PAGES) {
                     currentPage = 0;
-                    System.out.println("ViewPagerActivity.run===" + currentPage);
                 }
                 mPager.setCurrentItem(currentPage++, true);
             }
@@ -75,7 +74,6 @@ public class ViewPagerActivity extends FragmentActivity {
         swipeTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("ViewPagerActivity.run===timer" + Update);
                 handler.post(Update);
             }
         }, 1000, 1000);
@@ -86,14 +84,11 @@ public class ViewPagerActivity extends FragmentActivity {
             @Override
             public void onPageSelected(int position) {
                 currentPage = position;
-                System.out.println("ViewPagerActivity.onPageSelected");
                 if (position == 3) {
                     swipeTimer.cancel();
                     indicator.setVisibility(View.GONE);
-                    System.out.println("ViewPagerActivity.onPageSelected===eee==" + currentPage);
                 } else {
                     indicator.setVisibility(View.VISIBLE);
-                    System.out.println("ViewPagerActivity.onPageSelected===erer====" + currentPage);
 
                 }
             }

@@ -27,7 +27,6 @@ public class SplashScreen extends Activity {
         setContentView(R.layout.activity_splash);
         preferencesManager = new PreferencesManager();
         if (preferencesManager.getUserId(getApplicationContext()) != null) {
-            System.out.println("SplashScreen.onCreate===isLOging" + preferencesManager.getUserId(getApplicationContext()));
             Intent intent = new Intent(this, LoginScreen.class);
             startActivity(intent);
             finish();

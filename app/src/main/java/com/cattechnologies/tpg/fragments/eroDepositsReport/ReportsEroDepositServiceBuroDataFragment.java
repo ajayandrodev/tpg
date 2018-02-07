@@ -267,7 +267,6 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                 @Override
                 public void afterTextChanged(Editable editable) {
                     newText = editable.toString().toLowerCase();
-                    System.out.println("On text changed " + newText);
                     if (!pagNo.isEmpty()) {
                         pagNo = "";
                     }
@@ -280,10 +279,8 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                     } else if (!TextUtils.isEmpty(newText)) {
                         //searchReportItem(userId, userType, pagNo, newText);
                         if (pagNo.equalsIgnoreCase("")) {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         } else {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         }
                     }
@@ -460,7 +457,6 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
     }
 
     private void eroDepositReportsData(String userId, String userType, String page) {
-        System.out.println("ReportsFeesPaidFragment.eroDepositReportsData==" + userId + "==" + userType);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositServiceBuroData(userId, userType, page)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -472,10 +468,8 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
     }
 
     private void handleError(Throwable error) {
-      /*  System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        showToast(error.getMessage());*/
+
         progressBar.setVisibility(View.GONE);
-        System.out.println("ReportsFeesPaidFragment.handleError" + error.getMessage());
 
         if (error instanceof HttpException) {
             Gson gson = new GsonBuilder().create();
@@ -483,7 +477,6 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-                System.out.println("ReportsFeesPaidFragment.handleError" + response.getMessage());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -502,7 +495,6 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
             List<ReportsEroDepositsServiceBuroNew> reportsFeePaidNewList = response.getService_Bureau_EroReport_data();
 
             ReportsEroDepositNew reportsFeePaidNew = new ReportsEroDepositNew();
@@ -837,7 +829,6 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -995,7 +986,6 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 reportsFeePaidSort.setPage(String.valueOf(current_page_sort));

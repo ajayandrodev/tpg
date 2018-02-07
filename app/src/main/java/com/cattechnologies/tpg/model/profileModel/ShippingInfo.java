@@ -29,6 +29,10 @@ public class ShippingInfo implements Parcelable {
     @SerializedName("ShipmentHoldUntilDate")
     private String ShipmentHoldUntilDate;
 
+    public ShippingInfo() {
+
+    }
+
     protected ShippingInfo(Parcel in) {
         Street = in.readString();
         street2 = in.readString();

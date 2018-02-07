@@ -33,7 +33,6 @@ public class ReportsEroDepositServiceBuroListAdapter extends RecyclerView.Adapte
 
     @Override
     public ReportsEroDepositServiceBuroListAdapter.ReportsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        System.out.println("ReportsFeesPaidListAdapter.onCreateViewHolder");
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_list_row, parent, false);
         ReportsEroDepositServiceBuroListAdapter.ReportsViewHolder reportsViewHolder = new ReportsEroDepositServiceBuroListAdapter.ReportsViewHolder(itemView);
         return reportsViewHolder;
@@ -41,7 +40,6 @@ public class ReportsEroDepositServiceBuroListAdapter extends RecyclerView.Adapte
 
     @Override
     public void onBindViewHolder(ReportsEroDepositServiceBuroListAdapter.ReportsViewHolder holder, int position) {
-        System.out.println("ReportsFeesPaidListAdapter.onBindViewHolder");
         ReportsEroDepositsServiceBuroNew reports = reportsList.get(position);
         holder.userData.setText(reports.getDAN());
         holder.costData.setText("$" + reports.getDepositAmount());
@@ -78,7 +76,6 @@ public class ReportsEroDepositServiceBuroListAdapter extends RecyclerView.Adapte
 
         public ReportsViewHolder(View itemView) {
             super(itemView);
-            System.out.println("ReportsViewHolder.ReportsViewHolder");
             userData = (TextView) itemView.findViewById(R.id.report_user);
             costData = (TextView) itemView.findViewById(R.id.report_rate);
             accountDataSSN = (TextView) itemView.findViewById(R.id.report_account);

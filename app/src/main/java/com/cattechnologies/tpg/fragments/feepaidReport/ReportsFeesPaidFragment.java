@@ -226,25 +226,19 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 @Override
                 public void afterTextChanged(Editable editable) {
                     newText = editable.toString().toLowerCase();
-                    System.out.println("On text changed " + newText);
                     if (!pagNo.isEmpty()) {
                         pagNo = "";
                     }
                     if (TextUtils.isEmpty(newText)) {
                         if (pagNo.equalsIgnoreCase("")) {
-                            //System.out.println("On text changed pagno is empty "+newText);
                             feePaidReportsData(userId, userType, reports.getPage());
                         } else {
-                            //System.out.println("On text changed pagno is not empty "+newText);
                             feePaidReportsData(userId, userType, pagNo);
                         }
                     } else if (!TextUtils.isEmpty(newText)) {
-                        //searchReportItem(userId, userType, pagNo, newText);
                         if (pagNo.equalsIgnoreCase("")) {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         } else {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         }
                     }
@@ -457,7 +451,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     }
 
     private void feePaidReportsData(String userId, String userType, String page) {
-        //System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType + " && " + page);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidData(userId, userType, page)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -469,9 +462,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     }
 
     private void handleError(Throwable error) {
-        //System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        // showToast(error.getMessage());
-        System.out.println("ReportsFeesPaidFragment.handleError=====" + error.getMessage());
+
         progressBar.setVisibility(View.GONE);
 
         if (error instanceof HttpException) {
@@ -557,7 +548,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     if (!pagNo.isEmpty()) {
                         if (current_page == (Integer.parseInt(pagNo) - 1)) {
                             btn.setBackgroundColor(Color.parseColor("#808080"));
-                            System.out.println("page.handleResponse==page not empty==" + current_page);
                         } else {
                         }
                         if (Integer.parseInt(pagNo) > 1) {
@@ -566,7 +556,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
                         } else {
                             prev.setEnabled(false);
-                            System.out.println("page.handleResponse==prev not >1===" + current_page);
 
                         }
                         if (Integer.parseInt(pagNo) > (totalPage - 1)) {
@@ -575,7 +564,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
 
                         } else {
                             next.setEnabled(true);
-                            System.out.println("page.handleResponse==next >total not===" + current_page);
 
                         }
                     } else {
@@ -585,7 +573,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                             System.out.println("page.handleResponse==btan data====" + current_page);
 
                         } else {
-                            System.out.println("page.handleResponse==btn empty====" + current_page);
 
                         }
                     }
@@ -635,7 +622,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                                 pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
                         }
                         //  reports.setPage(String.valueOf(pagNo));
-                        System.out.println("page.onClick====next ==" + pagNo);
 
                         wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
@@ -844,7 +830,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 // reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -1019,7 +1004,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 //  reportsFeePaidSort.setPage(String.valueOf(current_page_sort));

@@ -74,7 +74,6 @@ public class SlidingImage_Adapter extends PagerAdapter {
             main.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("SlidingImage_Adapter.onClick====="+position);
                     Intent intent= new Intent(context, LoginScreen.class);
                     context.startActivity(intent);
                 }

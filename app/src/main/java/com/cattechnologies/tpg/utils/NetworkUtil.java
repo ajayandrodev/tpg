@@ -50,7 +50,6 @@ public class NetworkUtil {
                     .header("admin_password", ")[}#f3ka~g%6tpg9&j[{($/]})%$")
                     .header("api_key", "$[}#f3ka~g%9tpg3&j[{($/]})(9tp?/!bj30xy-wi=3^9-$^R9G|J#E6AB;OP[}#")
                     .method(original.method(), original.body());
-            System.out.println("NetworkUtil.getRetrofit" + original.body());
             return chain.proceed(builder.build());
 
         });

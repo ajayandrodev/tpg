@@ -32,7 +32,6 @@ public class AppInternetStatus {
 
 
         } catch (Exception e) {
-            System.out.println("CheckConnectivity Exception: " + e.getMessage());
             Log.v("connectivity", e.toString());
         }
         return connected;

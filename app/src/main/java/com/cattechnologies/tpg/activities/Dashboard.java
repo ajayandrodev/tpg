@@ -57,8 +57,6 @@ public class Dashboard extends AppCompatActivity {
         loginInfo = new LoginInfo();
         preferencesManager = new PreferencesManager();
         setToolbar();
-        System.out.println("Dashboard.onCreate=="
-                + profileData.getEFIN() + "==" + profileData.getEMAIL_ADDRESS() + "==" + profileData.getLOGIN_NAME());
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -69,10 +67,8 @@ public class Dashboard extends AppCompatActivity {
         headerUserName.setText(profileData.getLOGIN_NAME());
         headerEfinNum.setText(profileData.getEFIN());
         headerType.setText(preferencesManager.getAccountType(getApplicationContext()));
-        System.out.println("Dashboard.onCreate==" + profileData.getEFIN());
         String data = profileData.getEFIN();
         preferencesManager.saveUserId(getApplicationContext(), data);
-
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
@@ -127,7 +123,6 @@ public class Dashboard extends AppCompatActivity {
                 Fragment f = getSupportFragmentManager().findFragmentById(R.id.main_content);
                 if ((f instanceof DashboardFragment) || (f instanceof ProfileFragment)) {
                     drawerLayout.openDrawer(GravityCompat.START);
-                    System.out.println("Dashboard.onOptionsItemSelected======");
                 } else {
                     onBackPressed();
                 }
@@ -144,13 +139,11 @@ public class Dashboard extends AppCompatActivity {
             fragment = DashboardFragment.newInstance(title, dashboardInfoData, recentTransactions);
 
         } else if (getResources().getString(R.string.compras_item).equalsIgnoreCase(title)) {
-
             fragment = ProfileFragment.newInstance(title, preferencesManager.getUserId(getApplicationContext()),
                     preferencesManager.getAccountType(getApplicationContext()));
 
 
         } else if (getResources().getString(R.string.ordenes_item).equalsIgnoreCase(title)) {
-
             preferencesManager.clearSharedPreference(getApplicationContext());
             finish();
 
@@ -181,7 +174,6 @@ public class Dashboard extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         showOrHideTitleBar();
-
     }
 
     public void showOrHideTitleBar() {
@@ -189,7 +181,6 @@ public class Dashboard extends AppCompatActivity {
         if (f instanceof DashboardFragment) {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.hamburger);
         } else {
-            System.out.println("Dashboard.showOrHideTitleBar===is not dash");
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_icon);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -199,81 +190,32 @@ public class Dashboard extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.main_content);
-
         if (f instanceof DashboardFragment || f instanceof ProfileFragment) {
-           // showOrHideTitleBar();
             alertDialog();
-            System.out.println("Dashboard.onBackPressed===dash==");
-
         } else {
             super.onBackPressed();
-            // TODO: 29-Oct-17
             showOrHideTitleBar();
-            System.out.println("Dashboard.onBackPressed===" + drawerTitle + "===" + tiTitle);
         }
-
-
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        System.out.println("Dashboard.onPause");
-    }
-
     private void alertDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-        // set title
         alertDialogBuilder.setTitle("Exit");
-
-        // set dialog message
         alertDialogBuilder
                 .setMessage("Do you want to exit?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // if this button is clicked, close
-                        // current activity
                         finish();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // if this button is clicked, just close
-                        // the dialog box and do nothing
                         dialog.cancel();
                     }
                 });
-
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
         alertDialog.show();
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        System.out.println("Dashboard.onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        System.out.println("Dashboard.onDestroy");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        System.out.println("Dashboard.onStart");
-    }
-
     public void setTitle(String title) {
         toolBarText.setText(title);
     }

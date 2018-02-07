@@ -68,7 +68,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Ajay on 2/7/2018.
  */
 
-public class ReportsFeePaidCommonFragment extends Fragment implements ExpandableListView.OnChildClickListener {
+public class ReportsFeePaidInfoFragment extends Fragment implements ExpandableListView.OnChildClickListener {
 
 
     public static final String ARG_SECTION_TITLE = "section_number";
@@ -118,7 +118,7 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
 
 
     public static Fragment newInstance(String sectionTitle, String userId, String type) {
-        ReportsFeePaidCommonFragment fragment = new ReportsFeePaidCommonFragment();
+        ReportsFeePaidInfoFragment fragment = new ReportsFeePaidInfoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("app_uid", userId);
@@ -141,7 +141,7 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
         return view;
     }
 
-    public ReportsFeePaidCommonFragment() {
+    public ReportsFeePaidInfoFragment() {
     }
 
     @Override
@@ -224,25 +224,20 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
                 @Override
                 public void afterTextChanged(Editable editable) {
                     newText = editable.toString().toLowerCase();
-                    System.out.println("On text changed " + newText);
                     if (!pagNo.isEmpty()) {
                         pagNo = "";
                     }
                     if (TextUtils.isEmpty(newText)) {
                         if (pagNo.equalsIgnoreCase("")) {
-                            //System.out.println("On text changed pagno is empty "+newText);
                             feePaidReportsData(userId, userType, reports.getPage());
                         } else {
-                            //System.out.println("On text changed pagno is not empty "+newText);
                             feePaidReportsData(userId, userType, pagNo);
                         }
                     } else if (!TextUtils.isEmpty(newText)) {
                         //searchReportItem(userId, userType, pagNo, newText);
                         if (pagNo.equalsIgnoreCase("")) {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         } else {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         }
                     }
@@ -455,7 +450,6 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
     }
 
     private void feePaidReportsData(String userId, String userType, String page) {
-        //System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType + " && " + page);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidData(userId, userType, page)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -467,9 +461,7 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
     }
 
     private void handleError(Throwable error) {
-        //System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        // showToast(error.getMessage());
-        System.out.println("ReportsFeesPaidFragment.handleError=====" + error.getMessage());
+
         progressBar.setVisibility(View.GONE);
 
         if (error instanceof HttpException) {
@@ -480,7 +472,6 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-                System.out.println("ReportsFeesPaidFragment.handleError" + response.getMessage());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -555,35 +546,28 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
                     if (!pagNo.isEmpty()) {
                         if (current_page == (Integer.parseInt(pagNo) - 1)) {
                             btn.setBackgroundColor(Color.parseColor("#808080"));
-                            System.out.println("page.handleResponse==page not empty==" + current_page);
                         } else {
                         }
                         if (Integer.parseInt(pagNo) > 1) {
                             prev.setEnabled(true);
-                            System.out.println("page.handleResponse==page prev >1==" + current_page);
 
                         } else {
                             prev.setEnabled(false);
-                            System.out.println("page.handleResponse==prev not >1===" + current_page);
 
                         }
                         if (Integer.parseInt(pagNo) > (totalPage - 1)) {
                             next.setEnabled(false);
-                            System.out.println("page.handleResponse==next >total==" + current_page);
 
                         } else {
                             next.setEnabled(true);
-                            System.out.println("page.handleResponse==next >total not===" + current_page);
 
                         }
                     } else {
                         if (current_page == 0) {
                             btn.setBackgroundColor(Color.parseColor("#808080"));
                             prev.setEnabled(false);
-                            System.out.println("page.handleResponse==btan data====" + current_page);
 
                         } else {
-                            System.out.println("page.handleResponse==btn empty====" + current_page);
 
                         }
                     }
@@ -608,7 +592,6 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
 
                             }
                         }
-                        System.out.println("page.onClick====onclick prev==" + pagNo);
                         //reports.setPage(String.valueOf(pagNo));
 
                         wdth = horizontalScrollView.getScrollX() - btn.getWidth();
@@ -633,7 +616,6 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
                                 pagNo = String.valueOf(Integer.parseInt(pagNo) + 1);
                         }
                         //  reports.setPage(String.valueOf(pagNo));
-                        System.out.println("page.onClick====next ==" + pagNo);
 
                         wdth = horizontalScrollView.getScrollX() + btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
@@ -662,17 +644,9 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        } else if (response.getStatus().equalsIgnoreCase("fail")) {
-            progressBar.setVisibility(View.GONE);
-            String totalPages = response.getTotalNoofPages();
-
-            int totalPage = Integer.parseInt(totalPages);
-            if (current_page_mock < totalPage || current_page_mock > totalPage) {
-
-            } else {
+        } else{
                 showToast(response.getMessage());
 
-            }
 
         }
     }
@@ -842,7 +816,6 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 // reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -861,7 +834,6 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 //  reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -1017,7 +989,6 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 //  reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
@@ -1036,7 +1007,6 @@ public class ReportsFeePaidCommonFragment extends Fragment implements Expandable
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 // reportsFeePaidSort.setPage(String.valueOf(current_page_sort));

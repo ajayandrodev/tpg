@@ -70,7 +70,6 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
         checkBox = (CheckBox) findViewById(R.id.checkbox_data);
         Bundle bundle = getIntent().getExtras();
         drawerTitle = bundle.getString(ARG_SELECTION_USER);
-        System.out.println("ForgotUsernameDetails.onCreate===eeeeee====="+drawerTitle);
         mLogin.setOnClickListener(this);
         mSubscriptions = new CompositeSubscription();
         preferencesManager = new PreferencesManager();

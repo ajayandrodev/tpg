@@ -199,7 +199,6 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
     }
 
     private void forgotPasswordEmp(String forgotUpass, String acc_type) {
-        System.out.println("ForgotPasswordDetails.forgotPassword====" + forgotUpass + "===" + acc_type);
         progressBar.setVisibility(View.VISIBLE);
         if (AppInternetStatus.getInstance(this).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().forgotPasswordEmp(forgotUpass, acc_type)
@@ -215,7 +214,6 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
     private void handleResponse(ForgotUserPasswordInfoEmp response) {
         showToast(response.getMessage());
         progressBar.setVisibility(View.GONE);
-        System.out.println("ForgotPasswordDetails.handleResponse====" + response.getMessage());
         if (response.getStatus().equalsIgnoreCase("success")) {
             showToast(response.getMessage());
             ForgotUserPasswordData forgotUserDetailsData = response.getUser_data();
@@ -228,7 +226,6 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
 
     }
     private void forgotPassword(String forgotUname, String forgotUpass, String acc_type) {
-        System.out.println("ForgotPasswordDetails.forgotPassword====" + forgotUname + "===" + forgotUpass + "===" + acc_type);
         progressBar.setVisibility(View.VISIBLE);
         if (AppInternetStatus.getInstance(this).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().forgotPassword(forgotUname, forgotUpass, acc_type)
@@ -244,13 +241,10 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
     private void handleResponse(ForgotUserPasswordInfo response) {
         showToast(response.getMessage());
         progressBar.setVisibility(View.GONE);
-
-        System.out.println("ForgotPasswordDetails.handleResponse====" + response.getMessage());
         if (response.getStatus().equalsIgnoreCase("success")) {
             showToast(response.getMessage());
             ForgotUserPasswordData forgotUserDetailsData = response.getUser_data();
             String data = forgotUserDetailsData.getTEMPORARY_PIN();
-            System.out.println("ForgotPasswordDetails.handleResponse===" + data);
             Intent i = new Intent(this, BackToLoginScreen.class);
             i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
             i.putExtra("forgotUser", data);
@@ -266,7 +260,6 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
 
     private void handleError(Throwable error) {
         showToast(error.getMessage());
-        System.out.println("ForgotPasswordDetails.handleError=="+error.getMessage());
         progressBar.setVisibility(View.GONE);
         if (error instanceof HttpException) {
             Gson gson = new GsonBuilder().create();
@@ -274,7 +267,6 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-                System.out.println("ForgotPasswordDetails.handleError===" + errorBody);
             } catch (IOException e) {
                 e.printStackTrace();
             }

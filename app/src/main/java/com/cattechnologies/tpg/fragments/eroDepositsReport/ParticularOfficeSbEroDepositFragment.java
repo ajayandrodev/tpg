@@ -226,7 +226,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 @Override
                 public void afterTextChanged(Editable editable) {
                     newText = editable.toString().toLowerCase();
-                    System.out.println("On text changed " + newText);
                     if (!pagNo.isEmpty()) {
                         pagNo = "";
                     }
@@ -239,10 +238,8 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     } else if (!TextUtils.isEmpty(newText)) {
                         //searchReportItem(userId, userType, pagNo, newText);
                         if (pagNo.equalsIgnoreCase("")) {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
                             particularOfficeSearch(userId, userType, pagNo, newText, efinData);
                         } else {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
                             particularOfficeSearch(userId, userType, pagNo, newText, efinData);
                         }
                     }
@@ -369,7 +366,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_search);
                             if (current_page_search < totalPage) {
                                 current_page_search = current_page_search + 1;
                                 reportsPerticularFeePaidSearch.setPage(String.valueOf(current_page_search));
@@ -437,8 +433,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
     }
 
     private void handleError(Throwable error) {
-     /*   System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        showToast(error.getMessage());*/
+
         progressBar.setVisibility(View.GONE);
 
         if (error instanceof retrofit2.adapter.rxjava.HttpException) {
@@ -693,7 +688,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 case 0:
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "deposit_date";
-                    System.out.println("ReportsFeesPaidFragment.Displayitemclicked" + efinData);
                     sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
@@ -702,7 +696,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "deposit_type";
                     sortAndSearch(sort);
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -850,7 +843,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 reportFreePaidParticulrSearchSort.setPage(String.valueOf(current_page_sort));
@@ -1041,7 +1033,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 reportParticulrFreePaidSort.setPage(String.valueOf(current_page_sort));

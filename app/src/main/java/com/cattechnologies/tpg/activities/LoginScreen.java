@@ -90,7 +90,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         if (bundle != null) {
             drawerTitle = bundle.getString(ARG_SELECTION_USER);
             forgotEmailData = bundle.getString("forgotUser");
-            System.out.println("LoginScreen.onCreate===" + drawerTitle);
             selectedForgotData(drawerTitle);
         }
         //   AnalyticsApplication.getInstance().clearApplicationData();
@@ -238,7 +237,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleError(Throwable error) {
         progressBar.setVisibility(View.GONE);
-        System.out.println("LoginScreen.handleResponse===" + error.getMessage());
         showToast(error.getMessage());
         if (error instanceof HttpException) {
             Gson gson = new GsonBuilder().create();
@@ -256,7 +254,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleResponse(DashboardInfo response) {
         progressBar.setVisibility(View.GONE);
-        //System.out.println("LoginScreen.handleResponse==="+response.getMessage());
         if (response.getStatus().equalsIgnoreCase("success") && response != null) {
             //  showToast(response.getMessage());
             DashboardInfoData dashboardInfo = response.getDashboard_data();
@@ -293,7 +290,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     startActivity(intent);
                     finish();
                 } else {
-                    System.out.println("LoginScreen.handleResponse===" + check);
                 }
 
             }
@@ -306,7 +302,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("LoginScreen.onResume");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         if (forgotEmailData != null) {
             if (loginUser.getText().toString().isEmpty()) {
@@ -356,7 +351,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        System.out.println("LoginScreen.onDestroy==" + loginUser.getText().toString());
         mSubscriptions.unsubscribe();
         loginUser.setText("");
 

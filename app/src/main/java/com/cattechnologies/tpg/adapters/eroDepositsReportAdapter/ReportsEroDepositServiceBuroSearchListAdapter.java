@@ -32,7 +32,6 @@ public class ReportsEroDepositServiceBuroSearchListAdapter extends RecyclerView.
 
     @Override
     public ReportsEroDepositServiceBuroSearchListAdapter.ReportsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        System.out.println("ReportsFeesPaidListAdapter.onCreateViewHolder");
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_list_row, parent, false);
         ReportsEroDepositServiceBuroSearchListAdapter.ReportsViewHolder reportsViewHolder = new ReportsEroDepositServiceBuroSearchListAdapter.ReportsViewHolder(itemView);
         return reportsViewHolder;
@@ -76,7 +75,6 @@ public class ReportsEroDepositServiceBuroSearchListAdapter extends RecyclerView.
 
         public ReportsViewHolder(View itemView) {
             super(itemView);
-            System.out.println("ReportsViewHolder.ReportsViewHolder");
             userData = (TextView) itemView.findViewById(R.id.report_user);
             costData = (TextView) itemView.findViewById(R.id.report_rate);
             accountDataSSN = (TextView) itemView.findViewById(R.id.report_account);

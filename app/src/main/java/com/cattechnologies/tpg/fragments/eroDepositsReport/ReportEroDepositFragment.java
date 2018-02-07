@@ -261,7 +261,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                 @Override
                 public void afterTextChanged(Editable editable) {
                     newText = editable.toString().toLowerCase();
-                    System.out.println("On text changed " + newText);
                     if (!pagNo.isEmpty()) {
                         pagNo = "";
                     }
@@ -274,10 +273,8 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     } else if (!TextUtils.isEmpty(newText)) {
                         //searchReportItem(userId, userType, pagNo, newText);
                         if (pagNo.equalsIgnoreCase("")) {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         } else {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         }
                     }
@@ -455,7 +452,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
 
     //ero deposit
     private void eroDepositReportsData(String userId, String userType, String page) {
-        System.out.println("ReportsFeesPaidFragment.eroDepositReportsData==" + userId + "==" + userType);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getEroDepositData(userId, userType, page)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -467,8 +463,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     }
 
     private void handleError(Throwable error) {
-    /*    System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        showToast(error.getMessage());*/
+
         progressBar.setVisibility(View.GONE);
 
         if (error instanceof HttpException) {
@@ -495,7 +490,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             progressBar.setVisibility(View.GONE);
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
-            System.out.println("ReportsFeesPaidFragment.handleResponse==" + totalPages);
             List<ReportsEroDepositNew> reportsFeePaidNewList = response.getEroReport_data();
 
             ReportsEroDepositNew reportsFeePaidNew = new ReportsEroDepositNew();
@@ -831,7 +825,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -989,7 +982,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 reportsFeePaidSort.setPage(String.valueOf(current_page_sort));

@@ -225,25 +225,19 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                 @Override
                 public void afterTextChanged(Editable editable) {
                     newText = editable.toString().toLowerCase();
-                    System.out.println("On text changed " + newText);
                     if (!pagNo.isEmpty()) {
                         pagNo = "";
                     }
                     if (TextUtils.isEmpty(newText)) {
                         if (pagNo.equalsIgnoreCase("")) {
-                            //System.out.println("On text changed pagno is empty "+newText);
                             feePaidReportsData(userId, userType, reports.getPage());
                         } else {
-                            //System.out.println("On text changed pagno is not empty "+newText);
                             feePaidReportsData(userId, userType, pagNo);
                         }
                     } else if (!TextUtils.isEmpty(newText)) {
-                        //searchReportItem(userId, userType, pagNo, newText);
                         if (pagNo.equalsIgnoreCase("")) {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged==== no page");
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         } else {
-                            //System.out.println("ReportsFeesPaidFragment.afterTextChanged====pageno "+pagNo);
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         }
                     }
@@ -455,7 +449,6 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
     }
 
     private void feePaidReportsData(String userId, String userType, String page) {
-        System.out.println("ReportsFeesPaidFragment.feePaidReportsData==" + userId + "==" + userType + " && " + page);
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().getFeePaidServiceBuroData(userId, userType, page)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -467,9 +460,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
     }
 
     private void handleError(Throwable error) {
-      /*  System.out.println("ReportsFeesPaidFragment.handleError==" + error.getMessage());
-        showToast(error.getMessage());*/
-        System.out.println("ReportsFeesPaidFragment.handleError" + error.getMessage());
+
 
         progressBar.setVisibility(View.GONE);
 
@@ -826,7 +817,6 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 // reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -989,7 +979,6 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                     prev.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort > 1 && current_page_sort <= totalPage) {
                                 current_page_sort = current_page_sort - 1;
                                 //  reportsFeePaidSort.setPage(String.valueOf(current_page_sort));

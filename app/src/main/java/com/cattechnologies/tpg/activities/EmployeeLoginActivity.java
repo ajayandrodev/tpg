@@ -35,9 +35,7 @@ public class EmployeeLoginActivity extends AppCompatActivity implements View.OnC
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             drawerTitle = bundle.getString(ARG_SELECTION_USER);
-            System.out.println("LoginScreen.onCreate===" + drawerTitle);
             selectedData(drawerTitle);
-
         }
         mBackLogin.setText("Click Here");
         mBackLogin.setOnClickListener(this);
