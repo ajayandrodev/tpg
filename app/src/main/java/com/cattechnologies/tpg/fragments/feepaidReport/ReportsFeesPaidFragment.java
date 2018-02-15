@@ -239,7 +239,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         if (pagNo.equalsIgnoreCase("")) {
                             searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
                         } else {
-                            searchReportItem(userId, userType, reportsFeePaidSearch.getPage(), newText);
+                            searchReportItem(userId, userType, pagNo, newText);
                         }
                     }
                 }
@@ -473,7 +473,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-                System.out.println("ReportsFeesPaidFragment.handleError" + response.getMessage());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -552,7 +551,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         }
                         if (Integer.parseInt(pagNo) > 1) {
                             prev.setEnabled(true);
-                            System.out.println("page.handleResponse==page prev >1==" + current_page);
 
                         } else {
                             prev.setEnabled(false);
@@ -560,7 +558,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         }
                         if (Integer.parseInt(pagNo) > (totalPage - 1)) {
                             next.setEnabled(false);
-                            System.out.println("page.handleResponse==next >total==" + current_page);
 
                         } else {
                             next.setEnabled(true);
@@ -570,7 +567,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         if (current_page == 0) {
                             btn.setBackgroundColor(Color.parseColor("#808080"));
                             prev.setEnabled(false);
-                            System.out.println("page.handleResponse==btan data====" + current_page);
 
                         } else {
 
@@ -592,13 +588,12 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         if (Integer.parseInt(pagNo) <= totalPage) {
                             if (Integer.parseInt(pagNo) <= 1) {
                                 pagNo = String.valueOf(1);
-                            }else {
+                            } else {
                                 pagNo = String.valueOf(Integer.parseInt(pagNo) - 1);
 
                             }
                         }
-                        System.out.println("page.onClick====onclick prev==" + pagNo);
-                        //reports.setPage(String.valueOf(pagNo));
+
 
                         wdth = horizontalScrollView.getScrollX() - btn.getWidth();
                         horizontalScrollView.smoothScrollTo(wdth, 0);
@@ -650,18 +645,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        } else if (response.getStatus().equalsIgnoreCase("fail")) {
-            progressBar.setVisibility(View.GONE);
-            String totalPages = response.getTotalNoofPages();
-
-            int totalPage = Integer.parseInt(totalPages);
-            if (current_page_mock < totalPage || current_page_mock > totalPage) {
-
-            } else {
-                showToast(response.getMessage());
-
-            }
-
+        } else {
+            showToast(response.getMessage());
         }
     }
 
@@ -887,10 +872,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                         .commit();
                 activity.getSupportActionBar().setTitle("REPORTS");
             });
-        } else {
-        /*    progressBar.setVisibility(View.GONE);
-            showToast(response.getMessage());
-*/
         }
     }
 

@@ -53,10 +53,12 @@ import rx.Observable;
 
 public interface RetrofitInterface {
 
-    @FormUrlEncoded
+   @FormUrlEncoded
     @POST("sign-in.php")
     Observable<DashboardInfo> sign(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                    @Field("app_pswd") String app_pswd);
+
+
 
 
     /*forgot apis*/
@@ -95,7 +97,7 @@ public interface RetrofitInterface {
 
     /*feePaidEroAndSB*/
 
-    @FormUrlEncoded
+   @FormUrlEncoded
     @POST("fee-paid-offset.php")
     Observable<ReportsFeePaid> getFeePaidData(@Field("app_uid") String app_uid, @Field("acc_type") String acc_type,
                                               @Field("page") String page);
@@ -118,7 +120,6 @@ public interface RetrofitInterface {
                                                                   @Field("search") String newText,
                                                                   @Field("page") String page,
                                                                   @Field("sort") String sort);
-
 
 
 
