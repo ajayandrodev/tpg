@@ -10,10 +10,6 @@ import android.widget.TextView;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDepositsSearchSortNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidSearchSortNew;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -26,7 +22,6 @@ public class ReportsEroDepositParticularSearchSortListAdapter extends RecyclerVi
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    SimpleDateFormat format, format1;
 
     public ReportsEroDepositParticularSearchSortListAdapter(Context mContext, List<ReportParticulrEroDepositsSearchSortNew> reportsList, String title) {
         this.reportsList = reportsList;

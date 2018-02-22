@@ -10,10 +10,6 @@ import android.widget.TextView;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportParticulrAccountDisbSearchSortNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDepositsSearchSortNew;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -26,7 +22,6 @@ public class ReportsAccountDisbParticularSearchSortListAdapter extends RecyclerV
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    SimpleDateFormat format, format1;
 
     public ReportsAccountDisbParticularSearchSortListAdapter(Context mContext, List<ReportParticulrAccountDisbSearchSortNew> reportsList, String title) {
         this.reportsList = reportsList;
@@ -48,7 +43,7 @@ public class ReportsAccountDisbParticularSearchSortListAdapter extends RecyclerV
         ReportParticulrAccountDisbSearchSortNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getDisbursmentamount());
-        holder.accountDataSSN.setText(reports.getPrimarySsn());
+        holder.accountDataSSN.setText(reports.getPrimarySid());
         holder.detailsDataDisbush.setText(reports.getDisbType() + " | ");
         holder.dateData.setText(reports.getDisbursementDate());
     }

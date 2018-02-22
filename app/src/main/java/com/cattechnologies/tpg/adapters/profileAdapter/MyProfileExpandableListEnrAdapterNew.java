@@ -94,7 +94,6 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
         EnrolInfo detailInfo = (EnrolInfo) getChild(groupPosition, childPosition);
-        System.out.println("MyProfileExpandableListEnrAdapterNew.getChildView");
 
         if (view == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -142,7 +141,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem10.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        System.err.println("NumberParseException was thrown: " + e.toString());
+                        e.printStackTrace();
                     }
 
                 }
@@ -158,7 +157,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem12.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        System.err.println("NumberParseException was thrown: " + e.toString());
+                        e.printStackTrace();
                     }
                 }
                 if (detailInfo.getFaxPhone().equalsIgnoreCase("")) {
@@ -174,7 +173,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem16.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        System.err.println("NumberParseException was thrown: " + e.toString());
+                        e.printStackTrace();
                     }
                 }
                 childItem14.setText(detailInfo.getEmailAddress().trim());
@@ -198,7 +197,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem10.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        System.err.println("NumberParseException was thrown: " + e.toString());
+                        e.printStackTrace();
                     }
                 }
                 if (detailInfo.getMobilePhone().equalsIgnoreCase("")) {
@@ -213,7 +212,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem12.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        System.err.println("NumberParseException was thrown: " + e.toString());
+                        e.printStackTrace();
                     }
 
                 }
@@ -229,7 +228,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem16.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        System.err.println("NumberParseException was thrown: " + e.toString());
+                        e.printStackTrace();
                     }
                 }
                 childItem14.setText(detailInfo.getEmailAddress().trim());

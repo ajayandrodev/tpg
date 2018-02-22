@@ -11,8 +11,6 @@ import com.cattechnologies.tpg.model.feePaidModel.ReportFreePaidSearchSortNew;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -25,7 +23,6 @@ public class ReportsFeesPaidSearchSortListAdapter extends RecyclerView.Adapter<R
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    SimpleDateFormat format, format1;
 
     public ReportsFeesPaidSearchSortListAdapter(Context mContext, List<ReportFreePaidSearchSortNew> reportsList, String title) {
         this.reportsList = reportsList;
@@ -47,7 +44,7 @@ public class ReportsFeesPaidSearchSortListAdapter extends RecyclerView.Adapter<R
         ReportFreePaidSearchSortNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
-        holder.accountDataSSN.setText(reports.getPrimarySsn());
+        holder.accountDataSSN.setText(reports.getPrimarySid());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
         holder.dateData.setText(reports.getRecordcreatedate());
 

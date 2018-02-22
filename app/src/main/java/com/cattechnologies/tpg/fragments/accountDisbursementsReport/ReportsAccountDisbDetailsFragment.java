@@ -12,11 +12,9 @@ import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
-import com.cattechnologies.tpg.model.profileModel.LoginInfo;
+import com.cattechnologies.tpg.utils.DateUtils;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Ajay on 28-Oct-17.
@@ -33,8 +31,6 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
     LinearLayout llInfoData, llInfoDetailsData;
     String name, primarySsn, disbursType, expectedRefund, reportsExpecteddepdate,
             productType, disbursementDate, disbursmentamount, expecteddepdate, efindata;
-    SimpleDateFormat format, format1;
-    LoginInfo loginInfo;
     PreferencesManager preferencesManager;
 
     public static ReportsAccountDisbDetailsFragment newInstance(
@@ -82,7 +78,6 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         title = getArguments().getString(ARG_SECTION_TITLE);
-        loginInfo = new LoginInfo();
         preferencesManager = new PreferencesManager();
         name = getArguments().getString("report_username");
         primarySsn = getArguments().getString("report_ssn");
@@ -146,17 +141,10 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
 
         textReportTwo.setText("Expected Date:");//ll_five
 
-        format = new SimpleDateFormat("yyyyMMdd");
-        //format1 = new SimpleDateFormat("MM-dd-yyyy");
-        format1 = new SimpleDateFormat("MM-dd-yyyy");
 
-        String chagnedDate = null;
-        try {
-            chagnedDate = format1.format(format.parse(reportsExpecteddepdate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        textReportTwoData.setText(chagnedDate);
+        String changeDateNew= DateUtils.reportDate(reportsExpecteddepdate);
+
+        textReportTwoData.setText(changeDateNew);
 
         textReportThree.setText("Product Type:");//ll_four
         textReportThreeData.setText(productType);
@@ -173,7 +161,7 @@ public class ReportsAccountDisbDetailsFragment extends Fragment {
         textFiveNextAnother.setText("Disbursement Info:");//ll_two next another
         textFiveNextAnotherData.setText("");
 
-        if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+        if (preferencesManager.gaT(getContext()).equalsIgnoreCase("sb")) {
             textEfin.setText("EFIN:");//ll_two next another
             textEfinData.setText(efindata);
         } else {

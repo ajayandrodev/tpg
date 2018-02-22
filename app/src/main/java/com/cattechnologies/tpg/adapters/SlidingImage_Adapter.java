@@ -66,15 +66,15 @@ public class SlidingImage_Adapter extends PagerAdapter {
             two = layoutInflater.inflate(R.layout.view_two, view, false);
 
         } else if (position == 2) {
-            three = layoutInflater.inflate(R.layout.view_three, view,false);
+            three = layoutInflater.inflate(R.layout.view_three, view, false);
 
         } else if (position == 3) {
             four = layoutInflater.inflate(R.layout.view_four, view, false);
-            main=four.findViewById(R.id.main_get_started);
+            main = four.findViewById(R.id.main_get_started);
             main.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent= new Intent(context, LoginScreen.class);
+                    Intent intent = new Intent(context, LoginScreen.class);
                     context.startActivity(intent);
                 }
             });
@@ -87,7 +87,9 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view.equals(object);
+        // return view.equals(object);
+        return view == object;
+
     }
 
     @Override

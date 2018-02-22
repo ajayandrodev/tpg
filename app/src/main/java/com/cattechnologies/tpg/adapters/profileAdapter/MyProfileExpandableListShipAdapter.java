@@ -89,7 +89,6 @@ public class MyProfileExpandableListShipAdapter extends BaseExpandableListAdapte
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
         ShippingInfo detailInfo = (ShippingInfo) getChild(groupPosition, childPosition);
-        System.out.println("MyProfileExpandableListShipAdapter.getChildView==="+type);
         if (view == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = infalInflater.inflate(R.layout.my_profile_child_items_shipping, null);
@@ -112,7 +111,7 @@ public class MyProfileExpandableListShipAdapter extends BaseExpandableListAdapte
                 LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_shipping_three);
                 linearLayout.setVisibility(View.GONE);
 
-            } else if(type.equalsIgnoreCase("ero")){
+            } else if (type.equalsIgnoreCase("ero")) {
                 TextView childItem1 = (TextView) view.findViewById(R.id.shipping_address);
                 childItem1.setText("Address:");
                 TextView childItem2 = (TextView) view.findViewById(R.id.shipping_address_data);
@@ -127,7 +126,7 @@ public class MyProfileExpandableListShipAdapter extends BaseExpandableListAdapte
                 childItem6.setText(detailInfo.getShipmentHoldUntilDate().trim());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+          e.printStackTrace();
         }
 
         return view;

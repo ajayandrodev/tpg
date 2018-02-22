@@ -10,6 +10,7 @@
     <string name="dashboard_fee_paid">FEES PAID</string>
     <string name="dashboard_account_dis">ACCOUNT \n DISBURSEMENTS</string>
     <string name="dashboard_ero_deposits">ERO DEPOSITS</string>
+    <string name="dashboard_account_dis2">ACCOUNT DISBURSEMENTS</string>
 
 
     <!--menu lists-->
@@ -103,7 +104,6 @@
     <string-array name="child_report_account_disbursement">
         <item>SSN</item>
         <item>LAST NAME</item>
-        <item>PRODUCT TYPE</item>
         <item>DISBURSEMENT TYPE</item>
 
     </string-array>

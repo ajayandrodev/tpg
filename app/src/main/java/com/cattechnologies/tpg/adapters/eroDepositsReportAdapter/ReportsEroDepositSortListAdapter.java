@@ -8,13 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
-import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSortNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSortNew;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -27,7 +22,6 @@ public class ReportsEroDepositSortListAdapter extends RecyclerView.Adapter<Repor
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    SimpleDateFormat format, format1;
 
     public ReportsEroDepositSortListAdapter(Context mContext, List<ReportsEroDepositsSortNew> reportsList, String title) {
         this.reportsList = reportsList;
@@ -49,7 +43,7 @@ public class ReportsEroDepositSortListAdapter extends RecyclerView.Adapter<Repor
         ReportsEroDepositsSortNew reports = reportsList.get(position);
         holder.userData.setText(reports.getDAN());
         holder.costData.setText("$" + reports.getDepositAmount());
-        holder.accountDataSSN.setText(reports.getDepositType());
+        holder.accountDataSid.setText(reports.getDepositType());
         holder.detailsDataDisbush.setText("");
         holder.dateData.setText(reports.getDepositdate());
     }
@@ -76,12 +70,12 @@ public class ReportsEroDepositSortListAdapter extends RecyclerView.Adapter<Repor
         this.clickListener = itemClickListener;
     }
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
+        TextView userData, costData, accountDataSid, detailsDataDisbush, dateData;
         public ReportsViewHolder(View itemView) {
             super(itemView);
             userData = (TextView) itemView.findViewById(R.id.report_user);
             costData = (TextView) itemView.findViewById(R.id.report_rate);
-            accountDataSSN = (TextView) itemView.findViewById(R.id.report_account);
+            accountDataSid = (TextView) itemView.findViewById(R.id.report_account);
             detailsDataDisbush = (TextView) itemView.findViewById(R.id.report_details);
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);

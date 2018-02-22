@@ -164,7 +164,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
             public void onClick(View view) {
                 title = getResources().getString(R.string.dashboard_fee_paid);
                 fragment = ReportsFeesPaidServiceBuroDataFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                        preferencesManager.getAccountType(getActivity()));
+                        preferencesManager.gaT(getActivity()));
                 if (fragment != null) {
                     fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction()
@@ -196,7 +196,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
                     }
 
                     fragment = ParticularOfficeSbFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()), "1", jsonArray.toString());
+                            preferencesManager.gaT(getActivity()), "1", jsonArray.toString());
                     if (fragment != null) {
                         fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction()
@@ -254,7 +254,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
                 showToast(response.getMessage());
                 //showToast("Network Error !");
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
         if (!error.getMessage().equalsIgnoreCase("")) {
@@ -287,16 +287,12 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
     public void onPause() {
         super.onPause();
         myList.clear();
-
-//        mRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         myList.clear();
-
-//        mRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -309,10 +305,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
         int cposition = childPosition;
-     //   sbEroNew.setVisibility(View.GONE);
-
         Displayitemclicked(gposition, cposition);
-        //passing the integer value of grouposition and childposition to the above method when an item is clicked
         return false;
     }
 
@@ -324,7 +317,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
                 case 0:
                     title = getResources().getString(R.string.dashboard_fee_paid);
                     fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()));
+                            preferencesManager.gaT(getActivity()));
                     if (fragment != null) {
                         fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction()

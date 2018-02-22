@@ -49,6 +49,7 @@ import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSort;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
+import com.cattechnologies.tpg.utils.DateUtils;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 import com.cattechnologies.tpg.activities.Dashboard;
@@ -56,8 +57,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -118,7 +117,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     ScrollView scrollView;
     Button btn;
     int wdth;
-    SimpleDateFormat format, format1;
 
     public static Fragment newInstance(String sectionTitle, String userId, String type, String page, String effin) {
         ParticularOfficeSbFeesPaidFragment fragment = new ParticularOfficeSbFeesPaidFragment();
@@ -262,19 +260,10 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             String totalPages = response.getTotalNoofPages();
             List<ReportsPerticularFeePaidSearchNew> reportsFeePaidNewList = response.getFeeReport_data();
             ReportsPerticularFeePaidSearchNew reportsFeePaidNew = new ReportsPerticularFeePaidSearchNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getFeeReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setRecordcreatedate(changeDate);
+                reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -390,7 +379,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 Dashboard activity = (Dashboard) view.getContext();
                 android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        , reports.getPrimarySid(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -430,7 +419,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -444,10 +433,8 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-                System.out.println("ReportsFeesPaidFragment.handleError" + response.getMessage());
-
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         } else {
             showToast("Network Error !");
@@ -514,19 +501,10 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrFreePaidNew> reportsFeePaidNewList = response.getFeeReport_data();
             ReportParticulrFreePaidNew reportsFeePaidNew = new ReportParticulrFreePaidNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getFeeReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setRecordcreatedate(changeDate);
+                reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -647,7 +625,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 Dashboard activity = (Dashboard) view.getContext();
                 android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        , reports.getPrimarySid(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -733,7 +711,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 particularOfficeSearchSort(userId, userType, newText, pagNo, sort);
             }
         }
-
     }
 
     private void particularOfficeSearchSort(String userId, String userType, String newText, String page, String sort) {
@@ -756,19 +733,10 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrFreePaidSearchSortNew> reportsFeePaidNewList = response.getFeeReport_data();
             ReportParticulrFreePaidSearchSortNew reportsFeePaidNew = new ReportParticulrFreePaidSearchSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getFeeReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setRecordcreatedate(changeDate);
+                reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -858,7 +826,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 reportFreePaidParticulrSearchSort.setPage(String.valueOf(current_page_sort));
@@ -878,17 +845,13 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                         }
                     });
                 }
-
-
             }
-
-
             mSearchSortListAdapter.setClickListener((view, position) -> {
                 final ReportParticulrFreePaidSearchSortNew reports = reportsFeePaidNewList.get(position);
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        , reports.getPrimarySid(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -930,19 +893,10 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrFreePaidSortNew> reportsFeePaidNewList = response.getFeeReport_data();
             ReportParticulrFreePaidSortNew reportsFeePaidNew = new ReportParticulrFreePaidSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getFeeReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setRecordcreatedate(changeDate);
+                reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -1055,7 +1009,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 Dashboard activity = (Dashboard) view.getContext();
                 android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        , reports.getPrimarySid(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());

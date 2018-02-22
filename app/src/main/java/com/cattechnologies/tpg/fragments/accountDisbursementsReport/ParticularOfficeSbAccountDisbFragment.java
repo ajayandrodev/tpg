@@ -44,16 +44,14 @@ import com.cattechnologies.tpg.model.accountDisbursementModel.ReportParticulrAcc
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportParticulrAccountDisbSortNew;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsPerticularAccountDisbSearch;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsPerticularAccountDisbSearchNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsPerticularFeePaidSearchNew;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
+import com.cattechnologies.tpg.utils.DateUtils;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -110,7 +108,6 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
     ScrollView scrollView;
     Button btn;
     int wdth;
-    SimpleDateFormat format, format1;
 
     public static Fragment newInstance(String sectionTitle, String userId, String type, String page, String effin) {
         ParticularOfficeSbAccountDisbFragment fragment = new ParticularOfficeSbAccountDisbFragment();
@@ -252,19 +249,10 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
             String totalPages = response.getTotalNoofPages();
             List<ReportsPerticularAccountDisbSearchNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             ReportsPerticularAccountDisbSearchNew reportsFeePaidNew = new ReportsPerticularAccountDisbSearchNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
-                    reportsFeePaidNew.setDisbursementDate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getDisbursmentReport_data().get(i).getDisbursementDate());
+                reportsFeePaidNew.setDisbursementDate(changeDate);
+                reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -377,7 +365,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySsn(), reports.getDisbType(),
+                        reports.getPrimarySid(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),
@@ -416,7 +404,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -429,8 +417,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 com.cattechnologies.tpg.model.Response response = gson.fromJson(errorBody, com.cattechnologies.tpg.model.Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                e.printStackTrace();
-            }
+                throw new RuntimeException(e);            }
         } else {
             showToast("Network Error !");
         }
@@ -499,19 +486,10 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
             String totalPages = response.getTotalNoofPages();
             List<ReportParticulrAccountDisbNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             ReportParticulrAccountDisbNew reportsFeePaidNew = new ReportParticulrAccountDisbNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
-                    reportsFeePaidNew.setDisbursementDate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getDisbursmentReport_data().get(i).getDisbursementDate());
+                reportsFeePaidNew.setDisbursementDate(changeDate);
+                reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -632,7 +610,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySsn(), reports.getDisbType(),
+                        reports.getPrimarySid(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),
@@ -688,18 +666,12 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "product_type";
-                    sortAndSearch(sort);
-                    parentList.collapseGroup(0);
-                    progressBar.setVisibility(View.GONE);
-                    break;
-                case 3:
-                    progressBar.setVisibility(View.VISIBLE);
                     sort = "disbursment_type";
                     sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
+
             }
         }
     }
@@ -740,19 +712,10 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
             List<ReportParticulrAccountDisbSearchSortNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
 
             ReportParticulrAccountDisbSearchSortNew reportsFeePaidNew = new ReportParticulrAccountDisbSearchSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
-                    reportsFeePaidNew.setDisbursementDate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getDisbursmentReport_data().get(i).getDisbursementDate());
+                reportsFeePaidNew.setDisbursementDate(changeDate);
+                reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -842,7 +805,6 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 reportFreePaidParticulrSearchSort.setPage(String.valueOf(current_page_sort));
@@ -872,7 +834,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySsn(), reports.getDisbType(),
+                        reports.getPrimarySid(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),
@@ -1043,7 +1005,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 );*/
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySsn(), reports.getDisbType(),
+                        reports.getPrimarySid(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),

@@ -25,7 +25,6 @@ import java.util.ArrayList;
 public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAdapter.RecyclerItemViewHolder> {
     private ArrayList<RecyclerData> myList;
     int mLastPosition = 0;
-    private RemoveClickListner mListner;
     SbiEroListDataAdapter adapter;
     private Context mContext;
 
@@ -44,7 +43,6 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
     public void onBindViewHolder(RecyclerItemViewHolder holder, int position) {
         Log.d("onBindViewHoler ", myList.size() + "");
         holder.etTitleTextView.setText(myList.get(position).getTitle());
-        //  holder.etDescriptionTextView.setText(myList.get(position).getDescription());
         holder.crossImage.setBackgroundResource(R.drawable.remove_item);
 //        mLastPosition = position;
     }
@@ -56,18 +54,12 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
         } else {
             return 0;
         }
-        // return (null != myList ? myList.size() : 0);
     }
 
     public void notifyData(ArrayList<RecyclerData> myList) {
         Log.d("notifyData ", myList.size() + "");
         this.myList = myList;
         notifyDataSetChanged();
-    }
-
-    public void addItem(RecyclerData mLog) {
-        myList.add(mLog);
-        notifyItemInserted(0);
     }
 
     public SbiEroListDataAdapter getAdapter() {
@@ -80,21 +72,19 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
         newValue.setTitle(title);
         if (!myList.contains(newValue)) {
             myList.add(myList.size(), newValue);
-          //  notifyItemInserted(myList.size() - 1);
+            notifyItemInserted(myList.size() - 1);
             notifyDataSetChanged();
         }
     }
 
     public class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
         private final TextView etTitleTextView;
-        //    private final TextView etDescriptionTextView;
         private RelativeLayout mainLayout;
         public ImageButton crossImage;
 
         public RecyclerItemViewHolder(final View parent) {
             super(parent);
             etTitleTextView = (TextView) parent.findViewById(R.id.txtTitle);
-            // etDescriptionTextView = (TextView) parent.findViewById(R.id.txtDescription);
             crossImage = (ImageButton) parent.findViewById(R.id.crossImage);
             mainLayout = (RelativeLayout) parent.findViewById(R.id.mainLayout);
             mainLayout.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +96,6 @@ public class SbiEroListDataAdapter extends RecyclerView.Adapter<SbiEroListDataAd
             crossImage.setOnClickListener(new AdapterView.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //mListner.OnRemoveClick(getAdapterPosition());
                     myList.remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
                     notifyItemRangeChanged(getAdapterPosition(), myList.size());

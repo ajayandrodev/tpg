@@ -50,14 +50,13 @@ import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidNew;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearchNew;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSortNew;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
+import com.cattechnologies.tpg.utils.DateUtils;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -88,7 +87,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     EditText searchData;
     LinearLayout layout;
     int current_page, current_page_sort = 1, current_page_search = 1, current_page_mock;
-    SimpleDateFormat format, format1;
 
 
     ReportsEroDepostListAdapter mAdapter;
@@ -302,22 +300,12 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportEroDepositsSearchNew> reportsFeePaidNewList = response.getEroReport_data();
-
-
             ReportEroDepositsSearchNew reportsFeePaidNew = new ReportEroDepositsSearchNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getEroReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
-                    reportsFeePaidNew.setDepositdate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getEroReport_data().get(i).getDepositdate());
+                reportsFeePaidNew.setDepositdate(changeDate);
+                reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
+
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -491,21 +479,12 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportsEroDepositNew> reportsFeePaidNewList = response.getEroReport_data();
-
             ReportsEroDepositNew reportsFeePaidNew = new ReportsEroDepositNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getEroReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
-                    reportsFeePaidNew.setDepositdate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getEroReport_data().get(i).getDepositdate());
+                reportsFeePaidNew.setDepositdate(changeDate);
+                reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
+
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -747,18 +726,11 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             String totalPages = response.getTotalNoofPages();
             List<ReportEroDepositsSearchSortNew> reportsFeePaidNewList = response.getEroReport_data();
             ReportEroDepositsSearchSortNew reportsFeePaidNew = new ReportEroDepositsSearchSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
             for (int i = 0; i < response.getEroReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
-                    reportsFeePaidNew.setDepositdate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getEroReport_data().get(i).getDepositdate());
+                reportsFeePaidNew.setDepositdate(changeDate);
+                reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
+
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -843,7 +815,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -904,19 +875,11 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
             String totalPages = response.getTotalNoofPages();
             List<ReportsEroDepositsSortNew> reportsFeePaidNewList = response.getEroReport_data();
             ReportsEroDepositsSortNew reportsFeePaidNew = new ReportsEroDepositsSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getEroReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getEroReport_data().get(i).getDepositdate()));
-                    reportsFeePaidNew.setDepositdate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getEroReport_data().get(i).getDepositdate());
+                reportsFeePaidNew.setDepositdate(changeDate);
+                reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
+
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -998,7 +961,6 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 reportsFeePaidSort.setPage(String.valueOf(current_page_sort));

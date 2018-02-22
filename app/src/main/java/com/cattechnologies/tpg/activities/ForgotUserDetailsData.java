@@ -25,7 +25,6 @@ import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserNameData;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserNameInfo;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordData;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordInfo;
-import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
@@ -61,7 +60,6 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
     CompositeSubscription mSubscriptions;
     PreferencesManager preferencesManager;
     CheckBox checkBox;
-    LoginInfo loginInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +79,6 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
         llForgotPassword.setOnClickListener(this);
         mSubscriptions = new CompositeSubscription();
         preferencesManager = new PreferencesManager();
-        loginInfo = new LoginInfo();
         checkBox.setOnCheckedChangeListener(this);
         setToolbar();
 
@@ -90,26 +87,15 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_name))) {
-            // drawerTitle = getResources().getString(R.string.forgot_user_name_new);
-
             mTitle.setText(getResources().getString(R.string.forgot_user_name_new));
-
         } else if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_password))) {
-            // drawerTitle = getResources().getString(R.string.forgot_user_password_new);
             mTitle.setText(getResources().getString(R.string.forgot_user_password_new));
-
-
         } else if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_email))) {
-            // drawerTitle = getResources().getString(R.string.forgot_user_email_new);
             mTitle.setText(getResources().getString(R.string.forgot_user_email_new));
-
-
         }
         selectedData(drawerTitle);
-
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
@@ -119,28 +105,21 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
             loginUsername.setHint("Enter EFIN");
             mTextPass.setText("EMAIL");
             loginUserPassword.setHint("Enter Email Address");
-            // loginUserPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.email_icon, 0, 0, 0);
             mLogin.setText("RECOVER USERNAME");
-
-
         } else if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_password))) {
             mTextEfin.setText("EFIN OR USERNAME");
             loginUsername.setHint("Enter your EFIN or Username");
             mTextPass.setText("EMAIL");
             loginUserPassword.setHint("Enter your email address");
-            // loginUserPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.email_icon, 0, 0, 0);
             mLogin.setText("REQUEST PIN");
             llForgotPassword.setVisibility(View.VISIBLE);
             llForgotCheckBox.setVisibility(View.GONE);
-
-
         } else if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_email))) {
             mTextEfin.setText("EFIN");
             loginUsername.setHint("Enter your EFIN ");
             mTextPass.setText("LAST 4 OF SSN");
             loginUserPassword.setHint("Enter last 4 digits of SSN");
             mLogin.setText("RECOVER EMAIL");
-
         }
 
     }
@@ -164,60 +143,46 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
                     String type = null;
                     if (checkBox.isChecked()) {
                         type = "sb";
-                        loginInfo.setAcc_type(type);
-                        preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
+                        preferencesManager.saT(getApplicationContext(), type);
                     } else {
                         type = "ero";
-                        loginInfo.setAcc_type(type);
-                        preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-
+                        preferencesManager.saT(getApplicationContext(), type);
                     }
-                    forgotUserNameResponse(forgotUname, forgotUpass, preferencesManager.getAccountType(getApplicationContext()));
-
+                    forgotUserNameResponse(forgotUname, forgotUpass, preferencesManager.gaT(getApplicationContext()));
                 } else if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_password))) {
-
-                    if (llForgotPassword.getText().equals(getResources().getString(R.string.office_emp))) {
+                    if (llForgotPassword.getText().toString().equalsIgnoreCase(getResources().getString(R.string.office_emp))) {
                         Intent i = new Intent(this, BackToLoginScreen.class);
                         i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
                         startActivity(i);
-
-                    } else if (llForgotPassword.getText().equals(getResources().getString(R.string.service_buro))) {
+                    } else if (llForgotPassword.getText().toString().equalsIgnoreCase(getResources().getString(R.string.service_buro))) {
                         String forgotUname = loginUsername.getText().toString();
                         String forgotUpass = loginUserPassword.getText().toString();
                         String type = "sb";
-                        loginInfo.setAcc_type(type);
-                        preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-
-                        forgotPassword(forgotUname, forgotUpass, loginInfo.getAcc_type());
-                    } else if (llForgotPassword.getText().equals(getResources().getString(R.string.ero_info))) {
+                        preferencesManager.saT(getApplicationContext(), type);
+                        forgotPassword(forgotUname, forgotUpass, type);
+                    } else if (llForgotPassword.getText().toString().equalsIgnoreCase(getResources().getString(R.string.ero_info))) {
                         String forgotUname = loginUsername.getText().toString();
                         String forgotUpass = loginUserPassword.getText().toString();
                         String type = "ero";
-                        loginInfo.setAcc_type(type);
-                        preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-                        forgotPassword(forgotUname, forgotUpass, loginInfo.getAcc_type());
+                        preferencesManager.saT(getApplicationContext(), type);
+                        forgotPassword(forgotUname, forgotUpass, type);
                     } else {
                         Intent i = new Intent(this, BackToLoginScreen.class);
                         i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
                         startActivity(i);
                     }
-
-
                 } else if (drawerTitle.equalsIgnoreCase(getResources().getString(R.string.forgot_user_email))) {
                     String forgotUname = loginUsername.getText().toString();
                     String forgotUpass = loginUserPassword.getText().toString();
                     String type = null;
                     if (checkBox.isChecked()) {
                         type = "sb";
-                        loginInfo.setAcc_type(type);
-                        preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
+                        preferencesManager.saT(getApplicationContext(), type);
                     } else {
                         type = "ero";
-                        loginInfo.setAcc_type(type);
-                        preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
+                        preferencesManager.saT(getApplicationContext(), type);
                     }
-                    forgotEmailAddress(forgotUname, forgotUpass, loginInfo.getAcc_type());
-
+                    forgotEmailAddress(forgotUname, forgotUpass, type);
                 }
                 break;
             case R.id.login_business_patner:
@@ -240,22 +205,18 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
                 mTextEfin.setVisibility(View.VISIBLE);
                 loginUsername.setVisibility(View.VISIBLE);
                 d.dismiss();
-
                 break;
             case R.id.forgot_user_password_ss:
                 llForgotPassword.setText(getResources().getString(R.string.office_emp));
                 mTextEfin.setVisibility(View.INVISIBLE);
                 loginUsername.setVisibility(View.INVISIBLE);
-
                 d.dismiss();
-
                 break;
             case R.id.forgot_user_email_ss:
                 llForgotPassword.setText(getResources().getString(R.string.service_buro));
                 mTextEfin.setVisibility(View.VISIBLE);
                 loginUsername.setVisibility(View.VISIBLE);
                 d.dismiss();
-
                 break;
             case R.id.cancel_forgot_ss:
                 d.dismiss();
@@ -264,17 +225,13 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
     }
 
     private void forgotEmailAddress(String forgotUname, String forgotUpass, String acc_type) {
-
         if (AppInternetStatus.getInstance(this).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().forgotEmailAddress(forgotUname, forgotUpass, acc_type)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
-
         } else {
             showToast("Internet Connection Is Not Available");
-
         }
     }
 
@@ -283,7 +240,6 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
             showToast(response.getMessage());
             ForgotUserEmailData forgotUserDetailsData = response.getUser_data();
             String data = forgotUserDetailsData.getEMAIL_ADDRESS();
-
             Intent i = new Intent(this, LoginScreen.class);
             i.putExtra(LoginScreen.ARG_SELECTION_USER, drawerTitle);
             i.putExtra("forgotUser", data);
@@ -298,8 +254,6 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
-
         } else {
             showToast("Internet Connection Is Not Available");
 
@@ -311,25 +265,20 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
             showToast(response.getMessage());
             ForgotUserPasswordData forgotUserDetailsData = response.getUser_data();
             String data = forgotUserDetailsData.getTEMPORARY_PIN();
-
             Intent i = new Intent(this, BackToLoginScreen.class);
             i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
             i.putExtra("forgotUser", data);
             startActivity(i);
-
         }
 
     }
 
     private void forgotUserNameResponse(String efin, String email, String type) {
-
         if (AppInternetStatus.getInstance(this).isOnline()) {
             mSubscriptions.addAll(NetworkUtil.getRetrofit().forgotUserName(efin, email, type)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
-
         } else {
             showToast("Internet Connection Is Not Available");
 
@@ -344,17 +293,13 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
     private void handleError(Throwable error) {
         showToast(error.getMessage());
         if (error instanceof HttpException) {
-
             Gson gson = new GsonBuilder().create();
-
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-
             } catch (IOException e) {
-                e.printStackTrace();
-            }
+                throw new RuntimeException(e);            }
         } else {
             showToast("Network Error !");
         }
@@ -365,7 +310,6 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
             showToast(response.getMessage());
             ForgotUserNameData forgotUserDetailsData = response.getUser_data();
             String data = forgotUserDetailsData.getLOGIN_NAME();
-
             Intent i = new Intent(this, BackToLoginScreen.class);
             i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
             i.putExtra("forgotUser", data);

@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserNameData;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserNameInfo;
-import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
@@ -48,11 +47,9 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
     LinearLayout llForgotCheckBox;
     EditText loginUsername, loginUserPassword;
     private String drawerTitle;
-    public static final String ARG_SELECTION_USER = "secleted_user_forgot";
     CompositeSubscription mSubscriptions;
     PreferencesManager preferencesManager;
     CheckBox checkBox;
-    LoginInfo loginInfo;
     ProgressBar progressBar;
 
     @Override
@@ -69,11 +66,10 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
         llForgotCheckBox = (LinearLayout) findViewById(R.id.ll_forgot_checkbox);
         checkBox = (CheckBox) findViewById(R.id.checkbox_data);
         Bundle bundle = getIntent().getExtras();
-        drawerTitle = bundle.getString(ARG_SELECTION_USER);
+        drawerTitle = bundle.getString("secleted_user_forgot");
         mLogin.setOnClickListener(this);
         mSubscriptions = new CompositeSubscription();
         preferencesManager = new PreferencesManager();
-        loginInfo = new LoginInfo();
         checkBox.setOnCheckedChangeListener(this);
         setToolbar();
     }
@@ -115,15 +111,12 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
                 String type = "";
                 if (checkBox.isChecked()) {
                     type = "sb";
-                    loginInfo.setAcc_type(type);
-                    preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
+                    preferencesManager.saT(getApplicationContext(), type);
                 } else {
                     type = "ero";
-                    loginInfo.setAcc_type(type);
-                    preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-
+                    preferencesManager.saT(getApplicationContext(), type);
                 }
-                forgotUserNameResponse(forgotUname, forgotUpass, preferencesManager.getAccountType(getApplicationContext()));
+                forgotUserNameResponse(forgotUname, forgotUpass, preferencesManager.gaT(getApplicationContext()));
 
         }
 
@@ -178,8 +171,7 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                e.printStackTrace();
-            }
+                throw new RuntimeException(e);            }
         } else {
             showToast("Network Error !");
         }
@@ -211,12 +203,10 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
         String type = "";
         if (isChecked == true) {
             type = "sb";
-            loginInfo.setAcc_type(type);
-            preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
+            preferencesManager.saT(getApplicationContext(), type);
         } else {
             type = "ero";
-            loginInfo.setAcc_type(type);
-            preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
+            preferencesManager.saT(getApplicationContext(), type);
         }
 
 

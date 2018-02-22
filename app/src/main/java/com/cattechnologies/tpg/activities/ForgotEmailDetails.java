@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserEmailAddress;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserEmailAddressSb;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserEmailData;
-import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
@@ -50,11 +49,9 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
     Dialog d;
     EditText loginUsername, loginUserPassword;
     private String drawerTitle;
-    public static final String ARG_SELECTION_USER = "secleted_user_forgot";
     CompositeSubscription mSubscriptions;
     PreferencesManager preferencesManager;
     CheckBox checkBox;
-    LoginInfo loginInfo;
     ProgressBar progressBar;
 
     @Override
@@ -69,12 +66,11 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
         llForgotCheckBox = (LinearLayout) findViewById(R.id.ll_forgot_checkbox);
         checkBox = (CheckBox) findViewById(R.id.checkbox_data);
         Bundle bundle = getIntent().getExtras();
-        drawerTitle = bundle.getString(ARG_SELECTION_USER);
+        drawerTitle = bundle.getString("secleted_user_forgot");
         mLogin.setOnClickListener(this);
         progressBar = (ProgressBar) findViewById(R.id.progress_login);
         mSubscriptions = new CompositeSubscription();
         preferencesManager = new PreferencesManager();
-        loginInfo = new LoginInfo();
         checkBox.setOnCheckedChangeListener(this);
         setToolbar();
     }
@@ -115,14 +111,12 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
                 String type = null;
                 if (checkBox.isChecked()) {
                     type = "sb";
-                    loginInfo.setAcc_type(type);
-                    preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
+                    preferencesManager.saT(getApplicationContext(), type);
                 } else {
                     type = "ero";
-                    loginInfo.setAcc_type(type);
-                    preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
+                    preferencesManager.saT(getApplicationContext(), type);
                 }
-                if (loginInfo.getAcc_type().equalsIgnoreCase("sb")) {
+                if (type.equalsIgnoreCase("sb")) {
                     if (loginUsername.getText().toString().isEmpty() &&
                             loginUserPassword.getText().toString().isEmpty()) {
                         Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
@@ -135,10 +129,10 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
                     } else if (!(loginUsername.getText().toString().isEmpty()) &&
 
                             !(loginUserPassword.getText().toString().isEmpty())) {
-                        forgotEmailAddressSb(forgotUname, loginInfo.getAcc_type());
+                        forgotEmailAddressSb(forgotUname, type);
 
                     }
-                } else if (loginInfo.getAcc_type().equalsIgnoreCase("ero")) {
+                } else if (type.equalsIgnoreCase("ero")) {
                     if (loginUsername.getText().toString().isEmpty() &&
                             loginUserPassword.getText().toString().isEmpty()) {
                         Toast.makeText(this, "Please enter your EFIN and last 4 digits of your SSN.", Toast.LENGTH_SHORT).show();
@@ -151,7 +145,7 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
                     } else if (!(loginUsername.getText().toString().isEmpty()) &&
 
                             !(loginUserPassword.getText().toString().isEmpty())) {
-                        forgotEmailAddress(forgotUname, forgotUpass, loginInfo.getAcc_type());
+                        forgotEmailAddress(forgotUname, forgotUpass, type);
 
                     }
 
@@ -247,7 +241,7 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
                 showToast(response.getMessage());
 
             } catch (IOException e) {
-                e.printStackTrace();
+               e.printStackTrace();
             }
         } else {
             showToast("Network Error !");
@@ -279,20 +273,14 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
         String type = "";
         if (isChecked == true) {
             type = "sb";
-            loginInfo.setAcc_type(type);
             loginUserPassword.setVisibility(View.GONE);
             mTextPass.setVisibility(View.GONE);
-            preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-
-
+            preferencesManager.saT(getApplicationContext(), type);
         } else {
             type = "ero";
-            loginInfo.setAcc_type(type);
-            preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
+            preferencesManager.saT(getApplicationContext(), type);
             loginUserPassword.setVisibility(View.VISIBLE);
             mTextPass.setVisibility(View.VISIBLE);
-
-
         }
     }
 }

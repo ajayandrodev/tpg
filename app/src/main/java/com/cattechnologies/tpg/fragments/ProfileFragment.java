@@ -28,18 +28,15 @@ import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.model.profileModel.ShippingInfo;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
+import com.cattechnologies.tpg.utils.DateUtils;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
@@ -77,7 +74,6 @@ public class ProfileFragment extends Fragment {
     MyProfileExpandableListAccoAdapter accountListAdapter;
     MyProfileExpandableListShipAdapter shipListAdapter;
 
-    SimpleDateFormat format, format1;
 
     Dashboard dashboard;
 
@@ -102,7 +98,7 @@ public class ProfileFragment extends Fragment {
         userType = getArguments().getString("acc_type");
         mSubscriptions = new CompositeSubscription();
         preferencesManager = new PreferencesManager();
-        dashboard=new Dashboard();
+        dashboard = new Dashboard();
         loadProfileData(userId, userType);
         return view;
     }
@@ -119,10 +115,6 @@ public class ProfileFragment extends Fragment {
         simpleExpandableListViewOne.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                //  collapseAll(0);
-
-                //  parent.collapseGroup(0);
-                System.out.println("ProfileFragment.onGroupClick===" + groupPosition);
                 Displayitemclicked(groupPosition, parent);
                 return false;
             }
@@ -137,8 +129,6 @@ public class ProfileFragment extends Fragment {
                     editor.putBoolean("isFirstRun", false);
                     editor.commit();
                 }
-                // parent.collapseGroup(0);
-                System.out.println("ProfileFragment.onGroupClick===" + groupPosition);
 
                 Displayitemclicked(groupPosition, parent);
                 //   collapseAll(1);
@@ -149,11 +139,7 @@ public class ProfileFragment extends Fragment {
         simpleExpandableListViewThree.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                System.out.println("ProfileFragment.onGroupClick===" + groupPosition);
-
-                //  parent.collapseGroup(0);
                 Displayitemclicked(groupPosition, parent);
-                //  collapseAll(2);
 
                 return false;
             }
@@ -180,6 +166,7 @@ public class ProfileFragment extends Fragment {
                         .subscribeOn(Schedulers.newThread())
                         .subscribe(this::handleResponse, this::handleError));
             } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         } else {
             showToast("Internet Connection Is Not Available");
@@ -194,13 +181,11 @@ public class ProfileFragment extends Fragment {
                 addProductEnroll("Owner Info", profileGroupData.getOwner_info());
                 addProductShipping("Shipping Info", profileGroupData.getShipping_info());
                 addProductAccount("Bank Account Info", profileGroupData.getAccount_info());
-
-
             } else {
                 showToast(profileGroupData.getMessage());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
     }
@@ -223,8 +208,6 @@ public class ProfileFragment extends Fragment {
 
         EnrolInfo detailInfo = new EnrolInfo();
         if (userType.equalsIgnoreCase("sb")) {
-            System.out.println("ProfileFragment.addProductEnroll");
-
             detailInfo.setContactFirstName(profileGroupInfo.getContactFirstName());
             detailInfo.setContactLastName(profileGroupInfo.getContactLastName());
             detailInfo.setStreet(profileGroupInfo.getStreet());
@@ -235,10 +218,7 @@ public class ProfileFragment extends Fragment {
             detailInfo.setOfficePhone(profileGroupInfo.getOfficePhone());
             detailInfo.setFaxPhone(profileGroupInfo.getFaxPhone());
             detailInfo.setEmailAddress(profileGroupInfo.getEmailAddress());
-
-
         } else if (userType.equalsIgnoreCase("ero")) {
-            System.out.println("ProfileFragment.addProductEnroll");
             detailInfo.setFirstName(profileGroupInfo.getFirstName());
             detailInfo.setLastName(profileGroupInfo.getLastName());
             detailInfo.setStreet(profileGroupInfo.getStreet());
@@ -268,10 +248,7 @@ public class ProfileFragment extends Fragment {
 
     private int addProductShipping(String department, ShippingInfo profileGroupInfo) {
         int groupPosition = 1;
-        System.out.println("ProfileFragment.addProductShipping====" + profileGroupInfo);
-        //check the hash map if the group already exists
         MyProfileGroupShippingInfoNew headerInfo = subjectsShipping.get(department);
-        //add the group if doesn't exists
         if (headerInfo == null) {
             headerInfo = new MyProfileGroupShippingInfoNew();
             headerInfo.setName(department);
@@ -283,41 +260,23 @@ public class ProfileFragment extends Fragment {
         ShippingInfo detailInfo = new ShippingInfo();
 
         if (userType.equalsIgnoreCase("sb")) {
-            System.out.println("ProfileFragment.addProductShipping==sb===");
             detailInfo.setCity(profileGroupInfo.getCity());
             detailInfo.setState(profileGroupInfo.getState());
             detailInfo.setStreet(profileGroupInfo.getStreet());
             detailInfo.setStreet2(profileGroupInfo.getStreet2());
             detailInfo.setZipcode(profileGroupInfo.getZipcode());
-
         } else if (userType.equalsIgnoreCase("ero")) {
-            System.out.println("ProfileFragment.addProductShipping==ero==");
-
-            try {
-                format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                format1 = new SimpleDateFormat("MM-dd-yyyy");
-                String chagnedDate = null;
-                detailInfo.setCity(profileGroupInfo.getCity());
-                detailInfo.setState(profileGroupInfo.getState());
-                detailInfo.setStreet(profileGroupInfo.getStreet());
-                detailInfo.setStreet2(profileGroupInfo.getStreet2());
-                detailInfo.setZipcode(profileGroupInfo.getZipcode());
-                chagnedDate = format1.format(
-                        format.parse(profileGroupInfo.getShipmentHoldUntilDate()));
-                detailInfo.setShipmentHoldUntilDate
-                        (chagnedDate);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            String changeDateNew = DateUtils.reportDate(profileGroupInfo.getShipmentHoldUntilDate());
+            detailInfo.setCity(profileGroupInfo.getCity());
+            detailInfo.setState(profileGroupInfo.getState());
+            detailInfo.setStreet(profileGroupInfo.getStreet());
+            detailInfo.setStreet2(profileGroupInfo.getStreet2());
+            detailInfo.setZipcode(profileGroupInfo.getZipcode());
+            detailInfo.setShipmentHoldUntilDate(changeDateNew);
         }
-
         productList.add(detailInfo);
         headerInfo.setList(productList);
-
-        //find the group position inside the list
         groupPosition = deptListShipping.indexOf(headerInfo);
-        System.out.println("ProfileFragment.addProductShipping====" + groupPosition + "===" + deptListShipping + "===" + userType);
         shipListAdapter = new MyProfileExpandableListShipAdapter(getActivity(), deptListShipping, userType);
         simpleExpandableListViewTwo.setAdapter(shipListAdapter);
         return groupPosition;
@@ -325,8 +284,6 @@ public class ProfileFragment extends Fragment {
 
     private int addProductAccount(String department, AccountInfo profileGroupInfo) {
         int groupPosition = 2;
-        System.out.println("ProfileFragment.addProductAccount===" + profileGroupInfo);
-        //check the hash map if the group already exists
         MyProfileGroupAccountInfoNew headerInfo = subjectsAccount.get(department);
         //add the group if doesn't exists
         if (headerInfo == null) {
@@ -342,14 +299,12 @@ public class ProfileFragment extends Fragment {
         AccountInfo detailInfo = new AccountInfo();
 
         if (userType.equalsIgnoreCase("sb")) {
-            System.out.println("ProfileFragment.addProductAccount==sb==");
             detailInfo.setBankName(profileGroupInfo.getBankName());
             detailInfo.setAcctType(profileGroupInfo.getAcctType());
             detailInfo.setDAN(profileGroupInfo.getDAN());
             detailInfo.setNameOnAccount(profileGroupInfo.getNameOnAccount());
             detailInfo.setRTN(profileGroupInfo.getRTN());
         } else if (userType.equalsIgnoreCase("ero")) {
-            System.out.println("ProfileFragment.addProductAccount==ero==");
             detailInfo.setBankName(profileGroupInfo.getBankName());
             detailInfo.setAcctType(profileGroupInfo.getAcctType());
             detailInfo.setDAN(profileGroupInfo.getDAN());
@@ -386,7 +341,7 @@ public class ProfileFragment extends Fragment {
                 showToast(response.getMessage());
 
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         } else {
             showToast("Network Error !");
@@ -396,14 +351,12 @@ public class ProfileFragment extends Fragment {
 
     private void Displayitemclicked(int groupPosition, ExpandableListView parent) {
         if (groupPosition == 0) {
-            //parent.collapseGroup(0);
             try {
                 simpleExpandableListViewTwo.collapseGroup(0);
                 simpleExpandableListViewOne.collapseGroup(0);
                 simpleExpandableListViewThree.collapseGroup(0);
             } catch (Exception e) {
-                e.printStackTrace();
-            }
+                throw new RuntimeException(e);            }
 
         }
     }

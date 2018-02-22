@@ -13,7 +13,7 @@ public class PreferencesManager {
     public static final String PREFS_KEY_TYPE = "ERO_SB_PREF_KEY";
     public static final String PREFS_EMP = "EMP_PREF";
     public static final String PREFS_EMP_KEY = "EMP_PREF_KEY";
-    SharedPreferences settings;
+    private SharedPreferences settings;
     SharedPreferences.Editor editor;
     String text;
 
@@ -22,14 +22,14 @@ public class PreferencesManager {
     }
 
 
-    public void saveAccountType(Context context, String text) {
+    public void saT(Context context, String text) {
         settings = context.getSharedPreferences(PREFS_NAME_TYPE, Context.MODE_PRIVATE);
         editor = settings.edit();
         editor.putString(PREFS_KEY_TYPE, text);
         editor.commit();
     }
 
-    public String getAccountType(Context context) {
+    public String gaT(Context context) {
         settings = context.getSharedPreferences(PREFS_NAME_TYPE, Context.MODE_PRIVATE);
         text = settings.getString(PREFS_KEY_TYPE, null);
         return text;
@@ -43,7 +43,7 @@ public class PreferencesManager {
     }
 
 
-    public void saveUserId(Context context, String app_uid) {
+    public void suD(Context context, String app_uid) {
         settings = context.getSharedPreferences(PREFS_EMP, Context.MODE_PRIVATE);
         editor = settings.edit();
         editor.putString(PREFS_EMP_KEY, app_uid);

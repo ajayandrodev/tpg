@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordData;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordInfo;
 import com.cattechnologies.tpg.model.forgotUserModel.ForgotUserPasswordInfoEmp;
-import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
@@ -49,16 +48,12 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
     TextView mTitle, mTextEfin, mTextPass;
     Button mLogin;
     Button llForgotPassword;
-    LinearLayout llForgotCheckBox;
     Button forgot_user_name, forgot_user_password, forgot_user_email, forgot_user_cancel;
     Dialog d;
     EditText loginUsername, loginUserPassword;
     private String drawerTitle;
-    public static final String ARG_SELECTION_USER = "secleted_user_forgot";
     CompositeSubscription mSubscriptions;
     PreferencesManager preferencesManager;
-    CheckBox checkBox;
-    LoginInfo loginInfo;
     ProgressBar progressBar;
 
 
@@ -74,15 +69,12 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
 
         llForgotPassword = (Button) findViewById(R.id.login_business_patner);
 
-        llForgotCheckBox = (LinearLayout) findViewById(R.id.ll_forgot_checkbox);
-        checkBox = (CheckBox) findViewById(R.id.checkbox_data);
         Bundle bundle = getIntent().getExtras();
-        drawerTitle = bundle.getString(ARG_SELECTION_USER);
+        drawerTitle = bundle.getString("secleted_user_forgot");
         mLogin.setOnClickListener(this);
         llForgotPassword.setOnClickListener(this);
         mSubscriptions = new CompositeSubscription();
         preferencesManager = new PreferencesManager();
-        loginInfo = new LoginInfo();
         progressBar = (ProgressBar) findViewById(R.id.progress_login);
         setToolbar();
     }
@@ -120,29 +112,26 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
         switch (id) {
             case R.id.login_button_recover:
                 mLogin.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
-                if (llForgotPassword.getText().equals(getResources().getString(R.string.office_emp))) {
+                if (llForgotPassword.getText().toString().equalsIgnoreCase(getResources().getString(R.string.office_emp))) {
                     loginUsername.setVisibility(View.GONE);
                     String forgotUpass = loginUserPassword.getText().toString();
                     String type = "emp";
-                    loginInfo.setAcc_type(type);
-                    preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-                    forgotPasswordEmp(forgotUpass, loginInfo.getAcc_type());
-                } else if (llForgotPassword.getText().equals(getResources().getString(R.string.service_buro))) {
+                    preferencesManager.saT(getApplicationContext(), type);
+                    forgotPasswordEmp(forgotUpass, type);
+                } else if (llForgotPassword.getText().toString().equalsIgnoreCase(getResources().getString(R.string.service_buro))) {
                     String forgotUname = loginUsername.getText().toString();
                     String forgotUpass = loginUserPassword.getText().toString();
                     String type = "sb";
-                    loginInfo.setAcc_type(type);
-                    preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-                    forgotPassword(forgotUname, forgotUpass, loginInfo.getAcc_type());
-                } else if (llForgotPassword.getText().equals(getResources().getString(R.string.ero_info))) {
+                    preferencesManager.saT(getApplicationContext(), type);
+                    forgotPassword(forgotUname, forgotUpass, type);
+                } else if (llForgotPassword.getText().toString().equalsIgnoreCase(getResources().getString(R.string.ero_info))) {
                     String forgotUname = loginUsername.getText().toString();
                     String forgotUpass = loginUserPassword.getText().toString();
                     String type = "ero";
-                    loginInfo.setAcc_type(type);
-                    preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-                    forgotPassword(forgotUname, forgotUpass, loginInfo.getAcc_type());
+                    preferencesManager.saT(getApplicationContext(), type);
+                    forgotPassword(forgotUname, forgotUpass, type);
                 } else if (TextUtils.isEmpty(loginUsername.getText().toString())&&
-                        !(llForgotPassword.getText().equals(getResources().getString(R.string.office_emp)))) {
+                        !(llForgotPassword.getText().toString().equalsIgnoreCase(getResources().getString(R.string.office_emp)))) {
                     Toast.makeText(this, "Please enter your EFIN.", Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(loginUserPassword.getText().toString())) {
                     Toast.makeText(this, "Please enter your email address.", Toast.LENGTH_SHORT).show();
@@ -151,7 +140,7 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
                     Toast.makeText(this, "Please select your login type", Toast.LENGTH_SHORT).show();
 
                 } else if (TextUtils.isEmpty(loginUserPassword.getText().toString()) &&
-                        llForgotPassword.getText().equals(getResources().getString(R.string.office_emp))) {
+                        llForgotPassword.getText().toString().equalsIgnoreCase(getResources().getString(R.string.office_emp))) {
                     Toast.makeText(this, "Please enter your email address.", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -268,8 +257,7 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                e.printStackTrace();
-            }
+                throw new RuntimeException(e);            }
         } else {
             showToast("Network Error !");
         }

@@ -196,17 +196,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         Fragment fragment = null;
         switch (v.getId()) {
             case R.id.bt_fees_paid:
-                if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+                if (preferencesManager.gaT(getContext()).equalsIgnoreCase("sb")) {
                     feesPaid.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_fee_paid);
                     fragment = ReportsFeesPaidServiceBuroFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()));
+                            preferencesManager.gaT(getActivity()));
                 } else {
                     feesPaid.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_fee_paid);
 
                     fragment = ReportsFeesPaidFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()));
+                            preferencesManager.gaT(getActivity()));
                 }
                 break;
             case R.id.bt_check_print:
@@ -214,29 +214,29 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.bt_account_dis:
 
-                if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+                if (preferencesManager.gaT(getContext()).equalsIgnoreCase("sb")) {
                     accountDis.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_account_dis_title);
                     fragment = ReportsAccountDisbServiceBuroFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()));
+                            preferencesManager.gaT(getActivity()));
                 } else {
                     accountDis.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_account_dis_title);
                     fragment = ReportAccountDisbFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()));
+                            preferencesManager.gaT(getActivity()));
                 }
                 break;
             case R.id.bt_ero_depo:
-                if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+                if (preferencesManager.gaT(getContext()).equalsIgnoreCase("sb")) {
                     eroDepo.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_ero_deposits);
                     fragment = ReportsEroDepositServiceBuroFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()));
+                            preferencesManager.gaT(getActivity()));
                 } else {
                     eroDepo.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
                     title = getResources().getString(R.string.dashboard_ero_deposits);
                     fragment = ReportEroDepositFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()));
+                            preferencesManager.gaT(getActivity()));
                 }
                 break;
         }

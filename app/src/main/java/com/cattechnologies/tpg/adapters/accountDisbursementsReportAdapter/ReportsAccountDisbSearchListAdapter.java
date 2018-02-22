@@ -8,13 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
-import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportAccountDisbSearchNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchNew;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -27,7 +22,6 @@ public class ReportsAccountDisbSearchListAdapter extends RecyclerView.Adapter<Re
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    SimpleDateFormat format, format1;
 
     public ReportsAccountDisbSearchListAdapter(Context mContext, List<ReportAccountDisbSearchNew> reportsList, String title) {
         this.reportsList = reportsList;
@@ -49,7 +43,7 @@ public class ReportsAccountDisbSearchListAdapter extends RecyclerView.Adapter<Re
         ReportAccountDisbSearchNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getDisbursmentamount());
-        holder.accountDataSSN.setText(reports.getPrimarySsn());
+        holder.accountDataSid.setText(reports.getPrimarySid());
         holder.detailsDataDisbush.setText(reports.getDisbType() + " | ");
         holder.dateData.setText(reports.getDisbursementDate());
     }
@@ -77,12 +71,12 @@ public class ReportsAccountDisbSearchListAdapter extends RecyclerView.Adapter<Re
     }
 
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
+        TextView userData, costData, accountDataSid, detailsDataDisbush, dateData;
         public ReportsViewHolder(View itemView) {
             super(itemView);
             userData = (TextView) itemView.findViewById(R.id.report_user);
             costData = (TextView) itemView.findViewById(R.id.report_rate);
-            accountDataSSN = (TextView) itemView.findViewById(R.id.report_account);
+            accountDataSid = (TextView) itemView.findViewById(R.id.report_account);
             detailsDataDisbush = (TextView) itemView.findViewById(R.id.report_details);
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);

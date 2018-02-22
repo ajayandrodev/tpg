@@ -160,9 +160,9 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
         sbEroNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                title = getResources().getString(R.string.dashboard_account_dis);
+                title = getResources().getString(R.string.dashboard_account_dis2);
                 fragment = ReportsAccountDisbServiceBuroDataFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                        preferencesManager.getAccountType(getActivity()));
+                        preferencesManager.gaT(getActivity()));
                 if (fragment != null) {
                     fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction()
@@ -177,7 +177,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                title = getResources().getString(R.string.dashboard_account_dis);
+                title = getResources().getString(R.string.dashboard_account_dis2);
 
                 if (myList.size() > 0) {
                     jsonArray = new JSONArray();
@@ -194,7 +194,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
                     }
 
                     fragment = ParticularOfficeSbAccountDisbFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()), "1", jsonArray.toString());
+                            preferencesManager.gaT(getActivity()), "1", jsonArray.toString());
                     if (fragment != null) {
                         fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction()
@@ -216,16 +216,10 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
             public void onClick(View v) {
                 title = etTitle.getText().toString();
                 if (!TextUtils.isEmpty(title)) {
-
                     efinValidCheck(userId, userType, title);
-
-
                 } else {
                     showToast("Please Enter ERO EFIN");
                 }
-
-
-                // etDescription.setText("");
             }
         });
 
@@ -237,26 +231,20 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
-
-
         } else {
             showToast("Internet Connection Is Not Available");
-
-
         }
     }
 
     private void handleError(Throwable error) {
-        //showToast("rttott "+error.getMessage());
         if (error instanceof HttpException) {
             Gson gson = new GsonBuilder().create();
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-                //showToast("Network Error !");
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
         if (!error.getMessage().equalsIgnoreCase("")) {
@@ -291,16 +279,12 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
     public void onPause() {
         super.onPause();
         myList.clear();
-
-//        mRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         myList.clear();
-
-//        mRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -313,28 +297,24 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         int gposition = groupPosition;
         int cposition = childPosition;
-
         Displayitemclicked(gposition, cposition);
-        //passing the integer value of grouposition and childposition to the above method when an item is clicked
         return false;
     }
 
     private void Displayitemclicked(int gposition, int cposition) {
-       // sbEro.setVisibility(View.GONE);
         if (gposition == 0) {
 
             switch (cposition) {
                 case 0:
-                    title = getResources().getString(R.string.dashboard_account_dis);
+                    title = getResources().getString(R.string.dashboard_account_dis2);
                     fragment = ReportAccountDisbFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()));
+                            preferencesManager.gaT(getActivity()));
                     if (fragment != null) {
                         fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction()
                                 .replace(R.id.main_content, fragment)
                                 .addToBackStack(null)
                                 .commit();
-
                     }
                     break;
                 case 1:

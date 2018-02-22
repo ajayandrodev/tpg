@@ -5,17 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.TextView;
 
-import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearchNew;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,8 +23,6 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    //  private ItemFilter mFilter = new ItemFilter();
-    SimpleDateFormat format, format1;
 
 
     public ReportsFeesPaidSearchListAdapter(Context mContext, List<ReportsFeePaidSearchNew> reportsList, String title) {
@@ -52,7 +45,7 @@ public class ReportsFeesPaidSearchListAdapter extends RecyclerView.Adapter<Repor
         ReportsFeePaidSearchNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
-        holder.accountDataSSN.setText(reports.getPrimarySsn());
+        holder.accountDataSSN.setText(reports.getPrimarySid());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
         holder.dateData.setText(reports.getRecordcreatedate());
 

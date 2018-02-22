@@ -8,13 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
-import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportEroDepositsSearchNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearchNew;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -27,7 +22,6 @@ public class ReportsEroDepositSearchListAdapter extends RecyclerView.Adapter<Rep
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    SimpleDateFormat format, format1;
 
     public ReportsEroDepositSearchListAdapter(Context mContext, List<ReportEroDepositsSearchNew> reportsList, String title) {
         this.reportsList = reportsList;

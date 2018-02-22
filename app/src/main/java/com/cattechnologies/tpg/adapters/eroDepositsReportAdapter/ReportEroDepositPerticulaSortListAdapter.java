@@ -9,12 +9,8 @@ import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDepositsSort;
 import com.cattechnologies.tpg.model.eroDepositModel.ReportParticulrEroDepositsSortNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportParticulrFreePaidSortNew;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -27,7 +23,6 @@ public class ReportEroDepositPerticulaSortListAdapter extends RecyclerView.Adapt
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    SimpleDateFormat format, format1;
 
     public ReportEroDepositPerticulaSortListAdapter(Context mContext, List<ReportParticulrEroDepositsSortNew> reportsList, String title) {
         this.reportsList = reportsList;

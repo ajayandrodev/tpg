@@ -45,19 +45,14 @@ import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisb
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSearch;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSort;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbSortNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportFreePaidSearchSortNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearchNew;
-import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSortNew;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
+import com.cattechnologies.tpg.utils.DateUtils;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -91,7 +86,6 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
     EditText searchData;
     LinearLayout layout;
     int current_page, current_page_sort = 1, current_page_search = 1, current_page_mock;
-    SimpleDateFormat format, format1;
 
 
     ReportsAccountDisbListAdapter mAdapter;
@@ -305,18 +299,11 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             String totalPages = response.getTotalNoofPages();
             List<ReportAccountDisbSearchNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             ReportAccountDisbSearchNew reportsFeePaidNew = new ReportAccountDisbSearchNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
             for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
-                    reportsFeePaidNew.setDisbursementDate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getDisbursmentReport_data().get(i).getDisbursementDate());
+                reportsFeePaidNew.setDisbursementDate(changeDate);
+                reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
+
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -424,7 +411,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance
                         (title, reports.getPrimaryFirstName() + " " +
-                                        reports.getPrimaryLastName(), reports.getPrimarySsn(),
+                                        reports.getPrimaryLastName(), reports.getPrimarySid(),
                                 reports.getDisbType(), reports.getExpectedRefund(),
                                 reports.getExpecteddepdate(), reports.getProductType(),
                                 reports.getDisbursementDate(), reports.getDisbursmentamount(),
@@ -470,10 +457,9 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-                System.out.println("ReportsFeesPaidFragment.handleError" + response.getMessage());
 
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         } else {
             showToast("Network Error !");
@@ -489,18 +475,10 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             String totalPages = response.getTotalNoofPages();
             List<ReportsAccountDisbNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             ReportsAccountDisbNew reportsFeePaidNew = new ReportsAccountDisbNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
             for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
-                    reportsFeePaidNew.setDisbursementDate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getDisbursmentReport_data().get(i).getDisbursementDate());
+                reportsFeePaidNew.setDisbursementDate(changeDate);
+                reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -619,7 +597,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbType(),
+                        , reports.getPrimarySid(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(), reports.getExpecteddepdate(),
@@ -653,7 +631,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            e.printStackTrace();
+          e.printStackTrace();
         }
     }
 
@@ -673,7 +651,6 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     progressBar.setVisibility(View.VISIBLE);
                     sort = "ssn";
                     sortAndSearch(sort);
-
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
@@ -686,18 +663,12 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     break;
                 case 2:
                     progressBar.setVisibility(View.VISIBLE);
-                    sort = "product_type";
-                    sortAndSearch(sort);
-                    parentList.collapseGroup(0);
-                    progressBar.setVisibility(View.GONE);
-                    break;
-                case 3:
-                    progressBar.setVisibility(View.VISIBLE);
                     sort = "disbursment_type";
                     sortAndSearch(sort);
                     parentList.collapseGroup(0);
                     progressBar.setVisibility(View.GONE);
                     break;
+
             }
         }
     }
@@ -736,18 +707,11 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             String totalPages = response.getTotalNoofPages();
             List<ReportAccountDisbSearchSortNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             ReportAccountDisbSearchSortNew reportsFeePaidNew = new ReportAccountDisbSearchSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
             for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
-                    reportsFeePaidNew.setDisbursementDate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getDisbursmentReport_data().get(i).getDisbursementDate());
+                reportsFeePaidNew.setDisbursementDate(changeDate);
+                reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
+
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -830,7 +794,6 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -855,7 +818,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySsn(), reports.getDisbType(),
+                        reports.getPrimarySid(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),
@@ -892,18 +855,10 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
             String totalPages = response.getTotalNoofPages();
             List<ReportsAccountDisbSortNew> reportsFeePaidNewList = response.getDisbursmentReport_data();
             ReportsAccountDisbSortNew reportsFeePaidNew = new ReportsAccountDisbSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
             for (int i = 0; i < response.getDisbursmentReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getDisbursmentReport_data().get(i).getDisbursementDate()));
-                    reportsFeePaidNew.setDisbursementDate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getDisbursmentReport_data().get(i).getDisbursementDate());
+                reportsFeePaidNew.setDisbursementDate(changeDate);
+                reportsFeePaidNewList.get(i).setDisbursementDate(reportsFeePaidNew.getDisbursementDate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -985,7 +940,6 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
@@ -1010,7 +964,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySsn(), reports.getDisbType(), reports.getExpectedRefund(),
+                        reports.getPrimarySid(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
                         reports.getExpecteddepdate(), title, reports.getEfin());

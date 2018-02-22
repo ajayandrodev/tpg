@@ -12,7 +12,6 @@ import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportAccountDisbServiceBuroNew;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -25,7 +24,6 @@ public class ReportsAccountDisbServiceBuroListAdapter extends RecyclerView.Adapt
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    SimpleDateFormat format, format1;
 
     public ReportsAccountDisbServiceBuroListAdapter(Context mContext, List<ReportAccountDisbServiceBuroNew> reportsList, String title) {
         this.reportsList = reportsList;
@@ -46,7 +44,7 @@ public class ReportsAccountDisbServiceBuroListAdapter extends RecyclerView.Adapt
         ReportAccountDisbServiceBuroNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getDisbursmentamount());
-        holder.accountDataSSN.setText(reports.getPrimarySsn());
+        holder.accountDataSSN.setText(reports.getPrimarySid());
         holder.detailsDataDisbush.setText(reports.getDisbType() + " | ");
         holder.dateData.setText(reports.getDisbursementDate());
 

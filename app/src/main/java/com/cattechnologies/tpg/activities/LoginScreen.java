@@ -1,5 +1,6 @@
 package com.cattechnologies.tpg.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,22 +25,19 @@ import android.widget.Toast;
 
 import com.cattechnologies.tpg.model.dashboardModel.DashboardInfo;
 import com.cattechnologies.tpg.model.dashboardModel.DashboardInfoData;
-import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.profileModel.ProfileData;
 import com.cattechnologies.tpg.model.dashboardModel.RecentTransactions;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
+import com.cattechnologies.tpg.utils.DateUtils;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
-import com.cattechnologies.tpg.viewHolderData.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,23 +54,23 @@ import rx.subscriptions.CompositeSubscription;
 public class LoginScreen extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     public static final String ARG_SELECTION_USER = "forgot_user_data";
+    private String ARG_SELECTION = "secleted_user_forgot";
+
     private static final String IS_LOGIN = "IsLoggedIn";
     int PRIVATE_MODE = 0;
     Button loginBt;
     TextView footer;
     Toolbar toolbar;
     private String drawerTitle;
-    String forgotPasswordData;
+    private String forgotPasswordData;
     TextView mTitle, mEmailTitle, mLoginUsername, mLoginUserPass;
     Button forgot_user_name, forgot_user_password, forgot_user_email, forgot_user_cancel;
     EditText loginUser, loginPass;
     Dialog d;
-
+    String chagnedDate = null;
     CheckBox checkBox;
     private CompositeSubscription mSubscriptions;
-    LoginInfo loginInfo;
     ProgressBar progressBar;
-    SimpleDateFormat format, format1;
     String forgotEmailData;
     Intent i;
     PreferencesManager preferencesManager;
@@ -107,7 +105,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         footer = (TextView) findViewById(R.id.footer);
         checkBox = (CheckBox) findViewById(R.id.checkbox_data_login);
         progressBar = (ProgressBar) findViewById(R.id.progress_login);
-        loginInfo = new LoginInfo();
         preferencesManager = new PreferencesManager();
         loginBt.setOnClickListener(this);
         footer.setOnClickListener(this);
@@ -151,21 +148,13 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     String type = null;
                     if (checkBox.isChecked()) {
                         type = "sb";
-                        loginInfo.setAcc_type(type);
                     } else {
                         type = "ero";
-                        loginInfo.setAcc_type(type);
                     }
-                    sh_Pref = getSharedPreferences("Login Credentials", PRIVATE_MODE);
-                    editor = sh_Pref.edit();
-                    editor.putBoolean(IS_LOGIN, true);
-                    editor.putString("userEfin", loginUser.getText().toString());
-                    editor.putString("userAccountType", loginInfo.getAcc_type());
-                    editor.commit();
-                    loadLoginResponse(loginUser.getText().toString(), loginInfo.getAcc_type(), loginPass.getText().toString());
+
+                    loadLoginResponse(loginUser.getText().toString(), type, loginPass.getText().toString());
                     progressBar.setVisibility(View.VISIBLE);
                 }
-
                 break;
             case R.id.footer:
                 footer.setBackgroundColor(getResources().getColor(R.color.footer_back_ground_clicked));
@@ -187,7 +176,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             case R.id.forgot_user_name:
                 forgotPasswordData = getResources().getString(R.string.forgot_user_name);
                 i = new Intent(this, ForgotUsernameDetails.class);
-                i.putExtra(ForgotUsernameDetails.ARG_SELECTION_USER, forgotPasswordData);
+                i.putExtra("secleted_user_forgot", forgotPasswordData);
                 startActivity(i);
                 d.dismiss();
 
@@ -195,7 +184,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             case R.id.forgot_user_password:
                 forgotPasswordData = getResources().getString(R.string.forgot_user_password);
                 i = new Intent(this, ForgotPasswordDetails.class);
-                i.putExtra(ForgotUsernameDetails.ARG_SELECTION_USER, forgotPasswordData);
+                i.putExtra("secleted_user_forgot", forgotPasswordData);
                 startActivity(i);
                 d.dismiss();
 
@@ -203,30 +192,23 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             case R.id.forgot_user_email:
                 forgotPasswordData = getResources().getString(R.string.forgot_user_email);
                 i = new Intent(this, ForgotEmailDetails.class);
-                i.putExtra(ForgotUsernameDetails.ARG_SELECTION_USER, forgotPasswordData);
+                i.putExtra("secleted_user_forgot", forgotPasswordData);
                 startActivity(i);
                 d.dismiss();
                 break;
             case R.id.cancel_forgot:
                 d.dismiss();
                 break;
-
         }
-
     }
 
-
-    private void loadLoginResponse(String userId, String type, String userPassword) {
-        loginInfo.setApp_uid(userId);
-        loginInfo.setApp_pswd(userPassword);
-        loginInfo.setAcc_type(type);
-        loginInfo.setUser_efin(userId);
-        preferencesManager.saveAccountType(getApplicationContext(), loginInfo.getAcc_type());
-        preferencesManager.saveUserId(getApplicationContext(), loginInfo.getApp_uid());
+    private void loadLoginResponse(String ud, String tp, String upd) {
+        preferencesManager.saT(getApplicationContext(), tp);
+        preferencesManager.suD(getApplicationContext(), ud);
         if (AppInternetStatus.getInstance(this).isOnline()) {
             progressBar.setVisibility(View.VISIBLE);
-            mSubscriptions.addAll(NetworkUtil.getRetrofit().sign(userId,
-                    type, userPassword)
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().sign(ud,
+                    tp, upd)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(this::handleResponse, this::handleError));
@@ -245,8 +227,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                e.printStackTrace();
-            }
+                throw new RuntimeException(e);            }
         } else {
             showToast("Network Error !");
         }
@@ -254,7 +235,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleResponse(DashboardInfo response) {
         progressBar.setVisibility(View.GONE);
-        if (response.getStatus().equalsIgnoreCase("success") && response != null) {
+        if (response.getStatus().equalsIgnoreCase("success")) {
             //  showToast(response.getMessage());
             DashboardInfoData dashboardInfo = response.getDashboard_data();
             if (response.getDashboard_data() == null) {
@@ -267,31 +248,17 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 List<RecentTransactions> recentTransactionsList = new ArrayList<>();
                 for (int i = 0; i < response.getRecent_transactions().size(); i++) {
                     RecentTransactions recentTransactions = new RecentTransactions();
-                    format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    //format1 = new SimpleDateFormat("MM-dd-yyyy");
-                    format1 = new SimpleDateFormat("MM-dd-yyyy");
-                    String chagnedDate = null;
-                    try {
-                        chagnedDate = format1.format(format.parse(response.getRecent_transactions().get(i).getLastUpadte()));
-                        recentTransactions.setLastUpadte(chagnedDate);
-                        recentTransactions.setAmount(response.getRecent_transactions().get(i).getAmount());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    String changeDate = DateUtils.receiveDate(response.getRecent_transactions().get(i).getLastUpadte());
+                    recentTransactions.setLastUpadte(changeDate);
+                    recentTransactions.setAmount(response.getRecent_transactions().get(i).getAmount());
                     recentTransactionsList.add(recentTransactions);
                 }
-                sh_Pref = getSharedPreferences("Login Credentials", PRIVATE_MODE);
-                boolean check = sh_Pref.getBoolean(IS_LOGIN, false);
-                if (check) {
-                    Intent intent = new Intent(LoginScreen.this, Dashboard.class);
-                    intent.putExtra("DashboardInfoData", dashboardInfo);
-                    intent.putExtra("ProfileData", profileData);
-                    intent.putParcelableArrayListExtra("RecentTransactions", (ArrayList<? extends Parcelable>) recentTransactionsList);
-                    startActivity(intent);
-                    finish();
-                } else {
-                }
-
+                Intent intent = new Intent(LoginScreen.this, Dashboard.class);
+                intent.putExtra("DashboardInfoData", dashboardInfo);
+                intent.putExtra("ProfileData", profileData);
+                intent.putParcelableArrayListExtra("RecentTransactions", (ArrayList<? extends Parcelable>) recentTransactionsList);
+                startActivity(intent);
+                finish();
             }
         } else {
             showToast(response.getMessage());
@@ -353,16 +320,15 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         super.onDestroy();
         mSubscriptions.unsubscribe();
         loginUser.setText("");
-
     }
 
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-        if (isChecked) {
+        /*if (isChecked) {
             loginInfo.setAcc_type("sb");
         } else {
             loginInfo.setAcc_type("ero");
-        }
+        }*/
     }
 }

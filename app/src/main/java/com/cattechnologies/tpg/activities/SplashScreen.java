@@ -31,7 +31,6 @@ public class SplashScreen extends Activity {
             startActivity(intent);
             finish();
         } else {
-            System.out.println("SplashScreen.onCreate===is not login==");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

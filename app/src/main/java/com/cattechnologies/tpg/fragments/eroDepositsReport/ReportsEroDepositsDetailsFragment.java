@@ -11,10 +11,9 @@ import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.activities.Dashboard;
+import com.cattechnologies.tpg.utils.DateUtils;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Ajay on 28-Oct-17.
@@ -29,13 +28,12 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
             textFiveNextAnother, textFiveNextAnotherData, textEfinData, textEfin;
     RelativeLayout llTwo, llThree, llFour, llFive, llSix, llTwoNext, llFiveNext;
     String userName,
-            userSSN,
+            userSid,
             userDis,
             userMasterID,
             userDepositDate,
             userDepositAmount,
             userReversedDate, efindata;
-    SimpleDateFormat format, format1;
     PreferencesManager preferencesManager;
 
 
@@ -84,7 +82,7 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
         preferencesManager = new PreferencesManager();
         userName = getArguments().getString("report_username");
-        userSSN = getArguments().getString("report_ssn");
+        userSid = getArguments().getString("report_ssn");
         userDis = getArguments().getString("report_disb");
         userMasterID = getArguments().getString("report_masterID");
         userDepositDate = getArguments().getString("report_depositDate");
@@ -126,7 +124,7 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
         titulo.setText("ERO DEPOSITS-DETAILS");
         textReportTitleDetail.setText("ERO DEPOSITS");
 
-        textReportSsn.setText(userSSN);
+        textReportSsn.setText(userSid);
         textReportType.setText(userDis);
 
         textReportOne.setText("Master ID:");
@@ -139,22 +137,14 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
         textReportThreeData.setText("$" + userDepositAmount);
 
         textReportFour.setText("Reversed Date:");
-        format = new SimpleDateFormat("yyyyMMdd");
-        //format1 = new SimpleDateFormat("MM-dd-yyyy");
-        format1 = new SimpleDateFormat("MM-dd-yyyy");
 
-        String chagnedDate = null;
-        try {
-            chagnedDate = format1.format(format.parse(userReversedDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        String changeDateNew= DateUtils.reportDate(userReversedDate);
 
-        textReportFourData.setText(chagnedDate);
+        textReportFourData.setText(changeDateNew);
 
         textFiveNextAnother.setText("Comments:");
         textFiveNextAnotherData.setText("");
-        if (preferencesManager.getAccountType(getContext()).equalsIgnoreCase("sb")) {
+        if (preferencesManager.gaT(getContext()).equalsIgnoreCase("sb")) {
             textEfin.setText("EFIN:");//ll_two next another
             textEfinData.setText(efindata);
         } else {

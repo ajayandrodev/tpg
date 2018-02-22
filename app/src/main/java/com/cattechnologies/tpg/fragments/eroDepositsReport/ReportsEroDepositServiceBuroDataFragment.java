@@ -51,14 +51,13 @@ import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsServiceBu
 import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositsSort;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
+import com.cattechnologies.tpg.utils.DateUtils;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -88,7 +87,6 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
     EditText searchData;
     LinearLayout layout;
     int current_page, current_page_sort = 1, current_page_search = 1, current_page_mock;
-    SimpleDateFormat format, format1;
 
     String sort = "";
     TextWatcher textWatcher;
@@ -308,22 +306,11 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportEroDepositsServiceBuroSearchNew> reportsFeePaidNewList = response.getService_Bureau_EroReport_data();
-
-
             ReportEroDepositsServiceBuroSearchNew reportsFeePaidNew = new ReportEroDepositsServiceBuroSearchNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getService_Bureau_EroReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getService_Bureau_EroReport_data().get(i).getDepositdate()));
-                    reportsFeePaidNew.setDepositdate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getService_Bureau_EroReport_data().get(i).getDepositdate());
+                reportsFeePaidNew.setDepositdate(changeDate);
+                reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -479,7 +466,7 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                 showToast(response.getMessage());
 
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         } else {
             showToast("Network Error !");
@@ -496,21 +483,11 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
             //showToast(response.getMessage());
             String totalPages = response.getTotalNoofPages();
             List<ReportsEroDepositsServiceBuroNew> reportsFeePaidNewList = response.getService_Bureau_EroReport_data();
-
             ReportsEroDepositNew reportsFeePaidNew = new ReportsEroDepositNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getService_Bureau_EroReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getService_Bureau_EroReport_data().get(i).getDepositdate()));
-                    reportsFeePaidNew.setDepositdate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getService_Bureau_EroReport_data().get(i).getDepositdate());
+                reportsFeePaidNew.setDepositdate(changeDate);
+                reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -659,10 +636,8 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
     private void showToast(String message) {
         try {
             Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
-
         } catch (Exception e) {
-            e.printStackTrace();
-        }
+           e.printStackTrace();       }
     }
 
 
@@ -751,18 +726,10 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
             String totalPages = response.getTotalNoofPages();
             List<ReportEroDepositsServiceBuroSearchSortNew> reportsFeePaidNewList = response.getService_Bureau_EroReport_data();
             ReportEroDepositsServiceBuroSearchSortNew reportsFeePaidNew = new ReportEroDepositsServiceBuroSearchSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
             for (int i = 0; i < response.getService_Bureau_EroReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getService_Bureau_EroReport_data().get(i).getDepositdate()));
-                    reportsFeePaidNew.setDepositdate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getService_Bureau_EroReport_data().get(i).getDepositdate());
+                reportsFeePaidNew.setDepositdate(changeDate);
+                reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -847,7 +814,6 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
@@ -908,19 +874,10 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
             String totalPages = response.getTotalNoofPages();
             List<ReportsEroDepositsServiceBuroSortNew> reportsFeePaidNewList = response.getService_Bureau_EroReport_data();
             ReportsEroDepositsServiceBuroSortNew reportsFeePaidNew = new ReportsEroDepositsServiceBuroSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getService_Bureau_EroReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getService_Bureau_EroReport_data().get(i).getDepositdate()));
-                    reportsFeePaidNew.setDepositdate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getService_Bureau_EroReport_data().get(i).getDepositdate());
+                reportsFeePaidNew.setDepositdate(changeDate);
+                reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -1002,7 +959,6 @@ public class ReportsEroDepositServiceBuroDataFragment extends Fragment implement
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
                                 reportsFeePaidSort.setPage(String.valueOf(current_page_sort));

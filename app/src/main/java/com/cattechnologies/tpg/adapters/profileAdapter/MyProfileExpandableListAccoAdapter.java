@@ -92,7 +92,6 @@ public class MyProfileExpandableListAccoAdapter extends BaseExpandableListAdapte
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
         AccountInfo detailInfo = (AccountInfo) getChild(groupPosition, childPosition);
-        System.out.println("MyProfileExpandableListAccoAdapter.getChildView===" + detailInfo.getAcctType());
         if (view == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = infalInflater.inflate(R.layout.my_profile_child_items_account, null);
@@ -197,8 +196,7 @@ public class MyProfileExpandableListAccoAdapter extends BaseExpandableListAdapte
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        }
+          e.printStackTrace();     }
 
 
         return view;

@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
-import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSearchServiceBuroNew;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -25,8 +23,6 @@ public class ReportsFeesPaidServiceBuroSearchListAdapter extends RecyclerView.Ad
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    //  private ItemFilter mFilter = new ItemFilter();
-    SimpleDateFormat format, format1;
 
 
     public ReportsFeesPaidServiceBuroSearchListAdapter(Context mContext, List<ReportsFeePaidSearchServiceBuroNew> reportsList, String title) {
@@ -49,7 +45,7 @@ public class ReportsFeesPaidServiceBuroSearchListAdapter extends RecyclerView.Ad
          ReportsFeePaidSearchServiceBuroNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
-        holder.accountDataSSN.setText(reports.getPrimarySsn());
+        holder.accountDataSSN.setText(reports.getPrimarySid());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
         holder.dateData.setText(reports.getRecordcreatedate());
 

@@ -42,7 +42,7 @@ public class ReportsEroDepositServiceBuroSearchListAdapter extends RecyclerView.
         ReportEroDepositsServiceBuroSearchNew reports = reportsList.get(position);
         holder.userData.setText(reports.getDAN());
         holder.costData.setText("$" + reports.getDepositAmount());
-        holder.accountDataSSN.setText(reports.getDepositType());
+        holder.accountDataSid.setText(reports.getDepositType());
         holder.detailsDataDisbush.setText("");
         holder.dateData.setText(reports.getDepositdate());
     }
@@ -71,13 +71,13 @@ public class ReportsEroDepositServiceBuroSearchListAdapter extends RecyclerView.
 
 
     public class ReportsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView userData, costData, accountDataSSN, detailsDataDisbush, dateData;
+        TextView userData, costData, accountDataSid, detailsDataDisbush, dateData;
 
         public ReportsViewHolder(View itemView) {
             super(itemView);
             userData = (TextView) itemView.findViewById(R.id.report_user);
             costData = (TextView) itemView.findViewById(R.id.report_rate);
-            accountDataSSN = (TextView) itemView.findViewById(R.id.report_account);
+            accountDataSid = (TextView) itemView.findViewById(R.id.report_account);
             detailsDataDisbush = (TextView) itemView.findViewById(R.id.report_details);
             dateData = (TextView) itemView.findViewById(R.id.report_date);
             itemView.setTag(itemView);

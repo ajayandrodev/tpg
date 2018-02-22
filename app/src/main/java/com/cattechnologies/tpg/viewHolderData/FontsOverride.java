@@ -22,9 +22,9 @@ public class FontsOverride {
             staticField.setAccessible(true);
             staticField.set(null, newTypeface);
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

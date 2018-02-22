@@ -46,6 +46,7 @@ import com.cattechnologies.tpg.model.feePaidModel.ReportsFeePaidSortNew;
 import com.cattechnologies.tpg.model.Response;
 import com.cattechnologies.tpg.R;
 import com.cattechnologies.tpg.utils.AppInternetStatus;
+import com.cattechnologies.tpg.utils.DateUtils;
 import com.cattechnologies.tpg.utils.NetworkUtil;
 import com.cattechnologies.tpg.utils.PreferencesManager;
 import com.cattechnologies.tpg.activities.Dashboard;
@@ -53,13 +54,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.SplittableRandom;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
@@ -90,7 +88,6 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
     EditText searchData;
     LinearLayout layout;
     int current_page, current_page_sort = 1, current_page_search = 1, current_page_mock;
-    SimpleDateFormat format, format1;
 
     ReportsFeesPaidListAdapter mAdapter;
     ReportsFeesPaidSearchListAdapter mAdapterSearch;
@@ -303,18 +300,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             String totalPages = response.getTotalNoofPages();
             List<ReportsFeePaidSearchNew> reportsFeePaidNewList = response.getFeeReport_data();
             ReportsFeePaidSearchNew reportsFeePaidNew = new ReportsFeePaidSearchNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
             for (int i = 0; i < response.getFeeReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setRecordcreatedate(changeDate);
+                reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -428,7 +417,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        , reports.getPrimarySid(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -475,8 +464,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 showToast(response.getMessage());
 
             } catch (IOException e) {
-                e.printStackTrace();
-            }
+                throw new RuntimeException(e);            }
         } else {
             showToast("Network Error !");
         }
@@ -490,19 +478,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             String totalPages = response.getTotalNoofPages();
             List<ReportsFeePaidNew> reportsFeePaidNewList = response.getFeeReport_data();
             ReportsFeePaidNew reportsFeePaidNew = new ReportsFeePaidNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-
-            String chagnedDate = null;
             for (int i = 0; i < response.getFeeReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setRecordcreatedate(changeDate);
+                reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -633,7 +612,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        , reports.getPrimarySid(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -654,7 +633,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            e.printStackTrace();
+          e.printStackTrace();
         }
     }
 
@@ -736,18 +715,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             String totalPages = response.getTotalNoofPages();
             List<ReportFreePaidSearchSortNew> reportsFeePaidNewList = response.getFeeReport_data();
             ReportFreePaidSearchSortNew reportsFeePaidNew = new ReportFreePaidSearchSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
             for (int i = 0; i < response.getFeeReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setRecordcreatedate(changeDate);
+                reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -833,10 +804,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
-                                //  reportFreePaidSearchSort.setPage(String.valueOf(current_page_sort));
                             }
                             if (pagNo.equalsIgnoreCase("")) {
                                 pagNo = String.valueOf(2);
@@ -860,7 +829,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        , reports.getPrimarySid(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -906,18 +875,10 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
             String totalPages = response.getTotalNoofPages();
             List<ReportsFeePaidSortNew> reportsFeePaidNewList = response.getFeeReport_data();
             ReportsFeePaidSortNew reportsFeePaidNew = new ReportsFeePaidSortNew();
-            format = new SimpleDateFormat("yyyyMMdd");
-            //format1 = new SimpleDateFormat("MM-dd-yyyy");
-            format1 = new SimpleDateFormat("MM-dd-yyyy");
-            String chagnedDate = null;
             for (int i = 0; i < response.getFeeReport_data().size(); i++) {
-                try {
-                    chagnedDate = format1.format(format.parse(response.getFeeReport_data().get(i).getRecordcreatedate()));
-                    reportsFeePaidNew.setRecordcreatedate(chagnedDate);
-                    reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String changeDate = DateUtils.reportDate(response.getFeeReport_data().get(i).getRecordcreatedate());
+                reportsFeePaidNew.setRecordcreatedate(changeDate);
+                reportsFeePaidNewList.get(i).setRecordcreatedate(reportsFeePaidNew.getRecordcreatedate());
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -1003,10 +964,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                     next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //System.out.println("ReportsFeesPaidFragment.onClick===" + current_page_sort);
                             if (current_page_sort < totalPage) {
                                 current_page_sort = current_page_sort + 1;
-                                // reportsFeePaidSort.setPage(String.valueOf(current_page_sort));
                             }
                             if (pagNo.equalsIgnoreCase("")) {
                                 pagNo = String.valueOf(2);
@@ -1030,7 +989,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySsn(), reports.getDisbursementType(),
+                        , reports.getPrimarySid(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());

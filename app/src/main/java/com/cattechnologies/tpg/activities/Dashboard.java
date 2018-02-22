@@ -15,12 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.NavigationView;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cattechnologies.tpg.fragments.DashboardFragment;
 import com.cattechnologies.tpg.fragments.ProfileFragment;
 import com.cattechnologies.tpg.model.dashboardModel.DashboardInfoData;
-import com.cattechnologies.tpg.model.profileModel.LoginInfo;
 import com.cattechnologies.tpg.model.profileModel.ProfileData;
 import com.cattechnologies.tpg.model.dashboardModel.RecentTransactions;
 import com.cattechnologies.tpg.R;
@@ -43,8 +41,6 @@ public class Dashboard extends AppCompatActivity {
     DashboardInfoData dashboardInfoData;
     ProfileData profileData;
     List<RecentTransactions> recentTransactions;
-    LoginInfo loginInfo;
-
     PreferencesManager preferencesManager;
 
     @Override
@@ -54,7 +50,6 @@ public class Dashboard extends AppCompatActivity {
         dashboardInfoData = getIntent().getParcelableExtra("DashboardInfoData");
         profileData = getIntent().getParcelableExtra("ProfileData");
         recentTransactions = getIntent().getParcelableArrayListExtra("RecentTransactions");
-        loginInfo = new LoginInfo();
         preferencesManager = new PreferencesManager();
         setToolbar();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -66,9 +61,9 @@ public class Dashboard extends AppCompatActivity {
         headerType = (TextView) header.findViewById(R.id.type_data);
         headerUserName.setText(profileData.getLOGIN_NAME());
         headerEfinNum.setText(profileData.getEFIN());
-        headerType.setText(preferencesManager.getAccountType(getApplicationContext()));
+        headerType.setText(preferencesManager.gaT(getApplicationContext()));
         String data = profileData.getEFIN();
-        preferencesManager.saveUserId(getApplicationContext(), data);
+        preferencesManager.suD(getApplicationContext(), data);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
@@ -140,7 +135,7 @@ public class Dashboard extends AppCompatActivity {
 
         } else if (getResources().getString(R.string.compras_item).equalsIgnoreCase(title)) {
             fragment = ProfileFragment.newInstance(title, preferencesManager.getUserId(getApplicationContext()),
-                    preferencesManager.getAccountType(getApplicationContext()));
+                    preferencesManager.gaT(getApplicationContext()));
 
 
         } else if (getResources().getString(R.string.ordenes_item).equalsIgnoreCase(title)) {

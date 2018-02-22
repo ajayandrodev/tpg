@@ -8,13 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.R;
-import com.cattechnologies.tpg.fragments.feepaidReport.ReportsFeesPaidFragment;
 import com.cattechnologies.tpg.interfaces.ItemClickListener;
 import com.cattechnologies.tpg.model.accountDisbursementModel.ReportsAccountDisbNew;
-import com.cattechnologies.tpg.model.eroDepositModel.ReportsEroDepositNew;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -27,7 +22,6 @@ public class ReportsAccountDisbListAdapter extends RecyclerView.Adapter<ReportsA
     private ItemClickListener clickListener;
     String index;
     Context mContext;
-    SimpleDateFormat format, format1;
 
     public ReportsAccountDisbListAdapter(Context mContext, List<ReportsAccountDisbNew> reportsList, String title) {
         this.reportsList = reportsList;
@@ -48,7 +42,7 @@ public class ReportsAccountDisbListAdapter extends RecyclerView.Adapter<ReportsA
         ReportsAccountDisbNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getDisbursmentamount());
-        holder.accountDataSSN.setText(reports.getPrimarySsn());
+        holder.accountDataSSN.setText(reports.getPrimarySid());
         holder.detailsDataDisbush.setText(reports.getDisbType() + " | ");
         holder.dateData.setText(reports.getDisbursementDate());
 

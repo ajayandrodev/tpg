@@ -10,6 +10,7 @@ import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
@@ -55,6 +56,7 @@ public class NetworkUtil {
         });
         return httpClient.build();
     }
+
     public static OkHttpClient.Builder getUnsafeOkHttpClient() {
         try {
             // Create a trust manager that does not validate certificate chains
@@ -71,6 +73,7 @@ public class NetworkUtil {
                         @Override
                         public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                             return new java.security.cert.X509Certificate[]{};
+
                         }
                     }
             };
@@ -84,18 +87,22 @@ public class NetworkUtil {
 
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+            httpClient.hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+
+                  /*  HostnameVerifier hv =HttpsURLConnection.getDefaultHostnameVerifier();
+                    return hv.verify("sbtpg.com", session);*/
+                  return  true;
+                }
+            });
             //  httpClient.followSslRedirects(true);
             httpClient.cache(new Cache(new File(AnalyticsApplication.getInstance().getCacheDir(), "https"), 1024 * 1024 * 10));
             httpClient.connectTimeout(30, TimeUnit.SECONDS);
             httpClient.readTimeout(30, TimeUnit.SECONDS);
             httpClient.writeTimeout(30, TimeUnit.SECONDS);
 
-            httpClient.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
+
             return httpClient;
         } catch (Exception e) {
             throw new RuntimeException(e);

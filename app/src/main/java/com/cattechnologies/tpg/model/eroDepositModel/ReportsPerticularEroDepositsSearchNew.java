@@ -41,7 +41,7 @@ public class ReportsPerticularEroDepositsSearchNew implements Parcelable {
     private String PrimaryLastName;
 
     @SerializedName("PrimarySsn")
-    private String PrimarySsn;
+    private String PrimarySid;
 
     @SerializedName("DepositType")
     private String DepositType;
@@ -134,12 +134,12 @@ public class ReportsPerticularEroDepositsSearchNew implements Parcelable {
         PrimaryLastName = primaryLastName;
     }
 
-    public String getPrimarySsn() {
-        return PrimarySsn;
+    public String getPrimarySid() {
+        return PrimarySid;
     }
 
-    public void setPrimarySsn(String primarySsn) {
-        PrimarySsn = primarySsn;
+    public void setPrimarySid(String PrimarySid) {
+        PrimarySid = PrimarySid;
     }
 
     public String getDepositType() {
@@ -206,7 +206,7 @@ public class ReportsPerticularEroDepositsSearchNew implements Parcelable {
         dest.writeString(this.Reverseddate);
         dest.writeString(this.PrimaryFirstName);
         dest.writeString(this.PrimaryLastName);
-        dest.writeString(this.PrimarySsn);
+        dest.writeString(this.PrimarySid);
         dest.writeString(this.DepositType);
         dest.writeString(this.ProductType);
         dest.writeString(this.DepositAmount);
@@ -228,7 +228,7 @@ public class ReportsPerticularEroDepositsSearchNew implements Parcelable {
         this.Reverseddate = in.readString();
         this.PrimaryFirstName = in.readString();
         this.PrimaryLastName = in.readString();
-        this.PrimarySsn = in.readString();
+        this.PrimarySid = in.readString();
         this.DepositType = in.readString();
         this.ProductType = in.readString();
         this.DepositAmount = in.readString();

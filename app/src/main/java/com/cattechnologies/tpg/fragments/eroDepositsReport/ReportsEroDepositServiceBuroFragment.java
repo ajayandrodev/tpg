@@ -163,7 +163,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
             public void onClick(View view) {
                 title = getResources().getString(R.string.dashboard_ero_deposits);
                 fragment = ReportsEroDepositServiceBuroDataFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                        preferencesManager.getAccountType(getActivity()));
+                        preferencesManager.gaT(getActivity()));
                 if (fragment != null) {
                     fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction()
@@ -194,7 +194,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
                     }
 
                     fragment = ParticularOfficeSbEroDepositFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()), "1", jsonArray.toString());
+                            preferencesManager.gaT(getActivity()), "1", jsonArray.toString());
                     if (fragment != null) {
                         fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction()
@@ -252,7 +252,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
                 showToast(response.getMessage());
                 //showToast("Network Error !");
             } catch (IOException e) {
-                e.printStackTrace();
+              e.printStackTrace();
             }
         }
         if (!error.getMessage().equalsIgnoreCase("")) {
@@ -323,7 +323,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
                 case 0:
                     title = getResources().getString(R.string.dashboard_ero_deposits);
                     fragment = ReportEroDepositFragment.newInstance(title, preferencesManager.getUserId(getActivity()),
-                            preferencesManager.getAccountType(getActivity()));
+                            preferencesManager.gaT(getActivity()));
                     if (fragment != null) {
                         fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction()
