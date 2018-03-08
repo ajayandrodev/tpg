@@ -40,7 +40,7 @@ public class ReportsFeePaidServiceBuroNew implements Parcelable {
     private String PrimaryLastName;
 
     @SerializedName("PrimarySsn")
-    private String PrimarySid;
+    private String PrimarySinfo;
 
     @SerializedName("TransmitterEfFeesCollected")
     private String TransmitterEfFeesCollected;
@@ -88,7 +88,7 @@ public class ReportsFeePaidServiceBuroNew implements Parcelable {
         Efin = in.readString();
         PrimaryFirstName = in.readString();
         PrimaryLastName = in.readString();
-        PrimarySid = in.readString();
+        PrimarySinfo = in.readString();
         TransmitterEfFeesCollected = in.readString();
         ServiceBureauFeeCollected = in.readString();
         SiteEfFeesCollected = in.readString();
@@ -113,7 +113,7 @@ public class ReportsFeePaidServiceBuroNew implements Parcelable {
         dest.writeString(Efin);
         dest.writeString(PrimaryFirstName);
         dest.writeString(PrimaryLastName);
-        dest.writeString(PrimarySid);
+        dest.writeString(PrimarySinfo);
         dest.writeString(TransmitterEfFeesCollected);
         dest.writeString(ServiceBureauFeeCollected);
         dest.writeString(SiteEfFeesCollected);
@@ -216,12 +216,12 @@ public class ReportsFeePaidServiceBuroNew implements Parcelable {
         PrimaryLastName = primaryLastName;
     }
 
-    public String getPrimarySid() {
-        return PrimarySid;
+    public String getPrimarySinfo() {
+        return PrimarySinfo;
     }
 
-    public void setPrimarySid(String PrimarySid) {
-        PrimarySid = PrimarySid;
+    public void setPrimarySinfo(String PrimarySinfo) {
+        PrimarySinfo = PrimarySinfo;
     }
 
     public String getTransmitterEfFeesCollected() {

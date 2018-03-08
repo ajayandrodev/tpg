@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -399,7 +400,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbServiceBuroDetailsDataFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySid(), reports.getDisbType(), reports.getExpectedRefund(),
+                        reports.getPrimarySinfo(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
                         reports.getExpecteddepdate(), title);
@@ -584,7 +585,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbServiceBuroDetailsDataFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySid(), reports.getDisbType(), reports.getExpectedRefund(),
+                        reports.getPrimarySinfo(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
                         reports.getExpecteddepdate(), title);
@@ -616,7 +617,8 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-         e.printStackTrace();      }
+            Log.e("error", e.getMessage());
+        }
     }
 
 
@@ -802,7 +804,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbServiceBuroDetailsDataFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySid(), reports.getDisbType(), reports.getExpectedRefund(),
+                        reports.getPrimarySinfo(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
                         reports.getExpecteddepdate(), title);
@@ -947,7 +949,7 @@ public class ReportsAccountDisbServiceBuroDataFragment extends Fragment implemen
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbServiceBuroDetailsDataFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySid(), reports.getDisbType(), reports.getExpectedRefund(),
+                        reports.getPrimarySinfo(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
                         reports.getExpecteddepdate(), title);

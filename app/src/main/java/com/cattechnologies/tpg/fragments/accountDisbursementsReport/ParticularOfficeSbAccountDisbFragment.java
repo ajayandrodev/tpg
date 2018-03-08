@@ -365,7 +365,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySid(), reports.getDisbType(),
+                        reports.getPrimarySinfo(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),
@@ -401,11 +401,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
     }
 
     private void showToast(String msg) {
-        try {
-            Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
     }
 
     private void handleError(Throwable error) {
@@ -417,7 +413,8 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 com.cattechnologies.tpg.model.Response response = gson.fromJson(errorBody, com.cattechnologies.tpg.model.Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);            }
+                throw new RuntimeException(e);
+            }
         } else {
             showToast("Network Error !");
         }
@@ -610,7 +607,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySid(), reports.getDisbType(),
+                        reports.getPrimarySinfo(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),
@@ -834,7 +831,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySid(), reports.getDisbType(),
+                        reports.getPrimarySinfo(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),
@@ -1005,7 +1002,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 );*/
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySid(), reports.getDisbType(),
+                        reports.getPrimarySinfo(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),

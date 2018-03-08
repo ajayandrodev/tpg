@@ -11,16 +11,16 @@ import java.lang.reflect.Field;
 
 public class FontsOverride {
 
-    public static void setDefaultFont(Context context, String staticTypefaceFieldName, String fontAssetName) {
+    public static void setDefaultFont(Context context, String TypefaceFieldName, String fontAssetName) {
         final Typeface regular = Typeface.createFromAsset(context.getAssets(), fontAssetName);
-        replaceFont(staticTypefaceFieldName, regular);
+        replaceFont(TypefaceFieldName, regular);
     }
 
-    protected static void replaceFont(String staticTypefaceFieldName, final Typeface newTypeface) {
+    protected static void replaceFont(String TypefaceFieldName, final Typeface newTypeface) {
         try {
-            final Field staticField = Typeface.class.getDeclaredField(staticTypefaceFieldName);
-            staticField.setAccessible(true);
-            staticField.set(null, newTypeface);
+            final Field declaredField = Typeface.class.getDeclaredField(TypefaceFieldName);
+            declaredField.setAccessible(true);
+            declaredField.set(null, newTypeface);
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {

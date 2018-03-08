@@ -1,6 +1,7 @@
 package com.cattechnologies.tpg.adapters.profileAdapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,7 +127,7 @@ public class MyProfileExpandableListShipAdapter extends BaseExpandableListAdapte
                 childItem6.setText(detailInfo.getShipmentHoldUntilDate().trim());
             }
         } catch (Exception e) {
-          e.printStackTrace();
+            Log.e("error", Log.getStackTraceString(e));
         }
 
         return view;

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -190,7 +191,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
                             jsonObject.put("Efin", efin);
                             jsonArray.put(jsonObject);
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.e("error", e.getMessage());
                             showToast(e.getMessage());
                         }
                     }

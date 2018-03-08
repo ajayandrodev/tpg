@@ -28,7 +28,7 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
             textReportSix, textReportSixData, textEfinData, textEfin;
     RelativeLayout llOne, llTwo, llThree, llFour, llFive, llSix;
     LinearLayout llInfoData, llInfoDetailsData;
-    String userName, userSSN, userDis, userDate, userPrep, userEle, userDoc, userTotal, userOther, efindata;
+    String userName, userSid, userDis, userDate, userPrep, userEle, userDoc, userTotal, userOther, efindata;
 
     PreferencesManager preferencesManager;
 
@@ -72,7 +72,7 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
         title = getArguments().getString(ARG_SECTION_TITLE);
         preferencesManager = new PreferencesManager();
         userName = getArguments().getString("report_username");
-        userSSN = getArguments().getString("report_ssn");
+        userSid = getArguments().getString("report_ssn");
         userDis = getArguments().getString("report_disb");
         userDate = getArguments().getString("report_date");
         userPrep = getArguments().getString("report_prepfee");
@@ -85,7 +85,7 @@ public class ReportsFeesPaidDetailsFragment extends Fragment {
         textReportFirstName = (TextView) getActivity().findViewById(R.id.text_report_one_firstname);
         textReportFirstName.setText(userName);
         textReportSsn = (TextView) getActivity().findViewById(R.id.text_report_one_ssn);
-        textReportSsn.setText(userSSN);
+        textReportSsn.setText(userSid);
         textReportType = (TextView) getActivity().findViewById(R.id.text_report_one_type);
         textReportType.setText(userDis);
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.View;
@@ -41,6 +42,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class ForgotUsernameDetails extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
+    private static final String TAG = "error";
     Toolbar toolbar;
     TextView mTitle, mTextEfin, mTextPass;
     Button mLogin;
@@ -89,14 +91,15 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
         loginUsername.setHint("Enter EFIN");
         mTextPass.setText("EMAIL");
         loginUserPassword.setHint("Enter Email Address");
-        // loginUserPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.email_icon, 0, 0, 0);
         mLogin.setText("RECOVER USERNAME");
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -145,9 +148,15 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
 
         }
     }
+
     private void showToast(String msg) {
-        Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
     }
+
     private void handleResponse(ForgotUserNameInfo response) {
         showToast(response.getMessage());
         progressBar.setVisibility(View.GONE);
@@ -161,6 +170,7 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
             startActivity(i);
         }
     }
+
     private void handleError(Throwable error) {
         progressBar.setVisibility(View.GONE);
         showToast(error.getMessage());
@@ -171,7 +181,8 @@ public class ForgotUsernameDetails extends AppCompatActivity implements View.OnC
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);            }
+                throw new RuntimeException(e);
+            }
         } else {
             showToast("Network Error !");
         }

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,7 +189,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
                             jsonObject.put("Efin", efin);
                             jsonArray.put(jsonObject);
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.e("error", e.getMessage());
                             showToast(e.getMessage());
                         }
                     }
@@ -252,7 +253,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
                 showToast(response.getMessage());
                 //showToast("Network Error !");
             } catch (IOException e) {
-              e.printStackTrace();
+                e.printStackTrace();
             }
         }
         if (!error.getMessage().equalsIgnoreCase("")) {
@@ -316,7 +317,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
     }
 
     private void Displayitemclicked(int gposition, int cposition) {
-      //  sbEro.setVisibility(View.GONE);
+        //  sbEro.setVisibility(View.GONE);
         if (gposition == 0) {
 
             switch (cposition) {

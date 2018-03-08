@@ -28,7 +28,7 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
             textFiveNextAnother, textFiveNextAnotherData;
     RelativeLayout llTwo, llThree, llFour, llFive, llSix, llTwoNext, llFiveNext;
     String userName,
-            userSSN,
+            userSid,
             userDis,
             userMasterID,
             userDepositDate,
@@ -38,13 +38,13 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
 
 
     public static ReportsEroDepositServiceBuroDataDetailsFragment newInstance(
-            String sectionTitle, String firstName, String primarySsn, String depositType,
+            String sectionTitle, String firstName, String primarySid, String depositType,
             String masterefin, String depositdate, String depositAmount, String recordcreatedate) {
         ReportsEroDepositServiceBuroDataDetailsFragment fragment = new ReportsEroDepositServiceBuroDataDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("report_username", firstName);
-        args.putString("report_ssn", primarySsn);
+        args.putString("report_ssn", primarySid);
         args.putString("report_disb", depositType);
         args.putString("report_masterID", masterefin);
         args.putString("report_depositDate", depositdate);
@@ -81,7 +81,7 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
         textReportTitleDetail = (TextView) getActivity().findViewById(R.id.text_title_report_details);
         preferencesManager = new PreferencesManager();
         userName = getArguments().getString("report_username");
-        userSSN = getArguments().getString("report_ssn");
+        userSid = getArguments().getString("report_ssn");
         userDis = getArguments().getString("report_disb");
         userMasterID = getArguments().getString("report_masterID");
         userDepositDate = getArguments().getString("report_depositDate");
@@ -120,7 +120,7 @@ public class ReportsEroDepositServiceBuroDataDetailsFragment extends Fragment {
         titulo.setText("ERO DEPOSITS-DETAILS");
         textReportTitleDetail.setText("ERO DEPOSITS");
 
-        textReportSsn.setText(userSSN);
+        textReportSsn.setText(userSid);
         textReportType.setText(userDis);
 
         textReportOne.setText("Master ID:");

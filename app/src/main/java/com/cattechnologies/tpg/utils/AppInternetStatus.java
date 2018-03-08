@@ -32,7 +32,7 @@ public class AppInternetStatus {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("error", e.getMessage());
         }
         return connected;
     }

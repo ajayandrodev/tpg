@@ -25,12 +25,10 @@ public class AnalyticsApplication extends MultiDexApplication {
         super.onCreate();
         instance = this;
         sAnalytics = GoogleAnalytics.getInstance(this);
-      //  FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Lato-Regular.ttf");
         FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Lato-Regular.ttf");
     }
 
     synchronized public Tracker getDefaultTracker() {
-        // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
         if (sTracker == null) {
             sTracker = sAnalytics.newTracker(R.xml.global_tracker);
         }

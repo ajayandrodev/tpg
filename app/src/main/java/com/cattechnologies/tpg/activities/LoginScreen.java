@@ -67,12 +67,11 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     Button forgot_user_name, forgot_user_password, forgot_user_email, forgot_user_cancel;
     EditText loginUser, loginPass;
     Dialog d;
-    String chagnedDate = null;
     CheckBox checkBox;
     private CompositeSubscription mSubscriptions;
     ProgressBar progressBar;
     String forgotEmailData;
-    Intent i;
+    private Intent i;
     PreferencesManager preferencesManager;
     SharedPreferences sh_Pref;
     SharedPreferences.Editor editor;
@@ -227,7 +226,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);            }
+                throw new RuntimeException(e);
+            }
         } else {
             showToast("Network Error !");
         }
@@ -241,7 +241,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             if (response.getDashboard_data() == null) {
                 showToast(response.getMessage());
                 Intent i = new Intent(this, EmployeeLoginActivity.class);
-                i.putExtra(BackToLoginScreen.ARG_SELECTION_USER, drawerTitle);
+                i.putExtra("back_to_screen", drawerTitle);
                 startActivity(i);
             } else {
                 ProfileData profileData = response.getProfile_data();

@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -418,7 +419,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Log.e("error", e.getMessage());
         }
     }
 

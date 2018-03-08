@@ -53,13 +53,18 @@ public class Dashboard extends AppCompatActivity {
         preferencesManager = new PreferencesManager();
         setToolbar();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         headerUserName = (TextView) header.findViewById(R.id.username);
         headerEfinNum = (TextView) header.findViewById(R.id.efin_data);
         headerType = (TextView) header.findViewById(R.id.type_data);
-        headerUserName.setText(profileData.getLOGIN_NAME());
+        if (profileData.getLOGIN_NAME() != null) {
+            headerUserName.setText(profileData.getLOGIN_NAME());
+
+        } else {
+            headerUserName.setText("");
+
+        }
         headerEfinNum.setText(profileData.getEFIN());
         headerType.setText(preferencesManager.gaT(getApplicationContext()));
         String data = profileData.getEFIN();
@@ -67,12 +72,10 @@ public class Dashboard extends AppCompatActivity {
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-
         drawerTitle = getResources().getString(R.string.home_item);
         if (savedInstanceState == null) {
             selectItem(drawerTitle);
         }
-
     }
 
     public void setToolbar() {
@@ -192,6 +195,7 @@ public class Dashboard extends AppCompatActivity {
             showOrHideTitleBar();
         }
     }
+
     private void alertDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Exit");
@@ -211,6 +215,7 @@ public class Dashboard extends AppCompatActivity {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
     public void setTitle(String title) {
         toolBarText.setText(title);
     }

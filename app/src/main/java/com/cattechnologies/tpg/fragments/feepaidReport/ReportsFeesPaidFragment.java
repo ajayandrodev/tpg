@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -417,7 +418,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySid(), reports.getDisbursementType(),
+                        , reports.getPrimarySinfo(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -464,7 +465,8 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 showToast(response.getMessage());
 
             } catch (IOException e) {
-                throw new RuntimeException(e);            }
+                throw new RuntimeException(e);
+            }
         } else {
             showToast("Network Error !");
         }
@@ -612,7 +614,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySid(), reports.getDisbursementType(),
+                        , reports.getPrimarySinfo(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -633,7 +635,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-          e.printStackTrace();
+            Log.e("error", e.getMessage());
         }
     }
 
@@ -829,7 +831,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySid(), reports.getDisbursementType(),
+                        , reports.getPrimarySinfo(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -989,7 +991,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySid(), reports.getDisbursementType(),
+                        , reports.getPrimarySinfo(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());

@@ -31,7 +31,7 @@ public class ReportAccountDisbServiceBuroSearchSortNew implements Parcelable {
     private String PrimaryLastName;
 
     @SerializedName("PrimarySsn")
-    private String PrimarySid;
+    private String PrimarySinfo;
 
     @SerializedName("ProductType")
     private String ProductType;
@@ -58,7 +58,7 @@ public class ReportAccountDisbServiceBuroSearchSortNew implements Parcelable {
         Efin = in.readString();
         PrimaryFirstName = in.readString();
         PrimaryLastName = in.readString();
-        PrimarySid = in.readString();
+        PrimarySinfo = in.readString();
         ProductType = in.readString();
         expecteddepdate = in.readString();
         ExpectedRefund = in.readString();
@@ -75,7 +75,7 @@ public class ReportAccountDisbServiceBuroSearchSortNew implements Parcelable {
         dest.writeString(Efin);
         dest.writeString(PrimaryFirstName);
         dest.writeString(PrimaryLastName);
-        dest.writeString(PrimarySid);
+        dest.writeString(PrimarySinfo);
         dest.writeString(ProductType);
         dest.writeString(expecteddepdate);
         dest.writeString(ExpectedRefund);
@@ -149,12 +149,12 @@ public class ReportAccountDisbServiceBuroSearchSortNew implements Parcelable {
         PrimaryLastName = primaryLastName;
     }
 
-    public String getPrimarySid() {
-        return PrimarySid;
+    public String getPrimarySinfo() {
+        return PrimarySinfo;
     }
 
-    public void setPrimarySid(String PrimarySid) {
-        PrimarySid = PrimarySid;
+    public void setPrimarySinfo(String PrimarySinfo) {
+        PrimarySinfo = PrimarySinfo;
     }
 
     public String getProductType() {

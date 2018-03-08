@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -411,7 +412,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance
                         (title, reports.getPrimaryFirstName() + " " +
-                                        reports.getPrimaryLastName(), reports.getPrimarySid(),
+                                        reports.getPrimaryLastName(), reports.getPrimarySinfo(),
                                 reports.getDisbType(), reports.getExpectedRefund(),
                                 reports.getExpecteddepdate(), reports.getProductType(),
                                 reports.getDisbursementDate(), reports.getDisbursmentamount(),
@@ -597,7 +598,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySid(), reports.getDisbType(),
+                        , reports.getPrimarySinfo(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(), reports.getExpecteddepdate(),
@@ -628,10 +629,11 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
     }
 
     private void showToast(String msg) {
+
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-          e.printStackTrace();
+            Log.e("error", e.getMessage());
         }
     }
 
@@ -818,7 +820,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySid(), reports.getDisbType(),
+                        reports.getPrimarySinfo(), reports.getDisbType(),
                         reports.getExpectedRefund(), reports.getExpecteddepdate(),
                         reports.getProductType(), reports.getDisbursementDate(),
                         reports.getDisbursmentamount(),
@@ -964,7 +966,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsAccountDisbDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName(),
-                        reports.getPrimarySid(), reports.getDisbType(), reports.getExpectedRefund(),
+                        reports.getPrimarySinfo(), reports.getDisbType(), reports.getExpectedRefund(),
                         reports.getExpecteddepdate(), reports.getProductType(),
                         reports.getDisbursementDate(), reports.getDisbursmentamount(),
                         reports.getExpecteddepdate(), title, reports.getEfin());

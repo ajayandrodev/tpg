@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,7 +189,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
                             jsonObject.put("Efin", efin);
                             jsonArray.put(jsonObject);
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.e("error", e.getMessage());
                             showToast(e.getMessage());
                         }
                     }
@@ -272,7 +273,11 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
 
 
     private void showToast(String msg) {
-        Toast.makeText(getContext(), "" + msg, Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e("error", e.getMessage());
+        }
     }
 
     @Override

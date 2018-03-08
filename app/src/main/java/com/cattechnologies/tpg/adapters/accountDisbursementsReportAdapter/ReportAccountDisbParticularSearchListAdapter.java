@@ -49,7 +49,7 @@ public class ReportAccountDisbParticularSearchListAdapter extends RecyclerView.A
         ReportsPerticularAccountDisbSearchNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getDisbursmentamount());
-        holder.accountDataSid.setText(reports.getPrimarySid());
+        holder.accountDataSid.setText(reports.getPrimarySinfo());
         holder.detailsDataDisbush.setText(reports.getDisbType() + " | ");
         holder.dateData.setText(reports.getDisbursementDate());
     }

@@ -42,7 +42,7 @@ public class ReportsAccountDisbListAdapter extends RecyclerView.Adapter<ReportsA
         ReportsAccountDisbNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getDisbursmentamount());
-        holder.accountDataSSN.setText(reports.getPrimarySid());
+        holder.accountDataSSN.setText(reports.getPrimarySinfo());
         holder.detailsDataDisbush.setText(reports.getDisbType() + " | ");
         holder.dateData.setText(reports.getDisbursementDate());
 

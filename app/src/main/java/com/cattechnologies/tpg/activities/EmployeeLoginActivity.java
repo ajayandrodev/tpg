@@ -19,7 +19,6 @@ import com.cattechnologies.tpg.R;
 
 public class EmployeeLoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String ARG_SELECTION_USER = "back_to_screen";
     Toolbar toolbar;
     private String drawerTitle;
     TextView mTitle, textData;
@@ -34,7 +33,7 @@ public class EmployeeLoginActivity extends AppCompatActivity implements View.OnC
         setToolbar();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            drawerTitle = bundle.getString(ARG_SELECTION_USER);
+            drawerTitle = bundle.getString("back_to_screen");
             selectedData(drawerTitle);
         }
         mBackLogin.setText("Click Here");
@@ -44,7 +43,7 @@ public class EmployeeLoginActivity extends AppCompatActivity implements View.OnC
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        drawerTitle = getIntent().getExtras().getString(ARG_SELECTION_USER);
+        drawerTitle = getIntent().getExtras().getString("back_to_screen");
         setSupportActionBar(toolbar);
         mTitle.setText(drawerTitle);
 

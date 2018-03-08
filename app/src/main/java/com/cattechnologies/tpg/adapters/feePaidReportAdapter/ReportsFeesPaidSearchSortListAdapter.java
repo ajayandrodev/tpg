@@ -44,7 +44,7 @@ public class ReportsFeesPaidSearchSortListAdapter extends RecyclerView.Adapter<R
         ReportFreePaidSearchSortNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
-        holder.accountDataSSN.setText(reports.getPrimarySid());
+        holder.accountDataSSN.setText(reports.getPrimarySinfo());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
         holder.dateData.setText(reports.getRecordcreatedate());
 

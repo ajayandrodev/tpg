@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -45,8 +46,9 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Ajay on 10/10/2017.
  */
 
-public class ForgotUserDetailsData extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener {
+public class ForgotUserDetailsData extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
+    private static final String TAG ="error" ;
     Toolbar toolbar;
     TextView mTitle, mTextEfin, mTextPass;
     Button mLogin;
@@ -261,7 +263,7 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
     }
 
     private void handleResponse(ForgotUserPasswordInfo response) {
-        if (response.getStatus().equalsIgnoreCase("success") && response != null) {
+        if (response.getStatus().equalsIgnoreCase("success")) {
             showToast(response.getMessage());
             ForgotUserPasswordData forgotUserDetailsData = response.getUser_data();
             String data = forgotUserDetailsData.getTEMPORARY_PIN();
@@ -287,7 +289,11 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
     }
 
     private void showToast(String msg) {
-        Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
     }
 
     private void handleError(Throwable error) {
@@ -299,14 +305,15 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);            }
+                throw new RuntimeException(e);
+            }
         } else {
             showToast("Network Error !");
         }
     }
 
     private void handleResponse(ForgotUserNameInfo response) {
-        if (response.getStatus().equalsIgnoreCase("success") && response != null) {
+        if (response.getStatus().equalsIgnoreCase("success")) {
             showToast(response.getMessage());
             ForgotUserNameData forgotUserDetailsData = response.getUser_data();
             String data = forgotUserDetailsData.getLOGIN_NAME();

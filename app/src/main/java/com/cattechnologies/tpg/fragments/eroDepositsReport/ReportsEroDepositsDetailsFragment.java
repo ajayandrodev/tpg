@@ -38,13 +38,13 @@ public class ReportsEroDepositsDetailsFragment extends Fragment {
 
 
     public static ReportsEroDepositsDetailsFragment newInstance(
-            String sectionTitle, String firstName, String primarySsn, String depositType,
+            String sectionTitle, String firstName, String primarySid, String depositType,
             String masterefin, String depositdate, String depositAmount, String recordcreatedate, String efindata) {
         ReportsEroDepositsDetailsFragment fragment = new ReportsEroDepositsDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("report_username", firstName);
-        args.putString("report_ssn", primarySsn);
+        args.putString("report_ssn", primarySid);
         args.putString("report_disb", depositType);
         args.putString("report_masterID", masterefin);
         args.putString("report_depositDate", depositdate);

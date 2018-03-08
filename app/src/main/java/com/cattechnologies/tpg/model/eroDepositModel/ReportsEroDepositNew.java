@@ -41,7 +41,7 @@ public class ReportsEroDepositNew implements Parcelable {
     private String PrimaryLastName;
 
     @SerializedName("PrimarySsn")
-    private String PrimarySid;
+    private String PrimarySinfo;
 
     @SerializedName("DepositType")
     private String DepositType;
@@ -106,8 +106,8 @@ public class ReportsEroDepositNew implements Parcelable {
         PrimaryLastName = primaryLastName;
     }
 
-    public void setPrimarySid(String PrimarySid) {
-        PrimarySid = PrimarySid;
+    public void setPrimarySinfo(String PrimarySinfo) {
+        PrimarySinfo = PrimarySinfo;
     }
 
     public void setDepositType(String depositType) {
@@ -166,8 +166,8 @@ public class ReportsEroDepositNew implements Parcelable {
         return PrimaryLastName;
     }
 
-    public String getPrimarySid() {
-        return PrimarySid;
+    public String getPrimarySinfo() {
+        return PrimarySinfo;
     }
 
     public String getDepositType() {
@@ -210,7 +210,7 @@ public class ReportsEroDepositNew implements Parcelable {
         dest.writeString(this.Efin);
         dest.writeString(this.PrimaryFirstName);
         dest.writeString(this.PrimaryLastName);
-        dest.writeString(this.PrimarySid);
+        dest.writeString(this.PrimarySinfo);
         dest.writeString(this.DepositType);
         dest.writeString(this.ProductType);
         dest.writeString(this.DepositAmount);
@@ -229,7 +229,7 @@ public class ReportsEroDepositNew implements Parcelable {
         this.Efin = in.readString();
         this.PrimaryFirstName = in.readString();
         this.PrimaryLastName = in.readString();
-        this.PrimarySid = in.readString();
+        this.PrimarySinfo = in.readString();
         this.DepositType = in.readString();
         this.ProductType = in.readString();
         this.DepositAmount = in.readString();

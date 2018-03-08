@@ -379,7 +379,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 Dashboard activity = (Dashboard) view.getContext();
                 android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySid(), reports.getDisbursementType(),
+                        , reports.getPrimarySinfo(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -625,7 +625,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 Dashboard activity = (Dashboard) view.getContext();
                 android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySid(), reports.getDisbursementType(),
+                        , reports.getPrimarySinfo(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -851,7 +851,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 Dashboard activity = (Dashboard) view.getContext();
                 Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySid(), reports.getDisbursementType(),
+                        , reports.getPrimarySinfo(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());
@@ -1009,7 +1009,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 Dashboard activity = (Dashboard) view.getContext();
                 android.support.v4.app.Fragment fragment = ReportsFeesPaidDetailsFragment.newInstance(title,
                         reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName()
-                        , reports.getPrimarySid(), reports.getDisbursementType(),
+                        , reports.getPrimarySinfo(), reports.getDisbursementType(),
                         reports.getRecordcreatedate(), reports.getPreparationFeesCollected(),
                         reports.getSiteEfFeesCollected(), reports.getDocumentStorageFeesCollected()
                         , reports.getToTalSiteFeeCollected(), reports.getOtherfees(), reports.getEfin());

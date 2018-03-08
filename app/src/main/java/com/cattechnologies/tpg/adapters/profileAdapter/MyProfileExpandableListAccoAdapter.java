@@ -1,6 +1,7 @@
 package com.cattechnologies.tpg.adapters.profileAdapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -196,7 +197,8 @@ public class MyProfileExpandableListAccoAdapter extends BaseExpandableListAdapte
 
             }
         } catch (Exception e) {
-          e.printStackTrace();     }
+            Log.e("error", e.getMessage());
+        }
 
 
         return view;

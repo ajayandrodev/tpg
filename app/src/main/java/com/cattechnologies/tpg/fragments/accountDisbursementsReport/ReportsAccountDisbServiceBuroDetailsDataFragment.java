@@ -29,13 +29,13 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
             textReportFive, textReportFiveNext, textReportFiveNextData, textReportFiveData, textFiveNextAnother, textFiveNextAnotherData;
     RelativeLayout llTwo, llThree, llFour, llFive, llSix, llTwoNext, llFiveNext;
     LinearLayout llInfoData, llInfoDetailsData;
-    String name, primarySsn, disbursType, expectedRefund, reportsExpecteddepdate,
+    String name, primarySid, disbursType, expectedRefund, reportsExpecteddepdate,
             productType, disbursementDate, disbursmentamount, expecteddepdate, efindata;
     PreferencesManager preferencesManager;
 
     public static ReportsAccountDisbServiceBuroDetailsDataFragment newInstance(
             String title, String name,
-            String primarySsn, String disbursType,
+            String primarySid, String disbursType,
             String expectedRefund, String reportsExpecteddepdate,
             String productType, String disbursementDate, String disbursmentamount,
             String expecteddepdate, String sectionTitle) {
@@ -43,7 +43,7 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_TITLE, sectionTitle);
         args.putString("report_username", name);
-        args.putString("report_ssn", primarySsn);
+        args.putString("report_ssn", primarySid);
         args.putString("report_disb_type", disbursType);
         args.putString("report_expectedRefund", expectedRefund);
         args.putString("report_reportsExpecteddepdate", reportsExpecteddepdate);
@@ -79,7 +79,7 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
         title = getArguments().getString(ARG_SECTION_TITLE);
         preferencesManager = new PreferencesManager();
         name = getArguments().getString("report_username");
-        primarySsn = getArguments().getString("report_ssn");
+        primarySid = getArguments().getString("report_ssn");
         disbursType = getArguments().getString("report_disb_type");
         expectedRefund = getArguments().getString("report_expectedRefund");
         reportsExpecteddepdate = getArguments().getString("report_reportsExpecteddepdate");
@@ -124,7 +124,7 @@ public class ReportsAccountDisbServiceBuroDetailsDataFragment extends Fragment {
         textReportFirstName.setText(name);
 
         textReportSsn = (TextView) getActivity().findViewById(R.id.text_report_one_ssn);
-        textReportSsn.setText(primarySsn);
+        textReportSsn.setText(primarySid);
 
         textReportType = (TextView) getActivity().findViewById(R.id.text_report_one_type);
         textReportType.setText(disbursType);

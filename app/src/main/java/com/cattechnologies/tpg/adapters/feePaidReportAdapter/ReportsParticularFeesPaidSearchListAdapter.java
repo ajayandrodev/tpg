@@ -44,7 +44,7 @@ public class ReportsParticularFeesPaidSearchListAdapter extends RecyclerView.Ada
         ReportsPerticularFeePaidSearchNew reports = reportsList.get(position);
         holder.userData.setText(reports.getPrimaryFirstName() + " " + reports.getPrimaryLastName());
         holder.costData.setText("$" + reports.getToTalSiteFeeCollected());
-        holder.accountDataSid.setText(reports.getPrimarySid());
+        holder.accountDataSid.setText(reports.getPrimarySinfo());
         holder.detailsDataDisbush.setText(reports.getDisbursementType() + " | ");
         holder.dateData.setText(reports.getRecordcreatedate());
 

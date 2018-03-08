@@ -1,12 +1,12 @@
 package com.cattechnologies.tpg.adapters.profileAdapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cattechnologies.tpg.model.profileModel.EnrolInfo;
@@ -102,14 +102,11 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
         try {
             TextView childItem1 = (TextView) view.findViewById(R.id.enroll_first_name);
             childItem1.setText("Owner First Name:");
-            View view1 = (View) view.findViewById(R.id.view_enroll_six);
-            // childItem1.setText(detailInfo.getEnrollFirstName().trim());
             TextView childItem2 = (TextView) view.findViewById(R.id.enroll_first_name_data);
             TextView childItem3 = (TextView) view.findViewById(R.id.enroll_last_name);
             childItem3.setText("Owner Last Name:");
             TextView childItem4 = (TextView) view.findViewById(R.id.enroll_last_name_data);
             TextView childItem5 = (TextView) view.findViewById(R.id.enroll_address);
-            LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_enroll_five);
             childItem5.setText("Address:");
             TextView childItem6 = (TextView) view.findViewById(R.id.enroll_address_data);
             TextView childItem9 = (TextView) view.findViewById(R.id.enroll_office_phone);
@@ -141,7 +138,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem10.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        e.printStackTrace();
+                        Log.e("error", e.getMessage());
                     }
 
                 }
@@ -157,7 +154,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem12.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        e.printStackTrace();
+                        Log.e("error", e.getMessage());
                     }
                 }
                 if (detailInfo.getFaxPhone().equalsIgnoreCase("")) {
@@ -173,7 +170,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem16.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        e.printStackTrace();
+                        Log.e("error", e.getMessage());
                     }
                 }
                 childItem14.setText(detailInfo.getEmailAddress().trim());
@@ -197,7 +194,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem10.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        e.printStackTrace();
+                        Log.e("error", e.getMessage());
                     }
                 }
                 if (detailInfo.getMobilePhone().equalsIgnoreCase("")) {
@@ -212,7 +209,7 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem12.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        e.printStackTrace();
+                        Log.e("error", e.getMessage());
                     }
 
                 }
@@ -228,13 +225,13 @@ public class MyProfileExpandableListEnrAdapterNew extends BaseExpandableListAdap
                         String pnE164 = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
                         childItem16.setText(pnE164.replace("+1", ""));
                     } catch (NumberParseException e) {
-                        e.printStackTrace();
+                        Log.e("error", e.getMessage());
                     }
                 }
                 childItem14.setText(detailInfo.getEmailAddress().trim());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("error", Log.getStackTraceString(e));
         }
 
         return view;

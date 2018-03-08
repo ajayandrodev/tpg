@@ -1,6 +1,8 @@
 package com.cattechnologies.tpg.utils;
 
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -16,7 +18,7 @@ public class DateUtils {
         try {
             return format1.format(format.parse(date));
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e("error", e.getMessage());
             return null;
         }
     }
@@ -27,7 +29,7 @@ public class DateUtils {
         try {
             return format1.format(format.parse(date));
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e("error", e.getMessage());
             return null;
         }
     }

@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -464,7 +465,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
                 showToast(response.getMessage());
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("error", e.getMessage());
             }
         } else {
             showToast("Network Error !");
@@ -631,10 +632,11 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     }
 
     private void showToast(String msg) {
+
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("error", e.getMessage());
         }
     }
 

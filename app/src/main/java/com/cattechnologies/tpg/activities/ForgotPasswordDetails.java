@@ -10,6 +10,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class ForgotPasswordDetails extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "error";
     Toolbar toolbar;
     TextView mTitle, mTextEfin, mTextPass;
     Button mLogin;
@@ -130,7 +132,7 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
                     String type = "ero";
                     preferencesManager.saT(getApplicationContext(), type);
                     forgotPassword(forgotUname, forgotUpass, type);
-                } else if (TextUtils.isEmpty(loginUsername.getText().toString())&&
+                } else if (TextUtils.isEmpty(loginUsername.getText().toString()) &&
                         !(llForgotPassword.getText().toString().equalsIgnoreCase(getResources().getString(R.string.office_emp)))) {
                     Toast.makeText(this, "Please enter your EFIN.", Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(loginUserPassword.getText().toString())) {
@@ -214,6 +216,7 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
         }
 
     }
+
     private void forgotPassword(String forgotUname, String forgotUpass, String acc_type) {
         progressBar.setVisibility(View.VISIBLE);
         if (AppInternetStatus.getInstance(this).isOnline()) {
@@ -244,7 +247,11 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
 
 
     private void showToast(String msg) {
-        Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
     }
 
     private void handleError(Throwable error) {
@@ -257,7 +264,8 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);            }
+                throw new RuntimeException(e);
+            }
         } else {
             showToast("Network Error !");
         }
