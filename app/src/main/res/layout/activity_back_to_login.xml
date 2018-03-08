@@ -7,7 +7,7 @@
     android:background="@color/login_bg_color"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context="com.cattechnologies.tpg.activities.EmployeeLoginActivity">
+    tools:context="com.SBTPG.TPGMobile.activities.EmployeeLoginActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

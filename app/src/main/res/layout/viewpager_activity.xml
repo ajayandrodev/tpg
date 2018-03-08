@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true" />
 
-        <com.cattechnologies.tpg.viewHolderData.CirclePageIndicator
+        <com.SBTPG.TPGMobile.viewHolderData.CirclePageIndicator
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

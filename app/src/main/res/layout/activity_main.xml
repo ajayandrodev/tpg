@@ -7,7 +7,7 @@
     android:background="@drawable/login_bg"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context="com.cattechnologies.tpg.Activities.GetStarted">
+    tools:context="com.SBTPG.TPGMobile.Activities.GetStarted">
 
 
     <RelativeLayout

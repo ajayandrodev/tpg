@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/onboarding_bg_new"
     android:fitsSystemWindows="true"
-    tools:context="com.cattechnologies.tpg.Activities.ViewPagerActivity">
+    tools:context="com.SBTPG.TPGMobile.Activities.ViewPagerActivity">
 
 
     <ScrollView
