@@ -63,7 +63,6 @@ public class BackToLoginScreen extends AppCompatActivity implements View.OnClick
         selectedData(drawerTitle);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     private void selectedData(String drawerTitle) {
