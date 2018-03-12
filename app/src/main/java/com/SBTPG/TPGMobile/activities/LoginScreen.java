@@ -53,10 +53,8 @@ import rx.subscriptions.CompositeSubscription;
 public class LoginScreen extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     public static final String ARG_SELECTION_USER = "forgot_user_data";
-    private String ARG_SELECTION = "secleted_user_forgot";
 
     private static final String IS_LOGIN = "IsLoggedIn";
-    int PRIVATE_MODE = 0;
     Button loginBt;
     TextView footer;
     Toolbar toolbar;
@@ -138,6 +136,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         switch (id) {
             case R.id.login_button:
                 loginBt.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
+                showToast("error");
                 if (loginUser.getText().toString().isEmpty()) {
                     showToast("Please enter your User ID.");
                 } else if (loginPass.getText().toString().isEmpty()) {
@@ -203,13 +202,17 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     private void loadLoginResponse(String ud, String tp, String upd) {
         preferencesManager.saT(getApplicationContext(), tp);
         preferencesManager.suD(getApplicationContext(), ud);
+        System.out.println("LoginScreen.loadLoginResponse Entered");
         if (AppInternetStatus.getInstance(this).isOnline()) {
             progressBar.setVisibility(View.VISIBLE);
-            mSubscriptions.addAll(NetworkUtil.getRetrofit().sign(ud,
-                    tp, upd)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.newThread())
-                    .subscribe(this::handleResponse, this::handleError));
+            if(mSubscriptions != null){
+                mSubscriptions.addAll(NetworkUtil.getRetrofit().sign(ud, tp, upd)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.newThread())
+                        .subscribe(this::handleResponse, this::handleError));
+            }else{
+                System.out.println("LoginScreen.loadLoginResponse not found msubscription");
+            }
         } else {
             showToast("Internet Connection Is Not Available");
         }
@@ -217,15 +220,17 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleError(Throwable error) {
         progressBar.setVisibility(View.GONE);
-        showToast(error.getMessage());
+        System.out.println("LoginScreen.handleError");
+        //showToast(error.getMessage());
         if (error instanceof HttpException) {
             Gson gson = new GsonBuilder().create();
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                //throw new IllegalStateException(e);
+                System.out.println("LoginScreen.handleError "+e.getMessage());
             }
         } else {
             showToast("Network Error !");
@@ -234,6 +239,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleResponse(DashboardInfo response) {
         progressBar.setVisibility(View.GONE);
+        System.out.println("LoginScreen.handleResponse");
         if (response.getStatus().equalsIgnoreCase("success")) {
             //  showToast(response.getMessage());
             DashboardInfoData dashboardInfo = response.getDashboard_data();
@@ -260,6 +266,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 finish();
             }
         } else {
+            System.out.println("LoginScreen.handleResponse 2");
             showToast(response.getMessage());
         }
     }
@@ -317,6 +324,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onDestroy() {
         super.onDestroy();
+        System.out.println("LoginScreen.onDestroy");
         mSubscriptions.unsubscribe();
         loginUser.setText("");
     }

@@ -43,7 +43,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     FragmentManager fragmentManager;
     RecyclerView recyclerView;
     DashboardListAdapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
     private CompositeSubscription mSubscriptions;
     TextView appliedFdrlRT,
             fundedFdrlRT,

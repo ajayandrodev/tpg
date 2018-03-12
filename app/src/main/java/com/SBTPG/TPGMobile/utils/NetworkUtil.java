@@ -28,7 +28,7 @@ public class NetworkUtil {
     private static RxJavaCallAdapterFactory rxAdapter;
 
     public static RetrofitInterface getRetrofit() {
-        rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
+        rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.newThread());
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.BASE_URL)
