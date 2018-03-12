@@ -202,17 +202,12 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     private void loadLoginResponse(String ud, String tp, String upd) {
         preferencesManager.saT(getApplicationContext(), tp);
         preferencesManager.suD(getApplicationContext(), ud);
-        System.out.println("LoginScreen.loadLoginResponse Entered");
         if (AppInternetStatus.getInstance(this).isOnline()) {
             progressBar.setVisibility(View.VISIBLE);
-            if(mSubscriptions != null){
-                mSubscriptions.addAll(NetworkUtil.getRetrofit().sign(ud, tp, upd)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.newThread())
-                        .subscribe(this::handleResponse, this::handleError));
-            }else{
-                System.out.println("LoginScreen.loadLoginResponse not found msubscription");
-            }
+            mSubscriptions.addAll(NetworkUtil.getRetrofit().sign(ud, tp, upd)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(this::handleResponse, this::handleError));
         } else {
             showToast("Internet Connection Is Not Available");
         }
@@ -220,17 +215,15 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleError(Throwable error) {
         progressBar.setVisibility(View.GONE);
-        System.out.println("LoginScreen.handleError");
-        //showToast(error.getMessage());
+        showToast(error.getMessage());
         if (error instanceof HttpException) {
             Gson gson = new GsonBuilder().create();
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-            } catch (Exception e) {
-                //throw new IllegalStateException(e);
-                System.out.println("LoginScreen.handleError "+e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         } else {
             showToast("Network Error !");
