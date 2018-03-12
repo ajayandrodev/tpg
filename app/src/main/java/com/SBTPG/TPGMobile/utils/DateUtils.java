@@ -18,7 +18,7 @@ public class DateUtils {
         try {
             return format1.format(format.parse(date));
         } catch (ParseException e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -29,7 +29,7 @@ public class DateUtils {
         try {
             return format1.format(format.parse(date));
         } catch (ParseException e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }

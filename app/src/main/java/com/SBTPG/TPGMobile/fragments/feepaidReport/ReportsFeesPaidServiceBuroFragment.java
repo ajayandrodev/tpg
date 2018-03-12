@@ -191,7 +191,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
                             jsonObject.put("Efin", efin);
                             jsonArray.put(jsonObject);
                         } catch (JSONException e) {
-                            Log.e("error", e.getMessage());
+                            e.printStackTrace();
                             showToast(e.getMessage());
                         }
                     }
@@ -255,7 +255,7 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
                 showToast(response.getMessage());
                 //showToast("Network Error !");
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
         if (!error.getMessage().equalsIgnoreCase("")) {
@@ -281,7 +281,11 @@ public class ReportsFeesPaidServiceBuroFragment extends Fragment implements Remo
 
 
     private void showToast(String msg) {
-        Toast.makeText(getContext(), "" + msg, Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

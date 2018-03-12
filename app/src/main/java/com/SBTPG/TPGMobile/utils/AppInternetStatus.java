@@ -24,15 +24,12 @@ public class AppInternetStatus {
         try {
             connectivityManager = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
-
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             connected = networkInfo != null && networkInfo.isAvailable() &&
                     networkInfo.isConnected();
             return connected;
-
-
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
         }
         return connected;
     }

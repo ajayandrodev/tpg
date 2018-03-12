@@ -450,18 +450,14 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
     private void handleError(Throwable error) {
 
         progressBar.setVisibility(View.GONE);
-
         if (error instanceof HttpException) {
-
             Gson gson = new GsonBuilder().create();
-
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-
             } catch (IOException e) {
-                Log.e("error", e.getMessage());
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");
@@ -632,7 +628,7 @@ public class ReportEroDepositFragment extends Fragment implements ExpandableList
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
         }
     }
 

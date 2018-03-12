@@ -186,7 +186,7 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
                             jsonObject.put("Efin", efin);
                             jsonArray.put(jsonObject);
                         } catch (JSONException e) {
-                            Log.e("error", e.getMessage());
+                            e.printStackTrace();
                             showToast(e.getMessage());
                         }
                     }
@@ -280,7 +280,11 @@ public class ReportsEroDepositServiceBuroFragment extends Fragment implements Re
 
 
     private void showToast(String msg) {
-        Toast.makeText(getContext(), "" + msg, Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -74,10 +74,9 @@ public class SbiAccountDisbListDataAdapter extends RecyclerView.Adapter<SbiAccou
             myList.add(myList.size(), newValue);
             notifyItemInserted(myList.size() - 1);
             notifyDataSetChanged();
-        } else {
-            Toast.makeText(mContext, "already e", Toast.LENGTH_SHORT).show();
         }
     }
+
     public class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
         private final TextView etTitleTextView;
         //    private final TextView etDescriptionTextView;

@@ -464,7 +464,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
                 showToast(response.getMessage());
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");
@@ -634,7 +634,7 @@ public class ReportsFeesPaidFragment extends Fragment implements ExpandableListV
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
         }
     }
 

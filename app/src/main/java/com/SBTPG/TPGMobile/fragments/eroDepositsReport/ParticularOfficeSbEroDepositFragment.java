@@ -416,7 +416,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -433,7 +433,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 com.SBTPG.TPGMobile.model.Response response = gson.fromJson(errorBody, com.SBTPG.TPGMobile.model.Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");

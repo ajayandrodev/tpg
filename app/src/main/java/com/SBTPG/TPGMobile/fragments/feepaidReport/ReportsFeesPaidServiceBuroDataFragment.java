@@ -460,7 +460,7 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");
@@ -627,11 +627,11 @@ public class ReportsFeesPaidServiceBuroDataFragment extends Fragment implements 
         }
     }
 
-    private void showToast(String message) {
+    private void showToast(String msg) {
         try {
-            Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
         }
     }
 

@@ -248,7 +248,7 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
         try {
             Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -262,7 +262,7 @@ public class ForgotPasswordDetails extends AppCompatActivity implements View.OnC
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");

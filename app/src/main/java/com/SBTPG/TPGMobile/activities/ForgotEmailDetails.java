@@ -212,12 +212,9 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
             showToast(response.getMessage());
             ForgotUserEmailData forgotUserDetailsData = response.getUser_data();
             String data = forgotUserDetailsData.getEMAIL_ADDRESS();
-
-
             Intent i = new Intent(this, LoginScreen.class);
             i.putExtra(LoginScreen.ARG_SELECTION_USER, drawerTitle);
             i.putExtra("forgotUser", data);
-
             startActivity(i);
 
         }
@@ -225,24 +222,24 @@ public class ForgotEmailDetails extends AppCompatActivity implements View.OnClic
 
 
     private void showToast(String msg) {
-        Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT).show();
+        try{
+            Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void handleError(Throwable error) {
         showToast(error.getMessage());
         progressBar.setVisibility(View.GONE);
-
         if (error instanceof HttpException) {
-
             Gson gson = new GsonBuilder().create();
-
             try {
                 String errorBody = ((HttpException) error).response().errorBody().string();
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
-
             } catch (IOException e) {
-                Log.e("error", e.getMessage());
+               e.printStackTrace();
             }
         } else {
             showToast("Network Error !");

@@ -187,7 +187,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
                             jsonObject.put("Efin", efin);
                             jsonArray.put(jsonObject);
                         } catch (JSONException e) {
-                            Log.e("error", e.getMessage());
+                            e.printStackTrace();
                             showToast(e.getMessage());
                         }
                     }
@@ -243,7 +243,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
         if (!error.getMessage().equalsIgnoreCase("")) {
@@ -274,7 +274,7 @@ public class ReportsAccountDisbServiceBuroFragment extends Fragment implements R
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
         }
     }
 

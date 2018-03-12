@@ -28,7 +28,7 @@ public class NetworkUtil {
     private static RxJavaCallAdapterFactory rxAdapter;
 
     public static RetrofitInterface getRetrofit() {
-        rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.newThread());
+        rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.BASE_URL)
@@ -99,8 +99,6 @@ public class NetworkUtil {
             httpClient.connectTimeout(30, TimeUnit.SECONDS);
             httpClient.readTimeout(30, TimeUnit.SECONDS);
             httpClient.writeTimeout(30, TimeUnit.SECONDS);
-
-
             return httpClient;
         } catch (Exception e) {
             throw new RuntimeException(e);

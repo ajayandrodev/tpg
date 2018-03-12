@@ -418,7 +418,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -433,7 +433,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");

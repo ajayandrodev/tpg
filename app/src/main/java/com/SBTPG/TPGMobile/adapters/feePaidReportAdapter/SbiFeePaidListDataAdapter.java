@@ -61,6 +61,7 @@ public class SbiFeePaidListDataAdapter extends RecyclerView.Adapter<SbiFeePaidLi
         this.myList = myList;
         notifyDataSetChanged();
     }
+
     public SbiFeePaidListDataAdapter getAdapter() {
         return adapter;
     }
@@ -72,10 +73,9 @@ public class SbiFeePaidListDataAdapter extends RecyclerView.Adapter<SbiFeePaidLi
             myList.add(myList.size(), newValue);
             notifyItemInserted(myList.size() - 1);
             notifyDataSetChanged();
-        } else {
-            Toast.makeText(mContext, "already e", Toast.LENGTH_SHORT).show();
         }
     }
+
     public class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
         private final TextView etTitleTextView;
         private RelativeLayout mainLayout;

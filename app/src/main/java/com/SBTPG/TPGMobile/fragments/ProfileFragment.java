@@ -164,7 +164,7 @@ public class ProfileFragment extends Fragment {
                         .subscribeOn(Schedulers.newThread())
                         .subscribe(this::handleResponse, this::handleError));
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Internet Connection Is Not Available");
@@ -183,7 +183,7 @@ public class ProfileFragment extends Fragment {
                 showToast(profileGroupData.getMessage());
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
     }
@@ -339,7 +339,7 @@ public class ProfileFragment extends Fragment {
                 showToast(response.getMessage());
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");
@@ -354,7 +354,8 @@ public class ProfileFragment extends Fragment {
                 simpleExpandableListViewOne.collapseGroup(0);
                 simpleExpandableListViewThree.collapseGroup(0);
             } catch (Exception e) {
-                throw new RuntimeException(e);            }
+                e.printStackTrace();
+            }
 
         }
     }

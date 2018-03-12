@@ -460,7 +460,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
                 showToast(response.getMessage());
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");
@@ -633,7 +633,7 @@ public class ReportAccountDisbFragment extends Fragment implements ExpandableLis
         try {
             Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            e.printStackTrace();
         }
     }
 

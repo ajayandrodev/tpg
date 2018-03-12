@@ -401,7 +401,11 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
     }
 
     private void showToast(String msg) {
-        Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleError(Throwable error) {
@@ -413,7 +417,7 @@ public class ParticularOfficeSbAccountDisbFragment extends Fragment implements E
                 com.SBTPG.TPGMobile.model.Response response = gson.fromJson(errorBody, com.SBTPG.TPGMobile.model.Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");

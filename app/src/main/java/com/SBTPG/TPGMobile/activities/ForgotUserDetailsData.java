@@ -48,7 +48,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class ForgotUserDetailsData extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
-    private static final String TAG ="error" ;
+    private static final String TAG = "error";
     Toolbar toolbar;
     TextView mTitle, mTextEfin, mTextPass;
     Button mLogin;
@@ -292,7 +292,7 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
         try {
             Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -305,7 +305,7 @@ public class ForgotUserDetailsData extends AppCompatActivity implements View.OnC
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");

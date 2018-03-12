@@ -136,7 +136,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         switch (id) {
             case R.id.login_button:
                 loginBt.setBackgroundColor(getResources().getColor(R.color.back_button_click_color));
-                showToast("error");
+                // showToast("error");
                 if (loginUser.getText().toString().isEmpty()) {
                     showToast("Please enter your User ID.");
                 } else if (loginPass.getText().toString().isEmpty()) {
@@ -223,7 +223,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 Response response = gson.fromJson(errorBody, Response.class);
                 showToast(response.getMessage());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         } else {
             showToast("Network Error !");
@@ -232,16 +232,11 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
     private void handleResponse(DashboardInfo response) {
         progressBar.setVisibility(View.GONE);
-        System.out.println("LoginScreen.handleResponse");
         if (response.getStatus().equalsIgnoreCase("success")) {
             //  showToast(response.getMessage());
             DashboardInfoData dashboardInfo = response.getDashboard_data();
-            if (response.getDashboard_data() == null) {
-                showToast(response.getMessage());
-                Intent i = new Intent(this, EmployeeLoginActivity.class);
-                i.putExtra("back_to_screen", drawerTitle);
-                startActivity(i);
-            } else {
+
+            if (response.getDashboard_data() != null) {
                 ProfileData profileData = response.getProfile_data();
                 List<RecentTransactions> recentTransactionsList = new ArrayList<>();
                 for (int i = 0; i < response.getRecent_transactions().size(); i++) {
@@ -257,9 +252,13 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 intent.putParcelableArrayListExtra("RecentTransactions", (ArrayList<? extends Parcelable>) recentTransactionsList);
                 startActivity(intent);
                 finish();
+            } else if (response.getDashboard_data() == null) {
+                showToast(response.getMessage());
+                Intent i = new Intent(this, EmployeeLoginActivity.class);
+                i.putExtra("back_to_screen", drawerTitle);
+                startActivity(i);
             }
         } else {
-            System.out.println("LoginScreen.handleResponse 2");
             showToast(response.getMessage());
         }
     }
