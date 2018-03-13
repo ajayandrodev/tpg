@@ -80,13 +80,10 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     ProgressBar progressBar;
     String userId, userType, pageEfin, efinData, pagNo = "";
     PreferencesManager preferencesManager;
-
     //updated
     String sort = "";
     //updated
     TextWatcher textWatcher;
-
-
     ReportsParticularFeesPaidSearchListAdapter mAdapterSearch;
     ReportPerticularListAdapter mAdapterParticularList;
     ReportsFeesPaidParticularSearchSortListAdapter mSearchSortListAdapter;
@@ -99,13 +96,11 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     EditText searchData;
     LinearLayout layout;
     int current_page, current_page_mock, current_page_search = 1, current_page_sort = 1;
-
     ReportsFeePaidExpandableadapter adapter;
     ExpandableListView myexpandable;
     List<String> parent;
     List<String> child;
     HashMap<String, List<String>> bind_and_display;
-
     HorizontalScrollView horizontalScrollView;
     ScrollView scrollView;
     Button btn;
