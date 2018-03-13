@@ -91,16 +91,10 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
     ReportPerticularListAdapter mAdapterParticularList;
     ReportsFeesPaidParticularSearchSortListAdapter mSearchSortListAdapter;
     ReportPerticulaSortListAdapter mAdapterParticularSortList;
-
-
-    ReportsFeePaid reports;
-    ReportsFeePaidSort reportsFeePaidSort;
-    ReportsFeePaidSearch reportsFeePaidSearch;
     ReportParticulrFreePaid reportParticulrFreePaid;
     ReportParticulrFreePaidSort reportParticulrFreePaidSort;
     ReportFreePaidPerticularSearchSort reportFreePaidParticulrSearchSort;
     ReportsPerticularFeePaidSearch reportsPerticularFeePaidSearch;
-
     Button prev, next;
     EditText searchData;
     LinearLayout layout;
@@ -177,18 +171,10 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
         myexpandable.setAdapter(adapter);
         myexpandable.setOnChildClickListener(this);
 
-        reports = new ReportsFeePaid();
-        reportsFeePaidSort = new ReportsFeePaidSort();
-        reportsFeePaidSearch = new ReportsFeePaidSearch();
-
         reportParticulrFreePaid = new ReportParticulrFreePaid();
         reportParticulrFreePaidSort = new ReportParticulrFreePaidSort();
         reportFreePaidParticulrSearchSort = new ReportFreePaidPerticularSearchSort();
         reportsPerticularFeePaidSearch = new ReportsPerticularFeePaidSearch();
-
-        reports.setPage("1");
-        reportsFeePaidSearch.setPage("1");
-        reportsFeePaidSort.setPage("1");
 
         reportParticulrFreePaid.setPage(pageEfin);
         reportParticulrFreePaidSort.setPage(pageEfin);
@@ -231,7 +217,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     } else if (!TextUtils.isEmpty(newText)) {
                         //searchReportItem(userId, userType, pagNo, newText);
                         if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                            particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
                         } else {
                             particularOfficeSearch(userId, userType, pagNo, newText, efinData);
                         }
@@ -473,7 +459,7 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
         } else {
             if (sort.isEmpty()) {
                 if (pagNo.equalsIgnoreCase("")) {
-                    particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                    particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
                 } else {
                     particularOfficeSearch(userId, userType, pagNo, newText, efinData);
                 }
@@ -923,8 +909,6 @@ public class ParticularOfficeSbFeesPaidFragment extends Fragment implements Expa
                     btn.setText("" + (current_page + 1));
                     btn.setLayoutParams(lp);
                     layout.addView(btn);
-
-
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

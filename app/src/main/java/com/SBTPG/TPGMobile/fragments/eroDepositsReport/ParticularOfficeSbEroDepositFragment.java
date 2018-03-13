@@ -177,26 +177,17 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         adapter = new ReportsEroDepositExpandableadapter(getActivity(), parent, bind_and_display);
         myexpandable.setAdapter(adapter);
         myexpandable.setOnChildClickListener(this);
-        reports = new ReportsEroDeposit();
-        reportsFeePaidSort = new ReportsEroDepositsSort();
-        reportsFeePaidSearch = new ReportsEroDepositsSearch();
 
         reportParticulrFreePaid = new ReportParticulrEroDeposits();
         reportParticulrFreePaidSort = new ReportParticulrEroDepositsSort();
         reportFreePaidParticulrSearchSort = new ReportEroDepositsPerticularSearchSort();
         reportsPerticularFeePaidSearch = new ReportsPerticularEroDepositsSearch();
 
-        reports.setPage("1");
-        reportsFeePaidSearch.setPage("1");
-        reportsFeePaidSort.setPage("1");
-
         reportParticulrFreePaid.setPage(pageEfin);
         reportParticulrFreePaidSort.setPage(pageEfin);
         reportFreePaidParticulrSearchSort.setPage(pageEfin);
         reportsPerticularFeePaidSearch.setPage(pageEfin);
         // particularReportData(userId, userType, reportParticulrFreePaid.getPage(), efinData);
-
-
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -234,7 +225,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                     } else if (!TextUtils.isEmpty(newText)) {
                         //searchReportItem(userId, userType, pagNo, newText);
                         if (pagNo.equalsIgnoreCase("")) {
-                            particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                            particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
                         } else {
                             particularOfficeSearch(userId, userType, pagNo, newText, efinData);
                         }
@@ -266,7 +257,6 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
                 String changeDate = DateUtils.reportDate(response.getEroReport_data().get(i).getDepositdate());
                 reportsFeePaidNew.setDepositdate(changeDate);
                 reportsFeePaidNewList.get(i).setDepositdate(reportsFeePaidNew.getDepositdate());
-
             }
             recyclerView.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
@@ -473,7 +463,7 @@ public class ParticularOfficeSbEroDepositFragment extends Fragment implements Ex
         } else {
             if (sort.isEmpty()) {
                 if (pagNo.equalsIgnoreCase("")) {
-                    particularOfficeSearch(userId, userType, pagNo, newText, efinData);
+                    particularOfficeSearch(userId, userType, reportsPerticularFeePaidSearch.getPage(), newText, efinData);
                 } else {
                     particularOfficeSearch(userId, userType, pagNo, newText, efinData);
                 }
