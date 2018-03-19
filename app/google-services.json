@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "615486391055",
+    "firebase_url": "https://tpgapp-9ad61.firebaseio.com",
+    "project_id": "tpgapp-9ad61",
+    "storage_bucket": "tpgapp-9ad61.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615486391055:android:b3e001f84cfe85cc",
+        "android_client_info": {
+          "package_name": "com.SBTPG.TPGMobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615486391055-72hlgevi8h2hv4mttma95a5ekiodip5a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq_w_oZzOyn24Kx0QmgLi57cFicATyBD8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

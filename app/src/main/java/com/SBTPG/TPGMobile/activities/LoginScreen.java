@@ -316,7 +316,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        System.out.println("LoginScreen.onDestroy");
         mSubscriptions.unsubscribe();
         loginUser.setText("");
     }

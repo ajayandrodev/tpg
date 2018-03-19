@@ -60,10 +60,8 @@ public class Dashboard extends AppCompatActivity {
         headerType = (TextView) header.findViewById(R.id.type_data);
         if (profileData.getLOGIN_NAME() != null) {
             headerUserName.setText(profileData.getLOGIN_NAME());
-
         } else {
             headerUserName.setText("");
-
         }
         headerEfinNum.setText(profileData.getEFIN());
         headerType.setText(preferencesManager.gaT(getApplicationContext()));
@@ -140,12 +138,9 @@ public class Dashboard extends AppCompatActivity {
             fragment = ProfileFragment.newInstance(title, preferencesManager.getUserId(getApplicationContext()),
                     preferencesManager.gaT(getApplicationContext()));
 
-
         } else if (getResources().getString(R.string.ordenes_item).equalsIgnoreCase(title)) {
             preferencesManager.clearSharedPreference(getApplicationContext());
             finish();
-
-
         }
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -217,7 +212,11 @@ public class Dashboard extends AppCompatActivity {
     }
 
     public void setTitle(String title) {
-        toolBarText.setText(title);
+        try {
+            toolBarText.setText(title);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

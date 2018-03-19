@@ -74,7 +74,12 @@
             android:name=".activities.EmployeeLoginActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
+          <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b8328ae08c60953b068a2971303b72e5ad2edbd2" />
+      <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b8328ae08c60953b068a2971303b72e5ad2edbd2"/>
 
     </application>
 

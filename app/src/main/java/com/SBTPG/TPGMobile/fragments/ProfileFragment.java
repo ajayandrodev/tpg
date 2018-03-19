@@ -155,6 +155,19 @@ public class ProfileFragment extends Fragment {
         return dashboard;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSubscriptions.unsubscribe();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mSubscriptions.unsubscribe();
+
+    }
+
     private void loadProfileData(String userId, String userType) {
 
         if (AppInternetStatus.getInstance(getActivity()).isOnline()) {
