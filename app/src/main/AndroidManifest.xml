@@ -13,7 +13,8 @@
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
-        android:smallScreens="true" />
+        android:smallScreens="true"
+        android:xlargeScreens="true"/>
 
     <application
         android:name=".viewHolderData.AnalyticsApplication"
@@ -77,9 +78,6 @@
           <meta-data
             android:name="io.fabric.ApiKey"
             android:value="b8328ae08c60953b068a2971303b72e5ad2edbd2" />
-      <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="b8328ae08c60953b068a2971303b72e5ad2edbd2"/>
 
     </application>
 

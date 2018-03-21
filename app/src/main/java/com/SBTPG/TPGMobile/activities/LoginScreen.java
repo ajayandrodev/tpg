@@ -70,8 +70,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     String forgotEmailData;
     private Intent i;
     PreferencesManager preferencesManager;
-    SharedPreferences sh_Pref;
-    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

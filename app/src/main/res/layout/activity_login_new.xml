@@ -57,7 +57,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center">
 
 
@@ -131,7 +131,6 @@
                         android:background="@drawable/rounded_edittext"
                         android:cursorVisible="true"
                         android:gravity="center"
-
                         android:hint="Enter your Password or temporary PIN"
                         android:inputType="textPassword"
                         android:lines="1"
@@ -180,9 +179,9 @@
                         android:layout_marginRight="@dimen/dim_5"
                         android:layout_marginTop="@dimen/dim_30"
                         android:background="@color/back_and_login_button_color"
+                        android:imeOptions="actionDone"
                         android:padding="@dimen/dim_20"
                         android:text="LOGIN"
-                        android:imeOptions="actionDone"
                         android:textColor="@color/back_and_login_button_color_text"
                         android:textSize="@dimen/font_size"
                         android:textStyle="bold" />

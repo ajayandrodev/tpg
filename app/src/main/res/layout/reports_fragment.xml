@@ -39,6 +39,12 @@
         android:singleLine="true"
         android:textSize="14sp" />
 
+    <include
+        android:id="@+id/footer_pagination"
+        layout="@layout/pagination_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scroll_data" />
 
     <LinearLayout
         android:id="@+id/expand"
@@ -63,7 +69,6 @@
             android:groupIndicator="@null"
             android:listSelector="@android:color/darker_gray"
             android:scrollbars="vertical" />
-
 
     </LinearLayout>
 
@@ -90,12 +95,11 @@
         android:id="@+id/scroll_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/expand"
-        android:fillViewport="true"
-        android:fitsSystemWindows="true">
-
+        android:layout_above="@id/footer_pagination"
+        android:layout_below="@id/expand">
 
         <RelativeLayout
+            android:id="@+id/lisss"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -118,52 +122,55 @@
         </RelativeLayout>
     </ScrollView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/scroll_data"
-        android:gravity="bottom">
+    <!--  <RelativeLayout
+          android:id="@+id/pagenation"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_below="@id/scroll_data"
+          android:gravity="bottom">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dim_2"
-            android:orientation="horizontal"
-            android:weightSum="5">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/dim_2"
+              android:orientation="horizontal"
+              android:weightSum="5">
 
-            <Button
-                android:id="@+id/prev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/dim_2"
-                android:layout_weight=".7"
-                android:gravity="center"
-                android:text="prev" />
+              <Button
+                  android:id="@+id/prev"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginRight="@dimen/dim_2"
+                  android:layout_weight=".7"
+                  android:gravity="center"
+                  android:text="prev" />
 
-            <HorizontalScrollView
-                android:id="@+id/horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3.6">
+              <HorizontalScrollView
+                  android:id="@+id/horizontal"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="3.6">
 
-                <LinearLayout
-                    android:id="@+id/button_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal" />
-            </HorizontalScrollView>
+                  <LinearLayout
+                      android:id="@+id/button_list"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:orientation="horizontal" />
+              </HorizontalScrollView>
 
-            <Button
-                android:id="@+id/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dim_2"
-                android:layout_weight=".7"
-                android:gravity="center"
-                android:text="next" />
-        </LinearLayout>
+              <Button
+                  android:id="@+id/next"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/dim_2"
+                  android:layout_weight=".7"
+                  android:gravity="center"
+                  android:text="next" />
+          </LinearLayout>
 
-    </RelativeLayout>
+      </RelativeLayout>-->
+
+
 </RelativeLayout>
